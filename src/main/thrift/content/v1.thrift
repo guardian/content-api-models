@@ -136,7 +136,9 @@ enum TagType {
 
     PUBLICATION = 8,
 
-    TRACKING = 9
+    TRACKING = 9,
+
+    PAID_CONTENT = 10
 
 }
 
@@ -174,6 +176,12 @@ enum AssetType {
 enum MembershipTier {
     MEMBERS_ONLY = 0,
     PAID_MEMBERS_ONLY = 1
+}
+
+enum SponsorshipType {
+    SPONSORED = 0,
+    FOUNDATION = 1,
+    PAID_CONTENT = 2
 }
 
 struct Rights {
@@ -800,6 +808,25 @@ struct Podcast {
     6: optional string image
 }
 
+struct SponsorshipTargeting {
+    1: optional CapiDateTime publishedSince
+
+    2: optional list<string> validEditions
+}
+
+struct Sponsorship {
+
+    1: required SponsorshipType sponsorshipType
+
+    2: required string sponsorName
+
+    3: required string sponsorLogo
+
+    4: required string sponsorLink
+
+    5: optional SponsorshipTargeting targeting
+}
+
 struct Tag {
 
     /*
@@ -900,6 +927,11 @@ struct Tag {
     16: optional string emailAddress
 
     17: optional string twitterHandle
+
+    /**
+    * A list of all the active sponsorships running against this tag
+    */
+    18: optional list<Sponsorship> activeSponsorships
 }
 
 struct Atoms {
@@ -1087,6 +1119,11 @@ struct Section {
      * List of available editions for this section
      */
     5: required list<Edition> editions
+
+    /**
+    * A list of all the active sponsorships running against this section
+    */
+    6: optional list<Sponsorship> activeSponsorships
 }
 
 struct NetworkFront {
