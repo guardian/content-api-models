@@ -1148,6 +1148,15 @@ struct Package {
     3: required string packageName
 }
 
+struct MostViewedVideo {
+
+    /* The video ID */
+    1: required string id
+
+    /* The view count */
+    2: required i32 count
+}
+
 
 /* These are Responses structures shared with the Content API */
 
@@ -1328,4 +1337,9 @@ struct ErrorResponse {
     2: required string message
 }
 
+struct VideoStatsResponse {
 
+    1: required string status
+
+    2: required list<MostViewedVideo> mostViewedVideos
+}
