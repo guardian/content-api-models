@@ -1380,3 +1380,23 @@ struct VideoStatsResponse {
 
     2: required list<MostViewedVideo> mostViewedVideos
 }
+
+struct AtomUsageResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required list<string> results
+
+}
