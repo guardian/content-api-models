@@ -614,6 +614,18 @@ struct Blocks {
      * Any other content will have only one block.
      */
     2: optional list<Block> body
+
+    /*
+     * The total number of body blocks in the content.
+     * This field will only be present if you request some or all of the body blocks.
+     */
+    3: optional i32 totalBodyBlocks
+
+    /*
+     * Any requested subsets of body blocks.
+     * This field will only be present if you requested one or more body block subsets.
+     */
+    4: optional map<string, list<Block>> requestedBodyBlocks
 }
 
 struct CrosswordDimensions {
