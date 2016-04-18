@@ -108,5 +108,5 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     ),
     mappings in (Compile, packageBin) ~= { _.filter(jsonPackageFilter) },
     mappings in (Compile, packageSrc) ~= { _.filter(jsonPackageFilter) },
-    publishArtifact in (Compile, packageDoc) := false
+    mappings in (Compile, packageDoc) := Nil
   )
