@@ -50,6 +50,10 @@ object JsonParser {
     (JsonMethods.parse(json) \ "response").extract[VideoStatsResponse]
   }
 
+  def parsePackages(json: String): PackageResponse = {
+    (JsonMethods.parse(json) \ "response").extract[PackageResponse]
+  }
+
   def parseError(json: String): Option[ErrorResponse] = for {
     parsedJson <- JsonMethods.parseOpt(json)
     response = parsedJson \ "response"
