@@ -76,8 +76,6 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
 /**
   * JSON parser project
   */
-val jsonPackageFilter = (fp: (java.io.File, String)) => fp._1.getAbsolutePath.contains("com/gu/contentapi/json")
-
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .dependsOn(models)
   .settings(commonSettings)
@@ -106,7 +104,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
-    mappings in (Compile, packageBin) ~= { _.filter(jsonPackageFilter) },
-    mappings in (Compile, packageSrc) ~= { _.filter(jsonPackageFilter) },
+    mappings in (Compile, packageBin) ~= { _.filter { case (file, toPath) => file.getAbsolutePath.contains("com/gu/contentapi/json") } },
     mappings in (Compile, packageDoc) := Nil
   )
