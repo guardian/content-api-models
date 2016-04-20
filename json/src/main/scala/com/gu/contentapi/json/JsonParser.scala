@@ -7,7 +7,7 @@ import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.json4s.{CustomSerializer, DefaultFormats}
 import org.json4s.JsonAST._
-import org.json4s.native.JsonMethods
+import org.json4s.jackson.JsonMethods
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
