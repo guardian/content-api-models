@@ -66,8 +66,6 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     description := "Scala models for the Guardian's Content API",
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.9.2",
-      "com.twitter" %% "scrooge-core" % "3.20.0",
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
       "com.gu" % "content-atom-model-thrift" % "1.0.0"
     )
@@ -97,6 +95,8 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     },
 
     libraryDependencies ++= Seq(
+      "org.apache.thrift" % "libthrift" % "0.9.1",
+      "com.twitter" %% "scrooge-core" % "4.5.0",
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
