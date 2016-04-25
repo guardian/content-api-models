@@ -103,11 +103,23 @@ object JsonParser {
   }
 
   def generateJson[A <: ThriftEnum]: PartialFunction[Any, JString] = {
-    case a: ThriftEnum => JString(a.name)
+    case a: ThriftEnum => JString(pascalCaseToHyphenated(a.name))
   }
 
-  /** Normalise a string for use in enum lookup by removing hyphens */
-  def norm(s: String): String = s.replaceAllLiterally("-", "")
+  /** 
+   * Normalise a string for use in enum lookup by removing hyphens.
+   * Note that Thrift enum lookup using the `valueOf` method is not case-sensitive. 
+   */
+  def removeHyphens(s: String): String = s.replaceAllLiterally("-", "")
+
+  private val LowerCaseFollowedByUpperCase = ""([a-z])([A-Z])"".r
+
+  /**
+   * Convert a PascalCase string to a lowercase hyphenated string
+   */
+  def pascalCaseToHyphenated(s: String): String = 
+    LowerCaseFollowedByUpperCase.replaceAllIn(s, m => m.group(1) + "-" + m.group(2)).toLowerCase
+
 }
 
 import JsonParser._
@@ -171,88 +183,77 @@ import Helper._
 object AtomSerializer extends CustomSerializer[Atoms](format => (
   {
     case rawAtom: JObject => Atoms(quizzes = getQuizIfExists(rawAtom), viewpoints = getViewpointsIfExists(rawAtom))
-    case JNull => null
   },
-  generateJson[ContentType]
+  generateJson[ContentType] // FIXME needs to be implemented
   )) {
 }
 
 object ContentTypeSerializer extends CustomSerializer[ContentType](format => (
   {
-    case JString(s) => ContentType.valueOf(norm(s)).getOrElse(ContentType.Article)
-    case JNull => null
+    case JString(s) => ContentType.valueOf(removeHyphens(s)).getOrElse(ContentType.EnumUnknownContentType(-1))
   },
   generateJson[ContentType]
   ))
 
 object MembershipTierSerializer extends CustomSerializer[MembershipTier](format => (
   {
-    case JString(s) => MembershipTier.valueOf(norm(s)).getOrElse(MembershipTier.MembersOnly)
-    case JNull => null
+    case JString(s) => MembershipTier.valueOf(removeHyphens(s)).getOrElse(MembershipTier.EnumUnknownMembershipTier(-1))
   },
   generateJson[MembershipTier]
   ))
 
 object OfficeSerializer extends CustomSerializer[Office](format => (
   {
-    case JString(s) => Office.valueOf(norm(s)).getOrElse(Office.Uk)
-    case JNull => null
+    case JString(s) => Office.valueOf(removeHyphens(s)).getOrElse(Office.EnumUnknownOffice(-1))
   },
   generateJson[Office]
   ))
 
 object AssetTypeSerializer extends CustomSerializer[AssetType](format => (
   {
-    case JString(s) => AssetType.valueOf(norm(s)).getOrElse(AssetType.Image)
-    case JNull => null
+    case JString(s) => AssetType.valueOf(removeHyphens(s)).getOrElse(AssetType.EnumUnknownAssetType(-1))
   },
   generateJson[AssetType]
   ))
 
 object ElementTypeSerializer extends CustomSerializer[ElementType](format => (
   {
-    case JString(s) => ElementType.valueOf(norm(s)).getOrElse(ElementType.Text)
-    case JNull => null
+    case JString(s) => ElementType.valueOf(removeHyphens(s)).getOrElse(ElementType.EnumUnknownElementType(-1))
   },
   generateJson[ElementType]
   ))
 
 object SponsorshipTypeSerializer extends CustomSerializer[SponsorshipType](format => (
   {
-    case JString(s) => SponsorshipType.valueOf(norm(s)).getOrElse(SponsorshipType.Sponsored)
-    case JNull => null
+    case JString(s) => SponsorshipType.valueOf(removeHyphens(s)).getOrElse(SponsorshipType.EnumUnknownSponsorshipType(-1))
   },
   generateJson[SponsorshipType]
   ))
 
 object TagTypeSerializer extends CustomSerializer[TagType](format => (
   {
-    case JString(s) => TagType.valueOf(norm(s)).getOrElse(TagType.Contributor)
-    case JNull => null
+    case JString(s) => TagType.valueOf(removeHyphens(s)).getOrElse(TagType.EnumUnknownTagType(-1))
   },
   generateJson[TagType]
   ))
 
 object CrosswordTypeSerializer extends CustomSerializer[CrosswordType](format => (
   {
-    case JString(s) => CrosswordType.valueOf(norm(s)).getOrElse(CrosswordType.Quick)
-    case JNull => null
+    case JString(s) => CrosswordType.valueOf(removeHyphens(s)).getOrElse(CrosswordType.EnumUnknownCrosswordType(-1))
   },
   generateJson[CrosswordType]
   ))
 
 object StoryPackageArticleTypeSerializer extends CustomSerializer[ArticleType](format => (
   {
-    case JString(s) => ArticleType.valueOf(norm(s)).getOrElse(ArticleType.Article)
-    case JNull => null
+    case JString(s) => ArticleType.valueOf(removeHyphens(s)).getOrElse(ArticleType.EnumUnknownArticleType(-1))
   },
   generateJson[ArticleType]
   ))
 
 object StoryPackageGroupSerializer extends CustomSerializer[Group](format => (
   {
-    case JString(s) => Group.valueOf(norm(s)).getOrElse(Group.Linked)
-    case JNull => null
+    case JString(s) => Group.valueOf(removeHyphens(s)).getOrElse(Group.EnumUnknownGroup(-1))
   },
   generateJson[Group]
   ))
@@ -262,10 +263,8 @@ object DateTimeSerializer extends CustomSerializer[CapiDateTime](format => (
     case JString(s) => {
       CapiDateTime.apply(ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s).getMillis)
     }
-    case JNull => null
   },
   {
-    // This is never used because we never generate JSON, only parse it
     case d: CapiDateTime => JString(new DateTime(d.dateTime).toString)
   }
   ))
