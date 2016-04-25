@@ -252,6 +252,8 @@ struct AssetFields {
   28: optional bool explicit
 
   29: optional bool clean
+
+  30: optional string thumbnailImageUrl
 }
 
 struct Asset {

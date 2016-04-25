@@ -177,6 +177,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     elementAssetFields.html should be (Some("html"))
     elementAssetFields.embedType should be (Some("embedType"))
     elementAssetFields.blockAds should be (Some(false))
+    elementAssetFields.thumbnailImageUrl should be (Some("thumbnailImageUrl"))
 
     // check audio elements too
     val audioElement = contentItemResponse.content.get.elements.get.apply(2).assets.head
