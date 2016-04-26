@@ -2,10 +2,10 @@ package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
 
-import com.twitter.scrooge.ThriftEnum
+import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
-import org.json4s.{CustomSerializer, DefaultFormats}
+import org.json4s.{FieldSerializer, CustomSerializer, DefaultFormats}
 import org.json4s.JsonAST._
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
@@ -16,10 +16,20 @@ import scala.util.{Try, Success, Failure}
 
 object Serialization {
 
-  implicit val formats = DefaultFormats + AtomSerializer + ContentTypeSerializer + DateTimeSerializer +
-    MembershipTierSerializer + OfficeSerializer + AssetTypeSerializer + ElementTypeSerializer +
-    TagTypeSerializer + SponsorshipTypeSerializer + CrosswordTypeSerializer +
-    StoryPackageArticleTypeSerializer + StoryPackageGroupSerializer
+  implicit val formats = DefaultFormats +
+    AtomSerializer +
+    ContentTypeSerializer +
+    DateTimeSerializer +
+    MembershipTierSerializer +
+    OfficeSerializer +
+    AssetTypeSerializer +
+    ElementTypeSerializer +
+    TagTypeSerializer +
+    SponsorshipTypeSerializer +
+    CrosswordTypeSerializer +
+    StoryPackageArticleTypeSerializer +
+    StoryPackageGroupSerializer +
+    RemovePassthroughFieldsFromThriftStruct
 
   def fixFields: PartialFunction[JField, JField] = {
     case JField("summary", JString(s)) => JField("summary", JBool(s.toBoolean))
@@ -217,5 +227,7 @@ object Serialization {
       case d: CapiDateTime => JString(new DateTime(d.dateTime).toString)
     }
     ))
+
+  object RemovePassthroughFieldsFromThriftStruct extends FieldSerializer[ThriftStruct](serializer = FieldSerializer.ignore("_passthroughFields"))
 
 }
