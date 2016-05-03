@@ -1339,6 +1339,7 @@ struct AtomsResponse {
     8: required list<Atoms> results
 }
 
+// TODO this should be called PackagesResponse
 struct PackageResponse {
 
     1: required string status

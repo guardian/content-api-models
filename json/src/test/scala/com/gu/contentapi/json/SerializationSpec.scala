@@ -49,6 +49,14 @@ class SerializationSpec extends FlatSpec with Matchers {
     checkRoundTrip[ErrorResponse]("error.json")
   }
 
+  it should "round-trip a VideoStatsResponse" in {
+    checkRoundTrip[VideoStatsResponse]("video-stats.json")
+  }
+
+  it should "round-trip an AtomUsageResponse" in {
+    checkRoundTrip[AtomUsageResponse]("atom-usage.json")
+  }
+
   it should "round-trip a Thrift Enum with a complex name" in {
     val tagTypeBefore = TagType.NewspaperBookSection
     val json = Extraction.decompose(tagTypeBefore)
