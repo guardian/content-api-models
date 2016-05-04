@@ -807,6 +807,13 @@ struct Reference {
     2: required string type
 }
 
+struct PodcastCategory {
+
+    1: required string main
+    
+    2: optional string sub
+}
+
 struct Podcast {
 
     1: required string linkUrl
@@ -820,6 +827,8 @@ struct Podcast {
     5: required bool explicit
 
     6: optional string image
+
+    7: optional list<PodcastCategory> categories
 }
 
 struct SponsorshipTargeting {
