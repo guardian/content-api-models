@@ -1,11 +1,15 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1.{CapiDateTime, ContentType}
-import org.joda.time.DateTime
+import com.gu.contentapi.json.utils.CapiModelEnrichment._
+import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.json.utils.JsonLoader.loadJson
 
 class JsonParserSearchTest extends FlatSpec with Matchers {
+
+  def capiDateTime(iso8601: String): CapiDateTime =
+    ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(iso8601).toCapiDateTime
 
   val searchResponse = JsonParser.parseSearch(loadJson("search.json"))
 
@@ -25,7 +29,7 @@ class JsonParserSearchTest extends FlatSpec with Matchers {
     searchResponse.results.head.`type` should be (ContentType.Article)
     searchResponse.results.head.webTitle should be ("County cricket – live!")
 
-    val expectedWebPublicationDate = CapiDateTime(new DateTime("2014-09-10T16:10:21Z").getMillis)
+    val expectedWebPublicationDate = capiDateTime("2014-09-10T16:10:21Z")
     searchResponse.results.head.webPublicationDate.get should be (expectedWebPublicationDate)
 
     searchResponse.results.head.sectionName should be (Some("Sport"))

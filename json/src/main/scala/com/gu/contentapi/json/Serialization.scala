@@ -240,10 +240,16 @@ object Serialization {
 
   object DateTimeSerializer extends CustomSerializer[CapiDateTime](format => (
     {
-      case JString(s) => CapiDateTime.apply(ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s).getMillis)
+      case JString(s) =>
+        val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(s)
+        CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
     },
     {
-      case d: CapiDateTime => JString(new DateTime(d.dateTime).toString)
+      case d: CapiDateTime =>
+        val dateTime = ISODateTimeFormat.dateTime().withOffsetParsed().parseDateTime(d.iso8601)
+
+        // We don't include millis in JSON, because nearest-second accuracy is enough for anyone!
+        JString(dateTime.toString(ISODateTimeFormat.dateTimeNoMillis()))
     }
     ))
 

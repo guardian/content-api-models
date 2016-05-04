@@ -2,6 +2,7 @@ package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers, OptionValues}
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift.AtomData
@@ -24,6 +25,8 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
   val tagItemResponse = JsonParser.parseItem(loadJson("item-tag.json"))
   val sectionItemResponse = JsonParser.parseItem(loadJson("item-section.json"))
 
+  def capiDateTime(iso8601: String): CapiDateTime =
+    ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(iso8601).toCapiDateTime
 
   "content item parser" should "parse basic response fields" in {
     contentItemResponse.status should be ("ok")
@@ -53,7 +56,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     content.sectionId should be(Some("commentisfree"))
     content.sectionName should be(Some("Comment is free"))
 
-    val expectedWebPublicationDate = CapiDateTime(new DateTime("2013-01-16T10:14:31Z").getMillis)
+    val expectedWebPublicationDate = capiDateTime("2013-01-16T10:14:31Z")
     content.webPublicationDate should be(Some(expectedWebPublicationDate))
 
     content.webTitle should be("Can vegans stomach the unpalatable truth about quinoa? | Joanna Blythman")
@@ -70,12 +73,12 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     contentFields.contributorBio should be (Some("EMEA marketing director at xAd"))
     contentFields.membershipAccess should be (Some(MembershipTier.MembersOnly))
 
-    val expectedCreationDate = CapiDateTime(new DateTime("2015-09-04T03:31:41Z").getMillis)
+    val expectedCreationDate = capiDateTime("2015-09-04T03:31:41Z")
     contentFields.creationDate should be (Some(expectedCreationDate))
 
     contentFields.displayHint should be (Some("immersive"))
 
-    val expectedFirstPublicationDate = CapiDateTime(new DateTime("2015-09-04T08:33:26Z").getMillis)
+    val expectedFirstPublicationDate = capiDateTime("2015-09-04T08:33:26Z")
     contentFields.firstPublicationDate should be (Some(expectedFirstPublicationDate))
 
     contentFields.internalComposerCode should be (Some("55e953ebe4b019bd8fe33524"))
@@ -84,10 +87,10 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     contentFields.internalStoryPackageCode should be (Some(86755))
     contentFields.isInappropriateForSponsorship should be (Some(false))
 
-    val expectedNewspaperEditionDate = CapiDateTime(new DateTime("2014-11-08T11:15:00Z").getMillis)
+    val expectedNewspaperEditionDate = capiDateTime("2014-11-08T11:15:00Z")
     contentFields.newspaperEditionDate should be (Some(expectedNewspaperEditionDate))
 
-    val expectedScheduledPublicationDate = CapiDateTime(new DateTime("2113-11-08T11:15:00Z").getMillis)
+    val expectedScheduledPublicationDate = capiDateTime("2113-11-08T11:15:00Z")
     contentFields.scheduledPublicationDate should be (Some(expectedScheduledPublicationDate))
 
     contentFields.secureThumbnail should be (Some("https://media.guim.co.uk/35bc6e02d111ee24233d0518a5a8bdfc33633370/0_28_3521_2113/140.jpg"))
@@ -96,7 +99,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     contentFields.standfirst should be (Some("Ethical consumers should be aware poor Bolivians can no longer afford their staple grain, due to western demand raising prices"))
     contentFields.hasStoryPackage should be (Some(true))
 
-    val expectedLastModified = CapiDateTime(new DateTime("2014-05-21T13:40:59Z").getMillis)
+    val expectedLastModified = capiDateTime("2014-05-21T13:40:59Z")
     contentFields.lastModified should be (Some(expectedLastModified))
 
     contentFields.body should be (Some("<p>Not long ago, quinoa was just an obscure Peruvian grain you could only buy in wholefood shops. We struggled to pronounce it (it's keen-wa, not qui-no-a), yet it was feted by food lovers as a novel addition to the familiar ranks of couscous and rice. Dieticians clucked over quinoa approvingly because it ticked the low-fat box and fitted in with government healthy eating advice to \"base your meals on starchy foods\".</p><p>Adventurous eaters liked its slightly bitter taste and the little white curls that formed around the grains. Vegans embraced quinoa as a credibly nutritious substitute for meat. Unusual among grains, quinoa has a high protein content (between 14%-18%), and it contains all those pesky, yet essential, amino acids needed for good health that can prove so elusive to vegetarians who prefer not to pop food supplements.</p><p>Sales took off. Quinoa was, in marketing speak, the \"miracle grain of the Andes\", a healthy, right-on, ethical addition to the meat avoider's larder (no dead animals, just a crop that doesn't feel pain). Consequently, the price shot up – it has tripled since 2006 – with more rarified black, red and \"royal\" types commanding particularly handsome premiums.</p><p>But there is an unpalatable truth to face for those of us with a bag of quinoa in the larder. The appetite of countries such as ours for this grain <a href=\"http://www.guardian.co.uk/world/2013/jan/14/quinoa-andes-bolivia-peru-crop\" title=\"\">has pushed up prices to such an extent</a> that poorer people in Peru and Bolivia, for whom it was once a nourishing staple food, can no longer afford to eat it. Imported junk food is cheaper. In Lima, quinoa now costs more than chicken. Outside the cities, and fuelled by overseas demand, the pressure is on to turn land that once produced a portfolio of diverse crops into quinoa monoculture.</p><p>In fact, the quinoa trade is yet another troubling example of a damaging north-south exchange, with well-intentioned health and ethics-led consumers here unwittingly driving poverty there. It's beginning to look like a cautionary tale of how a focus on exporting premium foods can damage the producer country's food security. Feeding our apparently insatiable 365-day-a-year hunger for this luxury vegetable, Peru has also cornered the world market in asparagus. Result? In the arid Ica region where Peruvian asparagus production is concentrated, <a href=\"http://www.guardian.co.uk/environment/2010/sep/15/peru-asparagus-british-wells\" title=\"\">this thirsty export vegetable has depleted the water resources</a> on which local people depend. NGOs report that asparagus labourers toil in sub-standard conditions and cannot afford to feed their children while fat cat exporters and foreign supermarkets cream off the profits. That's the pedigree of all those bunches of pricy spears on supermarket shelves.</p><p>Soya, a foodstuff beloved of the vegan lobby as an alternative to dairy products, is another problematic import, one that drives environmental destruction [see footnote]. Embarrassingly, for those who portray it as a progressive alternative to planet-destroying meat, soya production is now one of the two main causes of deforestation in South America, along with cattle ranching, where vast expanses of forest and grassland have been felled to make way for huge plantations.</p><p>Three years ago, the pioneering <a href=\"http://www.fifediet.co.uk/\" title=\"\">Fife Diet</a>, Europe's biggest local food-eating project, sowed an experimental crop of quinoa. It failed, and the experiment has not been repeated. But the attempt at least recognised the need to strengthen our own food security by lessening our reliance on imported foods, and looking first and foremost to what can be grown, or reared, on our doorstep.</p><p>In this respect, omnivores have it easy. Britain excels in producing meat and dairy foods for them to enjoy. However, a rummage through the shopping baskets of vegetarians and vegans swiftly clocks up the food miles, a consequence of their higher dependency on products imported from faraway places. From tofu and tamari to carob and chickpeas, the axis of the vegetarian shopping list is heavily skewed to global.</p><p>There are promising initiatives: <a href=\"http://hodmedods.co.uk/about/our-products/\" title=\"\">one enterprising Norfolk company</a>, for instance, has just started marketing UK-grown fava beans (the sort used to make falafel) as a protein-rich alternative to meat. But in the case of quinoa, there's a ghastly irony when the Andean peasant's staple grain becomes too expensive at home because it has acquired hero product status among affluent foreigners preoccupied with personal health, animal welfare and reducing their carbon \"foodprint\". Viewed through a lens of food security, our current enthusiasm for quinoa looks increasingly misplaced.</p><p>• This footnote was appended on 17 January 2013. To clarify: while soya is found in a variety of health products, the majority of production - 97% according to the UN report of 2006 - is used for animal feed.</p>"))
@@ -115,7 +118,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     contentFields.sensitive should be (Some(false))
     contentFields.lang should be (Some("en"))
 
-    val expectedCommentCloseDate = CapiDateTime(new DateTime("2013-01-19T10:14:00Z").getMillis)
+    val expectedCommentCloseDate = capiDateTime("2013-01-19T10:14:00Z")
     contentFields.commentCloseDate should be (Some(expectedCommentCloseDate))
     contentFields.allowUgc should be (Some(false))
   }
@@ -255,7 +258,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     val tagResult = tagItemResponse.results.get.head
     tagResult.webTitle should be ("An awkward interview with Le Corbusier: from the archive, 11 September 1965")
 
-    val expectedWebPublicationDate = CapiDateTime(new DateTime("2014-09-11T04:30:00Z").getMillis)
+    val expectedWebPublicationDate = capiDateTime("2014-09-11T04:30:00Z")
     tagResult.webPublicationDate should be (Some(expectedWebPublicationDate))
 
     tagResult.sectionName should be (Some("Art and design"))
@@ -321,19 +324,19 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 
 
   it should "parse the publication date of content" in {
-    val expectedWebPublicationDate = CapiDateTime(new DateTime("2015-04-17T10:21:49Z").getMillis)
+    val expectedWebPublicationDate = capiDateTime("2015-04-17T10:21:49Z")
     contentItemWithBlocksResponse.content.get.webPublicationDate should be(Some(expectedWebPublicationDate))
   }
 
   it should "parse the publication dates of blocks" in {
     val mainBlock = contentItemWithBlocksResponse.content.get.blocks.get.main.get
-    val expectedFirstPublicationDate = CapiDateTime(new DateTime("2015-04-09T14:27:28.486+01:00").getMillis)
+    val expectedFirstPublicationDate = capiDateTime("2015-04-09T14:27:28.486+01:00")
     mainBlock.firstPublishedDate should be(Some(expectedFirstPublicationDate))
 
-    val expectedCreatedDate = CapiDateTime(new DateTime("2015-04-09T14:27:28.486+01:00").getMillis)
+    val expectedCreatedDate = capiDateTime("2015-04-09T14:27:28.486+01:00")
     mainBlock.createdDate should be(Some(expectedCreatedDate))
 
-    val expectedLastModifiedDate = CapiDateTime(new DateTime("2015-04-09T14:27:35.492+01:00").getMillis)
+    val expectedLastModifiedDate = capiDateTime("2015-04-09T14:27:35.492+01:00")
     mainBlock.lastModifiedDate should be(Some(expectedLastModifiedDate))
   }
 
@@ -527,7 +530,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     crossword.dimensions.cols should be(15)
     crossword.entries.head.id should be("8-across")
     crossword.entries.head.separatorLocations should be(Some(Map("," -> Seq(4))))
-    crossword.dateSolutionAvailable should be(Some(CapiDateTime(new DateTime("2016-03-17").getMillis)))
+    crossword.dateSolutionAvailable should be(Some(capiDateTime("2016-03-17")))
   }
 
   it should "deserialize a package correctly" in {

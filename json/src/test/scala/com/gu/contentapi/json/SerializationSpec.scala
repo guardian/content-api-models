@@ -74,6 +74,23 @@ class SerializationSpec extends FlatSpec with Matchers {
     Extraction.decompose(Office.Uk) should be(JString("UK"))
   }
 
+  it should "preserve timezone information in timestamps" in {
+    {
+      val jsonBefore = JString("2016-05-04T12:34:56.123Z")
+      val capiDateTime = jsonBefore.extract[CapiDateTime]
+      capiDateTime should be(CapiDateTime(1462365296123L, "2016-05-04T12:34:56.123Z"))
+      val jsonAfter = Extraction.decompose(capiDateTime)
+      jsonAfter should be(JString("2016-05-04T12:34:56Z")) // no millis
+    }
+    {
+      val jsonBefore = JString("2016-05-04T12:34:56.123+01:00")
+      val capiDateTime = jsonBefore.extract[CapiDateTime]
+      capiDateTime should be(CapiDateTime(1462361696123L, "2016-05-04T12:34:56.123+01:00"))
+      val jsonAfter = Extraction.decompose(capiDateTime)
+      jsonAfter should be(JString("2016-05-04T12:34:56+01:00")) // no millis
+    }
+  }
+
   val Identical = Diff(JNothing, JNothing, JNothing)
 
   def checkRoundTrip[T: Manifest](jsonFileName: String,
