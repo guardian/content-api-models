@@ -17,6 +17,11 @@ val mavenSettings = Seq(
         <name>Chris Birchall</name>
         <url>https://github.com/cb372</url>
       </developer>
+      <developer>
+        <id>mchv</id>
+        <name>Mariot Chauvin</name>
+        <url>https://github.com/mchv</url>
+      </developer>
     </developers>
   ),
   publishMavenStyle := true,
