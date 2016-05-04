@@ -5,13 +5,15 @@ import com.gu.contentapi.client.model.v1._
 import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
 import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
-import org.json4s.{FieldSerializer, CustomSerializer, DefaultFormats}
-import org.json4s.JsonAST._
+import org.json4s.JValue
+import org.json4s.JsonAST.JValue
+import org.json4s._
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
 import com.gu.contentatom.thrift.atom.viewpoints._
 
+import scala.reflect.ClassTag
 import scala.util.{Try, Success, Failure}
 
 object Serialization {
@@ -31,7 +33,7 @@ object Serialization {
     StoryPackageGroupSerializer +
     RemovePassthroughFieldsFromThriftStruct
 
-  def fixFields: PartialFunction[JField, JField] = {
+  def destringifyFields: PartialFunction[JField, JField] = {
     case JField("summary", JString(s)) => JField("summary", JBool(s.toBoolean))
     case JField("keyEvent", JString(s)) => JField("keyEvent", JBool(s.toBoolean))
     case JField("pinned", JString(s)) => JField("pinned", JBool(s.toBoolean))
@@ -69,8 +71,25 @@ object Serialization {
     case JField("safeEmbedCode", JString(s)) => JField("safeEmbedCode", JBool(s.toBoolean))
   }
 
-  def thriftEnum2JString[A <: ThriftEnum]: PartialFunction[Any, JString] = {
-    case a: ThriftEnum => JString(pascalCaseToHyphenated(a.name))
+  def thriftEnum2JString[A <: ThriftEnum](implicit classTag: ClassTag[A]): PartialFunction[Any, JString] = {
+    case a if classTag.runtimeClass.isInstance(a) => JString(pascalCaseToHyphenated(a.asInstanceOf[A].name))
+  }
+
+  private def stringifyRecursively(json: JValue): JValue = json transformField {
+    case (k, JInt(value)) => k -> JString(value.toString)
+    case (k, JBool(value)) => k -> JString(value.toString)
+  }
+
+  /**
+    * Stringify some parts of the JSON representation of a Content
+    * for compatibility with existing CAPI JSON response format.
+    */
+  def stringifyContent(content: JValue): JValue = {
+    val stringifyRights = (content: JValue) => content.replace(List("rights"), stringifyRecursively(content \ "rights"))
+    val stringifyFields = (content: JValue) => content.replace(List("fields"), stringifyRecursively(content \ "fields"))
+    val stringifyElements = (content: JValue) => content.replace(List("elements"), stringifyRecursively(content \ "elements"))
+
+    (stringifyRights andThen stringifyFields andThen stringifyElements)(content)
   }
 
   /**
@@ -167,7 +186,7 @@ object Serialization {
     {
       case JString(s) => Office.valueOf(removeHyphens(s)).getOrElse(Office.EnumUnknownOffice(-1))
     },
-    thriftEnum2JString[Office]
+    thriftEnum2JString[Office].andThen(jstring => JString(jstring.s.toUpperCase))
     ))
 
   object AssetTypeSerializer extends CustomSerializer[AssetType](format => (

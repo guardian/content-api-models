@@ -48,7 +48,6 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 
   it should "include the following fields on a content item" in {
     val content = contentItemResponse.content.get
-    content.isExpired should be(Some(false))
     content.id should be("commentisfree/2013/jan/16/vegans-stomach-unpalatable-truth-quinoa")
     content.`type` should be(ContentType.Article)
     content.sectionId should be(Some("commentisfree"))

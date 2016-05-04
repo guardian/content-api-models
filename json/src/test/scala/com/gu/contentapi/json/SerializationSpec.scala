@@ -3,7 +3,7 @@ package com.gu.contentapi.json
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.utils.JsonLoader
 import org.json4s.{JValue, Diff, Extraction}
-import org.json4s.JsonAST.{JArray, JNothing, JObject}
+import org.json4s.JsonAST.{JString, JArray, JNothing, JObject}
 import org.json4s.jackson.JsonMethods
 import org.scalatest._
 
@@ -12,16 +12,12 @@ class SerializationSpec extends FlatSpec with Matchers {
   implicit val formats = Serialization.formats
 
   it should "round-trip a TagsResponse including a sponsored tag" in {
-    val jsonBefore = JsonMethods.parse(JsonLoader.loadJson("tags-including-sponsored-tag.json"))
-    val deserialized = (jsonBefore \ "response").extract[TagsResponse]
-    val jsonAfter = JObject("response" -> Extraction.decompose(deserialized))
-
     /*
     Unfortunately the references field of the Tag struct was accidentally
     marked as required, making the Thrift model inconsistent with the JSON one.
     We work around this problem in Concierge.
      */
-    val jsonAfterWithReferencesRemoved = jsonAfter.transformField {
+    val removeReferences = (json: JValue) => json.transformField {
       case ("results", JArray(results)) =>
         val withoutRefs = results.map(_.removeField {
           case ("references", JArray(Nil)) => true
@@ -30,7 +26,7 @@ class SerializationSpec extends FlatSpec with Matchers {
         ("results", JArray(withoutRefs))
     }
 
-    checkDiff(jsonBefore, jsonAfterWithReferencesRemoved)
+    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterSerialize = removeReferences)
   }
 
   it should "round-trip a SectionsResponse" in {
@@ -57,6 +53,15 @@ class SerializationSpec extends FlatSpec with Matchers {
     checkRoundTrip[AtomUsageResponse]("atom-usage.json")
   }
 
+  it should "round-trip a content ItemResponse" in {
+    checkRoundTrip[ItemResponse]("item-content.json",
+      transformBeforeDeserialize = _.transformField(Serialization.destringifyFields),
+      transformAfterSerialize = _.transformField {
+        case ("content", json) => ("content", Serialization.stringifyContent(json))
+      }
+    )
+  }
+
   it should "round-trip a Thrift Enum with a complex name" in {
     val tagTypeBefore = TagType.NewspaperBookSection
     val json = Extraction.decompose(tagTypeBefore)
@@ -65,12 +70,19 @@ class SerializationSpec extends FlatSpec with Matchers {
     tagTypeAfter should equal(tagTypeBefore)
   }
 
+  it should "serialize an Office to an uppercase JString" in {
+    Extraction.decompose(Office.Uk) should be(JString("UK"))
+  }
+
   val Identical = Diff(JNothing, JNothing, JNothing)
 
-  def checkRoundTrip[T: Manifest](jsonFileName: String) = {
+  def checkRoundTrip[T: Manifest](jsonFileName: String,
+                                  transformBeforeDeserialize: JValue => JValue = identity,
+                                  transformAfterSerialize: JValue => JValue = identity) = {
     val jsonBefore = JsonMethods.parse(JsonLoader.loadJson(jsonFileName))
-    val deserialized = (jsonBefore \ "response").extract[T]
-    val jsonAfter = JObject("response" -> Extraction.decompose(deserialized))
+    val deserialized = transformBeforeDeserialize(jsonBefore \ "response").extract[T]
+    val serialized = Extraction.decompose(deserialized)
+    val jsonAfter = JObject("response" -> transformAfterSerialize(serialized))
 
     checkDiff(jsonBefore, jsonAfter)
   }
