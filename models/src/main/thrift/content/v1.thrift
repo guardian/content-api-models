@@ -818,7 +818,7 @@ struct Reference {
 struct PodcastCategory {
 
     1: required string main
-    
+
     2: optional string sub
 }
 
@@ -856,6 +856,8 @@ struct Sponsorship {
     4: required string sponsorLink
 
     5: optional SponsorshipTargeting targeting
+
+    6: optional string aboutLink
 }
 
 struct Tag {
@@ -963,6 +965,8 @@ struct Tag {
     * A list of all the active sponsorships running against this tag
     */
     18: optional list<Sponsorship> activeSponsorships
+
+    19: optional string paidContentType
 }
 
 struct Atoms {
