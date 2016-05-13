@@ -175,7 +175,8 @@ enum AssetType {
 
 enum MembershipTier {
     MEMBERS_ONLY = 0,
-    PAID_MEMBERS_ONLY = 1
+    PAID_MEMBERS_ONLY = 1,
+    PREMIUM_CONTENT = 2
 }
 
 enum SponsorshipType {
