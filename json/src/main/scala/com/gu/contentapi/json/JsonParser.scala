@@ -6,16 +6,16 @@ import org.json4s.Formats
 import org.json4s.jackson.JsonMethods
 
 object JsonParser {
-  import Serialization.fixFields
+  import Serialization.destringifyFields
 
   implicit val formats: Formats = Serialization.formats
 
   def parseItem(json: String): ItemResponse = {
-    (JsonMethods.parse(json) \ "response").transformField(fixFields).extract[ItemResponse]
+    (JsonMethods.parse(json) \ "response").transformField(destringifyFields).extract[ItemResponse]
   }
 
   def parseSearch(json: String): SearchResponse = {
-    (JsonMethods.parse(json) \ "response").transformField(fixFields).extract[SearchResponse]
+    (JsonMethods.parse(json) \ "response").transformField(destringifyFields).extract[SearchResponse]
   }
 
   def parseRemovedContent(json: String): RemovedContentResponse = {
@@ -49,7 +49,7 @@ object JsonParser {
   } yield errorResponse
 
   def parseContent(json: String): Content = {
-    JsonMethods.parse(json).transformField(fixFields).extract[Content]
+    JsonMethods.parse(json).transformField(destringifyFields).extract[Content]
   }
 
 }

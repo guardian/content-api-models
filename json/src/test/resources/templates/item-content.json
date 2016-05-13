@@ -5,7 +5,6 @@
         "total": 1,
         "content": {
             "type": "article",
-            "isExpired" : "false",
             "apiUrl": "http://content.guardianapis.com/commentisfree/2013/jan/16/vegans-stomach-unpalatable-truth-quinoa",
             "webTitle": "Can vegans stomach the unpalatable truth about quinoa? | Joanna Blythman",
             "webPublicationDate": "2013-01-16T10:14:31Z",
@@ -33,7 +32,7 @@
                 "productionOffice": "UK",
                 "liveBloggingNow": "false",
                 "commentCloseDate": "2013-01-19T10:14:00Z",
-                "membershipAccess" : "MembersOnly",
+                "membershipAccess" : "members-only",
                 "thumbnail": "http://media.guim.co.uk/35bc6e02d111ee24233d0518a5a8bdfc33633370/0_28_3521_2113/140.jpg",
                 "secureThumbnail": "https://media.guim.co.uk/35bc6e02d111ee24233d0518a5a8bdfc33633370/0_28_3521_2113/140.jpg",
                 "scheduledPublicationDate": "2113-11-08T11:15:00Z",
@@ -49,8 +48,8 @@
                 "contributorBio": "EMEA marketing director at xAd",
                 "starRating": "4",
                 "newspaperPageNumber": "3",
-                "legallySensitive": false,
-                "sensitive": false,
+                "legallySensitive": "false",
+                "sensitive": "false",
                 "lang": "en"
             },
             "tags": [
@@ -259,7 +258,7 @@
                                 "scriptUrl": "scriptUrl",
                                 "html": "html",
                                 "embedType": "embedType",
-                                "blockAds": false
+                                "blockAds": "false"
                             }
                         },
                         {
@@ -435,8 +434,8 @@
                             "mimeType": "audio/mpeg",
                             "file": "http://static.guim.co.uk/audio/kip/football/series/footballweekly/1447937149295/5649/FW-nov19-2015.mp3",
                             "typeData": {
-                                "explicit": false,
-                                "clean": true,
+                                "explicit": "false",
+                                "clean": "true",
                                 "source": "guardian.co.uk",
                                 "durationMinutes": "60",
                                 "durationSeconds": "17"
