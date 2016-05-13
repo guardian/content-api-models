@@ -1206,6 +1206,8 @@ struct Package {
 
     /* The package name */
     3: required string packageName
+
+    4: required CapiDateTime lastModified
 }
 
 struct MostViewedVideo {

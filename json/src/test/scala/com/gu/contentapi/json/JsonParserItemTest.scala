@@ -535,6 +535,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     val pkg = contentItemWithPackageResponse.packages.value(0)
     pkg.packageId should be("I'm packing, I'm packing, I'm pack-pack-packing")
     pkg.packageName should be("I am packing")
+    pkg.lastModified should be(CapiDateTime(new DateTime("2014-05-21T13:40:59Z").getMillis))
     pkg.articles should have size 2
 
     pkg.articles(0).metadata.id should be("internal-code/page/2436646")
