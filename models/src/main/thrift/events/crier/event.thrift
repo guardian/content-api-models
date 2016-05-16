@@ -2,22 +2,47 @@ namespace scala com.gu.crier.model.event.v1
 
 include "content/v1.thrift"
 
+/*
+ * For large update events the EventType is set to RetrievableUpdate
+ * and the EventPayload.Content is replaced by an EventPayload.RetrievableContent
+ */
 enum EventType {
+
     Update = 1,
-    Delete = 2
+    Delete = 2,
+    RetrievableUpdate = 3
 }
 
 enum ItemType {
+
     Content = 1,
     Tag = 2,
     Section = 3,
     StoryPackage = 4
 }
 
+struct RetrievableContent {
+
+    /*
+     * The content id
+     */
+    1: required string id
+    /*
+     * An API link for the client to fetch the content
+     */
+    2: required string capiUrl
+
+    /*
+     * The timestamp for when that specific payload was last modified
+     */
+    3: optional i64 lastModifiedDate
+}
+
 union EventPayload {
 
   1: v1.Content content
 
+  2: RetrievableContent retrievableContent
 }
 
 struct Event {
@@ -32,3 +57,5 @@ struct Event {
 
     5: optional EventPayload payload
 }
+
+
