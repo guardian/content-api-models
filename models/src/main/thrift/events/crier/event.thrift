@@ -36,6 +36,11 @@ struct RetrievableContent {
      * The timestamp for when that specific payload was last modified
      */
     3: optional i64 lastModifiedDate
+
+    /*
+     * The internal revision number of the replaced content payload
+     */
+    4: optional i32 internalRevision
 }
 
 union EventPayload {
