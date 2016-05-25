@@ -806,6 +806,8 @@ struct ContentFields {
     37: optional bool sensitive
 
     38: optional string lang
+
+    39: optional i32 internalRevision
 }
 
 struct Reference {

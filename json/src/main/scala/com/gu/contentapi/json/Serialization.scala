@@ -69,6 +69,7 @@ object Serialization {
     case JField("explicit", JString(s)) => JField("explicit", JBool(s.toBoolean))
     case JField("clean", JString(s)) => JField("clean", JBool(s.toBoolean))
     case JField("safeEmbedCode", JString(s)) => JField("safeEmbedCode", JBool(s.toBoolean))
+    case JField("internalRevision", JString(s)) => JField("internalRevision", JInt(s.toInt))
   }
 
   def thriftEnum2JString[A <: ThriftEnum](implicit classTag: ClassTag[A]): PartialFunction[Any, JString] = {
