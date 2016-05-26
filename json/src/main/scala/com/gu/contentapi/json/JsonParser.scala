@@ -1,7 +1,6 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-
 import org.json4s.Formats
 import org.json4s.jackson.JsonMethods
 
@@ -38,8 +37,8 @@ object JsonParser {
     (JsonMethods.parse(json) \ "response").extract[VideoStatsResponse]
   }
 
-  def parsePackages(json: String): PackageResponse = {
-    (JsonMethods.parse(json) \ "response").extract[PackageResponse]
+  def parsePackages(json: String): PackagesResponse = {
+    (JsonMethods.parse(json) \ "response").extract[PackagesResponse]
   }
 
   def parseError(json: String): Option[ErrorResponse] = for {

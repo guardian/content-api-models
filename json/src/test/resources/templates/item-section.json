@@ -59,7 +59,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/labour-one-nation-britain-politics",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/labour-one-nation-britain-politics",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/labour-one-nation-britain-politics"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/labour-one-nation-britain-politics",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -69,7 +71,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -79,7 +83,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -89,7 +95,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/ukip-european-elections-british-election-study",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/ukip-european-elections-british-election-study",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/ukip-european-elections-british-election-study"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/ukip-european-elections-british-election-study",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -99,7 +107,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -109,7 +119,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/scotland-catalonia-scottish-referendum-vote-madrid-barcelona",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/scotland-catalonia-scottish-referendum-vote-madrid-barcelona",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scotland-catalonia-scottish-referendum-vote-madrid-barcelona"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scotland-catalonia-scottish-referendum-vote-madrid-barcelona",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -119,7 +131,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/cartoon/2014/sep/11/steve-bell-if-scotland-free-alex-salmond",
                 "webUrl": "http://www.theguardian.com/commentisfree/cartoon/2014/sep/11/steve-bell-if-scotland-free-alex-salmond",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/11/steve-bell-if-scotland-free-alex-salmond"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/11/steve-bell-if-scotland-free-alex-salmond",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -129,7 +143,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -139,7 +155,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -149,7 +167,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/from-the-paperless-office-to-renewable-energy-change-leaves-its-critics-behind",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/from-the-paperless-office-to-renewable-energy-change-leaves-its-critics-behind",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/from-the-paperless-office-to-renewable-energy-change-leaves-its-critics-behind"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/from-the-paperless-office-to-renewable-energy-change-leaves-its-critics-behind",
+                "tags" : [ ],
+                "references" : [ ]
             }
         ],
         "mostViewed": [
@@ -161,7 +181,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/high-court-verdict-spells-the-end-for-australian-immigration-detention-as-we-know-it",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -171,7 +193,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/are-you-the-next-pedant-in-chief-prove-it",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -181,7 +205,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/oliver-burkeman-column/2014/sep/11/apple-pay-bank-account-iphone-payment-technology",
                 "webUrl": "http://www.theguardian.com/commentisfree/oliver-burkeman-column/2014/sep/11/apple-pay-bank-account-iphone-payment-technology",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/oliver-burkeman-column/2014/sep/11/apple-pay-bank-account-iphone-payment-technology"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/oliver-burkeman-column/2014/sep/11/apple-pay-bank-account-iphone-payment-technology",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -191,7 +217,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/men-help-decide-woman-abortion",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/men-help-decide-woman-abortion",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/men-help-decide-woman-abortion"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/men-help-decide-woman-abortion",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -201,7 +229,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -211,7 +241,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -221,7 +253,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -231,7 +265,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -241,7 +277,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2011/sep/02/911-photo-thomas-hoepker-meaning",
                 "webUrl": "http://www.theguardian.com/commentisfree/2011/sep/02/911-photo-thomas-hoepker-meaning",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2011/sep/02/911-photo-thomas-hoepker-meaning"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2011/sep/02/911-photo-thomas-hoepker-meaning",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -251,7 +289,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/08/ray-rice-domestic-violence-video-janay-palmer-victim-blaming",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/08/ray-rice-domestic-violence-video-janay-palmer-victim-blaming",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/08/ray-rice-domestic-violence-video-janay-palmer-victim-blaming"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/08/ray-rice-domestic-violence-video-janay-palmer-victim-blaming",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -261,7 +301,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/09/yes-vote-in-scotland-most-dangerous-thing-of-all-hope",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/09/yes-vote-in-scotland-most-dangerous-thing-of-all-hope",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/09/yes-vote-in-scotland-most-dangerous-thing-of-all-hope"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/09/yes-vote-in-scotland-most-dangerous-thing-of-all-hope",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -271,7 +313,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/cartoon/2014/sep/11/dog-billionaire",
                 "webUrl": "http://www.theguardian.com/commentisfree/cartoon/2014/sep/11/dog-billionaire",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/11/dog-billionaire"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/11/dog-billionaire",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -281,7 +325,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/-sp-obama-fight-isis-syria-iraq-generals",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/-sp-obama-fight-isis-syria-iraq-generals",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/-sp-obama-fight-isis-syria-iraq-generals"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/-sp-obama-fight-isis-syria-iraq-generals",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -291,7 +337,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/scottish-independence-female-voices-women-yes-vote",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -301,7 +349,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/american-fear-mongering-war-again-isis",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/american-fear-mongering-war-again-isis",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/american-fear-mongering-war-again-isis"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/american-fear-mongering-war-again-isis",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -311,7 +361,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/-sp-9-11-isis-al-qaida-13-years",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -321,7 +373,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/cartoon/2014/sep/10/steve-bell-cartoon-scottish-independence-john-major-referendum",
                 "webUrl": "http://www.theguardian.com/commentisfree/cartoon/2014/sep/10/steve-bell-cartoon-scottish-independence-john-major-referendum",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/10/steve-bell-cartoon-scottish-independence-john-major-referendum"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/cartoon/2014/sep/10/steve-bell-cartoon-scottish-independence-john-major-referendum",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -331,7 +385,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/fat-shaming-racism-lazy-prejudices",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/fat-shaming-racism-lazy-prejudices",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/fat-shaming-racism-lazy-prejudices"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/fat-shaming-racism-lazy-prejudices",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -341,7 +397,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/scotland-yes-campaign-snp-pollyannas",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/scotland-yes-campaign-snp-pollyannas",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/scotland-yes-campaign-snp-pollyannas"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/scotland-yes-campaign-snp-pollyannas",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -351,7 +409,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/nfl-watch-ray-rice-beat-wife-cover-up",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/nfl-watch-ray-rice-beat-wife-cover-up",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/nfl-watch-ray-rice-beat-wife-cover-up"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/nfl-watch-ray-rice-beat-wife-cover-up",
+                "tags" : [ ],
+                "references" : [ ]
             }
         ],
         "editorsPicks": [
@@ -363,7 +423,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/salmond-scotland-no-escape-tory-britain",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -373,7 +435,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/01/celebrity-naked-photo-leak-2014-nude-women",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -383,7 +447,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/11/google-sleep-pods-yelp-beer-work-leisure-offices",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -393,7 +459,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/why-its-harder-to-think-like-a-conservative",
+                "tags" : [ ],
+                "references" : [ ]
             }
         ]
     }

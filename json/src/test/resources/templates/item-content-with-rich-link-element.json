@@ -7,6 +7,8 @@
       "type": "article",
       "sectionId": "world",
       "webTitle": "Hajj pilgrimage: 717 dead in crush near Mecca",
+      "references": [],
+      "tags": [],
       "blocks": {
         "main": {
           "lastModifiedDate": "2015-09-24T12:39:12Z",
@@ -491,13 +493,13 @@
               "file": "http://cdn.theguardian.tv/3gp/large/2015/09/24/150924Mecca_large.3gp",
               "typeData": {
                 "source": "@etharkamal/AJ+",
-                "embeddable": "false",
-                "blockAds": "false",
+                "embeddable": false,
+                "blockAds": false,
                 "shortUrl": "http://gu.com/p/4cyxj",
                 "caption": "Footage of the aftermath of the crush in Mina, near Mecca",
-                "durationMinutes": "0",
+                "durationMinutes": 0,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "durationSeconds": "34"
+                "durationSeconds": 34
               }
             },
             {
@@ -506,13 +508,13 @@
               "file": "http://cdn.theguardian.tv/HLS/2015/09/24/150924Mecca.m3u8",
               "typeData": {
                 "source": "@etharkamal/AJ+",
-                "embeddable": "false",
-                "blockAds": "false",
+                "embeddable": false,
+                "blockAds": false,
                 "shortUrl": "http://gu.com/p/4cyxj",
                 "caption": "Footage of the aftermath of the crush in Mina, near Mecca",
-                "durationMinutes": "0",
+                "durationMinutes": 0,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "durationSeconds": "34"
+                "durationSeconds": 34
               }
             },
             {
@@ -521,13 +523,13 @@
               "file": "http://cdn.theguardian.tv/mainwebsite/2015/09/24/150924Mecca_desk.mp4",
               "typeData": {
                 "source": "@etharkamal/AJ+",
-                "embeddable": "false",
-                "blockAds": "false",
+                "embeddable": false,
+                "blockAds": false,
                 "shortUrl": "http://gu.com/p/4cyxj",
                 "caption": "Footage of the aftermath of the crush in Mina, near Mecca",
-                "durationMinutes": "0",
+                "durationMinutes": 0,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "durationSeconds": "34"
+                "durationSeconds": 34
               }
             },
             {
@@ -536,13 +538,13 @@
               "file": "http://cdn.theguardian.tv/webM/2015/09/24/150924Mecca_synd_768k_vp8.webm",
               "typeData": {
                 "source": "@etharkamal/AJ+",
-                "embeddable": "false",
-                "blockAds": "false",
+                "embeddable": false,
+                "blockAds": false,
                 "shortUrl": "http://gu.com/p/4cyxj",
                 "caption": "Footage of the aftermath of the crush in Mina, near Mecca",
-                "durationMinutes": "0",
+                "durationMinutes": 0,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "durationSeconds": "34"
+                "durationSeconds": 34
               }
             },
             {
@@ -551,13 +553,13 @@
               "file": "http://cdn.theguardian.tv/3gp/small/2015/09/24/150924Mecca_small.3gp",
               "typeData": {
                 "source": "@etharkamal/AJ+",
-                "embeddable": "false",
-                "blockAds": "false",
+                "embeddable": false,
+                "blockAds": false,
                 "shortUrl": "http://gu.com/p/4cyxj",
                 "caption": "Footage of the aftermath of the crush in Mina, near Mecca",
-                "durationMinutes": "0",
+                "durationMinutes": 0,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "durationSeconds": "34"
+                "durationSeconds": 34
               }
             },
             {
@@ -566,9 +568,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095484432/KP_481686_crop_300x230.jpg",
                 "source": "guardian.co.uk",
-                "height": "230",
+                "height": 230,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "300"
+                "width": 300
               }
             },
             {
@@ -577,9 +579,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095481158/KP_481687_crop_140x130.jpg",
                 "source": "guardian.co.uk",
-                "height": "130",
+                "height": 130,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "140"
+                "width": 140
               }
             },
             {
@@ -588,9 +590,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095482270/KP_481686_crop_960x720.jpg",
                 "source": "guardian.co.uk",
-                "height": "720",
+                "height": 720,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "960"
+                "width": 960
               }
             },
             {
@@ -599,9 +601,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095472303/KP_481686_crop_140x84.jpg",
                 "source": "guardian.co.uk",
-                "height": "84",
+                "height": 84,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "140"
+                "width": 140
               }
             },
             {
@@ -610,9 +612,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095479801/KP_481687_crop_640x480.jpg",
                 "source": "guardian.co.uk",
-                "height": "480",
+                "height": 480,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "640"
+                "width": 640
               }
             },
             {
@@ -621,9 +623,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095482850/KP_481686_crop_280x168.jpg",
                 "source": "guardian.co.uk",
-                "height": "168",
+                "height": 168,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "280"
+                "width": 280
               }
             },
             {
@@ -632,9 +634,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095483474/KP_481686_crop_380x228.jpg",
                 "source": "guardian.co.uk",
-                "height": "228",
+                "height": 228,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "380"
+                "width": 380
               }
             },
             {
@@ -643,9 +645,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095480150/KP_481687_crop_54x54.jpg",
                 "source": "guardian.co.uk",
-                "height": "54",
+                "height": 54,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "54"
+                "width": 54
               }
             },
             {
@@ -654,9 +656,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095481503/KP_481687_crop_480x340.jpg",
                 "source": "guardian.co.uk",
-                "height": "340",
+                "height": 340,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "480"
+                "width": 480
               }
             },
             {
@@ -665,9 +667,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095476200/KP_481686_crop_1200x720.jpg",
                 "source": "guardian.co.uk",
-                "height": "720",
+                "height": 720,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "1200"
+                "width": 1200
               }
             },
             {
@@ -676,9 +678,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095479130/KP_481686_crop_640x360.jpg",
                 "source": "guardian.co.uk",
-                "height": "360",
+                "height": 360,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "640"
+                "width": 640
               }
             },
             {
@@ -687,9 +689,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095483112/KP_481686_crop_300x180.jpg",
                 "source": "guardian.co.uk",
-                "height": "180",
+                "height": 180,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "300"
+                "width": 300
               }
             },
             {
@@ -698,9 +700,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095484057/KP_481686_crop_460x276.jpg",
                 "source": "guardian.co.uk",
-                "height": "276",
+                "height": 276,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "460"
+                "width": 460
               }
             },
             {
@@ -709,9 +711,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095482648/KP_481686_crop_220x132.jpg",
                 "source": "guardian.co.uk",
-                "height": "132",
+                "height": 132,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "220"
+                "width": 220
               }
             },
             {
@@ -720,9 +722,9 @@
               "typeData": {
                 "secureFile": "https://static-secure.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095484696/KP_481686_crop_620x372.jpg",
                 "source": "guardian.co.uk",
-                "height": "372",
+                "height": 372,
                 "mediaId": "gu-video-5603e3c6e4b0f4aadcfd977e",
-                "width": "620"
+                "width": 620
               }
             }
           ]
@@ -752,73 +754,73 @@
               "type": "image",
               "file": "http://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/140.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/140.jpg",
                 "source": "AP",
                 "imageType": "Photograph",
                 "altText": "Hajj crush in Mina, near Mecca, Saudi Arabia",
                 "suppliersReference": "CAIMA106",
-                "height": "84",
+                "height": 84,
                 "credit": "Photograph: AP",
                 "caption": " People gather around the victims of the stampede in Mina.",
                 "mediaId": "a905244730fa7f302e4ea5354c666c7cfacabb36",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/a905244730fa7f302e4ea5354c666c7cfacabb36",
-                "width": "140"
+                "width": 140
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/500.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/500.jpg",
                 "source": "AP",
                 "imageType": "Photograph",
                 "altText": "Hajj crush in Mina, near Mecca, Saudi Arabia",
                 "suppliersReference": "CAIMA106",
-                "height": "299",
+                "height": 299,
                 "credit": "Photograph: AP",
                 "caption": " People gather around the victims of the stampede in Mina.",
                 "mediaId": "a905244730fa7f302e4ea5354c666c7cfacabb36",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/a905244730fa7f302e4ea5354c666c7cfacabb36",
-                "width": "500"
+                "width": 500
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/745.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/745.jpg",
                 "source": "AP",
                 "imageType": "Photograph",
                 "altText": "Hajj crush in Mina, near Mecca, Saudi Arabia",
                 "suppliersReference": "CAIMA106",
-                "height": "446",
+                "height": 446,
                 "credit": "Photograph: AP",
                 "caption": " People gather around the victims of the stampede in Mina.",
                 "mediaId": "a905244730fa7f302e4ea5354c666c7cfacabb36",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/a905244730fa7f302e4ea5354c666c7cfacabb36",
-                "width": "745"
+                "width": 745
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/master/745.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/master/745.jpg",
                 "source": "AP",
-                "isMaster": "true",
+                "isMaster": true,
                 "imageType": "Photograph",
                 "altText": "Hajj crush in Mina, near Mecca, Saudi Arabia",
                 "suppliersReference": "CAIMA106",
-                "height": "446",
+                "height": 446,
                 "credit": "Photograph: AP",
                 "caption": " People gather around the victims of the stampede in Mina.",
                 "mediaId": "a905244730fa7f302e4ea5354c666c7cfacabb36",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/a905244730fa7f302e4ea5354c666c7cfacabb36",
-                "width": "745"
+                "width": 745
               }
             }
           ]
@@ -836,7 +838,7 @@
                 "scriptName": "iframe-wrapper",
                 "source": "Guardian",
                 "scriptUrl": "http://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js",
-                "alt": "Hajj scene of stampede",
+                "altText": "Hajj scene of stampede",
                 "html": "<a href=\"http://interactive.guim.co.uk/uploader/embed/2015/09/mecca_crush/giv-31114wBYHjoKMce1W/\">Hajj scene of stampede</a>",
                 "embedType": "interactive"
               }
@@ -852,115 +854,115 @@
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/140.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/140.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "84",
+                "height": 84,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "140"
+                "width": 140
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/500.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/500.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "300",
+                "height": 300,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "500"
+                "width": 500
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/1000.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/1000.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "600",
+                "height": 600,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "1000"
+                "width": 1000
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/2000.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/2000.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "1200",
+                "height": 1200,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "2000"
+                "width": 2000
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/5143.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/5143.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "3086",
+                "height": 3086,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "5143"
+                "width": 5143
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/master/5143.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/master/5143.jpg",
                 "source": "AP",
                 "photographer": "Mosa'ab Elshamy",
-                "isMaster": "true",
+                "isMaster": true,
                 "imageType": "Photograph",
                 "altText": "Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia",
                 "suppliersReference": "XMS103",
-                "height": "3086",
+                "height": 3086,
                 "credit": "Photograph: Mosa'ab Elshamy/AP",
                 "caption": "Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.",
                 "mediaId": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
-                "width": "5143"
+                "width": 5143
               }
             }
           ]
@@ -974,65 +976,65 @@
               "type": "image",
               "file": "http://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/140.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/140.jpg",
                 "source": "Saudi Civil Defence",
                 "imageType": "Photograph",
                 "altText": "Stampede at hajj near Mecca, Saudi Arabia",
-                "height": "84",
+                "height": 84,
                 "credit": "Photograph: Saudi Civil Defence",
                 "mediaId": "39f473f8df5b2c8798170aced5c738f2f03bca7f",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/39f473f8df5b2c8798170aced5c738f2f03bca7f",
-                "width": "140"
+                "width": 140
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/500.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/500.jpg",
                 "source": "Saudi Civil Defence",
                 "imageType": "Photograph",
                 "altText": "Stampede at hajj near Mecca, Saudi Arabia",
-                "height": "299",
+                "height": 299,
                 "credit": "Photograph: Saudi Civil Defence",
                 "mediaId": "39f473f8df5b2c8798170aced5c738f2f03bca7f",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/39f473f8df5b2c8798170aced5c738f2f03bca7f",
-                "width": "500"
+                "width": 500
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/596.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/596.jpg",
                 "source": "Saudi Civil Defence",
                 "imageType": "Photograph",
                 "altText": "Stampede at hajj near Mecca, Saudi Arabia",
-                "height": "357",
+                "height": 357,
                 "credit": "Photograph: Saudi Civil Defence",
                 "mediaId": "39f473f8df5b2c8798170aced5c738f2f03bca7f",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/39f473f8df5b2c8798170aced5c738f2f03bca7f",
-                "width": "596"
+                "width": 596
               }
             },
             {
               "type": "image",
               "file": "http://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/master/596.jpg",
               "typeData": {
-                "displayCredit": "true",
+                "displayCredit": true,
                 "secureFile": "https://media.guim.co.uk/39f473f8df5b2c8798170aced5c738f2f03bca7f/0_66_596_357/master/596.jpg",
                 "source": "Saudi Civil Defence",
-                "isMaster": "true",
+                "isMaster": true,
                 "imageType": "Photograph",
                 "altText": "Stampede at hajj near Mecca, Saudi Arabia",
-                "height": "357",
+                "height": 357,
                 "credit": "Photograph: Saudi Civil Defence",
                 "mediaId": "39f473f8df5b2c8798170aced5c738f2f03bca7f",
                 "mediaApiUri": "https://api.media.gutools.co.uk/images/39f473f8df5b2c8798170aced5c738f2f03bca7f",
-                "width": "596"
+                "width": 596
               }
             }
           ]

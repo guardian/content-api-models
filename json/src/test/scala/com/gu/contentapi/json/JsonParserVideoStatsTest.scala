@@ -1,7 +1,7 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.json.utils.JsonLoader.loadJson
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.{FlatSpec, Matchers}
 
 class JsonParserVideoStatsTest  extends FlatSpec with Matchers {
 

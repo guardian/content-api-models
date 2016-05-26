@@ -17,7 +17,9 @@
                 "sectionId": "sport",
                 "id": "sport/blog/live/2014/sep/10/county-cricket-live-blog-notts-yorkshire-surrey",
                 "webUrl": "http://www.theguardian.com/sport/blog/live/2014/sep/10/county-cricket-live-blog-notts-yorkshire-surrey",
-                "apiUrl": "http://content.guardianapis.com/sport/blog/live/2014/sep/10/county-cricket-live-blog-notts-yorkshire-surrey"
+                "apiUrl": "http://content.guardianapis.com/sport/blog/live/2014/sep/10/county-cricket-live-blog-notts-yorkshire-surrey",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "video",
@@ -27,7 +29,9 @@
                 "sectionId": "business",
                 "id": "business/2014/sep/10/thorntons-60-per-cent-profits-rise-despite-closures",
                 "webUrl": "http://www.theguardian.com/business/2014/sep/10/thorntons-60-per-cent-profits-rise-despite-closures",
-                "apiUrl": "http://content.guardianapis.com/business/2014/sep/10/thorntons-60-per-cent-profits-rise-despite-closures"
+                "apiUrl": "http://content.guardianapis.com/business/2014/sep/10/thorntons-60-per-cent-profits-rise-despite-closures",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -37,7 +41,9 @@
                 "sectionId": "commentisfree",
                 "id": "commentisfree/2014/sep/10/addicted-apple-watch-technology",
                 "webUrl": "http://www.theguardian.com/commentisfree/2014/sep/10/addicted-apple-watch-technology",
-                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/addicted-apple-watch-technology"
+                "apiUrl": "http://content.guardianapis.com/commentisfree/2014/sep/10/addicted-apple-watch-technology",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -47,7 +53,9 @@
                 "sectionId": "business",
                 "id": "business/live/2014/sep/10/mark-carney-scotland-markets-pound-business-live",
                 "webUrl": "http://www.theguardian.com/business/live/2014/sep/10/mark-carney-scotland-markets-pound-business-live",
-                "apiUrl": "http://content.guardianapis.com/business/live/2014/sep/10/mark-carney-scotland-markets-pound-business-live"
+                "apiUrl": "http://content.guardianapis.com/business/live/2014/sep/10/mark-carney-scotland-markets-pound-business-live",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -57,7 +65,9 @@
                 "sectionId": "media",
                 "id": "media/greenslade/2014/sep/10/piersmorgan-rupert-murdoch",
                 "webUrl": "http://www.theguardian.com/media/greenslade/2014/sep/10/piersmorgan-rupert-murdoch",
-                "apiUrl": "http://content.guardianapis.com/media/greenslade/2014/sep/10/piersmorgan-rupert-murdoch"
+                "apiUrl": "http://content.guardianapis.com/media/greenslade/2014/sep/10/piersmorgan-rupert-murdoch",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -67,7 +77,9 @@
                 "sectionId": "music",
                 "id": "music/2014/sep/10/furrow-collective-review-cecil-sharp-house",
                 "webUrl": "http://www.theguardian.com/music/2014/sep/10/furrow-collective-review-cecil-sharp-house",
-                "apiUrl": "http://content.guardianapis.com/music/2014/sep/10/furrow-collective-review-cecil-sharp-house"
+                "apiUrl": "http://content.guardianapis.com/music/2014/sep/10/furrow-collective-review-cecil-sharp-house",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -77,7 +89,9 @@
                 "sectionId": "society",
                 "id": "society/the-shape-we-are-in-blog/2014/sep/10/obesity-body-image",
                 "webUrl": "http://www.theguardian.com/society/the-shape-we-are-in-blog/2014/sep/10/obesity-body-image",
-                "apiUrl": "http://content.guardianapis.com/society/the-shape-we-are-in-blog/2014/sep/10/obesity-body-image"
+                "apiUrl": "http://content.guardianapis.com/society/the-shape-we-are-in-blog/2014/sep/10/obesity-body-image",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -87,7 +101,9 @@
                 "sectionId": "culture",
                 "id": "culture/live/2014/sep/10/james-murphys-tennis-tunes-and-pc-musics-la-takeover-its-todays-pop-culture-live",
                 "webUrl": "http://www.theguardian.com/culture/live/2014/sep/10/james-murphys-tennis-tunes-and-pc-musics-la-takeover-its-todays-pop-culture-live",
-                "apiUrl": "http://content.guardianapis.com/culture/live/2014/sep/10/james-murphys-tennis-tunes-and-pc-musics-la-takeover-its-todays-pop-culture-live"
+                "apiUrl": "http://content.guardianapis.com/culture/live/2014/sep/10/james-murphys-tennis-tunes-and-pc-musics-la-takeover-its-todays-pop-culture-live",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -97,7 +113,9 @@
                 "sectionId": "artanddesign",
                 "id": "artanddesign/2014/sep/10/readers-assignments-my-friends-and-i",
                 "webUrl": "http://www.theguardian.com/artanddesign/2014/sep/10/readers-assignments-my-friends-and-i",
-                "apiUrl": "http://content.guardianapis.com/artanddesign/2014/sep/10/readers-assignments-my-friends-and-i"
+                "apiUrl": "http://content.guardianapis.com/artanddesign/2014/sep/10/readers-assignments-my-friends-and-i",
+                "tags" : [ ],
+                "references" : [ ]
             },
             {
                 "type": "article",
@@ -107,7 +125,9 @@
                 "sectionId": "football",
                 "id": "football/2014/sep/10/the-fiver-a-baffling-queue-of-masochists",
                 "webUrl": "http://www.theguardian.com/football/2014/sep/10/the-fiver-a-baffling-queue-of-masochists",
-                "apiUrl": "http://content.guardianapis.com/football/2014/sep/10/the-fiver-a-baffling-queue-of-masochists"
+                "apiUrl": "http://content.guardianapis.com/football/2014/sep/10/the-fiver-a-baffling-queue-of-masochists",
+                "tags" : [ ],
+                "references" : [ ]
             }
         ]
     }
