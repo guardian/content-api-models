@@ -971,6 +971,72 @@ struct Tag {
     19: optional string paidContentType
 }
 
+struct Edition {
+
+    /*
+     * he path of the edition, e.g. 'au/business'
+     */
+    1: required string id
+
+    /*
+     * Short description of the edition
+     */
+    2: required string webTitle
+
+    /*
+     * Edition URL for the main Guardian website
+     */
+    3: required string webUrl
+
+    /*
+     * Path from which the edition is available in the Content API
+     */
+    4: required string apiUrl
+
+    /*
+     * The edition code, e.g. 'uk' or 'default'.
+     */
+    5: required string code
+}
+
+struct Section {
+
+    /*
+     * The id of this section: this should always be the path to the section front on www.theguardian.com
+     */
+    1: required string id
+
+    /*
+     * Short description of this section.
+     */
+    2: required string webTitle
+
+    /*
+     * Full url on which section front can be found on www.theguardian.com
+     */
+    3: required string webUrl
+
+    /*
+     * Full url on which full information about this section can be found on
+     * the content api.
+     *
+     * For sections, this allows access to the editorsPicks for the section,
+     * mostRead content in the section,
+     * and automatically shows the most recent content for the section.
+     */
+    4: required string apiUrl
+
+    /*
+     * List of available editions for this section
+     */
+    5: required list<Edition> editions
+
+    /**
+    * A list of all the active sponsorships running against this section
+    */
+    6: optional list<Sponsorship> activeSponsorships
+}
+
 struct Atoms {
     1: optional list<contentatom.Atom> quizzes
 
@@ -1095,72 +1161,12 @@ struct Content {
     17: optional Atoms atoms
 
     18: optional ContentStats stats
-}
-
-struct Edition {
 
     /*
-     * he path of the edition, e.g. 'au/business'
+     * The section associated with this content.
+     * Only returned if you specify showSection(true) on the request
      */
-    1: required string id
-
-    /*
-     * Short description of the edition
-     */
-    2: required string webTitle
-
-    /*
-     * Edition URL for the main Guardian website
-     */
-    3: required string webUrl
-
-    /*
-     * Path from which the edition is available in the Content API
-     */
-    4: required string apiUrl
-
-    /*
-     * The edition code, e.g. 'uk' or 'default'.
-     */
-    5: required string code
-}
-
-struct Section {
-
-    /*
-     * The id of this section: this should always be the path to the section front on www.theguardian.com
-     */
-    1: required string id
-
-    /*
-     * Short description of this section.
-     */
-    2: required string webTitle
-
-    /*
-     * Full url on which section front can be found on www.theguardian.com
-     */
-    3: required string webUrl
-
-    /*
-     * Full url on which full information about this section can be found on
-     * the content api.
-     *
-     * For sections, this allows access to the editorsPicks for the section,
-     * mostRead content in the section,
-     * and automatically shows the most recent content for the section.
-     */
-    4: required string apiUrl
-
-    /*
-     * List of available editions for this section
-     */
-    5: required list<Edition> editions
-
-    /**
-    * A list of all the active sponsorships running against this section
-    */
-    6: optional list<Sponsorship> activeSponsorships
+    19: optional Section section
 }
 
 struct NetworkFront {
