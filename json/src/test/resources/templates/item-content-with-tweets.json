@@ -29,11 +29,11 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/2000.jpg",
-            "width": "2000",
-            "height": "1200"
+            "width": 2000,
+            "height": 1200
           },
           "mimeType": "image/jpeg"
         }, {
@@ -49,11 +49,11 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/1000.jpg",
-            "width": "1000",
-            "height": "600"
+            "width": 1000,
+            "height": 600
           },
           "mimeType": "image/jpeg"
         }, {
@@ -69,11 +69,11 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/500.jpg",
-            "width": "500",
-            "height": "300"
+            "width": 500,
+            "height": 300
           },
           "mimeType": "image/jpeg"
         }, {
@@ -89,11 +89,11 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/140.jpg",
-            "width": "140",
-            "height": "84"
+            "width": 140,
+            "height": 84
           },
           "mimeType": "image/jpeg"
         }, {
@@ -109,11 +109,11 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/4928.jpg",
-            "width": "4928",
-            "height": "2956"
+            "width": 4928,
+            "height": 2956
           },
           "mimeType": "image/jpeg"
         }, {
@@ -129,12 +129,12 @@
             "source": "USA Today Sports",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/master/4928.jpg",
-            "width": "4928",
-            "height": "2956",
-            "isMaster": "true"
+            "width": 4928,
+            "height": 2956,
+            "isMaster": true
           },
           "mimeType": "image/jpeg"
         }]
@@ -149,8 +149,8 @@
             "mimeType": "image/jpeg",
             "source": "Twitter",
             "secureFile": "https://pbs.twimg.com/media/CaqOSfGVIAAaQS0.jpg",
-            "width": "768",
-            "height": "1024"
+            "width": 768,
+            "height": 1024
           }
         }, {
           "type": "tweet",
@@ -192,13 +192,13 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/2000.jpg",
-            "width": "2000",
-            "height": "1200"
+            "width": 2000,
+            "height": 1200
           }
         }, {
           "type": "image",
@@ -210,13 +210,13 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/1000.jpg",
-            "width": "1000",
-            "height": "600"
+            "width": 1000,
+            "height": 600
           }
         }, {
           "type": "image",
@@ -228,13 +228,13 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/500.jpg",
-            "width": "500",
-            "height": "300"
+            "width": 500,
+            "height": 300
           }
         }, {
           "type": "image",
@@ -246,13 +246,13 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/140.jpg",
-            "width": "140",
-            "height": "84"
+            "width": 140,
+            "height": 84
           }
         }, {
           "type": "image",
@@ -264,13 +264,13 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/4928.jpg",
-            "width": "4928",
-            "height": "2956"
+            "width": 4928,
+            "height": 2956
           }
         }, {
           "type": "image",
@@ -282,17 +282,19 @@
             "altText": "Marshawn Lynch",
             "source": "USA Today Sports",
             "mediaId": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
-            "displayCredit": "true",
+            "displayCredit": true,
             "photographer": "Troy Wayrynen",
             "credit": "Photograph: Troy Wayrynen/USA Today Sports",
             "imageType": "Photograph",
             "secureFile": "https://media.guim.co.uk/70e8a99b645a6af9c8b52c9a98c9da061f90ecac/0_105_4928_2956/master/4928.jpg",
-            "width": "4928",
-            "height": "2956",
-            "isMaster": "true"
+            "width": 4928,
+            "height": 2956,
+            "isMaster": true
           }
         }]
-      }]
+      }],
+      "tags": [],
+      "references": []
     }
   }
 }

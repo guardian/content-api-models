@@ -12,52 +12,62 @@
       {
         "packageId": "a2665327-e426-423b-a923-319a56c76460",
         "packageName": "Tata steel crisis",
-        "lastModified": "2016-04-18T12:41:40.622Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T12:41:40Z"
       },
       {
         "packageId": "0f7fa558-54ac-4fc2-8af5-93849944b2e0",
         "packageName": "Drones + planes in UK",
-        "lastModified": "2016-04-18T12:21:37.612Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T12:21:37Z"
       },
       {
         "packageId": "ffe8ccf8-60e8-4694-962a-32ec75e1f0e2",
         "packageName": "Nelson's column protest",
-        "lastModified": "2016-04-18T12:15:16.244Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T12:15:16Z"
       },
       {
         "packageId": "2fdd2540-e7be-45e0-a382-0e6919ab885d",
         "packageName": "Housing bill",
-        "lastModified": "2016-04-18T11:13:57.321Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T11:13:57Z"
       },
       {
         "packageId": "18978af6-a5c0-40fc-9adb-ac6d161c53eb",
         "packageName": "Ecuador earthquake",
-        "lastModified": "2016-04-18T10:18:23.030Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T10:18:23Z"
       },
       {
         "packageId": "7e58c44a-8a3c-4a10-bc94-33bf551eec0b",
         "packageName": "eu referendum",
-        "lastModified": "2016-04-18T10:16:23.462Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T10:16:23Z"
       },
       {
         "packageId": "ad698234-9e70-4a6a-b306-69f2bf859732",
         "packageName": "new ecuador quake",
-        "lastModified": "2016-04-18T10:03:40.379Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T10:03:40Z"
       },
       {
         "packageId": "73817193-e5e6-11e5-8b19-4b0968a5a8b5",
         "packageName": "Oscar Pistorius",
-        "lastModified": "2016-04-18T08:22:47.605Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T08:22:47Z"
       },
       {
         "packageId": "4e3fce3d-a482-464a-8793-aa0d92aa0879",
         "packageName": "yemen conflict",
-        "lastModified": "2016-04-18T08:14:00.026Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-18T08:14:00Z"
       },
       {
         "packageId": "25e1f688-abe3-4a3e-a31d-4499bde9f204",
         "packageName": "cuba raul castro communist party",
-        "lastModified": "2016-04-17T22:38:43.781Z"
+        "articles" : [ ],
+        "lastModified": "2016-04-17T22:38:43Z"
       }
     ]
   }

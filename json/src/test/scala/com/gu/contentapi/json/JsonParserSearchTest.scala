@@ -1,10 +1,10 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1.{CapiDateTime, ContentType}
-import com.gu.contentapi.json.utils.CapiModelEnrichment._
 import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.utils.CapiModelEnrichment._
 
 class JsonParserSearchTest extends FlatSpec with Matchers {
 

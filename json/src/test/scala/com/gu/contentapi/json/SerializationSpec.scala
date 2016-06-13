@@ -91,6 +91,50 @@ class SerializationSpec extends FlatSpec with Matchers {
     }
   }
 
+  it should "round-trip an ItemResponse with a quiz atom" in {
+    checkRoundTrip[ItemResponse]("item-content-with-atom-quiz.json")
+  }
+
+  it should "round-trip an ItemResponse with blocks" in {
+    checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
+  }
+
+  it should "round-trip an ItemResponse with a crossword" in {
+    checkRoundTrip[ItemResponse]("item-content-with-crossword.json")
+  }
+
+  it should "round-trip an ItemResponse with a membership element" in {
+    checkRoundTrip[ItemResponse]("item-content-with-membership-element.json")
+  }
+
+  it should "round-trip an ItemResponse with packages" in {
+    checkRoundTrip[ItemResponse]("item-content-with-package.json")
+  }
+
+  it should "round-trip an ItemResponse with rich link element" in {
+    checkRoundTrip[ItemResponse]("item-content-with-rich-link-element.json")
+  }
+
+  it should "round-trip an ItemResponse with tweets" in {
+    checkRoundTrip[ItemResponse]("item-content-with-tweets.json")
+  }
+
+  it should "round-trip an ItemResponse with section, edition, most-viewed, editors-picks" in {
+    checkRoundTrip[ItemResponse]("item-section.json")
+  }
+
+  it should "round-trip an ItemResponse with tags" in {
+    checkRoundTrip[ItemResponse]("item-tag.json")
+  }
+
+  it should "round-trip a PackagesResponse" in {
+    checkRoundTrip[PackagesResponse]("packages.json")
+  }
+
+  it should "round-trip a SearchResponse" in {
+    checkRoundTrip[SearchResponse]("search.json")
+  }
+
   val Identical = Diff(JNothing, JNothing, JNothing)
 
   def checkRoundTrip[T: Manifest](jsonFileName: String,

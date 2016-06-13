@@ -1,7 +1,7 @@
-package com.gu.contentapi.json.utils
+package com.gu.contentapi.utils
 
-import org.joda.time.DateTime
 import com.gu.contentapi.client.model.v1._
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 
 object CapiModelEnrichment {

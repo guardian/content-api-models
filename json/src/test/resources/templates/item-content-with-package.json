@@ -11,7 +11,9 @@
       "id": "crosswords/cryptic/24623",
       "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
       "apiUrl": "http://content.guardianapis.com/crosswords/cryptic/24623",
-      "sectionName": "Crosswords"
+      "sectionName": "Crosswords",
+      "tags": [],
+      "references": []
     },
     "packages": [{
       "packageId": "I'm packing, I'm packing, I'm pack-pack-packing",
@@ -20,8 +22,8 @@
       "articles": [{
         "metadata": {
           "id": "internal-code/page/2436646",
-          "articleType": "Article",
-          "group": "Included",
+          "articleType": "article",
+          "group": "included",
           "showMainVideo": true,
           "showKickerTag": true,
           "byline": "Haroon Siddique and Chris",
@@ -35,13 +37,15 @@
           "id": "internal-code/page/2436646",
           "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
           "apiUrl": "http://content.guardianapis.com/crosswords/cryptic/24623",
-          "sectionName": "Crosswords"
+          "sectionName": "Crosswords",
+          "tags": [],
+          "references": []
         }
       }, {
         "metadata": {
           "id": "internal-code/page/2437327",
-          "articleType": "Article",
-          "group": "Included",
+          "articleType": "article",
+          "group": "included",
           "trailText": "Sunday attendance also drops to 760,000 as decline continues in face of growing secularism, diversity and Chris"
         },
         "content": {
@@ -52,7 +56,9 @@
           "id": "internal-code/page/2437327",
           "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
           "apiUrl": "http://content.guardianapis.com/crosswords/cryptic/24623",
-          "sectionName": "Crosswords"
+          "sectionName": "Crosswords",
+          "tags": [],
+          "references": []
         }
       }]
     }]

@@ -4,22 +4,22 @@ import com.gu.contentapi.client.model.v1._
 
 import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
 import org.joda.time.format.ISODateTimeFormat
-import org.joda.time.DateTime
-import org.json4s.JValue
-import org.json4s.JsonAST.JValue
 import org.json4s._
+import org.json4s.JsonAST.JValue
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
 import com.gu.contentatom.thrift.atom.viewpoints._
 
+import scala.PartialFunction._
 import scala.reflect.ClassTag
-import scala.util.{Try, Success, Failure}
 
 object Serialization {
 
   implicit val formats = DefaultFormats +
+    AtomsSerializer +
     AtomSerializer +
+    AtomTypeSerializer +
     ContentTypeSerializer +
     DateTimeSerializer +
     MembershipTierSerializer +
@@ -70,6 +70,7 @@ object Serialization {
     case JField("clean", JString(s)) => JField("clean", JBool(s.toBoolean))
     case JField("safeEmbedCode", JString(s)) => JField("safeEmbedCode", JBool(s.toBoolean))
     case JField("internalRevision", JString(s)) => JField("internalRevision", JInt(s.toInt))
+    case JField("embeddable", JString(s)) => JField("embeddable", JBool(s.toBoolean))
   }
 
   def thriftEnum2JString[A <: ThriftEnum](implicit classTag: ClassTag[A]): PartialFunction[Any, JString] = {
@@ -107,66 +108,91 @@ object Serialization {
   private def pascalCaseToHyphenated(s: String): String =
     LowerCaseFollowedByUpperCase.replaceAllIn(s, m => m.group(1) + "-" + m.group(2)).toLowerCase
 
+
   object AtomHelper {
-    def createChangeRecord(obj: JObject,  dateField: String, userField: String): Option[ChangeRecord] = {
-      val optionalDate = (obj \ dateField).extractOpt[String].map(new DateTime(_).getMillis)
-      optionalDate.map { d =>
-        val user = (obj \ userField).extractOpt[com.gu.contentatom.thrift.User]
-        ChangeRecord(d, user)
+
+    /**
+      * This logic is necessary for deserializing atoms.
+      * This is because the AtomData field is a union type, and we need to specify which type it is (e.g. AtomData.Quiz)
+      */
+    private def stringOpt(jValue: JValue): Option[String] =
+      condOpt(jValue) {
+        case JString(s) => s
+      }
+
+    private def getAtom(atom: JValue, atomData: AtomData): Option[Atom] = {
+      for {
+        id <- stringOpt(atom \ "id")
+        atomType <- (atom \ "atomType").extractOpt[AtomType]
+        labels <- (atom \ "labels").extractOpt[Seq[String]]
+        defaultHtml <- stringOpt(atom \ "defaultHtml")
+        change <- (atom \ "contentChangeDetails").extractOpt[ContentChangeDetails]
+      } yield {
+        Atom(id, atomType, labels, defaultHtml, atomData, change)
       }
     }
 
-    def fixAtomsFields: PartialFunction[JField, JField] = {
-      case JField("date", JString(s)) => JField("date", JLong(new DateTime(s).getMillis))
-    }
-
-    def createAtom(atom: JObject, atomType: AtomType, atomData: AtomData): Atom = {
-      val atomId = (atom \ "id").extract[String]
-      val labels = (atom \ "labels").extract[Seq[String]]
-      val defaultHtml = (atom \ "defaultHtml").extract[String]
-
-      val lastModified = createChangeRecord(atom, "lastModifiedDate", "lastModifiedBy")
-      val created = createChangeRecord(atom, "createdDate", "createdBy")
-      val published = createChangeRecord(atom, "publishDate", "publishBy")
-
-      val revision = (atom \ "revision").extract[Long]
-      val change = ContentChangeDetails(lastModified, created, published, revision)
-
-      Atom(atomId, atomType, labels, defaultHtml, atomData, change)
-    }
-
-    // For adding a new atom type define a new function here and then add it to the AtomSerializer
-
-    def getQuizIfExists(rawAtom: JObject): Option[Seq[Atom]] = {
-      Try((rawAtom \ "quizzes").extract[Seq[JObject]]) match {
-        case Success(quizAtoms) =>
-          Some(quizAtoms map { quizAtom =>
-            val atomData = AtomData.Quiz((quizAtom \ "data").extract[QuizAtom])
-            createAtom(quizAtom, AtomType.Quiz, atomData)
-          })
-        case Failure(_) => None
+    private def getAtomData(atom: JObject, atomType: AtomType): Option[AtomData] = {
+      atomType match {
+        case AtomType.Quiz => Some(AtomData.Quiz((atom \ "data" \ "quiz").extract[QuizAtom]))
+        case AtomType.Viewpoints => Some(AtomData.Viewpoints((atom \ "data" \ "viewpoints").extract[ViewpointsAtom]))
+        case _ => None
       }
     }
 
-    def getViewpointsIfExists(rawAtom: JObject): Option[Seq[Atom]] = {
-      Try((rawAtom \ "viewpoints").extract[Seq[JObject]]) match {
-        case Success(viewpointAtoms) =>
-          Some(viewpointAtoms map { viewpointAtom =>
-            val atomData = AtomData.Viewpoints((viewpointAtom \ "data").transformField(fixAtomsFields).extract[ViewpointsAtom])
-            createAtom(viewpointAtom, AtomType.Viewpoints, atomData)
-          })
-        case Failure(_) => None
+    private def getAtomTypeFieldName(atomType: AtomType): Option[String] = {
+      atomType match {
+        case AtomType.Quiz => Some("quizzes")
+        case AtomType.Viewpoints => Some("viewpoints")
+        case _ => None
+      }
+    }
+
+    //Get an Atom object from the given Atom json
+    def getAtom(rawAtom: JObject): Option[Atom] = {
+      for {
+        atomType <- (rawAtom \ "atomType").extractOpt[AtomType]
+        atomData <- getAtomData(rawAtom, atomType)
+        atom <- getAtom(rawAtom, atomData)
+      } yield atom
+    }
+
+    //Get a list of Atom objects from the given Atoms json for the given atom type
+    def getAtoms(rawAtoms: JObject, atomType: AtomType): Option[Seq[Atom]] = {
+      getAtomTypeFieldName(atomType) flatMap { fieldName =>
+        (rawAtoms \ fieldName).extractOpt[Seq[JObject]] map { atoms =>
+          atoms flatMap (atom => getAtomData(atom, atomType) flatMap (atomData => getAtom(atom, atomData)))
+        }
       }
     }
   }
 
   import AtomHelper._
 
-  object AtomSerializer extends CustomSerializer[Atoms](format => (
+  object DummyAtomObject
+  object AtomsSerializer extends CustomSerializer[Atoms](format => (
     {
-      case rawAtom: JObject => Atoms(quizzes = getQuizIfExists(rawAtom), viewpoints = getViewpointsIfExists(rawAtom))
+      case rawAtoms: JObject => Atoms(getAtoms(rawAtoms, AtomType.Quiz), getAtoms(rawAtoms, AtomType.Viewpoints))
     },
-    thriftEnum2JString[ContentType] // FIXME needs to be implemented
+    {
+      PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atoms
+    }
+    ))
+
+  object AtomSerializer extends CustomSerializer[Atom](format => (
+    {
+      case rawAtom: JObject => getAtom(rawAtom).get //...
+    },
+    {
+      PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atom
+    }
+    ))
+
+  object AtomTypeSerializer extends CustomSerializer[AtomType](format => (
+    {
+      case JString(s) => AtomType.valueOf("quiz").getOrElse(AtomType.EnumUnknownAtomType(-1))
+    },
+    thriftEnum2JString[AtomType]
     ))
 
   object ContentTypeSerializer extends CustomSerializer[ContentType](format => (

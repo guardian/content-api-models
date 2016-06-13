@@ -194,11 +194,11 @@ enum SponsorshipType {
 
 struct Rights {
 
-    1: required bool syndicatable
+    1: optional bool syndicatable
 
-    2: required bool subscriptionDatabases
+    2: optional bool subscriptionDatabases
 
-    3: required bool developerCommunity
+    3: optional bool developerCommunity
 }
 
 struct AssetFields {
@@ -262,6 +262,82 @@ struct AssetFields {
   29: optional bool clean
 
   30: optional string thumbnailImageUrl
+
+  31: optional string linkText
+
+  32: optional string linkPrefix
+
+  33: optional string shortUrl
+
+  34: optional string imageType
+
+  35: optional string suppliersReference
+
+  36: optional string mediaApiUri
+
+  37: optional string copyright
+
+  38: optional string mimeType
+
+  39: optional string url
+
+  40: optional string originalUrl
+
+  41: optional string id
+
+  42: optional string attribution
+
+  43: optional string description
+
+  44: optional string title
+
+  45: optional string contentAuthSystem
+
+  46: optional string alt
+
+  47: optional string picdarUrn
+
+  48: optional string comment
+
+  49: optional string witnessEmbedType
+
+  50: optional string authorName
+
+  51: optional string authorUsername
+
+  52: optional string authorWitnessProfileUrl
+
+  53: optional string authorGuardianProfileUrl
+
+  54: optional string apiUrl
+
+  55: optional CapiDateTime dateCreated
+
+  56: optional string youtubeUrl
+
+  57: optional string youtubeSource
+
+  58: optional string youtubeTitle
+
+  59: optional string youtubeDescription
+
+  60: optional string youtubeAuthorName
+
+  61: optional string youtubeHtml
+
+  62: optional string venue
+
+  63: optional string location
+
+  64: optional string identifier
+
+  65: optional string price
+
+  66: optional CapiDateTime start
+
+  67: optional CapiDateTime end
+
+  68: optional bool safeEmbedCode
 }
 
 struct Asset {
@@ -395,6 +471,7 @@ struct ImageElementFields {
     13: optional string comment
 
     14: optional string role
+
 }
 
 struct InteractiveElementFields {
@@ -808,6 +885,8 @@ struct ContentFields {
     38: optional string lang
 
     39: optional i32 internalRevision
+
+    40: optional i32 internalContentCode
 }
 
 struct Reference {
@@ -1056,6 +1135,13 @@ struct ContentStats {
     2: required i32 images
 }
 
+struct Debug {
+
+    1: optional CapiDateTime lastSeenByPorterAt
+
+    2: optional CapiDateTime revisionSeenByPorter
+}
+
 struct Content {
 
     /*
@@ -1167,6 +1253,12 @@ struct Content {
      * Only returned if you specify showSection(true) on the request
      */
     19: optional Section section
+
+    20: optional Debug debug
+
+    21: optional bool isGone
+
+    22: optional bool isLive
 }
 
 struct NetworkFront {
@@ -1367,11 +1459,10 @@ struct AtomsResponse {
 
     7: required i32 pages
 
-    8: required list<Atoms> results
+    8: required list<contentatom.Atom> results
 }
 
-// TODO this should be called PackagesResponse
-struct PackageResponse {
+struct PackagesResponse {
 
     1: required string status
 
