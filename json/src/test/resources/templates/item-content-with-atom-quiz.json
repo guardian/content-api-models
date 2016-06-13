@@ -71,7 +71,8 @@
             }
           }
         ],
-        "viewpoints" : []
+        "viewpoints" : [],
+        "media": []
       },
       "sectionName": "Test",
       "references": [],
