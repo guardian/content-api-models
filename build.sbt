@@ -113,6 +113,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
-    mappings in (Compile, packageBin) ~= { _.filter { case (file, toPath) => file.getAbsolutePath.contains("com/gu/contentapi") } },
+    mappings in (Compile, packageBin) ~= { _.filter { case (file, toPath) => file.getAbsolutePath.contains("com/gu/contentapi/json") || file.getAbsolutePath.contains("com/gu/contentapi/utils") } },
     mappings in (Compile, packageDoc) := Nil
   )
