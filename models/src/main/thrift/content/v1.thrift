@@ -104,7 +104,7 @@ enum ElementType {
     CODE = 12,
 
     /*
-     * An audi embed, typically via embedly
+     * An audio embed, typically via embedly
      */
     AUDIO = 13,
 
@@ -122,6 +122,13 @@ enum ElementType {
      * A Guardian Membership event
      */
     MEMBERSHIP = 16
+
+    /*
+     * An instagram element, will contain assets
+     */
+    INSTAGRAM = 17
+
+
 }
 
 enum TagType {
@@ -560,6 +567,27 @@ struct EmbedElementFields {
     3: optional string alt
 }
 
+struct InstagramElementFields {
+
+    1: required string originalUrl;
+
+    2: required string title;
+
+    3: required string source;
+
+    4: required string authorUrl;
+
+    5: required string authorUsername;
+
+    6: optional string html;
+
+    7: optional i32 width;
+
+    8: optional string alt;
+
+    9: optional string caption;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -593,6 +621,8 @@ struct BlockElement {
     15: optional MembershipElementFields membershipTypeData
 
     16: optional EmbedElementFields embedTypeData
+
+    17: optional InstagramElementFields instagramTypeData
 }
 
 struct BlockAttributes {
