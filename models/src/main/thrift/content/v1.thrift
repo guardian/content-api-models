@@ -1120,6 +1120,8 @@ struct Atoms {
     1: optional list<contentatom.Atom> quizzes
 
     2: optional list<contentatom.Atom> viewpoints
+
+    3: optional list<contentatom.Atom> media
 }
 
 struct ContentStats {
@@ -1400,6 +1402,8 @@ struct ItemResponse {
     20: optional list<Package> packages
 
     21: optional list<contentatom.Atom> viewpoints
+
+    22: optional contentatom.Atom media
 }
 
 struct TagsResponse {

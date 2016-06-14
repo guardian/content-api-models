@@ -1,7 +1,6 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-
 import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s._
@@ -10,6 +9,7 @@ import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
 import com.gu.contentatom.thrift.atom.viewpoints._
+import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
 
 import scala.PartialFunction._
 import scala.reflect.ClassTag
@@ -31,7 +31,9 @@ object Serialization {
     CrosswordTypeSerializer +
     StoryPackageArticleTypeSerializer +
     StoryPackageGroupSerializer +
-    RemovePassthroughFieldsFromThriftStruct
+    RemovePassthroughFieldsFromThriftStruct +
+    MediaAtomAssetTypeSerializer +
+    PlatformTypeSerializer
 
   def destringifyFields: PartialFunction[JField, JField] = {
     case JField("summary", JString(s)) => JField("summary", JBool(s.toBoolean))
@@ -136,6 +138,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some(AtomData.Quiz((atom \ "data" \ "quiz").extract[QuizAtom]))
         case AtomType.Viewpoints => Some(AtomData.Viewpoints((atom \ "data" \ "viewpoints").extract[ViewpointsAtom]))
+        case AtomType.Media => Some(AtomData.Media((atom \ "data" \ "media").extract[MediaAtom]))
         case _ => None
       }
     }
@@ -144,6 +147,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Viewpoints => Some("viewpoints")
+        case AtomType.Media => Some("media")
         case _ => None
       }
     }
@@ -172,7 +176,7 @@ object Serialization {
   object DummyAtomObject
   object AtomsSerializer extends CustomSerializer[Atoms](format => (
     {
-      case rawAtoms: JObject => Atoms(getAtoms(rawAtoms, AtomType.Quiz), getAtoms(rawAtoms, AtomType.Viewpoints))
+      case rawAtoms: JObject => Atoms(getAtoms(rawAtoms, AtomType.Quiz), getAtoms(rawAtoms, AtomType.Viewpoints), getAtoms(rawAtoms, AtomType.Media))
     },
     {
       PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atoms
@@ -190,9 +194,23 @@ object Serialization {
 
   object AtomTypeSerializer extends CustomSerializer[AtomType](format => (
     {
-      case JString(s) => AtomType.valueOf("quiz").getOrElse(AtomType.EnumUnknownAtomType(-1))
+      case JString(s) => AtomType.valueOf(s).getOrElse(AtomType.EnumUnknownAtomType(-1))
     },
     thriftEnum2JString[AtomType]
+    ))
+
+  object MediaAtomAssetTypeSerializer extends CustomSerializer[MediaAtomAssetType](format => (
+    {
+      case JString(s) => MediaAtomAssetType.valueOf(s).getOrElse(MediaAtomAssetType.EnumUnknownAssetType(-1))
+    },
+    thriftEnum2JString[MediaAtomAssetType]
+    ))
+
+  object PlatformTypeSerializer extends CustomSerializer[Platform](format => (
+    {
+      case JString(s) => Platform.valueOf(s).getOrElse(Platform.EnumUnknownPlatform(-1))
+    },
+    thriftEnum2JString[Platform]
     ))
 
   object ContentTypeSerializer extends CustomSerializer[ContentType](format => (

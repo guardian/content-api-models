@@ -95,6 +95,10 @@ class SerializationSpec extends FlatSpec with Matchers {
     checkRoundTrip[ItemResponse]("item-content-with-atom-quiz.json")
   }
 
+  it should "round-trip an ItemResponse with a media atom" in {
+    checkRoundTrip[ItemResponse]("item-content-with-atom-media.json")
+  }
+
   it should "round-trip an ItemResponse with blocks" in {
     checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
   }
