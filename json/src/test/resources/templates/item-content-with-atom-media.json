@@ -16,7 +16,6 @@
       "id": "test/2016/jan/12/example",
       "atoms": {
         "quizzes": [],
-        "viewpoints" : [],
         "media": [{
           "id" : "media-atom-id",
           "atomType" : "media",

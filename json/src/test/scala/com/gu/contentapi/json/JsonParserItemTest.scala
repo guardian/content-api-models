@@ -18,7 +18,6 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
   val contentItemWithMembershipElementResponse = JsonParser.parseItem(loadJson("item-content-with-membership-element.json"))
   val contentItemWithPackageResponse = JsonParser.parseItem(loadJson("item-content-with-package.json"))
   val contentItemWithAtomQuiz = JsonParser.parseItem(loadJson("item-content-with-atom-quiz.json"))
-  val contentItemWithAtomViewpoints = JsonParser.parseItem(loadJson("item-content-with-atom-viewpoints.json"))
   val contentItemWithTweets = JsonParser.parseItem(loadJson("item-content-with-tweets.json"))
   val contentItemWithStats = JsonParser.parseItem(loadJson("item-content-with-blocks.json"))
   val tagItemResponse = JsonParser.parseItem(loadJson("item-tag.json"))
@@ -581,54 +580,6 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
     question.answers(1).assets should have size 0
     question.answers(1).weight should be(0)
     question.answers(1).revealText should be(Some("Not bad"))
-  }
-
-  it should "deserialize an embedded viewpoints atom correctly" in {
-    val content = contentItemWithAtomViewpoints.content.get
-    val atoms = content.atoms
-
-    // Check the first viewpoint in array
-    val viewpoints1 = atoms.get.viewpoints.get(0)
-    val data = viewpoints1.data.asInstanceOf[AtomData.Viewpoints].viewpoints
-    val viewpointsContent = data.viewpoints
-
-    viewpoints1.id should be("4")
-    data.name should be("Embed test 2")
-    viewpointsContent should have size 2
-
-    val firstViewpoint = viewpointsContent(0)
-    firstViewpoint.quote should be("If this works I'll be happy, over the moon in fact")
-    //firstViewpoint.date should be(Some(1452814440000L))
-    firstViewpoint.commenter.name should be("Jeb Bush")
-    firstViewpoint.commenter.imageUrl should be(Some("http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2016/1/12/1452598832981/JebBushR.png"))
-    firstViewpoint.commenter.description should be(Some("Former Florida governor"))
-    firstViewpoint.commenter.party should be(Some("Republican"))
-
-    val secondViewpoint = viewpointsContent(1)
-    secondViewpoint.quote should be("I'm all over this atoms stuff, not so hot on teamcity problems,")
-    //secondViewpoint.date should be(Some(1452641640000L))
-    secondViewpoint.commenter.name should be("Hilary Clinton")
-    secondViewpoint.commenter.imageUrl should be(Some("http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2016/1/12/1452598832111/HillaryClintonR.png"))
-    secondViewpoint.commenter.description should be(Some("Former secretary of state"))
-    secondViewpoint.commenter.party should be(Some("Democrat"))
-
-    // Check the second viewpoint in array
-    val viewpoints2 = atoms.get.viewpoints.get(1)
-    val data2 = viewpoints2.data.asInstanceOf[AtomData.Viewpoints].viewpoints
-    val viewpointsContent2 = data2.viewpoints
-
-    viewpoints2.id should be("1")
-    data2.name should be("Embed test viewpoints")
-    viewpointsContent2 should have size 1
-
-    val firstViewpoint2 = viewpointsContent2(0)
-    firstViewpoint2.quote should be("I'm all over this atoms stuff")
-    //firstViewpoint2.date should be(Some(1454110440000L))
-    firstViewpoint2.commenter.name should be("Hilary Clinton")
-    firstViewpoint2.commenter.imageUrl should be(Some("http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2016/1/12/1452598832111/HillaryClintonR.png"))
-    firstViewpoint2.commenter.description should be(Some("Former secretary of state"))
-    firstViewpoint2.commenter.party should be(Some("Democrat"))
-
   }
 
   it should "deserialize a tweet asset with the correct asset type" in {
