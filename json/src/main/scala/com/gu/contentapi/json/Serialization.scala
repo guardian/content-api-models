@@ -8,7 +8,6 @@ import org.json4s.JsonAST.JValue
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
-import com.gu.contentatom.thrift.atom.viewpoints._
 import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
 
 import scala.PartialFunction._
@@ -137,7 +136,6 @@ object Serialization {
     private def getAtomData(atom: JObject, atomType: AtomType): Option[AtomData] = {
       atomType match {
         case AtomType.Quiz => Some(AtomData.Quiz((atom \ "data" \ "quiz").extract[QuizAtom]))
-        case AtomType.Viewpoints => Some(AtomData.Viewpoints((atom \ "data" \ "viewpoints").extract[ViewpointsAtom]))
         case AtomType.Media => Some(AtomData.Media((atom \ "data" \ "media").extract[MediaAtom]))
         case _ => None
       }
@@ -146,7 +144,6 @@ object Serialization {
     private def getAtomTypeFieldName(atomType: AtomType): Option[String] = {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
-        case AtomType.Viewpoints => Some("viewpoints")
         case AtomType.Media => Some("media")
         case _ => None
       }
@@ -176,7 +173,7 @@ object Serialization {
   object DummyAtomObject
   object AtomsSerializer extends CustomSerializer[Atoms](format => (
     {
-      case rawAtoms: JObject => Atoms(getAtoms(rawAtoms, AtomType.Quiz), getAtoms(rawAtoms, AtomType.Viewpoints), getAtoms(rawAtoms, AtomType.Media))
+      case rawAtoms: JObject => Atoms(quizzes = getAtoms(rawAtoms, AtomType.Quiz), media = getAtoms(rawAtoms, AtomType.Media))
     },
     {
       PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atoms

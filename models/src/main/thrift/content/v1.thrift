@@ -1119,6 +1119,9 @@ struct Section {
 struct Atoms {
     1: optional list<contentatom.Atom> quizzes
 
+    /**
+    * Viewpoints are deprecated
+    */
     2: optional list<contentatom.Atom> viewpoints
 
     3: optional list<contentatom.Atom> media
@@ -1401,6 +1404,9 @@ struct ItemResponse {
     /* New story packages */
     20: optional list<Package> packages
 
+    /**
+    * Viewpoints are deprecated
+    */
     21: optional list<contentatom.Atom> viewpoints
 
     22: optional contentatom.Atom media
