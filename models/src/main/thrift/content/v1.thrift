@@ -586,6 +586,30 @@ struct InstagramElementFields {
     8: optional string alt;
 
     9: optional string caption;
+
+}
+
+struct CommentElementFields {
+
+    1: optional string source;
+
+    2: optional string discussionKey;
+
+    3: optional string commentUrl;
+
+    4: optional string originalUrl;
+
+    5: optional string sourceUrl;
+
+    6: optional string discussionUrl;
+
+    7: optional string authorUrl;
+
+    8: optional string html;
+
+    9: optional string authorName;
+
+    10: optional i32 commentId; 
 }
 
 struct BlockElement {
@@ -623,6 +647,8 @@ struct BlockElement {
     16: optional EmbedElementFields embedTypeData
 
     17: optional InstagramElementFields instagramTypeData
+
+    18: optional CommentElementFields commentTypeData
 }
 
 struct BlockAttributes {
