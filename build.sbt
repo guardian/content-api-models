@@ -110,6 +110,9 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
+      "io.circe" %% "circe-core" % "0.5.0-M2",
+      "io.circe" %% "circe-generic" % "0.5.0-M2",
+      "io.circe" %% "circe-parser" % "0.5.0-M2",
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
