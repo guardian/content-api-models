@@ -9,7 +9,7 @@ import io.circe.Decoder
 /**
   * Macros for Circe deserialization of various Scrooge-generated classes.
   */
-object CirceScroogeHelper {
+object CirceScroogeMacros {
 
   /**
     * Macro to help Circe find LabelledGeneric instances for Scrooge Thrift structs.

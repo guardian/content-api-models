@@ -4,7 +4,7 @@ import cats.data.Xor
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
-import com.gu.contentapi.circe.CirceScroogeHelper._
+import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1.Atoms
 import io.circe.{Decoder, DecodingFailure, HCursor}
 import io.circe.generic.auto._
@@ -13,27 +13,6 @@ import io.circe.generic.auto._
 object CirceSerialization {
 
   type Result[A] = Xor[DecodingFailure, A]
-
-  implicit val atomTypeDecoder = new Decoder[AtomType] {
-    final def apply(c: HCursor): Result[AtomType] = c.focus.asString match {
-      case Some(value) => Xor.right(AtomType.valueOf(value).getOrElse(AtomType.EnumUnknownAtomType(-1)))
-      case _ => Xor.left(DecodingFailure("AtomType", c.history))
-    }
-  }
-
-  implicit val mediaAtomAssetTypeDecoder = new Decoder[MediaAtomAssetType] {
-    final def apply(c: HCursor): Result[MediaAtomAssetType] = c.focus.asString match {
-      case Some(value) => Xor.right(MediaAtomAssetType.valueOf(value).getOrElse(MediaAtomAssetType.EnumUnknownAssetType(-1)))
-      case _ => Xor.left(DecodingFailure("MediaAtomAssetType", c.history))
-    }
-  }
-
-  implicit val platformTypeDecoder = new Decoder[Platform] {
-    final def apply(c: HCursor): Result[Platform] = c.focus.asString match {
-      case Some(value) => Xor.right(Platform.valueOf(value).getOrElse(Platform.EnumUnknownPlatform(-1)))
-      case _ => Xor.left(DecodingFailure("Platform", c.history))
-    }
-  }
 
   implicit val decodeUnknownOpt: Decoder[AtomData.UnknownUnionField] =
     Decoder.instance(c =>
