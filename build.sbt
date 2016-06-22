@@ -66,6 +66,18 @@ lazy val root = Project(id = "root", base = file("."))
     )
   )
 
+lazy val macros = Project(id = "content-api-models-macros", base = file("macros"))
+  .settings(commonSettings)
+  .settings(
+    description := "Macros",
+    libraryDependencies ++= Seq(
+      "io.circe" %% "circe-core" % "0.5.0-M2",
+      "io.circe" %% "circe-generic" % "0.5.0-M2",
+      "org.apache.thrift" % "libthrift" % "0.9.1",
+      "com.twitter" %% "scrooge-core" % "4.5.0"
+    )
+  )
+
 /**
   * Thrift models project
   */
@@ -85,12 +97,12 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   * JSON parser project
   */
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(models)
+  .dependsOn(models, macros)
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
     javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
-    scalacOptions ++= Seq("-deprecation", "-unchecked"),
+    scalacOptions ++= Seq("-deprecation", "-unchecked"),//, "-Xlog-implicits"),
 
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",

@@ -1,4 +1,4 @@
-package com.gu.contentapi.json.circe
+package com.gu.contentapi.circe
 
 import scala.language.experimental.macros
 import scala.reflect.macros.whitebox.Context

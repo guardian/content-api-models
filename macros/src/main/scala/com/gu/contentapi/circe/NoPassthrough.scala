@@ -1,4 +1,4 @@
-package com.gu.contentapi.json.circe
+package com.gu.contentapi.circe
 
 import com.twitter.scrooge.TFieldBlob
 import shapeless._, shapeless.ops.record.Remove
