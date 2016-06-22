@@ -34,5 +34,11 @@ object CirceJsonDeserializer {
   import com.gu.contentapi.json.CirceSerialization._
   import com.gu.contentapi.circe.CirceScroogeMacros._
   import io.circe.generic.auto._
-  //def deserializeContent(json: String): Option[Content] = parse(json).getOrElse(Json.Null).as[Content].toOption
+
+  def deserializeContent(json: String): Option[Content] = parse(json).flatMap(_.as[Content]).toOption
+
+  def deserializeTag(json: String): Option[Tag] = parse(json).flatMap(_.as[Tag]).toOption
+
+  def deserializeSection(json: String): Option[Section] = parse(json).flatMap(_.as[Section]).toOption
+
 }

@@ -29,8 +29,22 @@ object CirceSerialization {
   }
 
   implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDeserialization.getAtom)
-
   implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDeserialization.getAtoms)
+
+  // The following implicits technically shouldn't be necessary
+  // but stuff doesn't compile without them
+  implicit val contentFieldsDecoder: Decoder[ContentFields] = Decoder[ContentFields]
+  implicit val tagDecoder: Decoder[Tag] = Decoder[Tag]
+  implicit val assetDecoder: Decoder[Asset] = Decoder[Asset]
+  implicit val elementDecoder: Decoder[Element] = Decoder[Element]
+  implicit val referenceDecoder: Decoder[Reference] = Decoder[Reference]
+  implicit val blocksDecoder: Decoder[Blocks] = Decoder[Blocks]
+  implicit val rightsDecoder: Decoder[Rights] = Decoder[Rights]
+  implicit val crosswordDecoder: Decoder[Crossword] = Decoder[Crossword]
+  implicit val contentStatsDecoder: Decoder[ContentStats] = Decoder[ContentStats]
+  implicit val sectionDecoder: Decoder[Section] = Decoder[Section]
+  implicit val debugDecoder: Decoder[Debug] = Decoder[Debug]
+  implicit val contentDecoder: Decoder[Content] = Decoder[Content]
 
   object AtomDeserialization {
 
