@@ -2,6 +2,9 @@ package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1.{Atoms, Edition, _}
 import com.gu.contentatom.thrift.Atom
+import io.circe.Json
+import io.circe.parser._
+import io.circe._
 import org.json4s._
 
 object JsonDeserializer {
@@ -24,4 +27,12 @@ object JsonDeserializer {
 
   def deserializeAtoms(jvalue: JValue): Option[Atoms] = jvalue.extractOpt[Atoms]
 
+}
+
+object CirceJsonDeserializer {
+
+  import com.gu.contentapi.json.CirceSerialization._
+  import com.gu.contentapi.circe.CirceScroogeMacros._
+  import io.circe.generic.auto._
+  //def deserializeContent(json: String): Option[Content] = parse(json).getOrElse(Json.Null).as[Content].toOption
 }

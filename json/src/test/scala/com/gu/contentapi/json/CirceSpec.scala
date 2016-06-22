@@ -3,6 +3,8 @@ package com.gu.contentapi.json
 import com.gu.contentapi.json.utils.JsonLoader
 import com.gu.contentatom.thrift.Atom
 import com.gu.contentapi.json.CirceSerialization._
+import com.gu.contentapi.circe.CirceScroogeMacros._
+import io.circe.generic.auto._
 import io.circe._
 import io.circe.parser._
 import org.scalatest.{FlatSpec, Matchers}
@@ -15,7 +17,7 @@ class CirceSpec extends FlatSpec with Matchers {
       val jsonString = JsonLoader.loadJson("quiz.json")
       val json: Json = parse(jsonString).getOrElse(Json.Null)
       val thrift = json.as[Atom](atomDecoder)
-      thrift.toString
+      thrift.getOrElse(Json.Null).toString
     }
     time(deserialize)
   }
