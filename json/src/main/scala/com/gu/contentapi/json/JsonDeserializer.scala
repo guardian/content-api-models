@@ -1,5 +1,6 @@
 package com.gu.contentapi.json
 
+import cats.data.Xor
 import com.gu.contentapi.client.model.v1.{Atoms, Edition, _}
 import com.gu.contentatom.thrift.Atom
 import io.circe.Json
@@ -32,13 +33,12 @@ object JsonDeserializer {
 object CirceJsonDeserializer {
 
   import com.gu.contentapi.json.CirceSerialization._
-  import com.gu.contentapi.circe.CirceScroogeMacros._
-  import io.circe.generic.auto._
 
-  def deserializeContent(json: String): Option[Content] = parse(json).flatMap(_.as[Content]).toOption
+  //def deserializeContent(json: String): Option[Content] = parse(json).flatMap(_.as[Content]).toOption
 
-  def deserializeTag(json: String): Option[Tag] = parse(json).flatMap(_.as[Tag]).toOption
+  def deserializeTag(json: String): Xor[Error, Tag] = parse(json).flatMap(_.as[Tag])
 
-  def deserializeSection(json: String): Option[Section] = parse(json).flatMap(_.as[Section]).toOption
+  def deserializeSection(json: String): Xor[Error, Section] = parse(json).flatMap(_.as[Section])
+
 
 }

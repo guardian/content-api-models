@@ -1,26 +1,23 @@
 package com.gu.contentapi.json
 
 import cats.data.Xor
+
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 
-import com.gu.contentapi.circe.CirceScroogeMacros._
-import com.gu.contentapi.client.model.v1.Atoms
-import io.circe.{Decoder, DecodingFailure, HCursor}
-
-import com.gu.contentapi.client.model.v1._
 import io.circe._
 import io.circe.generic.auto._
-import org.joda.time.format.ISODateTimeFormat
 
+import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.contentapi.client.model.v1._
+
+import org.joda.time.format.ISODateTimeFormat
 
 object CirceSerialization {
 
-  type Result[A] = Xor[DecodingFailure, A]
-
   implicit val dateTimeDecoder = new Decoder[CapiDateTime] {
-    final def apply(c: HCursor): Result[CapiDateTime] = c.focus.asString match {
+    final def apply(c: HCursor): Decoder.Result[CapiDateTime] = c.focus.asString match {
       case Some(value) =>
         val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(value)
         Xor.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
@@ -33,18 +30,20 @@ object CirceSerialization {
 
   // The following implicits technically shouldn't be necessary
   // but stuff doesn't compile without them
-  implicit val contentFieldsDecoder: Decoder[ContentFields] = Decoder[ContentFields]
-  implicit val tagDecoder: Decoder[Tag] = Decoder[Tag]
-  implicit val assetDecoder: Decoder[Asset] = Decoder[Asset]
-  implicit val elementDecoder: Decoder[Element] = Decoder[Element]
-  implicit val referenceDecoder: Decoder[Reference] = Decoder[Reference]
-  implicit val blocksDecoder: Decoder[Blocks] = Decoder[Blocks]
-  implicit val rightsDecoder: Decoder[Rights] = Decoder[Rights]
-  implicit val crosswordDecoder: Decoder[Crossword] = Decoder[Crossword]
-  implicit val contentStatsDecoder: Decoder[ContentStats] = Decoder[ContentStats]
-  implicit val sectionDecoder: Decoder[Section] = Decoder[Section]
-  implicit val debugDecoder: Decoder[Debug] = Decoder[Debug]
-  implicit val contentDecoder: Decoder[Content] = Decoder[Content]
+  //implicit val contentFieldsDecoder = Decoder[ContentFields]
+  implicit val editionDecoder = Decoder[Edition]
+  implicit val sponsorshipDecoder = Decoder[Sponsorship]
+  implicit val tagDecoder = Decoder[Tag]
+//  implicit val assetDecoder = Decoder[Asset]
+//  implicit val elementDecoder = Decoder[Element]
+  implicit val referenceDecoder = Decoder[Reference]
+//  implicit val blocksDecoder = Decoder[Blocks]
+  implicit val rightsDecoder = Decoder[Rights]
+//  implicit val crosswordDecoder = Decoder[Crossword]
+  implicit val contentStatsDecoder = Decoder[ContentStats]
+  implicit val sectionDecoder = Decoder[Section]
+  implicit val debugDecoder = Decoder[Debug]
+  //implicit val contentDecoder = Decoder[Content]
 
   object AtomDeserialization {
 
@@ -53,7 +52,7 @@ object CirceSerialization {
         Xor.left(DecodingFailure("AtomData.UnknownUnionField", c.history))
       )
 
-    def getAtom(c: HCursor): Result[Atom] = {
+    def getAtom(c: HCursor): Decoder.Result[Atom] = {
       for {
         atomType <- c.downField("atomType").as[AtomType]
         atomData <- getAtomData(c, atomType)
@@ -61,7 +60,7 @@ object CirceSerialization {
       } yield atom
     }
 
-    def getAtoms(c: HCursor): Result[Atoms] = {
+    def getAtoms(c: HCursor): Decoder.Result[Atoms] = {
       for {
         quizzes <- getAtoms(c, AtomType.Quiz)
         media <- getAtoms(c, AtomType.Media)
@@ -70,7 +69,7 @@ object CirceSerialization {
       }
     }
 
-    private def getAtom(c: HCursor, atomData: AtomData): Result[Atom] = {
+    private def getAtom(c: HCursor, atomData: AtomData): Decoder.Result[Atom] = {
       for {
         id <- c.downField("id").as[String]
         atomType <- c.downField("atomType").as[AtomType]
@@ -82,7 +81,7 @@ object CirceSerialization {
       }
     }
 
-    private def getAtomData(c: HCursor, atomType: AtomType): Result[AtomData] = {
+    private def getAtomData(c: HCursor, atomType: AtomType): Decoder.Result[AtomData] = {
       atomType match {
         case AtomType.Quiz => c.downField("data").downField("quiz").as[QuizAtom].map(json => AtomData.Quiz(json))
         case AtomType.Media => c.downField("data").downField("media").as[MediaAtom].map(json => AtomData.Media(json))
@@ -98,7 +97,7 @@ object CirceSerialization {
       }
     }
 
-    private def getAtoms(c: HCursor, atomType: AtomType): Result[Option[Seq[Atom]]] = {
+    private def getAtoms(c: HCursor, atomType: AtomType): Decoder.Result[Option[Seq[Atom]]] = {
       getAtomTypeFieldName(atomType) match {
         case Some(fieldName) => c.get[Option[Seq[Atom]]](fieldName)
         case None => Xor.right(None) //ignore unrecognised atom types

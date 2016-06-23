@@ -47,7 +47,7 @@ val commonSettings = Seq(
   */
 lazy val root = Project(id = "root", base = file("."))
   .settings(commonSettings)
-  .aggregate(models, json)
+  .aggregate(models, json, macros)
   .settings(
     publishArtifact := false,
     releaseProcess := Seq(
