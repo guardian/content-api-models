@@ -1,0 +1,53 @@
+{
+  "fields": {
+    "body": "<p>body</p>"
+  },
+  "apiUrl": "http://content.code.dev-guardianapis.com/test/2016/jan/12/example",
+  "webUrl": "http://www.code.dev-theguardian.com/test/2016/jan/12/example",
+  "webPublicationDate": "2016-01-12T15:17:19Z",
+  "webTitle": "example",
+  "sectionId": "test",
+  "type": "article",
+  "id": "test/2016/jan/12/example",
+  "atoms": {
+    "quizzes": [],
+    "media": [{
+      "id" : "media-atom-id",
+      "atomType" : "media",
+      "labels" : [ ],
+      "defaultHtml" : "<div</div>\n",
+      "data" : {
+        "media": {
+          "assets": [
+            {
+              "assetType": "video",
+              "version": 0,
+              "id": "a_video_atom",
+              "platform": "youtube"
+            }
+          ],
+          "activeVersion": 0,
+          "plutoProjectId": "pluto_id"
+        }
+      },
+      "contentChangeDetails" : {
+        "lastModified" : {
+          "date" : 1449058181000,
+          "user" : {
+            "email" : "chris.finch@guardian.co.uk"
+          }
+        },
+        "created" : {
+          "date" : 1449058105000,
+          "user" : {
+            "email" : "chris.finch@guardian.co.uk"
+          }
+        },
+        "revision" : 1
+      }
+    }]
+  },
+  "sectionName": "Test",
+  "references": [],
+  "tags": []
+}

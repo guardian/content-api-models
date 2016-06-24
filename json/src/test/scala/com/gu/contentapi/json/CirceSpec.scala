@@ -4,9 +4,7 @@ import com.gu.contentapi.json.utils.JsonLoader
 import com.gu.contentatom.thrift.Atom
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.CirceSerialization._
-import com.gu.contentapi.circe.CirceScroogeMacros._
 
-import io.circe.generic.auto._
 import io.circe._
 import io.circe.parser._
 
@@ -52,6 +50,22 @@ class CirceSpec extends FlatSpec with Matchers {
 
   it should "deserialize a Section with the same result as json4s" in {
     compareAgainstJson4s[Section]("section.json")
+  }
+
+  it should "deserialize a Content with the same result as json4s" in {
+    compareAgainstJson4s[Content]("content.json")
+  }
+
+  it should "deserialize a Content (including a crossword) with the same result as json4s" in {
+    compareAgainstJson4s[Content]("content-with-crossword.json")
+  }
+
+  it should "deserialize a Content (including a media atom) with the same result as json4s" in {
+    compareAgainstJson4s[Content]("content-with-atom-media.json")
+  }
+
+  it should "deserialize a Content (including blocks) with the same result as json4s" in {
+    compareAgainstJson4s[Content]("content-with-blocks.json")
   }
 
 }

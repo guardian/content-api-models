@@ -34,7 +34,7 @@ object CirceJsonDeserializer {
 
   import com.gu.contentapi.json.CirceSerialization._
 
-  //def deserializeContent(json: String): Option[Content] = parse(json).flatMap(_.as[Content]).toOption
+  def deserializeContent(json: String): Xor[Error, Content] = parse(json).flatMap(_.as[Content])
 
   def deserializeTag(json: String): Xor[Error, Tag] = parse(json).flatMap(_.as[Tag])
 

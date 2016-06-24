@@ -1,18 +1,18 @@
 package com.gu.contentapi.json
 
+import io.circe._
 import cats.data.Xor
 
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 
-import io.circe._
-import io.circe.generic.auto._
-
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 
 import org.joda.time.format.ISODateTimeFormat
+
+import org.json4s.JValue
 
 object CirceSerialization {
 
@@ -25,25 +25,87 @@ object CirceSerialization {
     }
   }
 
+  /**
+    * Encoder to convert from a json4s JValue to a Circe Json
+    */
+  implicit val jvalueEncoder: Encoder[JValue] = new Encoder[JValue] {
+    import org.json4s.JsonAST._
+
+    override def apply(j: JValue): Json = j match {
+      case JBool(value) => Json.fromBoolean(value)
+      case JString(value) => Json.fromString(value)
+      case JInt(value) => Json.fromBigInt(value)
+      case JLong(value) => Json.fromLong(value)
+      case JDouble(value) => Json.fromDoubleOrNull(value)
+      case JDecimal(value) => Json.fromBigDecimal(value)
+      case JArray(elems) => Json.fromValues(elems.map(apply))
+      case JObject(fields) => Json.fromFields(fields.map { case (key, value) => (key, apply(value)) })
+      case JNull => Json.Null
+      case JNothing => Json.Null
+    }
+  }
+
   implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDeserialization.getAtom)
   implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDeserialization.getAtoms)
 
   // The following implicits technically shouldn't be necessary
   // but stuff doesn't compile without them
-  //implicit val contentFieldsDecoder = Decoder[ContentFields]
+  implicit val contentFieldsDecoder = Decoder[ContentFields]
   implicit val editionDecoder = Decoder[Edition]
   implicit val sponsorshipDecoder = Decoder[Sponsorship]
   implicit val tagDecoder = Decoder[Tag]
-//  implicit val assetDecoder = Decoder[Asset]
-//  implicit val elementDecoder = Decoder[Element]
+  implicit val assetDecoder = Decoder[Asset]
+  implicit val elementDecoder = Decoder[Element]
   implicit val referenceDecoder = Decoder[Reference]
-//  implicit val blocksDecoder = Decoder[Blocks]
+  implicit val blockDecoder = Decoder[Block]
+  implicit val blocksDecoder = genBlocksDecoder
   implicit val rightsDecoder = Decoder[Rights]
-//  implicit val crosswordDecoder = Decoder[Crossword]
+  implicit val crosswordEntryDecoder = genCrosswordEntryDecoder
+  implicit val crosswordDecoder = Decoder[Crossword]
   implicit val contentStatsDecoder = Decoder[ContentStats]
   implicit val sectionDecoder = Decoder[Section]
   implicit val debugDecoder = Decoder[Debug]
-  //implicit val contentDecoder = Decoder[Content]
+  implicit val contentDecoder = Decoder[Content]
+
+  // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
+  // although shapeless's Lazy is supposed to work around that.
+
+  def genBlocksDecoder(implicit blockDecoder: Decoder[Block]): Decoder[Blocks] = Decoder.instance[Blocks] { cursor =>
+    for {
+      main <- cursor.get[Option[Block]]("main")
+      body <- cursor.get[Option[Seq[Block]]]("body")
+      totalBodyBlocks <- cursor.get[Option[Int]]("totalBodyBlocks")
+      requestedBodyBlocks <- cursor.get[Option[Map[String, Seq[Block]]]]("requestedBodyBlocks")
+    } yield Blocks(main, body, totalBodyBlocks, requestedBodyBlocks)
+  }
+
+  def genCrosswordEntryDecoder(implicit dec: Decoder[Option[Map[String,Seq[Int]]]]): Decoder[CrosswordEntry] = Decoder.instance[CrosswordEntry] { cursor =>
+    for {
+      id <- cursor.get[String]("id")
+      number <- cursor.get[Option[Int]]("number")
+      humanNumber <- cursor.get[Option[String]]("humanNumber")
+      direction <- cursor.get[Option[String]]("direction")
+      position <- cursor.get[Option[CrosswordPosition]]("position")
+      separatorLocations <- cursor.get[Option[Map[String, Seq[Int]]]]("separatorLocations")
+      length <- cursor.get[Option[Int]]("length")
+      clue <- cursor.get[Option[String]]("clue")
+      group <- cursor.get[Option[Seq[String]]]("group")
+      solution <- cursor.get[Option[String]]("solution")
+      format <- cursor.get[Option[String]]("format")
+    } yield CrosswordEntry(
+      id,
+      number,
+      humanNumber,
+      direction,
+      position,
+      separatorLocations,
+      length,
+      clue,
+      group,
+      solution,
+      format
+    )
+  }
 
   object AtomDeserialization {
 

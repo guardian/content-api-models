@@ -1,8 +1,7 @@
 package com.gu.contentapi.circe
 
 import scala.language.experimental.macros
-import scala.reflect.macros.{blackbox,whitebox}
-import shapeless.LabelledGeneric
+import scala.reflect.macros.blackbox
 import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
 import io.circe.Decoder
 
@@ -12,7 +11,8 @@ import io.circe.Decoder
 object CirceScroogeMacros {
 
   /**
-    * Macro to help Circe find LabelledGeneric instances for Scrooge Thrift structs.
+    * Macro to provide custom decoding of Thrift structs using the companion object's `apply` method.
+    *
     * The macro is needed because Scrooge generates non-sealed traits.
     *
     * Scrooge represents
@@ -38,30 +38,48 @@ object CirceScroogeMacros {
     *   def b: Int
     * }
     * }}}
-    *
-    * The code to deal with this situation was copy-pasted from
-    * https://github.com/travisbrown/scrooge-circe-demo
     */
-  implicit def materializeStructGen[A <: ThriftStruct]: LabelledGeneric[A] = macro materializeStructGen_impl[A]
+  implicit def decodeThriftStruct[A <: ThriftStruct]: Decoder[A] = macro decodeThriftStruct_impl[A]
 
-  def materializeStructGen_impl[A: c.WeakTypeTag](c: whitebox.Context): c.Tree = {
+  def decodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
     import c.universe._
 
     val A = weakTypeOf[A]
-    val I = A.companion.member(TypeName("Immutable")) match {
-      case NoSymbol => c.abort(c.enclosingPosition, "Not a valid Scrooge class")
-      case symbol => symbol.asType.toType
+    val apply = A.companion.member(TermName("apply")) match {
+      case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+      case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
     }
-    val N = appliedType(typeOf[NoPassthrough[_, _]].typeConstructor, A, I)
+    val params = apply.paramLists.head.map { param =>
+      val name = param.name
+      val tpe = param.typeSignature
+      val fresh = c.freshName(name)
+      // Note the use of shapeless `Lazy` to work around a problem with diverging implicits.
+      // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
+      // Wrapping with `Lazy` fixes this issue.
+      val expr = fq"""$fresh <- cursor.get[$tpe](${name.toString})(_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value)"""
+      (fresh, expr)
+    }
 
-    q"""{
-      val np = _root_.shapeless.the[$N]
-      new _root_.shapeless.LabelledGeneric[$A] {
-        type Repr = np.Without
-        def to(t: $A): Repr = np.to(t.copy().asInstanceOf[$I])
-        def from(r: Repr): $A = np.from(r)
+    /*
+      Generates code that looks like this:
+
+      val f$macro$123 = { (cursor: HCursor) =>
+        for {
+          id$macro$456 <- cursor.get[String]("id")
+          type$macro$789 <- cursor.get[TagType]("type")
+          ...
+        } yield Tag.apply(id$macro$456, type$macro$789)
       }
+
+      Decoder.instance(apply$macro$123)
+
+     */
+    val tree = q"""{
+      val f = (cursor: _root_.io.circe.HCursor) => for (..${params.map(_._2)}) yield $apply(..${params.map(_._1)})
+      _root_.io.circe.Decoder.instance(f)
     }"""
+    //println(showCode(tree))
+    tree
   }
 
   /**
