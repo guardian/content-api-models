@@ -201,11 +201,11 @@ enum SponsorshipType {
 
 struct Rights {
 
-    1: optional bool syndicatable
+    1: optional bool syndicatable = false
 
-    2: optional bool subscriptionDatabases
+    2: optional bool subscriptionDatabases = false
 
-    3: optional bool developerCommunity
+    3: optional bool developerCommunity = false
 }
 
 struct AssetFields {

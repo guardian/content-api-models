@@ -199,9 +199,9 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 
   it should "parse content rights" in {
     val rights = contentItemResponse.content.get.rights.get
-    rights.syndicatable should be (Some(true))
-    rights.subscriptionDatabases should be (Some(true))
-    rights.developerCommunity should be (Some(true))
+    rights.syndicatable should be (true)
+    rights.subscriptionDatabases should be (true)
+    rights.developerCommunity should be (true)
   }
 
   "tag item parser" should "parse basic response fields" in {
