@@ -33,12 +33,16 @@ object JsonDeserializer {
 object CirceJsonDeserializer {
 
   import com.gu.contentapi.json.CirceSerialization._
+  import io.circe.syntax._
 
   def deserializeContent(json: String): Xor[Error, Content] = parse(json).flatMap(_.as[Content])
+  def deserializeContent(jvalue: JValue): Xor[Error, Content] = jvalue.asJson.as[Content]
 
   def deserializeTag(json: String): Xor[Error, Tag] = parse(json).flatMap(_.as[Tag])
+  def deserializeTag(jvalue: JValue): Xor[Error, Tag] = jvalue.asJson.as[Tag]
 
   def deserializeSection(json: String): Xor[Error, Section] = parse(json).flatMap(_.as[Section])
+  def deserializeSection(jvalue: JValue): Xor[Error, Section] = jvalue.asJson.as[Section]
 
 
 }

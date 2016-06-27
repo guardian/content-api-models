@@ -2,16 +2,12 @@ package com.gu.contentapi.json
 
 import io.circe._
 import cats.data.Xor
-
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
-
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
-
 import org.joda.time.format.ISODateTimeFormat
-
 import org.json4s.JValue
 
 object CirceSerialization {
@@ -42,6 +38,18 @@ object CirceSerialization {
       case JObject(fields) => Json.fromFields(fields.map { case (key, value) => (key, apply(value)) })
       case JNull => Json.Null
       case JNothing => Json.Null
+    }
+  }
+
+  /**
+    * We override Circe's provided behaviour so we can emulate json4s's
+    * "silently convert a Long to a String" behaviour.
+    */
+  implicit final val decodeString: Decoder[String] = new Decoder[String] {
+    final def apply(c: HCursor): Decoder.Result[String] = {
+      val focus = c.focus
+      val fromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
+      Xor.fromOption(fromStringOrLong, ifNone = DecodingFailure("String", c.history))
     }
   }
 

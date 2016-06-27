@@ -34,6 +34,12 @@ class CirceSpec extends FlatSpec with Matchers {
     usingCirce should be(Right(usingJson4s))
   }
 
+  it should "be able to deserialize a Json number to a String" in {
+    parse(""" "123456789" """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[Long] should be(Right(123456789L))
+  }
+
   it should "deserialize a CapiDateTime using circe" in {
     val json: Json = parse(""" "2016-05-01T01:23:45Z" """).getOrElse(Json.Null)
     val thrift = json.as[CapiDateTime]
