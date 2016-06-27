@@ -49,14 +49,24 @@ object CirceScroogeMacros {
       case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
       case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
     }
-    val params = apply.paramLists.head.map { param =>
+    val params = apply.paramLists.head.zipWithIndex.map { case (param, i) =>
       val name = param.name
       val tpe = param.typeSignature
       val fresh = c.freshName(name)
+
       // Note the use of shapeless `Lazy` to work around a problem with diverging implicits.
       // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
       // Wrapping with `Lazy` fixes this issue.
-      val expr = fq"""$fresh <- cursor.get[$tpe](${name.toString})(_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value)"""
+      val decodeParam = q"""cursor.get[$tpe](${name.toString})(_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value)"""
+
+      val expr =
+        if (param.asTerm.isParamWithDefault) {
+          // Fallback to param's default value if the JSON field is not present (or can't be decoded for some other reason).
+          // Note: reverse-engineering the name of the default value because it's not easily available in the reflection API.
+          val defaultValue = A.companion.member(TermName("apply$default$" + (i + 1)))
+          fq"""$fresh <- $decodeParam.orElse(_root_.cats.data.Xor.right($defaultValue))"""
+        } else
+          fq"""$fresh <- $decodeParam"""
       (fresh, expr)
     }
 
