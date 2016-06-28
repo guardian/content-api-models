@@ -131,3 +131,14 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     mappings in (Compile, packageBin) ~= { _.filter { case (file, toPath) => file.getAbsolutePath.contains("com/gu/contentapi/json") || file.getAbsolutePath.contains("com/gu/contentapi/utils") } },
     mappings in (Compile, packageDoc) := Nil
   )
+
+lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
+  .dependsOn(json)
+  .settings(commonSettings)
+  .enablePlugins(JmhPlugin)
+  .settings(
+    libraryDependencies += "com.google.guava" % "guava" % "19.0",
+    javaOptions in Jmh ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
+    publishArtifact := false
+  )
+
