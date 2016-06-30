@@ -42,6 +42,8 @@ val commonSettings = Seq(
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
+val circeVersion = "0.5.0-M2"
+
 /**
   * Root project
   */
@@ -71,8 +73,8 @@ lazy val macros = Project(id = "content-api-models-macros", base = file("macros"
   .settings(
     description := "Macros",
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core" % "0.5.0-M2",
-      "io.circe" %% "circe-generic" % "0.5.0-M2",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
       "org.apache.thrift" % "libthrift" % "0.9.1",
       "com.twitter" %% "scrooge-core" % "4.5.0"
     )
@@ -122,9 +124,9 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
-      "io.circe" %% "circe-core" % "0.5.0-M2",
-      "io.circe" %% "circe-generic" % "0.5.0-M2",
-      "io.circe" %% "circe-parser" % "0.5.0-M2",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),

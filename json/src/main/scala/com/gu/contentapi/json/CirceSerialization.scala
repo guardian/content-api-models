@@ -124,7 +124,7 @@ object CirceSerialization {
 
     def getAtom(c: HCursor): Decoder.Result[Atom] = {
       for {
-        atomType <- c.downField("atomType").as[AtomType]
+        atomType <- c.get[AtomType]("atomType")
         atomData <- getAtomData(c, atomType)
         atom <- getAtom(c, atomData)
       } yield atom
@@ -141,11 +141,11 @@ object CirceSerialization {
 
     private def getAtom(c: HCursor, atomData: AtomData): Decoder.Result[Atom] = {
       for {
-        id <- c.downField("id").as[String]
-        atomType <- c.downField("atomType").as[AtomType]
-        labels <- c.downField("labels").as[Seq[String]]
-        defaultHtml <- c.downField("defaultHtml").as[String]
-        change <- c.downField("contentChangeDetails").as[ContentChangeDetails]
+        id <- c.get[String]("id")
+        atomType <- c.get[AtomType]("atomType")
+        labels <- c.get[Seq[String]]("labels")
+        defaultHtml <- c.get[String]("defaultHtml")
+        change <- c.get[ContentChangeDetails]("contentChangeDetails")
       } yield {
         Atom(id, atomType, labels, defaultHtml, atomData, change)
       }
@@ -153,8 +153,8 @@ object CirceSerialization {
 
     private def getAtomData(c: HCursor, atomType: AtomType): Decoder.Result[AtomData] = {
       atomType match {
-        case AtomType.Quiz => c.downField("data").downField("quiz").as[QuizAtom].map(json => AtomData.Quiz(json))
-        case AtomType.Media => c.downField("data").downField("media").as[MediaAtom].map(json => AtomData.Media(json))
+        case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(json => AtomData.Quiz(json))
+        case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(json => AtomData.Media(json))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }
