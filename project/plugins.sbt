@@ -4,3 +4,5 @@ addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "0.5.1")
 
 resolvers += "twitter-repo" at "https://maven.twttr.com"
 addSbtPlugin("com.twitter" % "scrooge-sbt-plugin" % "4.6.0")
+
+addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.2.7")

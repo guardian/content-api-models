@@ -1,0 +1,36 @@
+{
+    "id": "commentisfree",
+    "webTitle": "Comment is free",
+    "webUrl": "http://www.theguardian.com/commentisfree",
+    "apiUrl": "http://content.guardianapis.com/commentisfree",
+    "editions": [
+        {
+            "id": "commentisfree",
+            "webTitle": "Comment is free",
+            "code": "default",
+            "webUrl": "http://www.theguardian.com/commentisfree",
+            "apiUrl": "http://content.guardianapis.com/commentisfree"
+        },
+        {
+            "id": "uk/commentisfree",
+            "webTitle": "Comment is free",
+            "code": "uk",
+            "webUrl": "http://www.theguardian.com/uk/commentisfree",
+            "apiUrl": "http://content.guardianapis.com/uk/commentisfree"
+        },
+        {
+            "id": "us/commentisfree",
+            "webTitle": "Comment is free",
+            "code": "us",
+            "webUrl": "http://www.theguardian.com/us/commentisfree",
+            "apiUrl": "http://content.guardianapis.com/us/commentisfree"
+        },
+        {
+            "id": "au/commentisfree",
+            "webTitle": "Comment is free",
+            "code": "au",
+            "webUrl": "http://www.theguardian.com/au/commentisfree",
+            "apiUrl": "http://content.guardianapis.com/au/commentisfree"
+        }
+    ]
+}

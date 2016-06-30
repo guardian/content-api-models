@@ -42,12 +42,14 @@ val commonSettings = Seq(
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
+val circeVersion = "0.5.0-M2"
+
 /**
   * Root project
   */
 lazy val root = Project(id = "root", base = file("."))
   .settings(commonSettings)
-  .aggregate(models, json)
+  .aggregate(models, json, macros)
   .settings(
     publishArtifact := false,
     releaseProcess := Seq(
@@ -63,6 +65,18 @@ lazy val root = Project(id = "root", base = file("."))
       commitNextVersion,
       releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
+    )
+  )
+
+lazy val macros = Project(id = "content-api-models-macros", base = file("macros"))
+  .settings(commonSettings)
+  .settings(
+    description := "Macros",
+    libraryDependencies ++= Seq(
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "org.apache.thrift" % "libthrift" % "0.9.1",
+      "com.twitter" %% "scrooge-core" % "4.5.0"
     )
   )
 
@@ -85,12 +99,12 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   * JSON parser project
   */
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(models)
+  .dependsOn(models, macros)
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
     javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
-    scalacOptions ++= Seq("-deprecation", "-unchecked"),
+    scalacOptions ++= Seq("-deprecation", "-unchecked"),//, "-Xlog-implicits"),
 
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
@@ -110,9 +124,23 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
     mappings in (Compile, packageBin) ~= { _.filter { case (file, toPath) => file.getAbsolutePath.contains("com/gu/contentapi/json") || file.getAbsolutePath.contains("com/gu/contentapi/utils") } },
     mappings in (Compile, packageDoc) := Nil
   )
+
+lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
+  .dependsOn(json)
+  .settings(commonSettings)
+  .enablePlugins(JmhPlugin)
+  .settings(
+    libraryDependencies += "com.google.guava" % "guava" % "19.0",
+    javaOptions in Jmh ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
+    publishArtifact := false
+  )
+
