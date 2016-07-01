@@ -943,6 +943,8 @@ struct ContentFields {
     39: optional i32 internalRevision
 
     40: optional i32 internalContentCode
+
+    41: optional bool isHostedContent
 }
 
 struct Reference {
