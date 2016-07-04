@@ -95,6 +95,33 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     )
   )
 
+  /**
+  * Thrift generated classes project
+  */
+lazy val classes = Project(id = "content-api-models-classes", base = file("classes"))
+  .dependsOn(models)
+  .settings(commonSettings)
+  .settings(
+    description := "Generated classes of the Scala models for the Guardian's Content API",
+    javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
+    scalacOptions ++= Seq("-deprecation", "-unchecked"),
+    scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
+    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
+    scroogeThriftDependencies in Compile ++= Seq(
+      "content-api-models",
+      "story-packages-model-thrift",
+      "content-atom-model-thrift"
+    ),
+    // See: https://github.com/twitter/scrooge/issues/199
+    scroogeThriftSources in Compile ++= {
+      (scroogeUnpackDeps in Compile).value.flatMap { dir => (dir ** "*.thrift").get }
+    },
+    libraryDependencies ++= Seq(
+      "org.apache.thrift" % "libthrift" % "0.9.1",
+      "com.twitter" %% "scrooge-core" % "4.5.0"
+    )
+  )
+
 /**
   * JSON parser project
   */
