@@ -6,6 +6,7 @@
     "content": {
       "type": "article",
       "id": "news/blog/live/2015/apr/09/example-liveblog",
+      "isHosted": false,
       "sectionId": "news",
       "webTitle": "example-liveblog",
       "stats": {

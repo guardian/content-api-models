@@ -1041,6 +1041,7 @@
         }
       ],
       "id": "world/2015/sep/24/mecca-crush-during-hajj-kills-at-least-100-saudi-state-tv",
+      "isHosted": false,
       "webUrl": "http://www.theguardian.com/world/2015/sep/24/mecca-crush-during-hajj-kills-at-least-100-saudi-state-tv",
       "apiUrl": "http://content.guardianapis.com/world/2015/sep/24/mecca-crush-during-hajj-kills-at-least-100-saudi-state-tv",
       "sectionName": "World news"

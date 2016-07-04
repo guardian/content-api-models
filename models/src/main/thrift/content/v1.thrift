@@ -1323,6 +1323,11 @@ struct Content {
 
     // NOT USED. This field was added in the wrong place.
     //22: optional bool isLive
+
+    /*
+     * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian. 
+     */
+    23: required bool isHosted = false
 }
 
 struct NetworkFront {

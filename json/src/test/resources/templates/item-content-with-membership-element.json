@@ -70,6 +70,7 @@
         }
       ],
       "id": "global/2015/sep/24/membership-element",
+      "isHosted": false,
       "webUrl": "http://www.code.dev-theguardian.com/global/2015/sep/24/membership-element",
       "apiUrl": "https://preview.content.code.dev-guardianapis.com/global/2015/sep/24/membership-element",
       "sectionName": "Global",
