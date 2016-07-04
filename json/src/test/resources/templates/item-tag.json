@@ -50,7 +50,8 @@
                 "webUrl": "http://www.theguardian.com/artanddesign/2014/sep/11/le-corbusier-india-architecture-1965",
                 "apiUrl": "http://content.guardianapis.com/artanddesign/2014/sep/11/le-corbusier-india-architecture-1965",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -62,7 +63,8 @@
                 "webUrl": "http://www.theguardian.com/business/2014/sep/10/france-miss-eu-budget-deficit-target",
                 "apiUrl": "http://content.guardianapis.com/business/2014/sep/10/france-miss-eu-budget-deficit-target",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -74,7 +76,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/10/european-commissioners-jean-claude-juncker-bluffs",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/10/european-commissioners-jean-claude-juncker-bluffs",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -86,7 +89,8 @@
                 "webUrl": "http://www.theguardian.com/cities/gallery/2014/sep/10/counter-culture-the-worlds-shopkeepers-in-pictures",
                 "apiUrl": "http://content.guardianapis.com/cities/gallery/2014/sep/10/counter-culture-the-worlds-shopkeepers-in-pictures",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -98,7 +102,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/10/former-french-trade-minister-thomas-thevenoud-failed-pay-rent-taxes",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/10/former-french-trade-minister-thomas-thevenoud-failed-pay-rent-taxes",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -110,7 +115,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/10/francois-hollande-trierweiler-toothless-poor",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/10/francois-hollande-trierweiler-toothless-poor",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -122,7 +128,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/09/facebook-speed-trap-french-court-trial",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/09/facebook-speed-trap-french-court-trial",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -134,7 +141,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/09/french-companies-ashford-economy-draw",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/09/french-companies-ashford-economy-draw",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -146,7 +154,8 @@
                 "webUrl": "http://www.theguardian.com/politics/2014/sep/08/scotland-four-more-potential-independence-referendums",
                 "apiUrl": "http://content.guardianapis.com/politics/2014/sep/08/scotland-four-more-potential-independence-referendums",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -158,7 +167,8 @@
                 "webUrl": "http://www.theguardian.com/fashion/2014/sep/08/how-to-be-parisian-move-to-paris",
                 "apiUrl": "http://content.guardianapis.com/fashion/2014/sep/08/how-to-be-parisian-move-to-paris",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             }
         ],
         "leadContent": [
@@ -172,7 +182,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/10/former-french-trade-minister-thomas-thevenoud-failed-pay-rent-taxes",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/10/former-french-trade-minister-thomas-thevenoud-failed-pay-rent-taxes",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -184,7 +195,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/10/francois-hollande-trierweiler-toothless-poor",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/10/francois-hollande-trierweiler-toothless-poor",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -196,7 +208,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/sep/04/migrants-storm-ferry-calais-dover",
                 "apiUrl": "http://content.guardianapis.com/world/2014/sep/04/migrants-storm-ferry-calais-dover",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -208,7 +221,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/31/two-die-paris-flats-explosion",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/31/two-die-paris-flats-explosion",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -220,7 +234,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/26/france-manuel-valls-new-government-francois-hollande",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/26/france-manuel-valls-new-government-francois-hollande",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -232,7 +247,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/25/french-government-resigns-francois-hollande-manuel-valls",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/25/french-government-resigns-francois-hollande-manuel-valls",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -244,7 +260,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/23/francois-hollande-france-returns-unity-mistrust",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/23/francois-hollande-france-returns-unity-mistrust",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -256,7 +273,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/21/france-shrug-off-recesssion-ailing-industry-francoise-hollande",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/21/france-shrug-off-recesssion-ailing-industry-francoise-hollande",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -268,7 +286,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/18/climbers-guide-die-latest-mont-blanc-tragedy",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/18/climbers-guide-die-latest-mont-blanc-tragedy",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             },
             {
                 "type": "article",
@@ -280,7 +299,8 @@
                 "webUrl": "http://www.theguardian.com/world/2014/aug/13/climbers-bodies-found-mont-blanc-france",
                 "apiUrl": "http://content.guardianapis.com/world/2014/aug/13/climbers-bodies-found-mont-blanc-france",
                 "tags" : [ ],
-                "references" : [ ]
+                "references" : [ ],
+                "isHosted": false
             }
         ]
     }
