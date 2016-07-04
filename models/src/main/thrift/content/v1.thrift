@@ -943,6 +943,8 @@ struct ContentFields {
     39: optional i32 internalRevision
 
     40: optional i32 internalContentCode
+
+    41: optional bool isLive
 }
 
 struct Reference {
@@ -1319,7 +1321,8 @@ struct Content {
 
     21: optional bool isGone
 
-    22: optional bool isLive
+    // NOT USED. This field was added in the wrong place.
+    //22: optional bool isLive
 }
 
 struct NetworkFront {
