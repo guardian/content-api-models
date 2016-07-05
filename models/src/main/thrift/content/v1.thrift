@@ -626,7 +626,7 @@ struct VineElementFields {
 
     1: required string originalUrl
 
-    2: required string title;
+    2: required string title
 
     3: required string source
 
