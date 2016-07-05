@@ -128,6 +128,16 @@ enum ElementType {
      */
     INSTAGRAM = 17
 
+    /*
+     * A content atom
+     */
+    CONTENTATOM = 18
+
+    /*
+     * A vine element, will contain assets
+     */
+    VINE = 19
+
 
 }
 
@@ -569,48 +579,74 @@ struct EmbedElementFields {
 
 struct InstagramElementFields {
 
-    1: required string originalUrl;
+    1: required string originalUrl
 
-    2: required string title;
+    2: required string title
 
-    3: required string source;
+    3: required string source
 
-    4: required string authorUrl;
+    4: required string authorUrl
 
-    5: required string authorUsername;
+    5: required string authorUsername
 
-    6: optional string html;
+    6: optional string html
 
-    7: optional i32 width;
+    7: optional i32 width
 
-    8: optional string alt;
+    8: optional string alt
 
-    9: optional string caption;
+    9: optional string caption
 
 }
 
 struct CommentElementFields {
 
-    1: optional string source;
+    1: optional string source
 
-    2: optional string discussionKey;
+    2: optional string discussionKey
 
-    3: optional string commentUrl;
+    3: optional string commentUrl
 
-    4: optional string originalUrl;
+    4: optional string originalUrl
 
-    5: optional string sourceUrl;
+    5: optional string sourceUrl
 
-    6: optional string discussionUrl;
+    6: optional string discussionUrl
 
-    7: optional string authorUrl;
+    7: optional string authorUrl
 
-    8: optional string html;
+    8: optional string html
 
-    9: optional string authorName;
+    9: optional string authorName
 
-    10: optional i32 commentId; 
+    10: optional i32 commentId
 }
+
+struct VineElementFields {
+
+    1: required string originalUrl
+
+    2: required string title
+
+    3: required string source
+
+    4: required string authorUrl
+
+    5: required string authorUsername
+
+    6: optional string html
+
+    7: optional i32 width
+
+    8: optional i32 height
+
+    9: optional string alt
+
+    10: optional string caption
+
+}
+
+
 
 struct BlockElement {
 
@@ -649,6 +685,9 @@ struct BlockElement {
     17: optional InstagramElementFields instagramTypeData
 
     18: optional CommentElementFields commentTypeData
+
+    19: optional VineElementFields vineTypeData
+
 }
 
 struct BlockAttributes {
