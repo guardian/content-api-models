@@ -49,7 +49,7 @@ val circeVersion = "0.5.0-M2"
   */
 lazy val root = Project(id = "root", base = file("."))
   .settings(commonSettings)
-  .aggregate(models, json, macros, classes)
+  .aggregate(models, json, macros, scala)
   .settings(
     publishArtifact := false,
     releaseProcess := Seq(
@@ -96,9 +96,9 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   )
 
   /**
-  * Thrift generated classes project
+  * Thrift generated Scala classes project
   */
-lazy val classes = Project(id = "content-api-models-classes", base = file("classes"))
+lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   .dependsOn(models)
   .settings(commonSettings)
   .settings(
@@ -126,13 +126,10 @@ lazy val classes = Project(id = "content-api-models-classes", base = file("class
   * JSON parser project
   */
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(classes % "provided", macros)
+  .dependsOn(scala % "provided", macros)
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
-    javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
-    scalacOptions ++= Seq("-deprecation", "-unchecked"),//, "-Xlog-implicits"),
-
     libraryDependencies ++= Seq(
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",

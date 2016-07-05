@@ -10,3 +10,15 @@ $ sbt release
 
 will publish to [Maven Central](http://search.maven.org/) via Sonatype. You will need Sonatype credentials and a PGP key. It can take up to 2hrs to show up in search.
 
+## Information about built jars
+
+The content-api-models project builds the following jar files: 
+
+* content-api-models-scala - Scrooge generated class files based on the Thrift definitions of the content api models found in the `content-api-models` dependency. 
+
+* content-api-models-json - Json parsers and deserializers. Used internall by the content api to convert from Elasticsearch returned json to the Scrooge-generated Thrift classes. As a client you should never need to depend on this.
+
+* content-api-models-macros - Scala macros to generate Circe `Decoder` instances for Scrooge-generated Thrift classes. As a client you will never need to depend on this as it is used internally by `content-api-models`.
+
+* content-api-models - Contains the Thrift definitions of the content api models only. As a client it is unlikely that you should ever need to depend on this but rather use the `content-api-models-scala` dependency instead.
+
