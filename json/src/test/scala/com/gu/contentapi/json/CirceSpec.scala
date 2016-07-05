@@ -25,8 +25,18 @@ class CirceSpec extends FlatSpec with Matchers {
     }
 
     val usingJson4s = {
-      implicit val formats = Serialization.formats
       import org.json4s._
+      implicit val formats = Serialization.formats + new CustomSerializer[Boolean](format => (
+        {
+          case JBool(value) => value
+          case JString("true") => true
+          case JString("false") => false
+        },
+        {
+          case true => JBool(true)
+          case false => JBool(false)
+        }
+        ))
       val json: JValue = JsonMethods.parse(jsonString)
       json.extract[T]
     }

@@ -53,6 +53,22 @@ object CirceSerialization {
     }
   }
 
+  /**
+    * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
+    * into their corresponding booleans.
+    */
+  implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
+    final def apply(c: HCursor): Decoder.Result[Boolean] = {
+      val focus = c.focus
+      val fromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
+        case "true" => Some(true)
+        case "false" => Some(false)
+        case _ => None
+      })
+      Xor.fromOption(fromBooleanOrString, ifNone = DecodingFailure("Boolean", c.history))
+    }
+  }
+
   implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDeserialization.getAtom)
   implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDeserialization.getAtoms)
 

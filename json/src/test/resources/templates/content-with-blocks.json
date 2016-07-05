@@ -33,7 +33,11 @@
     "body": [{
       "bodyTextSummary": "hi",
       "bodyHtml": "<p>hi</p>",
-      "attributes": {},
+      "attributes": {
+        "title": "Hi",
+        "pinned": "false",
+        "summary": "true"
+      },
       "id": "5530debce4b078ada18a4602",
       "published": true,
       "firstPublishedDate": "2015-04-17T11:21:49Z",
