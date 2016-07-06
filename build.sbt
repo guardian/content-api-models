@@ -144,7 +144,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   )
 
 lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
-  .dependsOn(json)
+  .dependsOn(json, scala)
   .settings(commonSettings)
   .enablePlugins(JmhPlugin)
   .settings(
