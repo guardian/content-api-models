@@ -4,6 +4,7 @@ import scala.language.experimental.macros
 import scala.reflect.macros.blackbox
 import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
 import io.circe.Decoder
+import shapeless.Lazy
 
 /**
   * Macros for Circe deserialization of various Scrooge-generated classes.
@@ -54,10 +55,28 @@ object CirceScroogeMacros {
       val tpe = param.typeSignature
       val fresh = c.freshName(name)
 
-      // Note the use of shapeless `Lazy` to work around a problem with diverging implicits.
-      // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
-      // Wrapping with `Lazy` fixes this issue.
-      val decodeParam = q"""cursor.get[$tpe](${name.toString})(_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value)"""
+      val decoderForType = appliedType(weakTypeOf[Decoder[_]].typeConstructor, tpe)
+      val implicitDecoder: c.Tree = {
+        val normalImplicitDecoder = c.inferImplicitValue(decoderForType)
+        if (normalImplicitDecoder.nonEmpty) {
+          // Found an implicit, no need to use Lazy.
+          // We want to avoid Lazy as much as possible, because extracting its `.value` incurs a runtime cost.
+          normalImplicitDecoder
+        } else {
+          // If we couldn't find an implicit, try again with shapeless `Lazy`.
+          // This is to work around a problem with diverging implicits.
+          // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
+          // Wrapping with `Lazy` fixes this issue.
+          val lazyDecoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, decoderForType)
+          val implicitLazyDecoder = c.inferImplicitValue(lazyDecoderForType)
+          if (implicitLazyDecoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Decoder[$tpe] even after resorting to Lazy")
+
+          // Note: In theory we could use the `implicitLazyDecoder` that we just found, but... for some reason it crashes the compiler :(
+          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value"
+        }
+      }
+
+      val decodeParam = q"""cursor.get[$tpe](${name.toString})($implicitDecoder)"""
 
       val expr =
         if (param.asTerm.isParamWithDefault) {
@@ -85,8 +104,7 @@ object CirceScroogeMacros {
 
      */
     val tree = q"""{
-      val f = (cursor: _root_.io.circe.HCursor) => for (..${params.map(_._2)}) yield $apply(..${params.map(_._1)})
-      _root_.io.circe.Decoder.instance(f)
+      _root_.io.circe.Decoder.instance((cursor: _root_.io.circe.HCursor) => for (..${params.map(_._2)}) yield $apply(..${params.map(_._1)}))
     }"""
     //println(showCode(tree))
     tree
@@ -109,7 +127,7 @@ object CirceScroogeMacros {
     _root_.io.circe.Decoder.instance((cursor: _root_.io.circe.HCursor) => {
       cursor.focus.asString match {
         case _root_.scala.Some(value) =>
-          val withoutHyphens = org.apache.commons.lang3.StringUtils.remove(value, '-')
+          val withoutHyphens = _root_.org.apache.commons.lang3.StringUtils.remove(value, '-')
           _root_.cats.data.Xor.right($valueOf(withoutHyphens).getOrElse($unknown.apply(-1)))
         case _ =>
           _root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure($typeName, cursor.history))
