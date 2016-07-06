@@ -41,6 +41,7 @@ class JsonDecodeBenchmark {
 
   val (contentJvalue: JValue, contentJson: Json) = loadJson("content-with-blocks.json")
   val (searchResponseJvalue, searchResponseJson) = loadJson("search-response.json")
+  val (massiveContentsListJvalue, massiveContentsListJson) = loadJson("massive-contents-list.json")
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
@@ -88,9 +89,52 @@ class JsonDecodeBenchmark {
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
   def circeDeserializeEachContent(bh: Blackhole) = {
-    val results = 
+    val results =
       for {
         i <- 1 to 10
+        content <- CirceJsonDeserializer.deserializeContent(contentJvalue).toOption
+      } yield content
+    val response = SearchResponse(
+      status = "ok",
+      userTier = "foo",
+      total = 123,
+      startIndex = 123,
+      pageSize = 123,
+      currentPage = 123,
+      pages = 123,
+      orderBy = "foo",
+      results = results
+    )
+    bh.consume(response)
+  }
+
+  @Benchmark
+  @BenchmarkMode(Array(Mode.AverageTime))
+  @OutputTimeUnit(TimeUnit.MILLISECONDS)
+  def json4sDeserializeMassiveResponse(bh: Blackhole) = {
+    implicit val formats = JsonDeserializer.formats
+    val resp = WrappedLegacyResponse(SearchResp(
+      status = "ok",
+      userTier = "foo",
+      total = 123,
+      startIndex = 123,
+      pageSize = 123,
+      currentPage = 123,
+      pages = 123,
+      orderBy = "foo",
+      results = massiveContentsListJvalue.children
+    ))
+    val jsonString = org.json4s.jackson.Serialization.write(resp)
+    bh.consume(JsonParser.parseSearch(jsonString))
+  }
+
+  @Benchmark
+  @BenchmarkMode(Array(Mode.AverageTime))
+  @OutputTimeUnit(TimeUnit.MILLISECONDS)
+  def circeDeserializeEachMassiveContent(bh: Blackhole) = {
+    val results = 
+      for {
+        contentJvalue <- massiveContentsListJvalue.children
         content <- CirceJsonDeserializer.deserializeContent(contentJvalue).toOption
       } yield content
     val response = SearchResponse(

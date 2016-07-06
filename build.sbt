@@ -76,7 +76,8 @@ lazy val macros = Project(id = "content-api-models-macros", base = file("macros"
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "org.apache.thrift" % "libthrift" % "0.9.1",
-      "com.twitter" %% "scrooge-core" % "4.5.0"
+      "com.twitter" %% "scrooge-core" % "4.5.0",
+      "org.apache.commons" % "commons-lang3" % "3.4"
     )
   )
 
@@ -144,7 +145,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   )
 
 lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
-  .dependsOn(json)
+  .dependsOn(json, scala)
   .settings(commonSettings)
   .enablePlugins(JmhPlugin)
   .settings(
