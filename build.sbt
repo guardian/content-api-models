@@ -49,7 +49,7 @@ val circeVersion = "0.5.0-M2"
   */
 lazy val root = Project(id = "root", base = file("."))
   .settings(commonSettings)
-  .aggregate(models, json, macros)
+  .aggregate(models, json, macros, scala)
   .settings(
     publishArtifact := false,
     releaseProcess := Seq(
@@ -95,17 +95,16 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     )
   )
 
-/**
-  * JSON parser project
+  /**
+  * Thrift generated Scala classes project
   */
-lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(models, macros)
+lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
+  .dependsOn(models)
   .settings(commonSettings)
   .settings(
-    description := "Json parser for the Guardian's Content API models",
+    description := "Generated classes of the Scala models for the Guardian's Content API",
     javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
-    scalacOptions ++= Seq("-deprecation", "-unchecked"),//, "-Xlog-implicits"),
-
+    scalacOptions ++= Seq("-deprecation", "-unchecked"),
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
     scroogeThriftDependencies in Compile ++= Seq(
@@ -117,10 +116,21 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     scroogeThriftSources in Compile ++= {
       (scroogeUnpackDeps in Compile).value.flatMap { dir => (dir ** "*.thrift").get }
     },
-
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.9.1",
-      "com.twitter" %% "scrooge-core" % "4.5.0",
+      "com.twitter" %% "scrooge-core" % "4.5.0"
+    )
+  )
+
+/**
+  * JSON parser project
+  */
+lazy val json = Project(id = "content-api-models-json", base = file("json"))
+  .dependsOn(scala % "provided", macros)
+  .settings(commonSettings)
+  .settings(
+    description := "Json parser for the Guardian's Content API models",
+    libraryDependencies ++= Seq(
       "org.json4s" %% "json4s-jackson" % "3.3.0",
       "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
