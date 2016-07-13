@@ -90,6 +90,9 @@ object CirceSerialization {
   implicit val sectionDecoder = Decoder[Section]
   implicit val debugDecoder = Decoder[Debug]
   implicit val contentDecoder = Decoder[Content]
+  implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
+  implicit val networkFrontDecoder = Decoder[NetworkFront]
+  implicit val packageDecoder = Decoder[Package]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.
