@@ -984,6 +984,11 @@ struct ContentFields {
     40: optional i32 internalContentCode
 
     41: optional bool isLive
+    
+    /*
+     * A short id used as a key for discussion and save for later feature
+     */
+    42: optional string internalShortId
 }
 
 struct Reference {
