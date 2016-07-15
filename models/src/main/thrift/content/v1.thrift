@@ -1150,6 +1150,8 @@ struct Tag {
     18: optional list<Sponsorship> activeSponsorships
 
     19: optional string paidContentType
+
+    20: optional string paidContentCampaignColour
 }
 
 struct Edition {
