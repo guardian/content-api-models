@@ -501,6 +501,8 @@ struct InteractiveElementFields {
     7: optional string html
     8: optional string scriptName
     9: optional string iframeUrl
+    10: optional string role
+    11: optional bool isMandatory
 }
 
 struct StandardElementFields {
@@ -515,6 +517,7 @@ struct StandardElementFields {
     9: optional i32 height
     10: optional string html
     11: optional string role
+    12: optional bool isMandatory
 }
 
 struct WitnessElementFields {
@@ -575,6 +578,8 @@ struct EmbedElementFields {
     2: optional bool safeEmbedCode
 
     3: optional string alt
+
+    4: optional bool isMandatory
 }
 
 struct InstagramElementFields {
