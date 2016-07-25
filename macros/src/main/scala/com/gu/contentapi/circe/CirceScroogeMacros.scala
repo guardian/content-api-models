@@ -76,7 +76,11 @@ object CirceScroogeMacros {
         }
       }
 
-      val decodeParam = q"""cursor.get[$tpe](${name.toString})($implicitDecoder)"""
+      // Note: we don't simply call `cursor.get[$tpe](...)` because we want to avoid allocating HistoryOp instances.
+      // See https://github.com/travisbrown/circe/issues/329 for details.
+      val decodeParam =
+        q"""cursor.cursor.downField(${name.toString})
+           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field", Nil)))(x => x.as[$tpe]($implicitDecoder))"""
 
       val expr =
         if (param.asTerm.isParamWithDefault) {
