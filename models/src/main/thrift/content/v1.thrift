@@ -1254,6 +1254,8 @@ struct Debug {
     1: optional CapiDateTime lastSeenByPorterAt
 
     2: optional CapiDateTime revisionSeenByPorter
+
+    3: optional string contentSource
 }
 
 struct Content {
