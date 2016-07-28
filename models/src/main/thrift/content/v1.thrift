@@ -1247,6 +1247,66 @@ struct ContentStats {
     * The number of images that exist in a piece of content.
     */
     2: required i32 images
+
+   /*
+    * The number of text elements that exist in a piece of content.
+    */
+    3: required i32 text
+
+   /*
+    * The number of tweets that exist in a piece of content.
+    */
+    4: required i32 tweets
+
+   /*
+    * The number of pullquotes that exist in a piece of content.
+    */
+    5: required i32 pullquotes
+
+   /*
+    * The number of audio elements that exist in a piece of content.
+    */
+    6: required i32 audio
+
+   /*
+    * The number of interactives that exist in a piece of content.
+    */
+    7: required i32 interactives
+
+   /*
+    * The number of witness elements that exist in a piece of content.
+    */
+    8: required i32 witness
+
+    /*
+    * The number of richlinks that exist in a piece of content.
+    */
+    9: required i32 richlinks
+
+   /*
+    * The number of membership elements that exist in a piece of content.
+    */
+    10: required i32 membership
+
+   /*
+    * The number of embeds that exist in a piece of content.
+    */
+    11: required i32 embeds
+
+   /*
+    * The number of comments that exist in a piece of content.
+    */
+    12: required i32 comments
+
+   /*
+    * The number of instragam elements that exist in a piece of content.
+    */
+    13: required i32 instagram
+
+   /*
+    * The number of vines that exist in a piece of content.
+    */
+    14: required i32 vines
 }
 
 struct Debug {
