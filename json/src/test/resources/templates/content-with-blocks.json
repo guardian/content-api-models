@@ -6,7 +6,19 @@
   "isHosted": false,
   "stats": {
     "videos" : 1,
-    "images" : 1
+    "images" : 1,
+    "text":0,
+    "tweets":0,
+    "pullquotes":0,
+    "audio":0,
+    "interactives":0,
+    "witness":0,
+    "richlinks":0,
+    "membership":0,
+    "embeds":0,
+    "comments":0,
+    "instagram":0,
+    "vines":0
   },
   "blocks": {
     "main": {
