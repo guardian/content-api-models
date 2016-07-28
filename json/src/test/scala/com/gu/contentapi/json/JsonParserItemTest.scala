@@ -594,7 +594,7 @@ class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 
   it should "deserialize content stats" in {
     val content = contentItemWithStats.content.get
-    content.stats should be(Some(ContentStats(1, 1)))
+    content.stats should be(Some(ContentStats(1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))
   }
 
   private def getBlockElementsOfType(response: ItemResponse, `type`: ElementType): Seq[BlockElement] = {
