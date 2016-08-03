@@ -7,6 +7,7 @@ import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
+import contentatom.explainer.ExplainerAtom
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JValue
 
@@ -153,8 +154,9 @@ object CirceSerialization {
       for {
         quizzes <- getAtoms(c, AtomType.Quiz)
         media <- getAtoms(c, AtomType.Media)
+        explainers <- getAtoms(c, AtomType.Explainer)
       } yield {
-        Atoms(quizzes = quizzes, media = media)
+        Atoms(quizzes = quizzes, media = media, explainers = explainers)
       }
     }
 
@@ -174,6 +176,7 @@ object CirceSerialization {
       atomType match {
         case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(json => AtomData.Quiz(json))
         case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(json => AtomData.Media(json))
+        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(json => AtomData.Explainer(json))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }
@@ -182,6 +185,7 @@ object CirceSerialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Media => Some("media")
+        case AtomType.Explainer => Some("explainer")
         case _ => None
       }
     }

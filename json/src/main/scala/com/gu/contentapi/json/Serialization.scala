@@ -1,7 +1,7 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
+import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s._
 import org.json4s.JsonAST.JValue
@@ -9,6 +9,7 @@ import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
 import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
+import contentatom.explainer.ExplainerAtom
 
 import scala.PartialFunction._
 import scala.reflect.ClassTag
@@ -137,6 +138,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some(AtomData.Quiz((atom \ "data" \ "quiz").extract[QuizAtom]))
         case AtomType.Media => Some(AtomData.Media((atom \ "data" \ "media").extract[MediaAtom]))
+        case AtomType.Explainer => Some(AtomData.Explainer((atom \ "data" \ "explainer").extract[ExplainerAtom]))
         case _ => None
       }
     }
@@ -145,6 +147,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Media => Some("media")
+        case AtomType.Explainer => Some("explainer")
         case _ => None
       }
     }
@@ -173,7 +176,8 @@ object Serialization {
   object DummyAtomObject
   object AtomsSerializer extends CustomSerializer[Atoms](format => (
     {
-      case rawAtoms: JObject => Atoms(quizzes = getAtoms(rawAtoms, AtomType.Quiz), media = getAtoms(rawAtoms, AtomType.Media))
+      case rawAtoms: JObject => Atoms(quizzes = getAtoms(rawAtoms, AtomType.Quiz), media = getAtoms(rawAtoms, AtomType.Media),
+        explainers = getAtoms(rawAtoms, AtomType.Explainer))
     },
     {
       PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atoms
