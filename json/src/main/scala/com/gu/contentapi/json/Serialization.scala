@@ -8,8 +8,8 @@ import org.json4s.JsonAST.JValue
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
-import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
-import contentatom.explainer.ExplainerAtom
+import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType, Category}
+import com.gu.contentatom.thrift.atom.explainer.{DisplayType, ExplainerAtom}
 
 import scala.PartialFunction._
 import scala.reflect.ClassTag
@@ -33,7 +33,9 @@ object Serialization {
     StoryPackageGroupSerializer +
     RemovePassthroughFieldsFromThriftStruct +
     MediaAtomAssetTypeSerializer +
-    PlatformTypeSerializer
+    PlatformTypeSerializer +
+    CategorySerializer +
+    DisplayTypeSerializer
 
   def destringifyFields: PartialFunction[JField, JField] = {
     case JField("summary", JString(s)) => JField("summary", JBool(s.toBoolean))
@@ -205,6 +207,20 @@ object Serialization {
       case JString(s) => MediaAtomAssetType.valueOf(s).getOrElse(MediaAtomAssetType.EnumUnknownAssetType(-1))
     },
     thriftEnum2JString[MediaAtomAssetType]
+    ))
+
+  object CategorySerializer extends CustomSerializer[Category](format => (
+    {
+      case JString(s) => Category.valueOf(s).getOrElse(Category.EnumUnknownCategory(-1))
+    },
+    thriftEnum2JString[Category]
+    ))
+
+  object DisplayTypeSerializer extends CustomSerializer[DisplayType](format => (
+    {
+      case JString(s) => DisplayType.valueOf(s).getOrElse(DisplayType.EnumUnknownDisplayType(-1))
+    },
+    thriftEnum2JString[DisplayType]
     ))
 
   object PlatformTypeSerializer extends CustomSerializer[Platform](format => (

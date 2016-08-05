@@ -33,7 +33,9 @@
                 }
               ],
               "activeVersion": 0,
-              "plutoProjectId": "pluto_id"
+              "plutoProjectId": "pluto_id",
+              "category": "documentary",
+              "title": "March of the penguins"
             }
           },
           "contentChangeDetails" : {
@@ -51,7 +53,8 @@
             },
             "revision" : 1
           }
-        }]
+        }],
+        "explainers": []
       },
       "sectionName": "Test",
       "references": [],
