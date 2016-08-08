@@ -80,6 +80,10 @@ class CirceSpec extends FlatSpec with Matchers {
     compareAgainstJson4s[Content]("content-with-atom-media.json")
   }
 
+  it should "deserialize a Content (including an explainer atom) with the same result as json4s" in {
+    compareAgainstJson4s[Content]("content-with-atom-explainer.json")
+  }
+
   it should "deserialize a Content (including blocks) with the same result as json4s" in {
     compareAgainstJson4s[Content]("content-with-blocks.json")
   }

@@ -149,7 +149,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Media => Some("media")
-        case AtomType.Explainer => Some("explainer")
+        case AtomType.Explainer => Some("explainers")
         case _ => None
       }
     }

@@ -5,9 +5,9 @@ import cats.data.Xor
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
+import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
-import contentatom.explainer.ExplainerAtom
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JValue
 
@@ -185,7 +185,7 @@ object CirceSerialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Media => Some("media")
-        case AtomType.Explainer => Some("explainer")
+        case AtomType.Explainer => Some("explainers")
         case _ => None
       }
     }
