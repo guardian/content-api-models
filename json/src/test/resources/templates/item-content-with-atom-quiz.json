@@ -72,7 +72,8 @@
             }
           }
         ],
-        "media": []
+        "media": [],
+        "explainers": []
       },
       "sectionName": "Test",
       "references": [],

@@ -1,14 +1,15 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-import com.twitter.scrooge.{ThriftStruct, ThriftEnum}
+import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s._
 import org.json4s.JsonAST.JValue
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift._
 import com.gu.contentatom.thrift.atom.quiz._
-import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType}
+import com.gu.contentatom.thrift.atom.media.{MediaAtom, Platform, AssetType => MediaAtomAssetType, Category}
+import com.gu.contentatom.thrift.atom.explainer.{DisplayType, ExplainerAtom}
 
 import scala.PartialFunction._
 import scala.reflect.ClassTag
@@ -32,7 +33,9 @@ object Serialization {
     StoryPackageGroupSerializer +
     RemovePassthroughFieldsFromThriftStruct +
     MediaAtomAssetTypeSerializer +
-    PlatformTypeSerializer
+    PlatformTypeSerializer +
+    CategorySerializer +
+    DisplayTypeSerializer
 
   def destringifyFields: PartialFunction[JField, JField] = {
     case JField("summary", JString(s)) => JField("summary", JBool(s.toBoolean))
@@ -137,6 +140,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some(AtomData.Quiz((atom \ "data" \ "quiz").extract[QuizAtom]))
         case AtomType.Media => Some(AtomData.Media((atom \ "data" \ "media").extract[MediaAtom]))
+        case AtomType.Explainer => Some(AtomData.Explainer((atom \ "data" \ "explainer").extract[ExplainerAtom]))
         case _ => None
       }
     }
@@ -145,6 +149,7 @@ object Serialization {
       atomType match {
         case AtomType.Quiz => Some("quizzes")
         case AtomType.Media => Some("media")
+        case AtomType.Explainer => Some("explainers")
         case _ => None
       }
     }
@@ -173,7 +178,8 @@ object Serialization {
   object DummyAtomObject
   object AtomsSerializer extends CustomSerializer[Atoms](format => (
     {
-      case rawAtoms: JObject => Atoms(quizzes = getAtoms(rawAtoms, AtomType.Quiz), media = getAtoms(rawAtoms, AtomType.Media))
+      case rawAtoms: JObject => Atoms(quizzes = getAtoms(rawAtoms, AtomType.Quiz), media = getAtoms(rawAtoms, AtomType.Media),
+        explainers = getAtoms(rawAtoms, AtomType.Explainer))
     },
     {
       PartialFunction.empty[Any, JValue]  //No custom serialization logic required for Atoms
@@ -201,6 +207,20 @@ object Serialization {
       case JString(s) => MediaAtomAssetType.valueOf(s).getOrElse(MediaAtomAssetType.EnumUnknownAssetType(-1))
     },
     thriftEnum2JString[MediaAtomAssetType]
+    ))
+
+  object CategorySerializer extends CustomSerializer[Category](format => (
+    {
+      case JString(s) => Category.valueOf(s).getOrElse(Category.EnumUnknownCategory(-1))
+    },
+    thriftEnum2JString[Category]
+    ))
+
+  object DisplayTypeSerializer extends CustomSerializer[DisplayType](format => (
+    {
+      case JString(s) => DisplayType.valueOf(s).getOrElse(DisplayType.EnumUnknownDisplayType(-1))
+    },
+    thriftEnum2JString[DisplayType]
     ))
 
   object PlatformTypeSerializer extends CustomSerializer[Platform](format => (

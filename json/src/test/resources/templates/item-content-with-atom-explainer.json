@@ -17,25 +17,17 @@
       "isHosted": false,
       "atoms": {
         "quizzes": [],
-        "media": [{
-          "id" : "media-atom-id",
-          "atomType" : "media",
+        "media": [],
+        "explainers": [{
+          "id" : "explainer-atom-id",
+          "atomType" : "explainer",
           "labels" : [ ],
           "defaultHtml" : "<div</div>\n",
           "data" : {
-            "media": {
-              "assets": [
-                {
-                  "assetType": "video",
-                  "version": 0,
-                  "id": "a_video_atom",
-                  "platform": "youtube"
-                }
-              ],
-              "activeVersion": 0,
-              "plutoProjectId": "pluto_id",
-              "category": "documentary",
-              "title": "March of the penguins"
+            "explainer": {
+              "title": "Who is Harry Potter?",
+              "body": "<p>A great wizard!</p>",
+              "displayType": "expandable"
             }
           },
           "contentChangeDetails" : {
@@ -53,8 +45,7 @@
             },
             "revision" : 1
           }
-        }],
-        "explainers": []
+        }]
       },
       "sectionName": "Test",
       "references": [],

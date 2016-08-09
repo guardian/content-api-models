@@ -1234,6 +1234,8 @@ struct Atoms {
     2: optional list<contentatom.Atom> viewpoints
 
     3: optional list<contentatom.Atom> media
+
+    4: optional list<contentatom.Atom> explainers
 }
 
 struct ContentStats {
@@ -1587,6 +1589,8 @@ struct ItemResponse {
     21: optional list<contentatom.Atom> viewpoints
 
     22: optional contentatom.Atom media
+
+    23: optional contentatom.Atom explainer
 }
 
 struct TagsResponse {
