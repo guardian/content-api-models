@@ -1157,6 +1157,10 @@ struct Tag {
     19: optional string paidContentType
 
     20: optional string paidContentCampaignColour
+
+    21: optional string rcsId
+
+    22: optional string contributorId
 }
 
 struct Edition {
