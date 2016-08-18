@@ -994,6 +994,10 @@ struct ContentFields {
      * A short id used as a key for discussion and save for later feature
      */
     42: optional string internalShortId
+
+    43: optional string shortSocialShareText
+
+    44: optional string socialShareText
 }
 
 struct Reference {
