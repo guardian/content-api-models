@@ -1160,7 +1160,7 @@ struct Tag {
 
     21: optional string rcsId
 
-    22: optional string contributorId
+    22: optional string r2ContributorId
 }
 
 struct Edition {
