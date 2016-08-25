@@ -80,7 +80,7 @@ object CirceScroogeMacros {
       // See https://github.com/travisbrown/circe/issues/329 for details.
       val decodeParam =
         q"""cursor.cursor.downField(${name.toString})
-           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field", Nil)))(x => x.as[$tpe]($implicitDecoder))"""
+           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field: " + ${name.toString}, Nil)))(x => x.as[$tpe]($implicitDecoder))"""
 
       val expr =
         if (param.asTerm.isParamWithDefault) {
@@ -145,6 +145,7 @@ object CirceScroogeMacros {
       case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
       case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
     }
+
     val pairs = apply.paramLists.head.map { param =>
       val name = param.name
       val tpe = param.typeSignature
@@ -170,14 +171,14 @@ object CirceScroogeMacros {
         }
       }
 
-
-      q"""${name.toString} -> $implicitEncoder.apply(thrift.$param)"""
+      q"""${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName})"""
     }
 
     val tree =
-      q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => Json.fromFields($pairs)) }"""
+      q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => _root_.io.circe.Json.fromFields($pairs)) }"""
 
-    println(showCode(tree))
+    //println(showCode(tree))
     tree
+
   }
 }

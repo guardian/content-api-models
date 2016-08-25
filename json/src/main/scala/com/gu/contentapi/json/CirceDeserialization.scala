@@ -7,11 +7,6 @@ import com.gu.contentapi.circe.CirceScroogeMacros._
 
 object CirceDeserialization {
 
-  implicit val networkFrontEncoder: Encoder[NetworkFront] = encodeThriftStruct[NetworkFront]
-  implicit val editionsResponseEncoder: Encoder[EditionsResponse] = encodeThriftStruct[EditionsResponse]
-
-  implicit def thriftEnumEncoder[T <: ThriftEnum]: Encoder[T] = Encoder[String].contramap(t => pascalCaseToHyphenated(t.name))
-
   private val LowerCaseFollowedByUpperCase = """([a-z])([A-Z])""".r
 
   /**
@@ -19,5 +14,10 @@ object CirceDeserialization {
     */
   private def pascalCaseToHyphenated(s: String): String =
     LowerCaseFollowedByUpperCase.replaceAllIn(s, m => m.group(1) + "-" + m.group(2)).toLowerCase
+
+  implicit def thriftEnumEncoder[T <: ThriftEnum]: Encoder[T] = Encoder[String].contramap(t => pascalCaseToHyphenated(t.name))
+
+  implicit val networkFrontEncoder: Encoder[NetworkFront] = encodeThriftStruct[NetworkFront]
+  implicit val editionsResponseEncoder: Encoder[EditionsResponse] = encodeThriftStruct[EditionsResponse]
 
 }
