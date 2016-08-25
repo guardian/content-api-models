@@ -128,14 +128,9 @@ object CirceScroogeMacros {
     val unknown = A.companion.member(TermName(s"EnumUnknown$typeName"))
 
     q"""
-    _root_.io.circe.Decoder.instance((cursor: _root_.io.circe.HCursor) => {
-      cursor.focus.asString match {
-        case _root_.scala.Some(value) =>
-          val withoutHyphens = _root_.org.apache.commons.lang3.StringUtils.remove(value, '-')
-          _root_.cats.data.Xor.right($valueOf(withoutHyphens).getOrElse($unknown.apply(-1)))
-        case _ =>
-          _root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure($typeName, cursor.history))
-      }
+    _root_.io.circe.Decoder[String].map(value => {
+      val withoutHyphens = _root_.org.apache.commons.lang3.StringUtils.remove(value, '-')
+      $valueOf(withoutHyphens).getOrElse($unknown.apply(-1))
     })
     """
   }
