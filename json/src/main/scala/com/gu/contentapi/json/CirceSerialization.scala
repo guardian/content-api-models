@@ -14,15 +14,6 @@ import org.json4s.JValue
 
 object CirceSerialization {
 
-  implicit val dateTimeDecoder = new Decoder[CapiDateTime] {
-    final def apply(c: HCursor): Decoder.Result[CapiDateTime] = c.focus.asString match {
-      case Some(value) =>
-        val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(value)
-        Xor.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
-      case _ => Xor.left(DecodingFailure("CapiDateTime", c.history))
-    }
-  }
-
   /**
     * Encoder to convert from a json4s JValue to a Circe Json
     */
@@ -53,6 +44,11 @@ object CirceSerialization {
       val fromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
       Xor.fromOption(fromStringOrLong, ifNone = DecodingFailure("String", c.history))
     }
+  }
+
+  implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
+    val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
+    CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
   }
 
   /**

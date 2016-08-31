@@ -148,7 +148,13 @@ object CirceScroogeMacros {
 
     val pairs = apply.paramLists.head.map { param =>
       val name = param.name
-      val tpe = param.typeSignature
+      /**
+        * We need to ignore any optional fields which are None, because they'll be included in the result as JNulls.
+        */
+      val (tpe, isOption) = param.typeSignature match {
+        case TypeRef(_, sym, ps) if sym == typeOf[Option[_]].typeSymbol => (ps.head, true)
+        case other => (other, false)
+      }
 
       val encoderForType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, tpe)
       val implicitEncoder: c.Tree = {
@@ -171,13 +177,13 @@ object CirceScroogeMacros {
         }
       }
 
-      q"""${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName})"""
+      if (isOption) q"""thrift.${name.toTermName}.map(${name.toString} -> $implicitEncoder.apply(_))"""
+      else q"""Some(${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName}))"""
     }
 
     val tree =
-      q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => _root_.io.circe.Json.fromFields($pairs)) }"""
+      q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => _root_.io.circe.Json.fromFields($pairs.flatten)) }"""
 
-    //println(showCode(tree))
     tree
 
   }

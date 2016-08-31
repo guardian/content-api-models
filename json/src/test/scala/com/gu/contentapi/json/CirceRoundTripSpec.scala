@@ -1,20 +1,65 @@
 package com.gu.contentapi.json
 
-import com.gu.contentapi.circe.CirceScroogeMacros
-import com.gu.contentapi.client.model.v1.{EditionsResponse, TagType}
+import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.utils.JsonLoader
 import io.circe.{Decoder, Encoder, Json}
 import io.circe.syntax._
 import io.circe.parser._
-import org.json4s._
-import org.json4s.JsonAST.JNothing
-import org.json4s.jackson.JsonMethods
+import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.json.CirceDeserialization._
-import com.gu.contentapi.json.utils.Json4sDecoder._
+import com.gu.contentapi.json.CirceSerialization._
+
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {
+
+  it should "round-trip a TagsResponse including a sponsored tag" in {
+    /*
+    Unfortunately the references field of the Tag struct was accidentally
+    marked as required, making the Thrift model inconsistent with the JSON one.
+    We work around this problem in Concierge.
+     */
+    val removeReferences = (json: Json) => {
+      val modOp = root.results.each.at("references").modify { refsOpt =>
+        for {
+          refs: Json <- refsOpt
+          nonEmptyArray <- refs.asArray.filter(_.nonEmpty)
+        } yield refs
+      }
+      modOp(json)
+    }
+
+    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterSerialize = removeReferences)
+  }
+
+  it should "round-trip a SectionsResponse" in {
+    checkRoundTrip[SectionsResponse]("sections.json")
+  }
+
+  it should "round-trip a RemovedContentResponse" in {
+    checkRoundTrip[RemovedContentResponse]("removed.json")
+  }
+
+  it should "round-trip an EditionsResponse" in {
+    checkRoundTrip[EditionsResponse]("editions.json")
+  }
+
+  it should "round-trip an ErrorResponse" in {
+    checkRoundTrip[ErrorResponse]("error.json")
+  }
+
+  it should "round-trip a VideoStatsResponse" in {
+    checkRoundTrip[VideoStatsResponse]("video-stats.json")
+  }
+
+  it should "round-trip an AtomUsageResponse" in {
+    checkRoundTrip[AtomUsageResponse]("atom-usage.json")
+  }
+
+  it should "round-trip a content ItemResponse" in {
+    checkRoundTrip[ItemResponse]("item-content.json")
+  }
 
   it should "round-trip a Thrift Enum with a complex name" in {
     val tagTypeBefore = TagType.NewspaperBookSection
@@ -24,12 +69,78 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     tagTypeAfter should equal(tagTypeBefore)
   }
 
-  it should "round-trip an EditionsResponse" in {
-    checkRoundTrip[EditionsResponse]("editions.json")
+  it should "serialize an Office to an uppercase JString" in {
+    Office.Uk.asJson should be(Json.fromString("UK"))
   }
 
+  it should "preserve timezone information in timestamps" in {
+    {
+      val jsonBefore = Json.fromString("2016-05-04T12:34:56.123Z")
+      val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+      capiDateTime should be(Some(CapiDateTime(1462365296123L, "2016-05-04T12:34:56.123Z")))
+      val jsonAfter = capiDateTime.map(_.asJson)
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56.123Z")))
+    }
+    {
+      val jsonBefore = Json.fromString("2016-05-04T12:34:56.123+01:00")
+      val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+      capiDateTime should be(Some(CapiDateTime(1462361696123L, "2016-05-04T12:34:56.123+01:00")))
+      val jsonAfter = capiDateTime.map(_.asJson)
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56.123+01:00")))
+    }
+  }
 
-  val Identical = Diff(JNothing, JNothing, JNothing)
+  it should "round-trip an ItemResponse with a quiz atom" in {
+    checkRoundTrip[ItemResponse]("item-content-with-atom-quiz.json")
+  }
+
+  it should "round-trip an ItemResponse with a media atom" in {
+    checkRoundTrip[ItemResponse]("item-content-with-atom-media.json")
+  }
+
+  it should "round-trip an ItemResponse with an explainer atom" in {
+    checkRoundTrip[ItemResponse]("item-content-with-atom-explainer.json")
+  }
+
+  it should "round-trip an ItemResponse with blocks" in {
+    checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
+  }
+
+  it should "round-trip an ItemResponse with a crossword" in {
+    checkRoundTrip[ItemResponse]("item-content-with-crossword.json")
+  }
+
+  it should "round-trip an ItemResponse with a membership element" in {
+    checkRoundTrip[ItemResponse]("item-content-with-membership-element.json")
+  }
+
+  it should "round-trip an ItemResponse with packages" in {
+    checkRoundTrip[ItemResponse]("item-content-with-package.json")
+  }
+
+  it should "round-trip an ItemResponse with rich link element" in {
+    checkRoundTrip[ItemResponse]("item-content-with-rich-link-element.json")
+  }
+
+  it should "round-trip an ItemResponse with tweets" in {
+    checkRoundTrip[ItemResponse]("item-content-with-tweets.json")
+  }
+
+  it should "round-trip an ItemResponse with section, edition, most-viewed, editors-picks" in {
+    checkRoundTrip[ItemResponse]("item-section.json")
+  }
+
+  it should "round-trip an ItemResponse with tags" in {
+    checkRoundTrip[ItemResponse]("item-tag.json")
+  }
+
+  it should "round-trip a PackagesResponse" in {
+    checkRoundTrip[PackagesResponse]("packages.json")
+  }
+
+  it should "round-trip a SearchResponse" in {
+    checkRoundTrip[SearchResponse]("search.json")
+  }
 
   def checkRoundTrip[T: Manifest : Decoder : Encoder](jsonFileName: String,
                                   transformBeforeDeserialize: Json => Json = identity,
@@ -44,34 +155,28 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     } yield (jsonBefore, jsonAfter)
 
     jsons should not be None
-    jsons.foreach(j => checkDiff(jsonToJValue(j._1).get, jsonToJValue(j._2).get))
+    jsons.foreach(j => checkDiff(j._1, j._2))
   }
 
-  def checkDiff(jsonBefore: JValue, jsonAfter: JValue) = {
-    val diff = Diff.diff(jsonBefore, jsonAfter)
+  def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
+    import com.github.agourlay.cornichon.json.JsonDiff.{ diff, Diff }
+    val d: Diff = diff(jsonBefore, jsonAfter)
 
-    if (diff != Identical) {
+    if (d != Diff(Json.Null, Json.Null, Json.Null)) {
       println("JSON before:")
-      println(JsonMethods.pretty(jsonBefore))
+      println(jsonBefore.spaces2)
       println("=====")
       println("JSON after:")
-      println(JsonMethods.pretty(jsonAfter))
+      println(jsonAfter.spaces2)
       println("=====")
       println("Lost during roundtrip:")
-      println(JsonMethods.pretty(diff.deleted))
+      println(d.deleted.spaces2)
       println("=====")
       println("Added by roundtrip:")
-      println(JsonMethods.pretty(diff.added))
       println("=====")
       println("Changed during roundtrip")
-      println(JsonMethods.pretty(diff.changed))
+      println(d.changed.spaces2)
       println("=====")
     }
-
-    diff should be(Identical)
-  }
-
-  def jsonToJValue(json: Json): Option[JValue] = {
-    json.as[JValue].toOption
   }
 }
