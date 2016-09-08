@@ -1,8 +1,8 @@
 package com.gu.contentapi.json
 
 import cats.data.Xor
-import com.gu.contentapi.client.model.v1.{Atoms, Edition, _}
-import com.gu.contentatom.thrift.Atom
+import com.gu.contentapi.client.model.v1._
+import com.gu.contentatom.thrift.{ Atom, Atoms }
 import io.circe.Json
 import io.circe.parser._
 import io.circe._

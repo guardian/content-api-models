@@ -2,7 +2,7 @@ package com.gu.contentapi.json
 
 import io.circe._
 import cats.data.Xor
-import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
+import com.gu.contentatom.thrift.{Atom, Atoms, AtomData, AtomType, ContentChangeDetails}
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom

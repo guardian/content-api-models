@@ -1233,21 +1233,6 @@ struct Section {
     6: optional list<Sponsorship> activeSponsorships
 }
 
-struct Atoms {
-    1: optional list<contentatom.Atom> quizzes
-
-    /**
-    * Viewpoints are deprecated
-    */
-    2: optional list<contentatom.Atom> viewpoints
-
-    3: optional list<contentatom.Atom> media
-
-    4: optional list<contentatom.Atom> explainers
-
-    5: optional list<contentatom.Atom> cta
-}
-
 struct ContentStats {
 
    /*
@@ -1432,7 +1417,7 @@ struct Content {
 
     16: optional Crossword crossword
 
-    17: optional Atoms atoms
+    17: optional contentatom.Atoms atoms
 
     18: optional ContentStats stats
 
