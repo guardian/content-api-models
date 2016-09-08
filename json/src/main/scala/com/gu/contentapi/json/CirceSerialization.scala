@@ -8,6 +8,7 @@ import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.contentapi.circe.CirceAtomMacros
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JValue
@@ -184,15 +185,8 @@ object CirceSerialization {
       }
     }
 
-    private def getAtomTypeFieldName(atomType: AtomType): Option[String] = {
-      atomType match {
-        case AtomType.Quiz => Some("quizzes")
-        case AtomType.Media => Some("media")
-        case AtomType.Explainer => Some("explainers")
-        case AtomType.Cta => Some("cta")
-        case _ => None
-      }
-    }
+    private def getAtomTypeFieldName(atomType: AtomType): Option[String] =
+      CirceAtomMacros.getAtomTypeFieldName(atomType)
 
     private def getAtoms(c: HCursor, atomType: AtomType): Decoder.Result[Option[Seq[Atom]]] = {
       getAtomTypeFieldName(atomType) match {
