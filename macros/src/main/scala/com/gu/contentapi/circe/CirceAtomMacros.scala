@@ -22,12 +22,10 @@ class CirceAtomMacrosImpl(val c: blackbox.Context) {
       cq"""_: $cl => $res"""
     }
 
-    val x = q"""$arg match {
+    q"""$arg match {
       case ..$patterns
       case _ => None
     }"""
-    println(showCode(x))
-    x
   }
 
 }
