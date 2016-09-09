@@ -2,7 +2,7 @@ package com.gu.contentapi.json
 
 import io.circe._
 import cats.data.Xor
-import com.gu.contentatom.thrift.{Atom, Atoms, AtomData, AtomType, ContentChangeDetails}
+import com.gu.contentatom.thrift.{Atom, Atoms, AtomData, AtomType, ContentChangeDetails, Constants }
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
@@ -185,8 +185,7 @@ object CirceSerialization {
       }
     }
 
-    private def getAtomTypeFieldName(atomType: AtomType): Option[String] =
-      CirceAtomMacros.getAtomTypeFieldName(atomType)
+    private def getAtomTypeFieldName(atomType: AtomType): Option[String] = Constants.ATOM_FIELDS.get(atomType)
 
     private def getAtoms(c: HCursor, atomType: AtomType): Decoder.Result[Option[Seq[Atom]]] = {
       getAtomTypeFieldName(atomType) match {
