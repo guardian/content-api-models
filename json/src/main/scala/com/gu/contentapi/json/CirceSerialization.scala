@@ -8,7 +8,6 @@ import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
-import com.gu.contentapi.circe.CirceAtomMacros
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import org.json4s.JValue
