@@ -6,7 +6,7 @@ import com.gu.contentatom.thrift.{Atom, Atoms, AtomData, AtomType, ContentChange
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
-import com.gu.contentatom.thrift.atom.cta.CTAAtom
+import com.gu.contentatom.thrift.atom.cta.CtaAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.circe.CirceAtomMacros
 import com.gu.contentapi.client.model.v1._
@@ -180,7 +180,7 @@ object CirceSerialization {
         case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(json => AtomData.Quiz(json))
         case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(json => AtomData.Media(json))
         case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(json => AtomData.Explainer(json))
-        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(json => AtomData.Cta(json))
+        case AtomType.Cta => c.downField("data").get[CtaAtom]("cta").map(json => AtomData.Cta(json))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }
