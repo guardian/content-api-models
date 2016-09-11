@@ -1,11 +1,13 @@
 package com.gu.contentapi.json
 
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.client.model.v1.VideoStatsResponse
+import com.gu.contentapi.json.utils.JsonHelpers._
+import com.gu.contentapi.json.CirceSerialization._
 import org.scalatest.{FlatSpec, Matchers}
 
 class JsonParserVideoStatsTest  extends FlatSpec with Matchers {
 
-  val videoStatsResponse = JsonParser.parseVideoStats(loadJson("video-stats.json"))
+  val videoStatsResponse = parseJson[VideoStatsResponse](loadJson("video-stats.json"))
 
   "video stats parser" should "parse basic response fields" in {
     videoStatsResponse.status should be ("ok")

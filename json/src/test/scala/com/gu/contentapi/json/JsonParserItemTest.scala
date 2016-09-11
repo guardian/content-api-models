@@ -6,22 +6,24 @@ import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers, OptionValues}
 import com.gu.storypackage.model.v1.{ArticleType, Group}
 import com.gu.contentatom.thrift.AtomData
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
 import com.gu.contentapi.utils.CapiModelEnrichment._
+import com.gu.contentapi.json.utils.JsonHelpers._
+
+import com.gu.contentapi.json.CirceSerialization._
 
 class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 
-  val contentItemResponse = JsonParser.parseItem(loadJson("item-content.json"))
-  val contentItemWithBlocksResponse = JsonParser.parseItem(loadJson("item-content-with-blocks.json"))
-  val contentItemWithCrosswordResponse = JsonParser.parseItem(loadJson("item-content-with-crossword.json"))
-  val contentItemWithRichLinkElementResponse = JsonParser.parseItem(loadJson("item-content-with-rich-link-element.json"))
-  val contentItemWithMembershipElementResponse = JsonParser.parseItem(loadJson("item-content-with-membership-element.json"))
-  val contentItemWithPackageResponse = JsonParser.parseItem(loadJson("item-content-with-package.json"))
-  val contentItemWithAtomQuiz = JsonParser.parseItem(loadJson("item-content-with-atom-quiz.json"))
-  val contentItemWithTweets = JsonParser.parseItem(loadJson("item-content-with-tweets.json"))
-  val contentItemWithStats = JsonParser.parseItem(loadJson("item-content-with-blocks.json"))
-  val tagItemResponse = JsonParser.parseItem(loadJson("item-tag.json"))
-  val sectionItemResponse = JsonParser.parseItem(loadJson("item-section.json"))
+  val contentItemResponse = parseJson[ItemResponse](loadJson("item-content.json"))
+  val contentItemWithBlocksResponse = parseJson[ItemResponse](loadJson("item-content-with-blocks.json"))
+  val contentItemWithCrosswordResponse = parseJson[ItemResponse](loadJson("item-content-with-crossword.json"))
+  val contentItemWithRichLinkElementResponse = parseJson[ItemResponse](loadJson("item-content-with-rich-link-element.json"))
+  val contentItemWithMembershipElementResponse = parseJson[ItemResponse](loadJson("item-content-with-membership-element.json"))
+  val contentItemWithPackageResponse = parseJson[ItemResponse](loadJson("item-content-with-package.json"))
+  val contentItemWithAtomQuiz = parseJson[ItemResponse](loadJson("item-content-with-atom-quiz.json"))
+  val contentItemWithTweets = parseJson[ItemResponse](loadJson("item-content-with-tweets.json"))
+  val contentItemWithStats = parseJson[ItemResponse](loadJson("item-content-with-blocks.json"))
+  val tagItemResponse = parseJson[ItemResponse](loadJson("item-tag.json"))
+  val sectionItemResponse = parseJson[ItemResponse](loadJson("item-section.json"))
 
   def capiDateTime(iso8601: String): CapiDateTime =
     ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(iso8601).toCapiDateTime

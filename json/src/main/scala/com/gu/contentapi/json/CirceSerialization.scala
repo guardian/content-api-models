@@ -10,29 +10,8 @@ import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JValue
 
 object CirceSerialization {
-
-  /**
-    * Encoder to convert from a json4s JValue to a Circe Json
-    */
-  implicit val jvalueEncoder: Encoder[JValue] = new Encoder[JValue] {
-    import org.json4s.JsonAST._
-
-    override def apply(j: JValue): Json = j match {
-      case JBool(value) => Json.fromBoolean(value)
-      case JString(value) => Json.fromString(value)
-      case JInt(value) => Json.fromBigInt(value)
-      case JLong(value) => Json.fromLong(value)
-      case JDouble(value) => Json.fromDoubleOrNull(value)
-      case JDecimal(value) => Json.fromBigDecimal(value)
-      case JArray(elems) => Json.fromValues(elems.map(apply))
-      case JObject(fields) => Json.fromFields(fields.map { case (key, value) => (key, apply(value)) })
-      case JNull => Json.Null
-      case JNothing => Json.Null
-    }
-  }
 
   /**
     * We override Circe's provided behaviour so we can emulate json4s's
@@ -91,6 +70,17 @@ object CirceSerialization {
   implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
   implicit val networkFrontDecoder = Decoder[NetworkFront]
   implicit val packageDecoder = Decoder[Package]
+  implicit val itemResponseDecoder = Decoder[ItemResponse]
+  implicit val searchResponseDecoder = Decoder[SearchResponse]
+  implicit val editionsResponseDecoder = Decoder[EditionsResponse]
+  implicit val tagsResponseDecoder = Decoder[TagsResponse]
+  implicit val sectionsResponseDecoder = Decoder[SectionsResponse]
+  implicit val atomsResponseDecoder = Decoder[AtomsResponse]
+  implicit val packagesResponseDecoder = Decoder[PackagesResponse]
+  implicit val errorResponseDecoder = Decoder[ErrorResponse]
+  implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
+  implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
+  implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.

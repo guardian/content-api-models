@@ -1,11 +1,13 @@
 package com.gu.contentapi.json
 
+import com.gu.contentapi.client.model.v1.PackagesResponse
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.json.utils.JsonHelpers._
+import com.gu.contentapi.json.CirceSerialization._
 
 class JsonParserPackagesTest extends FlatSpec with Matchers {
 
-  val packagesResponse = JsonParser.parsePackages(loadJson("packages.json"))
+  val packagesResponse = parseJson[PackagesResponse](loadJson("packages.json"))
 
   "packages parser" should "parse basic response fields" in {
     packagesResponse.status should be ("ok")

@@ -132,8 +132,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "org.json4s" %% "json4s-jackson" % "3.3.0",
-      "org.json4s" %% "json4s-ext" % "3.3.0",
       "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
@@ -145,14 +143,3 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     ),
     mappings in (Compile, packageDoc) := Nil
   )
-
-lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
-  .dependsOn(json, scala)
-  .settings(commonSettings)
-  .enablePlugins(JmhPlugin)
-  .settings(
-    libraryDependencies += "com.google.guava" % "guava" % "19.0",
-    javaOptions in Jmh ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
-    publishArtifact := false
-  )
-

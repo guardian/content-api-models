@@ -1,12 +1,13 @@
 package com.gu.contentapi.json
 
-import com.gu.contentapi.client.model.v1.TagType
+import com.gu.contentapi.client.model.v1.{TagType, TagsResponse}
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.json.utils.JsonHelpers._
+import com.gu.contentapi.json.CirceSerialization._
 
 class JsonParserTagsTest extends FlatSpec with Matchers {
 
-  val tagsResponse = JsonParser.parseTags(loadJson("tags.json"))
+  val tagsResponse = parseJson[TagsResponse](loadJson("tags.json"))
 
   "tags parser" should "parse basic response fields" in {
     tagsResponse.status should be ("ok")

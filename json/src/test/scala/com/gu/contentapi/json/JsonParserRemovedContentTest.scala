@@ -1,11 +1,13 @@
 package com.gu.contentapi.json
 
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.client.model.v1.RemovedContentResponse
+import com.gu.contentapi.json.utils.JsonHelpers._
 import org.scalatest.{FlatSpec, Matchers}
+import com.gu.contentapi.json.CirceSerialization._
 
 class JsonParserRemovedContentTest extends FlatSpec with Matchers {
 
-  val removedResponse = JsonParser.parseRemovedContent(loadJson("removed.json"))
+  val removedResponse = parseJson[RemovedContentResponse](loadJson("removed.json"))
 
   "JsonParser.parseRemovedContent" should "parse basic response fields" in {
     removedResponse.status should be ("ok")

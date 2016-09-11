@@ -1,9 +1,10 @@
 package com.gu.contentapi.json
 
-import com.gu.contentapi.client.model.v1.{CapiDateTime, ContentType}
+import com.gu.contentapi.client.model.v1.{CapiDateTime, ContentType, SearchResponse}
 import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.contentapi.json.utils.JsonLoader.loadJson
+import com.gu.contentapi.json.utils.JsonHelpers._
+import com.gu.contentapi.json.CirceSerialization._
 import com.gu.contentapi.utils.CapiModelEnrichment._
 
 class JsonParserSearchTest extends FlatSpec with Matchers {
@@ -11,7 +12,7 @@ class JsonParserSearchTest extends FlatSpec with Matchers {
   def capiDateTime(iso8601: String): CapiDateTime =
     ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(iso8601).toCapiDateTime
 
-  val searchResponse = JsonParser.parseSearch(loadJson("search.json"))
+  val searchResponse = parseJson[SearchResponse](loadJson("search.json"))
 
   it should "parse basic response fields" in {
     searchResponse.status should be ("ok")

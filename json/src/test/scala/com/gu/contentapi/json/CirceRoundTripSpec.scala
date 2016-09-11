@@ -1,7 +1,7 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-import com.gu.contentapi.json.utils.JsonLoader
+import com.gu.contentapi.json.utils.JsonHelpers._
 import io.circe.{Decoder, Encoder, Json}
 import io.circe.syntax._
 import io.circe.parser._
@@ -147,7 +147,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
                                   transformAfterSerialize: Json => Json = identity) = {
 
     val jsons: Option[(Json, Json)] = for {
-      jsonBefore <- parse(JsonLoader.loadJson(jsonFileName)).toOption
+      jsonBefore <- parse(loadJson(jsonFileName)).toOption
       transformedBefore <- jsonBefore.cursor.downField("response").map(c => transformBeforeDeserialize(c.focus))
       deserialized <- transformedBefore.as[T].toOption
       serialized: Json = deserialized.asJson
