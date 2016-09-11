@@ -4,7 +4,7 @@ import com.gu.contentapi.client.model.v1.{CapiDateTime, ContentType, SearchRespo
 import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.json.utils.JsonHelpers._
-import com.gu.contentapi.json.CirceSerialization._
+import com.gu.contentapi.json.CirceDecoders._
 import com.gu.contentapi.utils.CapiModelEnrichment._
 
 class JsonParserSearchTest extends FlatSpec with Matchers {

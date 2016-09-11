@@ -9,7 +9,7 @@ import com.gu.contentatom.thrift.AtomData
 import com.gu.contentapi.utils.CapiModelEnrichment._
 import com.gu.contentapi.json.utils.JsonHelpers._
 
-import com.gu.contentapi.json.CirceSerialization._
+import com.gu.contentapi.json.CirceDecoders._
 
 class JsonParserItemTest extends FlatSpec with Matchers with OptionValues {
 

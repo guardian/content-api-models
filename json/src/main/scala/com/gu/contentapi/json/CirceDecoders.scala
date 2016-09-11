@@ -11,7 +11,7 @@ import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 
-object CirceSerialization {
+object CirceDecoders {
 
   /**
     * We override Circe's provided behaviour so we can emulate json4s's
@@ -46,8 +46,8 @@ object CirceSerialization {
     }
   }
 
-  implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDeserialization.getAtom)
-  implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDeserialization.getAtoms)
+  implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDecoder.getAtom)
+  implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDecoder.getAtoms)
 
   // The following implicits technically shouldn't be necessary
   // but stuff doesn't compile without them
@@ -122,7 +122,7 @@ object CirceSerialization {
     )
   }
 
-  object AtomDeserialization {
+  object AtomDecoder {
 
     implicit val decodeUnknownOpt: Decoder[AtomData.UnknownUnionField] =
       Decoder.instance(c =>

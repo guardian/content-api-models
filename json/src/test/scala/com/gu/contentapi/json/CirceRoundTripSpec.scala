@@ -8,8 +8,8 @@ import io.circe.parser._
 import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.circe.CirceScroogeMacros._
-import com.gu.contentapi.json.CirceDeserialization._
-import com.gu.contentapi.json.CirceSerialization._
+import com.gu.contentapi.json.CirceEncoders._
+import com.gu.contentapi.json.CirceDecoders._
 
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {
@@ -30,7 +30,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
       modOp(json)
     }
 
-    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterSerialize = removeReferences)
+    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterEncode = removeReferences)
   }
 
   it should "round-trip a SectionsResponse" in {
@@ -143,15 +143,15 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
   }
 
   def checkRoundTrip[T: Manifest : Decoder : Encoder](jsonFileName: String,
-                                  transformBeforeDeserialize: Json => Json = identity,
-                                  transformAfterSerialize: Json => Json = identity) = {
+                                  transformBeforeDecode: Json => Json = identity,
+                                  transformAfterEncode: Json => Json = identity) = {
 
     val jsons: Option[(Json, Json)] = for {
       jsonBefore <- parse(loadJson(jsonFileName)).toOption
-      transformedBefore <- jsonBefore.cursor.downField("response").map(c => transformBeforeDeserialize(c.focus))
-      deserialized <- transformedBefore.as[T].toOption
-      serialized: Json = deserialized.asJson
-      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterSerialize(serialized)))
+      transformedBefore <- jsonBefore.cursor.downField("response").map(c => transformBeforeDecode(c.focus))
+      decoded <- transformedBefore.as[T].toOption
+      encoded: Json = decoded.asJson
+      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
     } yield (jsonBefore, jsonAfter)
 
     jsons should not be None

@@ -3,7 +3,7 @@ package com.gu.contentapi.json
 import com.gu.contentapi.client.model.v1.{TagType, TagsResponse}
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.json.utils.JsonHelpers._
-import com.gu.contentapi.json.CirceSerialization._
+import com.gu.contentapi.json.CirceDecoders._
 
 class JsonParserTagsTest extends FlatSpec with Matchers {
 

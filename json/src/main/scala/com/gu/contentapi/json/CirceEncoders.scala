@@ -12,7 +12,7 @@ import com.gu.contentatom.thrift.{Atom, AtomData}
 import io.circe.generic.auto._
 import org.joda.time.format.ISODateTimeFormat
 
-object CirceDeserialization {
+object CirceEncoders {
 
   private val LowerCaseFollowedByUpperCase = """([a-z])([A-Z])""".r
 
@@ -43,7 +43,7 @@ object CirceDeserialization {
   implicit val contentStatsEncoder = Encoder[ContentStats]
   implicit val sectionEncoder = Encoder[Section]
   implicit val debugEncoder = Encoder[Debug]
-  implicit val atomEncoder = AtomSerialization.genAtomEncoder
+  implicit val atomEncoder = AtomEncoder.genAtomEncoder
   implicit val atomsEncoder = Encoder[Atoms]
   implicit val contentEncoder = Encoder[Content]
   implicit val mostViewedVideoEncoder = Encoder[MostViewedVideo]
@@ -114,7 +114,7 @@ object CirceDeserialization {
   /**
     * TODO - I *will* write a pair of macros for encoding/decoding thrift union types, then delete all this stuff.
    */
-  object AtomSerialization {
+  object AtomEncoder {
 
     def genAtomEncoder: Encoder[Atom] = Encoder.instance[Atom] { atom =>
       Json.fromFields(List(
