@@ -1244,6 +1244,8 @@ struct Atoms {
     3: optional list<contentatom.Atom> media
 
     4: optional list<contentatom.Atom> explainers
+
+    5: optional list<contentatom.Atom> cta
 }
 
 struct ContentStats {
