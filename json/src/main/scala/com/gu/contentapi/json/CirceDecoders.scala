@@ -162,10 +162,10 @@ object CirceDecoders {
 
     private def getAtomData(c: HCursor, atomType: AtomType): Decoder.Result[AtomData] = {
       atomType match {
-        case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(json => AtomData.Quiz(json))
-        case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(json => AtomData.Media(json))
-        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(json => AtomData.Explainer(json))
-        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(json => AtomData.Cta(json))
+        case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(atom => AtomData.Quiz(atom))
+        case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(atom => AtomData.Media(atom))
+        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(atom => AtomData.Explainer(atom))
+        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(atom => AtomData.Cta(atom))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }

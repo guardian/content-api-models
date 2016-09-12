@@ -8,6 +8,7 @@ import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
 import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
+import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentatom.thrift.{Atom, AtomData}
 import io.circe.generic.auto._
 import org.joda.time.format.ISODateTimeFormat
@@ -105,6 +106,7 @@ object CirceEncoders {
         case AtomData.Quiz(quiz) => quiz.asJson(Encoder[QuizAtom])
         case AtomData.Media(media) => media.asJson(Encoder[MediaAtom])
         case AtomData.Explainer(explainer) => explainer.asJson(Encoder[ExplainerAtom])
+        case AtomData.Cta(cta) => cta.asJson(Encoder[CTAAtom])
         case _ => Json.Null
       }
     }
