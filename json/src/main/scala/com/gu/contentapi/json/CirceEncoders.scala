@@ -26,6 +26,24 @@ object CirceEncoders {
 
   implicit def officeEncoder[A <: Office]: Encoder[A] = Encoder[String].contramap(o => o.name.toUpperCase)
 
+  /**
+    * We need special encoders for things with Maps, probably because of implicit divergence.
+    * TODO - surely there's a way to avoid doing this?!
+    */
+  implicit val blockMapEncoder = Encoder.instance[scala.collection.Map[String,Seq[Block]]] { m =>
+    val fields = m.toList.map {
+      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
+    }
+    Json.fromFields(fields)
+  }
+
+  implicit val separatorLocationsEncoder = Encoder.instance[scala.collection.Map[String,Seq[Int]]] { s =>
+    val fields = s.toList.map {
+      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
+    }
+    Json.fromFields(fields)
+  }
+
   implicit val networkFrontEncoder = Encoder[NetworkFront]
   implicit val dateTimeEncoder = genDateTimeEncoder
   implicit val contentFieldsEncoder = Encoder[ContentFields]
@@ -36,9 +54,9 @@ object CirceEncoders {
   implicit val elementEncoder = Encoder[Element]
   implicit val referenceEncoder = Encoder[Reference]
   implicit val blockEncoder = Encoder[Block]
-  implicit val blocksEncoder = genBlocksEncoder
+  implicit val blocksEncoder = Encoder[Blocks]
   implicit val rightsEncoder = Encoder[Rights]
-  implicit val crosswordEntryEncoder = genCrosswordEntryEncoder
+  implicit val crosswordEntryEncoder = Encoder[CrosswordEntry]
   implicit val crosswordEncoder = Encoder[Crossword]
   implicit val contentStatsEncoder = Encoder[ContentStats]
   implicit val sectionEncoder = Encoder[Section]
@@ -60,55 +78,8 @@ object CirceEncoders {
   implicit val atomsUsageResponseEncoder = Encoder[AtomUsageResponse]
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
 
-  /**
-    * We need special encoders for things with Maps, because of implicit divergence.
-    * TODO - surely there's a way to avoid doing this?!
-    */
-  implicit val blockMapEncoder = Encoder.instance[scala.collection.Map[String,Seq[Block]]] { m =>
-    val fields = m.toList.map {
-      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
-    }
-    Json.fromFields(fields)
-  }
-
-  implicit val separatorLocationsEncoder = Encoder.instance[scala.collection.Map[String,Seq[Int]]] { s =>
-    val fields = s.toList.map {
-      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
-    }
-    Json.fromFields(fields)
-  }
-
   def genDateTimeEncoder: Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     Json.fromString(capiDateTime.iso8601)
-  }
-
-  def genBlocksEncoder: Encoder[Blocks] = Encoder.instance[Blocks] { blocks =>
-    val fields = List(
-      blocks.main.map("main" -> _.asJson),
-      blocks.body.map("body" -> _.asJson),
-      blocks.totalBodyBlocks.map("totalBodyBlocks" -> _.asJson),
-      blocks.requestedBodyBlocks.map("requestedBodyBlocks" -> _.asJson)
-    ).flatten
-
-    Json.fromFields(fields)
-  }
-
-  def genCrosswordEntryEncoder: Encoder[CrosswordEntry] = Encoder.instance[CrosswordEntry] { crossword =>
-    val fields = List(
-      Some("id" -> crossword.id.asJson),
-      crossword.number.map("number" -> _.asJson),
-      crossword.humanNumber.map("humanNumber" -> _.asJson),
-      crossword.direction.map("direction" -> _.asJson),
-      crossword.position.map("position" -> _.asJson),
-      crossword.separatorLocations.map("separatorLocations" -> _.asJson),
-      crossword.length.map("length" -> _.asJson),
-      crossword.clue.map("clue" -> _.asJson),
-      crossword.group.map("group" -> _.asJson),
-      crossword.solution.map("solution" -> _.asJson),
-      crossword.format.map("format" -> _.asJson)
-    ).flatten
-
-    Json.fromFields(fields)
   }
 
   /**
