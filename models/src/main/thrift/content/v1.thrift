@@ -1601,6 +1601,8 @@ struct ItemResponse {
     22: optional contentatom.Atom media
 
     23: optional contentatom.Atom explainer
+
+    24: optional contentatom.Atom cta
 }
 
 struct TagsResponse {
