@@ -174,15 +174,21 @@ object CirceSerialization {
       }
     }
 
-    private def getAtomData(c: HCursor, atomType: AtomType): Decoder.Result[AtomData] = {
+
+    import stelo.PMRTest._
+
+    private def getAtomData[A <: AtomType, D](c: HCursor, atomType: A)
+      (implicit mapsTo: MapsTo[A, D]): Decoder.Result[AtomData] = {
+      println(s"[PMR 1709] $mapsTo")
       atomType match {
         case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(json => AtomData.Quiz(json))
         case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(json => AtomData.Media(json))
-        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(json => AtomData.Explainer(json))
-        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(json => AtomData.Cta(json))
+//        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(json => AtomData.Explainer(json))
+//        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(json => AtomData.Cta(json))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }
+
 
     private def getAtomTypeFieldName(atomType: AtomType): Option[String] = Constants.ATOM_FIELDS.get(atomType)
 
