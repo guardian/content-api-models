@@ -42,7 +42,7 @@ val commonSettings = Seq(
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
-val circeVersion = "0.5.0-M2"
+val circeVersion = "0.5.1"
 
 /**
   * Root project
