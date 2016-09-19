@@ -1037,6 +1037,14 @@ struct SponsorshipTargeting {
     2: optional list<string> validEditions
 }
 
+struct SponsorshipLogoDimensions {
+
+    1: required i32 width
+
+    2: required i32 height
+
+}
+
 struct Sponsorship {
 
     1: required SponsorshipType sponsorshipType
@@ -1050,6 +1058,9 @@ struct Sponsorship {
     5: optional SponsorshipTargeting targeting
 
     6: optional string aboutLink
+
+    7: optional SponsorshipLogoDimensions sponsorLogoDimensions
+
 }
 
 struct Tag {
