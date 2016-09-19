@@ -1,5 +1,6 @@
 package com.gu.contentapi.json
 
+import com.github.agourlay.cornichon.json.JsonDiff.Diff
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.utils.JsonHelpers._
 import io.circe.{Decoder, Encoder, Json}
@@ -20,14 +21,11 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     marked as required, making the Thrift model inconsistent with the JSON one.
     We work around this problem in Concierge.
      */
-    val removeReferences = (json: Json) => {
-      val modOp = root.results.each.at("references").modify { refsOpt =>
-        for {
-          refs: Json <- refsOpt
-          nonEmptyArray <- refs.asArray.filter(_.nonEmpty)
-        } yield refs
-      }
-      modOp(json)
+    val removeReferences = root.results.each.at("references").modify { refsOpt =>
+      for {
+        refs: Json <- refsOpt
+        nonEmptyArray <- refs.asArray.filter(_.nonEmpty)
+      } yield refs
     }
 
     checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterEncode = removeReferences)
@@ -158,25 +156,22 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     jsons.foreach(j => checkDiff(j._1, j._2))
   }
 
+  val Identical = Diff(Json.Null, Json.Null, Json.Null)
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
     import com.github.agourlay.cornichon.json.JsonDiff.{ diff, Diff }
     val d: Diff = diff(jsonBefore, jsonAfter)
 
-    if (d != Diff(Json.Null, Json.Null, Json.Null)) {
+    if (d != Identical) {
       println("JSON before:")
       println(jsonBefore.spaces2)
       println("=====")
       println("JSON after:")
       println(jsonAfter.spaces2)
       println("=====")
-      println("Lost during roundtrip:")
-      println(d.deleted.spaces2)
-      println("=====")
-      println("Added by roundtrip:")
-      println("=====")
-      println("Changed during roundtrip")
-      println(d.changed.spaces2)
-      println("=====")
+      println("Diff:")
+      println(d)
     }
+
+    d should be(Identical)
   }
 }
