@@ -4,7 +4,7 @@
   },
   "apiUrl": "http://content.code.dev-guardianapis.com/test/2016/jan/12/example",
   "webUrl": "http://www.code.dev-theguardian.com/test/2016/jan/12/example",
-  "webPublicationDate": "2016-01-12T15:17:19.000Z",
+  "webPublicationDate": "2016-01-12T15:17:19Z",
   "webTitle": "example",
   "sectionId": "test",
   "type": "article",

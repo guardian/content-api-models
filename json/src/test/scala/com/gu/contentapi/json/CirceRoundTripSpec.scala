@@ -84,14 +84,14 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
       val capiDateTime = jsonBefore.as[CapiDateTime].toOption
       capiDateTime should be(Some(CapiDateTime(1462365296123L, "2016-05-04T12:34:56.123Z")))
       val jsonAfter = capiDateTime.map(_.asJson)
-      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56.123Z")))
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56Z")))
     }
     {
       val jsonBefore = Json.fromString("2016-05-04T12:34:56.123+01:00")
       val capiDateTime = jsonBefore.as[CapiDateTime].toOption
       capiDateTime should be(Some(CapiDateTime(1462361696123L, "2016-05-04T12:34:56.123+01:00")))
       val jsonAfter = capiDateTime.map(_.asJson)
-      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56.123+01:00")))
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56+01:00")))
     }
   }
 

@@ -80,7 +80,9 @@ object CirceEncoders {
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
 
   def genDateTimeEncoder: Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
-    Json.fromString(capiDateTime.iso8601)
+    val dateTime = ISODateTimeFormat.dateTime().withOffsetParsed().parseDateTime(capiDateTime.iso8601)
+    // We don't include millis in JSON, for backwards-compatibility
+    Json.fromString(dateTime.toString(ISODateTimeFormat.dateTimeNoMillis()))
   }
 
   /**

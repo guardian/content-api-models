@@ -11,14 +11,14 @@
       "tags": [],
       "blocks": {
         "main": {
-          "lastModifiedDate": "2015-09-24T12:39:12.000Z",
+          "lastModifiedDate": "2015-09-24T12:39:12Z",
           "lastModifiedBy": {
             "firstName": "Alex",
             "lastName": "Olorenshaw",
             "email": "alex.olorenshaw@guardian.co.uk"
           },
           "published": true,
-          "createdDate": "2015-09-24T12:34:59.000Z",
+          "createdDate": "2015-09-24T12:34:59Z",
           "createdBy": {
             "firstName": "Katie",
             "lastName": "Lamborn",
@@ -258,20 +258,20 @@
           "bodyHtml": "<figure class=\"element element-video\" data-canonical-url=\"http://www.theguardian.com/world/video/2015/sep/24/mecca-aftermath-of-hajj-pilgrimage-crush-video\"            data-short-url=\"http://gu.com/p/4cyxj\"                    data-show-ads=\"true\"            data-video-id=\"2377315\"            data-video-name=\"Mecca: aftermath of hajj pilgrimage crush – video\"            data-video-provider=\"@etharkamal/AJ+\"            data-video-poster=\"http://static.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095479801/KP_481687_crop_640x480.jpg\"> <video data-media-id=\"gu-video-5603e3c6e4b0f4aadcfd977e\" class=\"gu-video\" controls=\"controls\" poster=\"http://static.guim.co.uk/sys-images/Guardian/Pix/audio/video/2015/9/24/1443095479801/KP_481687_crop_640x480.jpg\"> <source src=\"http://cdn.theguardian.tv/mainwebsite/2015/09/24/150924Mecca_desk.mp4\"/><source src=\"http://cdn.theguardian.tv/3gp/large/2015/09/24/150924Mecca_large.3gp\"/><source src=\"http://cdn.theguardian.tv/HLS/2015/09/24/150924Mecca.m3u8\"/><source src=\"http://cdn.theguardian.tv/webM/2015/09/24/150924Mecca_synd_768k_vp8.webm\"/><source src=\"http://cdn.theguardian.tv/3gp/small/2015/09/24/150924Mecca_small.3gp\"/> </video> <figcaption>Footage of the aftermath of the crush in Mina, near Mecca</figcaption> </figure>",
           "attributes": {},
           "id": "5603edf3e4b0dad816840622",
-          "firstPublishedDate": "2015-09-24T08:18:18.000Z",
-          "publishedDate": "2015-09-24T12:41:18.000Z",
+          "firstPublishedDate": "2015-09-24T08:18:18Z",
+          "publishedDate": "2015-09-24T12:41:18Z",
           "contributors": []
         },
         "body": [
           {
-            "lastModifiedDate": "2015-09-24T13:41:33.000Z",
+            "lastModifiedDate": "2015-09-24T13:41:33Z",
             "lastModifiedBy": {
               "firstName": "Jonathan",
               "lastName": "Casson",
               "email": "jonathan.casson@guardian.co.uk"
             },
             "published": true,
-            "createdDate": "2015-09-24T08:16:12.000Z",
+            "createdDate": "2015-09-24T08:16:12Z",
             "createdBy": {
               "firstName": "Alex",
               "lastName": "Olorenshaw",
@@ -474,13 +474,13 @@
             "bodyHtml": "<aside class=\"element element-rich-link element--thumbnail\"> <p> <span>Related: </span><a href=\"http://www.theguardian.com/world/live/2015/sep/24/hajj-crush-kills-scores-near-mecca-live-coverage\">Mecca: hajj crush kills hundreds near holy city – live coverage</a> </p> </aside>  <p>The death toll in a stampede outside Mecca has risen to 717, with at least 800 injured, the deadliest disaster on the annual hajj pilgrimage in over a quarter of a century.</p> <p>The crush happened in the Mina valley, a few miles outside Mecca, where a sprawling camp of 160,000 tents fills with millions of visitors for a few days each year.</p> <p>Tragedy hit when two large groups of pilgrims who were preparing for one of the last major rites of their trip met on an intersection of two roads, Saudi authorities said.</p> <p>The crush left bodies of victims and injured survivors heaped in chaotic piles on the street in blazing desert heat, videos and photographs from the site showed.</p> <p>Over 4,000 rescue workers raced to the scene to offer first aid and load the most critically injured people into rescue helicopters and hundreds of ambulances.</p> <p>The stampede is the deadliest disaster at the hajj since a similar tragedy in 1990, when more than 1,400 people died after panic broke out among crowds inside a tunnel.</p> <p>It is also the second deadly disaster in Islam’s holiest city this month, after <a href=\"http://www.theguardian.com/world/2015/sep/11/crane-crashes-grand-mosque-mecca-haj-pilgrimage\">a construction crane collapsed</a> on 11 September, killing more than 100 people and injuring more than 200.</p>  <figure class=\"element element-image\" data-media-id=\"a905244730fa7f302e4ea5354c666c7cfacabb36\"> <img src=\"http://media.guim.co.uk/a905244730fa7f302e4ea5354c666c7cfacabb36/224_1_745_446/500.jpg\" alt=\"Hajj crush in Mina, near Mecca, Saudi Arabia\" width=\"500\" height=\"299\" class=\"gu-image\" /> <figcaption> <span class=\"element-image__caption\"> People gather around the victims of the stampede in Mina.</span> <span class=\"element-image__credit\">Photograph: AP</span> </figcaption> </figure>  <p>The latest deaths are likely to raise questions about Saudi authorities handling of safety during the hajj pilgrimage, when 2-3 million people travel to Mecca.</p> <p>Mina has been a particular focus of concerns, because thousands of people had died in past stampedes and fires on the cramped streets of the temporary tent city.</p>  <figure class=\"element element-interactive interactive\" data-interactive=\"http://interactive.guim.co.uk/embed/iframe-wrapper/0.1/boot.js\" data-canonical-url=\"http://interactive.guim.co.uk/uploader/embed/2015/09/mecca_crush/giv-31114wBYHjoKMce1W/\" data-alt=\"Hajj scene of stampede\"> <a href=\"http://interactive.guim.co.uk/uploader/embed/2015/09/mecca_crush/giv-31114wBYHjoKMce1W/\">Hajj scene of stampede</a> </figure>  <p>Saudi authorities have spent millions trying to improve safety, including expanding the “Jamarat bridge”, where pilgrims throw pebbles at three walls in a symbolic stoning of the devil into a multi-storey building with entrance and exit ramps.</p>  <figure class=\"element element-image\" data-media-id=\"49b7ef3940bc0513a2aeabe5464b5d5c121225f0\"> <img src=\"http://media.guim.co.uk/49b7ef3940bc0513a2aeabe5464b5d5c121225f0/0_343_5143_3086/1000.jpg\" alt=\"Muslim pilgrims in Mina during the hajj, Mecca, Saudi Arabia\" width=\"1000\" height=\"600\" class=\"gu-image\" /> <figcaption> <span class=\"element-image__caption\">Hundreds of thousands of pilgrims in Mina make their way to perform a ritual at the Jamarat bridge, the last rite of the annual hajj.</span> <span class=\"element-image__credit\">Photograph: Mosa'ab Elshamy/AP</span> </figcaption> </figure>  <p>Pilgrims continued to arrive at the site despite the stampede. “Work is under way to separate large groups of people and direct pilgrims to alternative routes,” the Saudi civil defence directorate said.</p> <p>The hajj pilgrimage is one of the five pillars of Islam, and it is a religious duty for able-bodied Muslims to make the journey at least once in their lives.</p>  <figure class=\"element element-embed\" data-alt=\"Form\">  <iframe class=\"fenced\" srcdoc=\"&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;https://guardiannewsampampmedia.formstack.com/forms/js.php/untitled_form_19_copy_44&quot;&gt;&lt;/script&gt;&lt;noscript&gt;&lt;a href=&quot;https://guardiannewsampampmedia.formstack.com/forms/untitled_form_19_copy_44&quot; title=&quot;Online Form&quot;&gt;Online Form - Hajj&lt;/a&gt;&lt;/noscript&gt; &lt;/body&gt;&lt;/html&gt;\"></iframe> </figure>",
             "attributes": {},
             "id": "5603b14ce4b0dad81683fd8c",
-            "firstPublishedDate": "2015-09-24T08:16:16.000Z",
-            "publishedDate": "2015-09-24T13:41:33.000Z",
+            "firstPublishedDate": "2015-09-24T08:16:16Z",
+            "publishedDate": "2015-09-24T13:41:33Z",
             "contributors": []
           }
         ]
       },
-      "webPublicationDate": "2015-09-24T13:28:24.000Z",
+      "webPublicationDate": "2015-09-24T13:28:24Z",
       "elements": [
         {
           "id": "gu-video-5603e3c6e4b0f4aadcfd977e",

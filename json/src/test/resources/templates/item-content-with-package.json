@@ -7,7 +7,7 @@
       "type": "article",
       "sectionId": "crosswords",
       "webTitle": "Cryptic crossword No 24,623",
-      "webPublicationDate": "2015-06-09T23:00:00.000Z",
+      "webPublicationDate": "2015-06-09T23:00:00Z",
       "id": "crosswords/cryptic/24623",
       "isHosted": false,
       "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
@@ -19,7 +19,7 @@
     "packages": [{
       "packageId": "I'm packing, I'm packing, I'm pack-pack-packing",
       "packageName": "I am packing",
-      "lastModified": "2014-05-21T13:40:59.000Z",
+      "lastModified": "2014-05-21T13:40:59Z",
       "articles": [{
         "metadata": {
           "id": "internal-code/page/2436646",
@@ -34,7 +34,7 @@
           "type": "article",
           "sectionId": "crosswords",
           "webTitle": "package article 1",
-          "webPublicationDate": "2015-06-09T23:00:00.000Z",
+          "webPublicationDate": "2015-06-09T23:00:00Z",
           "id": "internal-code/page/2436646",
           "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
           "apiUrl": "http://content.guardianapis.com/crosswords/cryptic/24623",
@@ -54,7 +54,7 @@
           "type": "article",
           "sectionId": "crosswords",
           "webTitle": "package article 2",
-          "webPublicationDate": "2015-06-09T23:00:00.000Z",
+          "webPublicationDate": "2015-06-09T23:00:00Z",
           "id": "internal-code/page/2437327",
           "webUrl": "http://www.theguardian.com/crosswords/cryptic/24623",
           "apiUrl": "http://content.guardianapis.com/crosswords/cryptic/24623",
