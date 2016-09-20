@@ -11,6 +11,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
+import cats.data.Xor.Right
 
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {
@@ -69,6 +70,12 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
 
   it should "serialize an Office to an uppercase JString" in {
     Office.Uk.asJson should be(Json.fromString("UK"))
+  }
+
+  it should "be able to deserialize a Json number to a String" in {
+    parse(""" "123456789" """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[Long] should be(Right(123456789L))
   }
 
   it should "preserve timezone information in timestamps" in {
@@ -140,7 +147,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[SearchResponse]("search.json")
   }
 
-  def checkRoundTrip[T: Manifest : Decoder : Encoder](jsonFileName: String,
+  def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
                                   transformBeforeDecode: Json => Json = identity,
                                   transformAfterEncode: Json => Json = identity) = {
 

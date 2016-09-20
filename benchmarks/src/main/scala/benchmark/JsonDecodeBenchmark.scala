@@ -41,7 +41,7 @@ class JsonDecodeBenchmark {
 
   val contentJson = loadJson("content-with-blocks.json")
   val massiveContentsListJson = loadJson("massive-contents-list.json")
-  val contentOpt = contentJson.as[Content].leftMap(e => throw e).toOption
+  val contentOpt = contentJson.as[Content].leftMap(e => throw e).toOption.get
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
@@ -54,7 +54,7 @@ class JsonDecodeBenchmark {
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.NANOSECONDS)
   def circeEncode(bh: Blackhole) = {
-    contentOpt.foreach(c => bh.consume(c.asJson))
+    bh.consume(contentOpt.asJson)
   }
 
   @Benchmark

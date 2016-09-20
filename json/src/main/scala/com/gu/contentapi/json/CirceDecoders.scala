@@ -81,7 +81,6 @@ object CirceDecoders {
   implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
   implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
-  implicit val storyPackageArticleDecoder = Decoder[com.gu.storypackage.model.v1.Article]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.

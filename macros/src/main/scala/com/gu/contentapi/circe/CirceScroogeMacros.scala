@@ -178,7 +178,7 @@ object CirceScroogeMacros {
       }
 
       if (isOption) q"""thrift.${name.toTermName}.map(${name.toString} -> $implicitEncoder.apply(_))"""
-      else q"""Some(${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName}))"""
+      else q"""_root_.scala.Some(${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName}))"""
     }
 
     val tree =
