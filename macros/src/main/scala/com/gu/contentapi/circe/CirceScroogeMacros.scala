@@ -3,7 +3,7 @@ package com.gu.contentapi.circe
 import scala.language.experimental.macros
 import scala.reflect.macros.blackbox
 import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
-import io.circe.Decoder
+import io.circe.{Decoder, Encoder}
 import shapeless.Lazy
 
 /**
@@ -80,7 +80,7 @@ object CirceScroogeMacros {
       // See https://github.com/travisbrown/circe/issues/329 for details.
       val decodeParam =
         q"""cursor.cursor.downField(${name.toString})
-           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field", Nil)))(x => x.as[$tpe]($implicitDecoder))"""
+           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field: " + ${name.toString}, Nil)))(x => x.as[$tpe]($implicitDecoder))"""
 
       val expr =
         if (param.asTerm.isParamWithDefault) {
@@ -135,4 +135,56 @@ object CirceScroogeMacros {
     """
   }
 
+  implicit def encodeThriftStruct[A <: ThriftStruct]: Encoder[A] = macro encodeThriftStruct_impl[A]
+
+  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+    import c.universe._
+
+    val A = weakTypeOf[A]
+    val apply = A.companion.member(TermName("apply")) match {
+      case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+      case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
+    }
+
+    val pairs = apply.paramLists.head.map { param =>
+      val name = param.name
+      /**
+        * We need to ignore any optional fields which are None, because they'll be included in the result as JNulls.
+        */
+      val (tpe, isOption) = param.typeSignature match {
+        case TypeRef(_, sym, ps) if sym == typeOf[Option[_]].typeSymbol => (ps.head, true)
+        case other => (other, false)
+      }
+
+      val encoderForType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, tpe)
+      val implicitEncoder: c.Tree = {
+        val normalImplicitEncoder = c.inferImplicitValue(encoderForType)
+        if (normalImplicitEncoder.nonEmpty) {
+          // Found an implicit, no need to use Lazy.
+          // We want to avoid Lazy as much as possible, because extracting its `.value` incurs a runtime cost.
+          normalImplicitEncoder
+        } else {
+          // If we couldn't find an implicit, try again with shapeless `Lazy`.
+          // This is to work around a problem with diverging implicits.
+          // If you try to summon an implicit for heavily nested type, e.g. `Encoder[Option[Seq[String]]]` then the compiler sometimes gives up.
+          // Wrapping with `Lazy` fixes this issue.
+          val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForType)
+          val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
+          if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$tpe] even after resorting to Lazy")
+
+          // Note: In theory we could use the `implicitLazyEncoder` that we just found, but... for some reason it crashes the compiler :(
+          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$tpe]]].value"
+        }
+      }
+
+      if (isOption) q"""thrift.${name.toTermName}.map(${name.toString} -> $implicitEncoder.apply(_))"""
+      else q"""_root_.scala.Some(${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName}))"""
+    }
+
+    val tree =
+      q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => _root_.io.circe.Json.fromFields($pairs.flatten)) }"""
+
+    tree
+
+  }
 }

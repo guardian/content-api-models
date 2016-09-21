@@ -1,15 +1,20 @@
 package com.gu.contentapi.json
 
+import com.github.agourlay.cornichon.json.JsonDiff.Diff
 import com.gu.contentapi.client.model.v1._
-import com.gu.contentapi.json.utils.JsonLoader
-import org.json4s.{JValue, Diff, Extraction}
-import org.json4s.JsonAST.{JString, JArray, JNothing, JObject}
-import org.json4s.jackson.JsonMethods
-import org.scalatest._
+import com.gu.contentapi.json.utils.JsonHelpers._
+import io.circe.{Decoder, Encoder, Json}
+import io.circe.syntax._
+import io.circe.parser._
+import io.circe.optics.JsonPath._
+import org.scalatest.{FlatSpec, Matchers}
+import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.contentapi.json.CirceEncoders._
+import com.gu.contentapi.json.CirceDecoders._
+import cats.data.Xor.Right
 
-class SerializationSpec extends FlatSpec with Matchers {
 
-  implicit val formats = Serialization.formats
+class CirceRoundTripSpec extends FlatSpec with Matchers {
 
   it should "round-trip a TagsResponse including a sponsored tag" in {
     /*
@@ -17,16 +22,14 @@ class SerializationSpec extends FlatSpec with Matchers {
     marked as required, making the Thrift model inconsistent with the JSON one.
     We work around this problem in Concierge.
      */
-    val removeReferences = (json: JValue) => json.transformField {
-      case ("results", JArray(results)) =>
-        val withoutRefs = results.map(_.removeField {
-          case ("references", JArray(Nil)) => true
-          case _ => false
-        })
-        ("results", JArray(withoutRefs))
+    val removeReferences = root.results.each.at("references").modify { refsOpt =>
+      for {
+        refs: Json <- refsOpt
+        nonEmptyArray <- refs.asArray.filter(_.nonEmpty)
+      } yield refs
     }
 
-    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterSerialize = removeReferences)
+    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterEncode = removeReferences)
   }
 
   it should "round-trip a SectionsResponse" in {
@@ -54,40 +57,41 @@ class SerializationSpec extends FlatSpec with Matchers {
   }
 
   it should "round-trip a content ItemResponse" in {
-    checkRoundTrip[ItemResponse]("item-content.json",
-      transformBeforeDeserialize = _.transformField(Serialization.destringifyFields),
-      transformAfterSerialize = _.transformField {
-        case ("content", json) => ("content", Serialization.stringifyContent(json))
-      }
-    )
+    checkRoundTrip[ItemResponse]("item-content.json")
   }
 
   it should "round-trip a Thrift Enum with a complex name" in {
     val tagTypeBefore = TagType.NewspaperBookSection
-    val json = Extraction.decompose(tagTypeBefore)
-    val tagTypeAfter = json.extract[TagType]
+    val json = tagTypeBefore.asJson
+    val tagTypeAfter = json.as[TagType].toOption.get
 
     tagTypeAfter should equal(tagTypeBefore)
   }
 
   it should "serialize an Office to an uppercase JString" in {
-    Extraction.decompose(Office.Uk) should be(JString("UK"))
+    Office.Uk.asJson should be(Json.fromString("UK"))
+  }
+
+  it should "be able to deserialize a Json number to a String" in {
+    parse(""" "123456789" """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[String] should be(Right("123456789"))
+    parse(""" 123456789 """).getOrElse(Json.Null).as[Long] should be(Right(123456789L))
   }
 
   it should "preserve timezone information in timestamps" in {
     {
-      val jsonBefore = JString("2016-05-04T12:34:56.123Z")
-      val capiDateTime = jsonBefore.extract[CapiDateTime]
-      capiDateTime should be(CapiDateTime(1462365296123L, "2016-05-04T12:34:56.123Z"))
-      val jsonAfter = Extraction.decompose(capiDateTime)
-      jsonAfter should be(JString("2016-05-04T12:34:56Z")) // no millis
+      val jsonBefore = Json.fromString("2016-05-04T12:34:56.123Z")
+      val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+      capiDateTime should be(Some(CapiDateTime(1462365296123L, "2016-05-04T12:34:56.123Z")))
+      val jsonAfter = capiDateTime.map(_.asJson)
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56Z")))
     }
     {
-      val jsonBefore = JString("2016-05-04T12:34:56.123+01:00")
-      val capiDateTime = jsonBefore.extract[CapiDateTime]
-      capiDateTime should be(CapiDateTime(1462361696123L, "2016-05-04T12:34:56.123+01:00"))
-      val jsonAfter = Extraction.decompose(capiDateTime)
-      jsonAfter should be(JString("2016-05-04T12:34:56+01:00")) // no millis
+      val jsonBefore = Json.fromString("2016-05-04T12:34:56.123+01:00")
+      val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+      capiDateTime should be(Some(CapiDateTime(1462361696123L, "2016-05-04T12:34:56.123+01:00")))
+      val jsonAfter = capiDateTime.map(_.asJson)
+      jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56+01:00")))
     }
   }
 
@@ -143,41 +147,38 @@ class SerializationSpec extends FlatSpec with Matchers {
     checkRoundTrip[SearchResponse]("search.json")
   }
 
-  val Identical = Diff(JNothing, JNothing, JNothing)
+  def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
+                                  transformBeforeDecode: Json => Json = identity,
+                                  transformAfterEncode: Json => Json = identity) = {
 
-  def checkRoundTrip[T: Manifest](jsonFileName: String,
-                                  transformBeforeDeserialize: JValue => JValue = identity,
-                                  transformAfterSerialize: JValue => JValue = identity) = {
-    val jsonBefore = JsonMethods.parse(JsonLoader.loadJson(jsonFileName))
-    val deserialized = transformBeforeDeserialize(jsonBefore \ "response").extract[T]
-    val serialized = Extraction.decompose(deserialized)
-    val jsonAfter = JObject("response" -> transformAfterSerialize(serialized))
+    val jsons: Option[(Json, Json)] = for {
+      jsonBefore <- parse(loadJson(jsonFileName)).toOption
+      transformedBefore <- jsonBefore.cursor.downField("response").map(c => transformBeforeDecode(c.focus))
+      decoded <- transformedBefore.as[T].toOption
+      encoded: Json = decoded.asJson
+      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
+    } yield (jsonBefore, jsonAfter)
 
-    checkDiff(jsonBefore, jsonAfter)
+    jsons should not be None
+    jsons.foreach(j => checkDiff(j._1, j._2))
   }
 
-  def checkDiff(jsonBefore: JValue, jsonAfter: JValue) = {
-    val diff = Diff.diff(jsonBefore, jsonAfter)
+  val Identical = Diff(Json.Null, Json.Null, Json.Null)
+  def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
+    import com.github.agourlay.cornichon.json.JsonDiff.{ diff, Diff }
+    val d: Diff = diff(jsonBefore, jsonAfter)
 
-    if (diff != Identical) {
+    if (d != Identical) {
       println("JSON before:")
-      println(JsonMethods.pretty(jsonBefore))
+      println(jsonBefore.spaces2)
       println("=====")
       println("JSON after:")
-      println(JsonMethods.pretty(jsonAfter))
+      println(jsonAfter.spaces2)
       println("=====")
-      println("Lost during roundtrip:")
-      println(JsonMethods.pretty(diff.deleted))
-      println("=====")
-      println("Added by roundtrip:")
-      println(JsonMethods.pretty(diff.added))
-      println("=====")
-      println("Changed during roundtrip")
-      println(JsonMethods.pretty(diff.changed))
-      println("=====")
+      println("Diff:")
+      println(d)
     }
 
-    diff should be(Identical)
+    d should be(Identical)
   }
-
 }
