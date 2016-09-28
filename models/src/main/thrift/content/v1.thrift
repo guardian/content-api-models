@@ -989,7 +989,7 @@ struct ContentFields {
     40: optional i32 internalContentCode
 
     41: optional bool isLive
-    
+
     /*
      * A short id used as a key for discussion and save for later feature
      */
@@ -1060,6 +1060,10 @@ struct Sponsorship {
     6: optional string aboutLink
 
     7: optional SponsorshipLogoDimensions sponsorLogoDimensions
+
+    8: optional string highContrastSponsorLogo
+
+    9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
 
 }
 
@@ -1461,7 +1465,7 @@ struct Content {
     //22: optional bool isLive
 
     /*
-     * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian. 
+     * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian.
      */
     23: required bool isHosted = false
 }
