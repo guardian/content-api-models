@@ -998,6 +998,10 @@ struct ContentFields {
     43: optional string shortSocialShareText
 
     44: optional string socialShareText
+
+    45: optional string bodyText
+
+    46: optional i32 charCount
 }
 
 struct Reference {
