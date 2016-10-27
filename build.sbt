@@ -88,11 +88,12 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   .settings(commonSettings)
   .disablePlugins(ScroogeSBT)
   .settings(
+    resolvers += Resolver.sonatypeRepo("releases"),
     description := "Scala models for the Guardian's Content API",
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.5"
+      "com.gu" % "content-atom-model-thrift" % "2.4.7"
     )
   )
 

@@ -8,6 +8,7 @@ import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentatom.thrift.atom.interactive.InteractiveAtom
+import com.gu.contentatom.thrift.atom.review.ReviewAtom
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
@@ -145,8 +146,9 @@ object CirceDecoders {
         explainers <- getAtoms(c, AtomType.Explainer)
         cta <- getAtoms(c, AtomType.Cta)
         interactives <- getAtoms(c, AtomType.Interactive)
+        reviews <- getAtoms(c, AtomType.Review)
       } yield {
-        Atoms(quizzes = quizzes, media = media, explainers = explainers, cta = cta, interactives = interactives)
+        Atoms(quizzes = quizzes, media = media, explainers = explainers, cta = cta, interactives = interactives, reviews = reviews)
       }
     }
 
@@ -169,6 +171,7 @@ object CirceDecoders {
         case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(atom => AtomData.Explainer(atom))
         case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(atom => AtomData.Cta(atom))
         case AtomType.Interactive => c.downField("data").get[InteractiveAtom]("interactive").map(json => AtomData.Interactive(json))
+        case AtomType.Review => c.downField("data").get[ReviewAtom]("review").map(json => AtomData.Review(json))
         case _ => Xor.left(DecodingFailure("AtomData", c.history))
       }
     }
@@ -180,6 +183,7 @@ object CirceDecoders {
         case AtomType.Explainer => Some("explainers")
         case AtomType.Cta => Some("cta")
         case AtomType.Interactive => Some("interactives")
+        case AtomType.Review => Some("reviews")
         case _ => None
       }
     }

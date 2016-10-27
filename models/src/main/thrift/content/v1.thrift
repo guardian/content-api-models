@@ -1267,6 +1267,8 @@ struct Atoms {
     5: optional list<contentatom.Atom> cta
 
     6: optional list<contentatom.Atom> interactives
+
+    7: optional list<contentatom.Atom> reviews
 }
 
 struct ContentStats {
@@ -1626,6 +1628,8 @@ struct ItemResponse {
     24: optional contentatom.Atom cta
 
     25: optional contentatom.Atom interactive
+
+    26: optional contentatom.Atom review
 }
 
 struct TagsResponse {

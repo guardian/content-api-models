@@ -10,6 +10,7 @@ import com.gu.contentatom.thrift.atom.media.MediaAtom
 import com.gu.contentatom.thrift.atom.quiz.QuizAtom
 import com.gu.contentatom.thrift.atom.cta.CTAAtom
 import com.gu.contentatom.thrift.atom.interactive.InteractiveAtom
+import com.gu.contentatom.thrift.atom.review.ReviewAtom
 import com.gu.contentatom.thrift.{Atom, AtomData}
 import io.circe.generic.auto._
 import org.joda.time.format.ISODateTimeFormat
@@ -111,6 +112,7 @@ object CirceEncoders {
         case AtomData.Explainer(explainer) => explainer.asJson(Encoder[ExplainerAtom])
         case AtomData.Cta(cta) => cta.asJson(Encoder[CTAAtom])
         case AtomData.Interactive(interactive) => interactive.asJson(Encoder[InteractiveAtom])
+        case AtomData.Review(review) => review.asJson(Encoder[ReviewAtom])
         case _ => Json.Null
       }
     }
