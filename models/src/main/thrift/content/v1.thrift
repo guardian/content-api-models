@@ -1269,6 +1269,8 @@ struct Atoms {
     6: optional list<contentatom.Atom> interactives
 
     7: optional list<contentatom.Atom> reviews
+
+    8: optional list<contentatom.Atom> recipes
 }
 
 struct ContentStats {
@@ -1630,6 +1632,8 @@ struct ItemResponse {
     25: optional contentatom.Atom interactive
 
     26: optional contentatom.Atom review
+
+    27: optional contentatom.Atom recipe
 }
 
 struct TagsResponse {
