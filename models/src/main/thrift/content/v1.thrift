@@ -651,6 +651,13 @@ struct VineElementFields {
 
 }
 
+struct ContentAtomElementFields {
+
+  1: required string atomId
+
+  2: required string atomType
+
+}
 
 
 struct BlockElement {
@@ -692,6 +699,8 @@ struct BlockElement {
     18: optional CommentElementFields commentTypeData
 
     19: optional VineElementFields vineTypeData
+
+    20: optional ContentAtomElementFields contentAtomTypeData
 
 }
 
