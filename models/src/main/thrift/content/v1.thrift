@@ -1002,6 +1002,8 @@ struct ContentFields {
     45: optional string bodyText
 
     46: optional i32 charCount
+
+    47: optional string internalVideoCode
 }
 
 struct Reference {
