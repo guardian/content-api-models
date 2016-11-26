@@ -1,19 +1,11 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
-import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
+import com.twitter.scrooge.ThriftEnum
 import io.circe._
 import io.circe.syntax._
 import com.gu.contentapi.circe.CirceScroogeMacros._
-import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
-import com.gu.contentatom.thrift.atom.media.MediaAtom
-import com.gu.contentatom.thrift.atom.quiz.QuizAtom
-import com.gu.contentatom.thrift.atom.cta.CTAAtom
-import com.gu.contentatom.thrift.atom.interactive.InteractiveAtom
-import com.gu.contentatom.thrift.atom.review.ReviewAtom
-import com.gu.contentatom.thrift.atom.recipe.RecipeAtom
 import com.gu.contentatom.thrift.{Atom, AtomData}
-import io.circe.generic.auto._
 import org.joda.time.format.ISODateTimeFormat
 
 object CirceEncoders {
@@ -65,7 +57,8 @@ object CirceEncoders {
   implicit val contentStatsEncoder = Encoder[ContentStats]
   implicit val sectionEncoder = Encoder[Section]
   implicit val debugEncoder = Encoder[Debug]
-  implicit val atomEncoder = AtomEncoder.genAtomEncoder
+  implicit val atomDataEncoder = Encoder[AtomData]
+  implicit val atomEncoder = Encoder[Atom]
   implicit val atomsEncoder = Encoder[Atoms]
   implicit val contentEncoder = Encoder[Content]
   implicit val mostViewedVideoEncoder = Encoder[MostViewedVideo]
@@ -87,37 +80,4 @@ object CirceEncoders {
     // We don't include millis in JSON, for backwards-compatibility
     Json.fromString(dateTime.toString(ISODateTimeFormat.dateTimeNoMillis()))
   }
-
-  /**
-    * TODO - I *will* write a pair of macros for encoding/decoding thrift union types, then delete all this stuff.
-   */
-  object AtomEncoder {
-
-    def genAtomEncoder: Encoder[Atom] = Encoder.instance[Atom] { atom =>
-      Json.fromFields(List(
-        "data" -> Json.fromFields(List(
-          atom.atomType.name.toLowerCase -> getAtomData(atom.data)
-        )),
-        "contentChangeDetails" -> atom.contentChangeDetails.asJson,
-        "atomType" -> atom.atomType.asJson,
-        "id" -> atom.id.asJson,
-        "labels" -> atom.labels.asJson,
-        "defaultHtml" -> atom.defaultHtml.asJson
-      ))
-    }
-
-    private def getAtomData(data: AtomData): Json = {
-      data match {
-        case AtomData.Quiz(quiz) => quiz.asJson(Encoder[QuizAtom])
-        case AtomData.Media(media) => media.asJson(Encoder[MediaAtom])
-        case AtomData.Explainer(explainer) => explainer.asJson(Encoder[ExplainerAtom])
-        case AtomData.Cta(cta) => cta.asJson(Encoder[CTAAtom])
-        case AtomData.Interactive(interactive) => interactive.asJson(Encoder[InteractiveAtom])
-        case AtomData.Review(review) => review.asJson(Encoder[ReviewAtom])
-        case AtomData.Recipe(recipe) => recipe.asJson(Encoder[RecipeAtom])
-        case _ => Json.Null
-      }
-    }
-  }
-
 }

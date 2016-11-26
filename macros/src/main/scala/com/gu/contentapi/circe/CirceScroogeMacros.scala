@@ -113,6 +113,7 @@ object CirceScroogeMacros {
     val tree = q"""{
       _root_.io.circe.Decoder.instance((cursor: _root_.io.circe.HCursor) => for (..${params.map(_._2)}) yield $apply(..${params.map(_._1)}))
     }"""
+    //println(showCode(tree))
     tree
   }
 
@@ -141,7 +142,7 @@ object CirceScroogeMacros {
     * Macro to produce Decoders for ThriftUnion types.
     *
     * A ThriftUnion, U, has a companion object which defines a case class extending U for each member of the union.
-    * Each case class takes a single parameter, which is a type alias for the actual ThriftStruct contained by that member.
+    * Each case class takes a single parameter, whose type is an alias for the actual type contained by that member.
     *
     * E.g. for the following thrift definition:
     * {{{
@@ -217,20 +218,20 @@ object CirceScroogeMacros {
       cq"""$paramName => c.cursor.downField($paramName).flatMap(_.as[$paramType]($implicitDecoderForParam).toOption).map($applyMethod)"""
     }
 
-    q"""{
+    q"""
       _root_.io.circe.Decoder.instance {(c: _root_.io.circe.HCursor) =>
         val result = c.cursor.fields.getOrElse(Nil).headOption.flatMap {
-          case ..$decoderCases
+          case ..${decoderCases ++ Seq(cq"""_ => _root_.scala.None""")}
         }
         Xor.fromOption(result, ifNone = DecodingFailure(${A.typeSymbol.fullName}, c.history))
       }
-    }"""
+    """
   }
 
 
-  implicit def encodeThriftStruct[A <: ThriftStruct]: Encoder[A] = macro encodeThriftStruct_impl[A]
+  implicit def encodeThriftStruct[A <: ThriftStruct : NotUnion]: Encoder[A] = macro encodeThriftStruct_impl[A]
 
-  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context)(x: c.Tree): c.Tree = {
     import c.universe._
 
     val A = weakTypeOf[A]
@@ -279,5 +280,50 @@ object CirceScroogeMacros {
 
     tree
 
+  }
+
+  implicit def encodeThriftUnion[A <: ThriftUnion]: Encoder[A] = macro encodeThriftUnion_impl[A]
+
+  def encodeThriftUnion_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+    import c.universe._
+
+    val A = weakTypeOf[A]
+
+    val memberClasses: Iterable[Symbol] = A.companion.members.filter { member =>
+      if (member.isClass && member.name.toString != "UnknownUnionField") {
+        member.asClass.baseClasses.contains(A.typeSymbol)
+      } else false
+    }
+
+    val encoderCases: Iterable[Tree] = memberClasses.map { memberClass =>
+      val applyMethod = memberClass.typeSignature.companion.member(TermName("apply")) match {
+        case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+        case _ => c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' apply method (${A.typeSymbol.fullName})")
+      }
+
+      val param: Symbol = applyMethod.paramLists.headOption.flatMap(_.headOption).getOrElse(c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' parameter (${A.typeSymbol.fullName})"))
+      val paramType = param.typeSignature.dealias
+
+      val encoderForParamType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, paramType)
+      val implicitEncoderForParam: c.Tree = {
+        val normalImplicitEncoder = c.inferImplicitValue(encoderForParamType)
+        if (normalImplicitEncoder.nonEmpty) {
+          normalImplicitEncoder
+        } else {
+          val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForParamType)
+          val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
+          if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$paramType] even after resorting to Lazy")
+          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$paramType]]].value"
+        }
+      }
+
+      cq"""data: $memberClass => Json.obj(${param.name.toString} -> $implicitEncoderForParam.apply(data.${param.name.toTermName}))"""
+    }
+
+    q"""
+      _root_.io.circe.Encoder.instance {
+        case ..${encoderCases ++ Seq(cq"""_ => _root_.io.circe.Json.Null""")}
+      }
+    """
   }
 }
