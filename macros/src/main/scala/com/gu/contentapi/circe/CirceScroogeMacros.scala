@@ -2,9 +2,9 @@ package com.gu.contentapi.circe
 
 import scala.language.experimental.macros
 import scala.reflect.macros.blackbox
-import com.twitter.scrooge.{ThriftEnum, ThriftStruct}
+import com.twitter.scrooge.{ThriftEnum, ThriftStruct, ThriftUnion}
 import io.circe.{Decoder, Encoder}
-import shapeless.Lazy
+import shapeless.{Lazy, |¬|}
 
 /**
   * Macros for Circe deserialization of various Scrooge-generated classes.
@@ -40,16 +40,19 @@ object CirceScroogeMacros {
     * }
     * }}}
     */
-  implicit def decodeThriftStruct[A <: ThriftStruct]: Decoder[A] = macro decodeThriftStruct_impl[A]
+  type NotUnion[T] = |¬|[ThriftUnion]#λ[T]  //Tell compiler not to use this Decoder for Unions
+  implicit def decodeThriftStruct[A <: ThriftStruct : NotUnion]: Decoder[A] = macro decodeThriftStruct_impl[A]
 
-  def decodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+  def decodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context)(x: c.Tree): c.Tree = {
     import c.universe._
 
     val A = weakTypeOf[A]
+
     val apply = A.companion.member(TermName("apply")) match {
       case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
       case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
     }
+
     val params = apply.paramLists.head.zipWithIndex.map { case (param, i) =>
       val name = param.name
       val tpe = param.typeSignature
@@ -135,9 +138,100 @@ object CirceScroogeMacros {
     """
   }
 
-  implicit def encodeThriftStruct[A <: ThriftStruct]: Encoder[A] = macro encodeThriftStruct_impl[A]
+  /**
+    * Macro to produce Decoders for ThriftUnion types.
+    *
+    * A ThriftUnion, U, has a companion object which defines a case class extending U for each member of the union.
+    * Each case class takes a single parameter, whose type is an alias for the actual type contained by that member.
+    *
+    * E.g. for the following thrift definition:
+    * {{{
+    *   union U {
+    *     1: FooStruct foo
+    *     2: BarStruct bar
+    *   }
+    *
+    *   struct T {
+    *     1: U union
+    *   }
+    * }}}
+    *
+    * We may expect the following JSON:
+    * {{{
+    *   {
+    *     union: {
+    *       foo: {
+    *         ...
+    *       }
+    *     }
+    *   }
+    * }}}
+    *
+    * In the scrooge-generated code, for the member foo of union U, there exists a case class:
+    *   {{{
+    *   case class Foo(foo: FooAlias) extends U
+    *   }}}
+    * where FooAlias aliases FooStruct.
+    * We need to match on the single JSON field and determine which member of the union is present.
+    * So the decoder will contain a case statement for the member foo as follows:
+    *   {{{
+    *   case "foo" => c.cursor.downField("foo").flatMap(_.as[FooStruct](decoderForFooStruct).toOption).map(Foo)
+    *   }}}
+    *
+    */
+  implicit def decodeThriftUnion[A <: ThriftUnion]: Decoder[A] = macro decodeThriftUnion_impl[A]
 
-  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+  def decodeThriftUnion_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+    import c.universe._
+
+    val A = weakTypeOf[A]
+
+    val memberClasses: Iterable[Symbol] = A.companion.members.filter { member =>
+      if (member.isClass && member.name.toString != "UnknownUnionField") {
+        member.asClass.baseClasses.contains(A.typeSymbol)
+      } else false
+    }
+
+    val decoderCases: Iterable[Tree] = memberClasses.map { memberClass =>
+      val applyMethod = memberClass.typeSignature.companion.member(TermName("apply")) match {
+        case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+        case _ => c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' apply method (${A.typeSymbol.fullName})")
+      }
+
+      val param: Symbol = applyMethod.paramLists.headOption.flatMap(_.headOption).getOrElse(c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' parameter (${A.typeSymbol.fullName})"))
+      val paramType = param.typeSignature.dealias
+      val paramName = param.name.toString
+
+      val decoderForParamType = appliedType(weakTypeOf[Decoder[_]].typeConstructor, paramType)
+      val implicitDecoderForParam: c.Tree = {
+        val normalImplicitDecoder = c.inferImplicitValue(decoderForParamType)
+        if (normalImplicitDecoder.nonEmpty) {
+          normalImplicitDecoder
+        } else {
+          val lazyDecoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, decoderForParamType)
+          val implicitLazyDecoder = c.inferImplicitValue(lazyDecoderForType)
+          if (implicitLazyDecoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Decoder[$paramType] even after resorting to Lazy")
+          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$paramType]]].value"
+        }
+      }
+
+      cq"""$paramName => c.cursor.downField($paramName).flatMap(_.as[$paramType]($implicitDecoderForParam).toOption).map($applyMethod)"""
+    }
+
+    q"""
+      _root_.io.circe.Decoder.instance {(c: _root_.io.circe.HCursor) =>
+        val result = c.cursor.fields.getOrElse(Nil).headOption.flatMap {
+          case ..${decoderCases ++ Seq(cq"""_ => _root_.scala.None""")}
+        }
+        Xor.fromOption(result, ifNone = DecodingFailure(${A.typeSymbol.fullName}, c.history))
+      }
+    """
+  }
+
+
+  implicit def encodeThriftStruct[A <: ThriftStruct : NotUnion]: Encoder[A] = macro encodeThriftStruct_impl[A]
+
+  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context)(x: c.Tree): c.Tree = {
     import c.universe._
 
     val A = weakTypeOf[A]
@@ -186,5 +280,50 @@ object CirceScroogeMacros {
 
     tree
 
+  }
+
+  implicit def encodeThriftUnion[A <: ThriftUnion]: Encoder[A] = macro encodeThriftUnion_impl[A]
+
+  def encodeThriftUnion_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+    import c.universe._
+
+    val A = weakTypeOf[A]
+
+    val memberClasses: Iterable[Symbol] = A.companion.members.filter { member =>
+      if (member.isClass && member.name.toString != "UnknownUnionField") {
+        member.asClass.baseClasses.contains(A.typeSymbol)
+      } else false
+    }
+
+    val encoderCases: Iterable[Tree] = memberClasses.map { memberClass =>
+      val applyMethod = memberClass.typeSignature.companion.member(TermName("apply")) match {
+        case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+        case _ => c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' apply method (${A.typeSymbol.fullName})")
+      }
+
+      val param: Symbol = applyMethod.paramLists.headOption.flatMap(_.headOption).getOrElse(c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' parameter (${A.typeSymbol.fullName})"))
+      val paramType = param.typeSignature.dealias
+
+      val encoderForParamType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, paramType)
+      val implicitEncoderForParam: c.Tree = {
+        val normalImplicitEncoder = c.inferImplicitValue(encoderForParamType)
+        if (normalImplicitEncoder.nonEmpty) {
+          normalImplicitEncoder
+        } else {
+          val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForParamType)
+          val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
+          if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$paramType] even after resorting to Lazy")
+          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$paramType]]].value"
+        }
+      }
+
+      cq"""data: $memberClass => Json.obj(${param.name.toString} -> $implicitEncoderForParam.apply(data.${param.name.toTermName}))"""
+    }
+
+    q"""
+      _root_.io.circe.Encoder.instance {
+        case ..${encoderCases ++ Seq(cq"""_ => _root_.io.circe.Json.Null""")}
+      }
+    """
   }
 }

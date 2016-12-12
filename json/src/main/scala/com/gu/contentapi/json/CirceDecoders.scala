@@ -2,14 +2,7 @@ package com.gu.contentapi.json
 
 import io.circe._
 import cats.data.Xor
-import com.gu.contentatom.thrift.{Atom, AtomData, AtomType, ContentChangeDetails}
-import com.gu.contentatom.thrift.atom.media.MediaAtom
-import com.gu.contentatom.thrift.atom.quiz.QuizAtom
-import com.gu.contentatom.thrift.atom.explainer.ExplainerAtom
-import com.gu.contentatom.thrift.atom.cta.CTAAtom
-import com.gu.contentatom.thrift.atom.interactive.InteractiveAtom
-import com.gu.contentatom.thrift.atom.review.ReviewAtom
-import com.gu.contentatom.thrift.atom.recipe.RecipeAtom
+import com.gu.contentatom.thrift.{Atom, AtomData}
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
@@ -49,9 +42,6 @@ object CirceDecoders {
     }
   }
 
-  implicit val atomDecoder: Decoder[Atom] = Decoder.instance(AtomDecoder.getAtom)
-  implicit val atomsDecoder: Decoder[Atoms] = Decoder.instance(AtomDecoder.getAtoms)
-
   // The following implicits technically shouldn't be necessary
   // but stuff doesn't compile without them
   implicit val contentFieldsDecoder = Decoder[ContentFields]
@@ -84,6 +74,10 @@ object CirceDecoders {
   implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
   implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
+
+  implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
+  implicit val atomDecoder = Decoder[Atom]
+  implicit val atomsDecoder = Decoder[Atoms]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.
@@ -123,80 +117,5 @@ object CirceDecoders {
       solution,
       format
     )
-  }
-
-  object AtomDecoder {
-
-    implicit val decodeUnknownOpt: Decoder[AtomData.UnknownUnionField] =
-      Decoder.instance(c =>
-        Xor.left(DecodingFailure("AtomData.UnknownUnionField", c.history))
-      )
-
-    def getAtom(c: HCursor): Decoder.Result[Atom] = {
-      for {
-        atomType <- c.get[AtomType]("atomType")
-        atomData <- getAtomData(c, atomType)
-        atom <- getAtom(c, atomData)
-      } yield atom
-    }
-
-    def getAtoms(c: HCursor): Decoder.Result[Atoms] = {
-      for {
-        quizzes <- getAtoms(c, AtomType.Quiz)
-        media <- getAtoms(c, AtomType.Media)
-        explainers <- getAtoms(c, AtomType.Explainer)
-        cta <- getAtoms(c, AtomType.Cta)
-        interactives <- getAtoms(c, AtomType.Interactive)
-        reviews <- getAtoms(c, AtomType.Review)
-        recipes <- getAtoms(c, AtomType.Recipe)
-      } yield {
-        Atoms(quizzes = quizzes, media = media, explainers = explainers, cta = cta, interactives = interactives, reviews = reviews, recipes = recipes)
-      }
-    }
-
-    private def getAtom(c: HCursor, atomData: AtomData): Decoder.Result[Atom] = {
-      for {
-        id <- c.get[String]("id")
-        atomType <- c.get[AtomType]("atomType")
-        labels <- c.get[Seq[String]]("labels")
-        defaultHtml <- c.get[String]("defaultHtml")
-        change <- c.get[ContentChangeDetails]("contentChangeDetails")
-      } yield {
-        Atom(id, atomType, labels, defaultHtml, atomData, change)
-      }
-    }
-
-    private def getAtomData(c: HCursor, atomType: AtomType): Decoder.Result[AtomData] = {
-      atomType match {
-        case AtomType.Quiz => c.downField("data").get[QuizAtom]("quiz").map(atom => AtomData.Quiz(atom))
-        case AtomType.Media => c.downField("data").get[MediaAtom]("media").map(atom => AtomData.Media(atom))
-        case AtomType.Explainer => c.downField("data").get[ExplainerAtom]("explainer").map(atom => AtomData.Explainer(atom))
-        case AtomType.Cta => c.downField("data").get[CTAAtom]("cta").map(atom => AtomData.Cta(atom))
-        case AtomType.Interactive => c.downField("data").get[InteractiveAtom]("interactive").map(json => AtomData.Interactive(json))
-        case AtomType.Review => c.downField("data").get[ReviewAtom]("review").map(json => AtomData.Review(json))
-        case AtomType.Recipe => c.downField("data").get[RecipeAtom]("recipe").map(json => AtomData.Recipe(json))
-        case _ => Xor.left(DecodingFailure("AtomData", c.history))
-      }
-    }
-
-    private def getAtomTypeFieldName(atomType: AtomType): Option[String] = {
-      atomType match {
-        case AtomType.Quiz => Some("quizzes")
-        case AtomType.Media => Some("media")
-        case AtomType.Explainer => Some("explainers")
-        case AtomType.Cta => Some("cta")
-        case AtomType.Interactive => Some("interactives")
-        case AtomType.Review => Some("reviews")
-        case AtomType.Recipe => Some("recipes")
-        case _ => None
-      }
-    }
-
-    private def getAtoms(c: HCursor, atomType: AtomType): Decoder.Result[Option[Seq[Atom]]] = {
-      getAtomTypeFieldName(atomType) match {
-        case Some(fieldName) => c.get[Option[Seq[Atom]]](fieldName)
-        case None => Xor.right(None) //ignore unrecognised atom types
-      }
-    }
   }
 }
