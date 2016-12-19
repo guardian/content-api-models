@@ -83,14 +83,14 @@ object CirceScroogeMacros {
       // See https://github.com/travisbrown/circe/issues/329 for details.
       val decodeParam =
         q"""cursor.cursor.downField(${name.toString})
-           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.cats.data.Xor.left(_root_.io.circe.DecodingFailure("Missing field: " + ${name.toString}, Nil)))(x => x.as[$tpe]($implicitDecoder))"""
+           .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.scala.Left(_root_.io.circe.DecodingFailure("Missing field: " + ${name.toString}, Nil)))(x => x.as[$tpe]($implicitDecoder))"""
 
       val expr =
         if (param.asTerm.isParamWithDefault) {
           // Fallback to param's default value if the JSON field is not present (or can't be decoded for some other reason).
           // Note: reverse-engineering the name of the default value because it's not easily available in the reflection API.
           val defaultValue = A.companion.member(TermName("apply$default$" + (i + 1)))
-          fq"""$fresh <- $decodeParam.orElse(_root_.cats.data.Xor.right($defaultValue))"""
+          fq"""$fresh <- $decodeParam.orElse(_root_.scala.Right($defaultValue))"""
         } else
           fq"""$fresh <- $decodeParam"""
       (fresh, expr)
@@ -223,7 +223,7 @@ object CirceScroogeMacros {
         val result = c.cursor.fields.getOrElse(Nil).headOption.flatMap {
           case ..${decoderCases ++ Seq(cq"""_ => _root_.scala.None""")}
         }
-        Xor.fromOption(result, ifNone = DecodingFailure(${A.typeSymbol.fullName}, c.history))
+        result.map(Right(_)).getOrElse(Left(DecodingFailure(${A.typeSymbol.fullName}, c.history)))
       }
     """
   }

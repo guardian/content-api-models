@@ -11,7 +11,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
-import cats.data.Xor.Right
+import cats.syntax.either._
 
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {

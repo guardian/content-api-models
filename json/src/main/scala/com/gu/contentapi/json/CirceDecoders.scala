@@ -1,11 +1,11 @@
 package com.gu.contentapi.json
 
 import io.circe._
-import cats.data.Xor
 import com.gu.contentatom.thrift.{Atom, AtomData}
 import com.gu.contentapi.circe.CirceScroogeMacros._
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
+import cats.syntax.either._
 
 object CirceDecoders {
 
@@ -16,30 +16,14 @@ object CirceDecoders {
   implicit final val decodeString: Decoder[String] = new Decoder[String] {
     final def apply(c: HCursor): Decoder.Result[String] = {
       val focus = c.focus
-      val fromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
-      Xor.fromOption(fromStringOrLong, ifNone = DecodingFailure("String", c.history))
+      val maybeFromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
+      maybeFromStringOrLong.map(Right(_)).getOrElse(Left(DecodingFailure("String", c.history)))
     }
   }
 
   implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
     val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
     CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
-  }
-
-  /**
-    * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
-    * into their corresponding booleans.
-    */
-  implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
-    final def apply(c: HCursor): Decoder.Result[Boolean] = {
-      val focus = c.focus
-      val fromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
-        case "true" => Some(true)
-        case "false" => Some(false)
-        case _ => None
-      })
-      Xor.fromOption(fromBooleanOrString, ifNone = DecodingFailure("Boolean", c.history))
-    }
   }
 
   // The following implicits technically shouldn't be necessary
@@ -118,4 +102,21 @@ object CirceDecoders {
       format
     )
   }
+
+  /**
+    * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
+    * into their corresponding booleans.
+    */
+  implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
+    final def apply(c: HCursor): Decoder.Result[Boolean] = {
+      val focus = c.focus
+      val maybeFromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
+        case "true" => Some(true)
+        case "false" => Some(false)
+        case _ => None
+      })
+      maybeFromBooleanOrString.map(Right(_)).getOrElse(Left(DecodingFailure("Boolean", c.history)))
+    }
+  }
+
 }

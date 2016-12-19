@@ -1,10 +1,11 @@
 package com.gu.contentapi.json.utils
 
 import java.nio.charset.StandardCharsets
-
 import com.google.common.io.Resources
 import io.circe.{Decoder, Json}
 import io.circe.parser._
+import cats.syntax.either._
+
 
 object JsonHelpers {
   def loadJson(filename: String): String = {
@@ -12,7 +13,7 @@ object JsonHelpers {
   }
 
   def parseJson[T : Decoder](rawJson: String): T = {
-    val json = parse(rawJson).leftMap(e => throw e).getOrElse(Json.Null)
+    val json = parse(rawJson).left.map(e => throw e).getOrElse(Json.Null)
     val response = json.cursor.downField("response").map(c => c.focus).getOrElse(Json.Null)
     response.as[T].toOption.get
   }
