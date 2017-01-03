@@ -17,13 +17,29 @@ object CirceDecoders {
     final def apply(c: HCursor): Decoder.Result[String] = {
       val focus = c.focus
       val maybeFromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
-      maybeFromStringOrLong.map(Right(_)).getOrElse(Left(DecodingFailure("String", c.history)))
+      Either.fromOption(o = maybeFromStringOrLong, ifNone = DecodingFailure("String", c.history))
     }
   }
 
   implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
     val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
     CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
+  }
+
+  /**
+    * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
+    * into their corresponding booleans.
+    */
+  implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
+    final def apply(c: HCursor): Decoder.Result[Boolean] = {
+      val focus = c.focus
+      val maybeFromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
+        case "true" => Some(true)
+        case "false" => Some(false)
+        case _ => None
+      })
+      Either.fromOption(o = maybeFromBooleanOrString, ifNone = DecodingFailure("Boolean", c.history))
+    }
   }
 
   // The following implicits technically shouldn't be necessary
@@ -101,22 +117,6 @@ object CirceDecoders {
       solution,
       format
     )
-  }
-
-  /**
-    * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
-    * into their corresponding booleans.
-    */
-  implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
-    final def apply(c: HCursor): Decoder.Result[Boolean] = {
-      val focus = c.focus
-      val maybeFromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
-        case "true" => Some(true)
-        case "false" => Some(false)
-        case _ => None
-      })
-      maybeFromBooleanOrString.map(Right(_)).getOrElse(Left(DecodingFailure("Boolean", c.history)))
-    }
   }
 
 }
