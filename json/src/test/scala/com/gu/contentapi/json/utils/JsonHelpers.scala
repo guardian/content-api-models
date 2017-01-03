@@ -1,10 +1,11 @@
 package com.gu.contentapi.json.utils
 
 import java.nio.charset.StandardCharsets
-
 import com.google.common.io.Resources
 import io.circe.{Decoder, Json}
 import io.circe.parser._
+import cats.syntax.either._
+
 
 object JsonHelpers {
   def loadJson(filename: String): String = {
