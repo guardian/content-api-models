@@ -223,7 +223,7 @@ object CirceScroogeMacros {
         val result = c.cursor.fields.getOrElse(Nil).headOption.flatMap {
           case ..${decoderCases ++ Seq(cq"""_ => _root_.scala.None""")}
         }
-        result.map(Right(_)).getOrElse(Left(DecodingFailure(${A.typeSymbol.fullName}, c.history)))
+        Either.fromOption(result, DecodingFailure(${A.typeSymbol.fullName}, c.history))
       }
     """
   }
