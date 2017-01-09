@@ -7,9 +7,27 @@ import io.circe.{Decoder, Encoder}
 import shapeless.{Lazy, |¬|}
 
 /**
-  * Macros for Circe deserialization of various Scrooge-generated classes.
+  * Macros for Circe encoding/decoding of various Scrooge-generated classes.
   */
+
 object CirceScroogeMacros {
+  type NotUnion[T] = |¬|[ThriftUnion]#λ[T]  //For telling the compiler not to use certain macros for thrift Unions
+
+  /**
+    * The macro bundle magic happens here.
+    * Note - intellij doesn't like the references to methods in an uninstantiated class, but it does compile.
+    */
+
+  implicit def decodeThriftStruct[A <: ThriftStruct : NotUnion]: Decoder[A] = macro CirceScroogeMacrosImpl.decodeThriftStruct[A]
+  implicit def decodeThriftEnum[A <: ThriftEnum]: Decoder[A] = macro CirceScroogeMacrosImpl.decodeThriftEnum[A]
+  implicit def decodeThriftUnion[A <: ThriftUnion]: Decoder[A] = macro CirceScroogeMacrosImpl.decodeThriftUnion[A]
+
+  implicit def encodeThriftStruct[A <: ThriftStruct : NotUnion]: Encoder[A] = macro CirceScroogeMacrosImpl.encodeThriftStruct[A]
+  implicit def encodeThriftUnion[A <: ThriftUnion]: Encoder[A] = macro CirceScroogeMacrosImpl.encodeThriftUnion[A]
+}
+
+class CirceScroogeMacrosImpl(val c: blackbox.Context) {
+  import c.universe._
 
   /**
     * Macro to provide custom decoding of Thrift structs using the companion object's `apply` method.
@@ -40,49 +58,22 @@ object CirceScroogeMacros {
     * }
     * }}}
     */
-  type NotUnion[T] = |¬|[ThriftUnion]#λ[T]  //Tell compiler not to use this Decoder for Unions
-  implicit def decodeThriftStruct[A <: ThriftStruct : NotUnion]: Decoder[A] = macro decodeThriftStruct_impl[A]
-
-  def decodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context)(x: c.Tree): c.Tree = {
-    import c.universe._
-
+  def decodeThriftStruct[A: c.WeakTypeTag](x: c.Tree): c.Tree = {
     val A = weakTypeOf[A]
 
-    val apply = A.companion.member(TermName("apply")) match {
-      case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
-      case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
-    }
+    val apply = getApplyMethod(A)
 
     val params = apply.paramLists.head.zipWithIndex.map { case (param, i) =>
       val name = param.name
       val tpe = param.typeSignature
       val fresh = c.freshName(name)
 
-      val decoderForType = appliedType(weakTypeOf[Decoder[_]].typeConstructor, tpe)
-      val implicitDecoder: c.Tree = {
-        val normalImplicitDecoder = c.inferImplicitValue(decoderForType)
-        if (normalImplicitDecoder.nonEmpty) {
-          // Found an implicit, no need to use Lazy.
-          // We want to avoid Lazy as much as possible, because extracting its `.value` incurs a runtime cost.
-          normalImplicitDecoder
-        } else {
-          // If we couldn't find an implicit, try again with shapeless `Lazy`.
-          // This is to work around a problem with diverging implicits.
-          // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
-          // Wrapping with `Lazy` fixes this issue.
-          val lazyDecoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, decoderForType)
-          val implicitLazyDecoder = c.inferImplicitValue(lazyDecoderForType)
-          if (implicitLazyDecoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Decoder[$tpe] even after resorting to Lazy")
-
-          // Note: In theory we could use the `implicitLazyDecoder` that we just found, but... for some reason it crashes the compiler :(
-          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value"
-        }
-      }
+      val implicitDecoder: c.Tree = getImplicitDecoder(tpe)
 
       // Note: we don't simply call `cursor.get[$tpe](...)` because we want to avoid allocating HistoryOp instances.
       // See https://github.com/travisbrown/circe/issues/329 for details.
       val decodeParam =
-        q"""cursor.cursor.downField(${name.toString})
+      q"""cursor.cursor.downField(${name.toString})
            .fold[_root_.io.circe.Decoder.Result[$tpe]](_root_.scala.Left(_root_.io.circe.DecodingFailure("Missing field: " + ${name.toString}, Nil)))(x => x.as[$tpe]($implicitDecoder))"""
 
       val expr =
@@ -117,14 +108,7 @@ object CirceScroogeMacros {
     tree
   }
 
-  /**
-    * Macro to provide custom decoding of Thrift enums
-    */
-  implicit def decodeThriftEnum[A <: ThriftEnum]: Decoder[A] = macro decodeThriftEnum_impl[A]
-
-  def decodeThriftEnum_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
-    import c.universe._
-
+  def decodeThriftEnum[A: c.WeakTypeTag]: c.Tree = {
     val A = weakTypeOf[A]
     val typeName = A.typeSymbol.name.toString
     val valueOf = A.companion.member(TermName("valueOf"))
@@ -179,41 +163,19 @@ object CirceScroogeMacros {
     *   }}}
     *
     */
-  implicit def decodeThriftUnion[A <: ThriftUnion]: Decoder[A] = macro decodeThriftUnion_impl[A]
-
-  def decodeThriftUnion_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
-    import c.universe._
-
+  def decodeThriftUnion[A: c.WeakTypeTag]: c.Tree = {
     val A = weakTypeOf[A]
 
-    val memberClasses: Iterable[Symbol] = A.companion.members.filter { member =>
-      if (member.isClass && member.name.toString != "UnknownUnionField") {
-        member.asClass.baseClasses.contains(A.typeSymbol)
-      } else false
-    }
+    val memberClasses: Iterable[Symbol] = getUnionMemberClasses(A)
 
     val decoderCases: Iterable[Tree] = memberClasses.map { memberClass =>
-      val applyMethod = memberClass.typeSignature.companion.member(TermName("apply")) match {
-        case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
-        case _ => c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' apply method (${A.typeSymbol.fullName})")
-      }
+      val applyMethod = getApplyMethod(memberClass.typeSignature)
 
       val param: Symbol = applyMethod.paramLists.headOption.flatMap(_.headOption).getOrElse(c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' parameter (${A.typeSymbol.fullName})"))
       val paramType = param.typeSignature.dealias
       val paramName = param.name.toString
 
-      val decoderForParamType = appliedType(weakTypeOf[Decoder[_]].typeConstructor, paramType)
-      val implicitDecoderForParam: c.Tree = {
-        val normalImplicitDecoder = c.inferImplicitValue(decoderForParamType)
-        if (normalImplicitDecoder.nonEmpty) {
-          normalImplicitDecoder
-        } else {
-          val lazyDecoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, decoderForParamType)
-          val implicitLazyDecoder = c.inferImplicitValue(lazyDecoderForType)
-          if (implicitLazyDecoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Decoder[$paramType] even after resorting to Lazy")
-          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$paramType]]].value"
-        }
-      }
+      val implicitDecoderForParam: c.Tree = getImplicitDecoder(paramType)
 
       cq"""$paramName => c.cursor.downField($paramName).flatMap(_.as[$paramType]($implicitDecoderForParam).toOption).map($applyMethod)"""
     }
@@ -228,17 +190,9 @@ object CirceScroogeMacros {
     """
   }
 
-
-  implicit def encodeThriftStruct[A <: ThriftStruct : NotUnion]: Encoder[A] = macro encodeThriftStruct_impl[A]
-
-  def encodeThriftStruct_impl[A: c.WeakTypeTag](c: blackbox.Context)(x: c.Tree): c.Tree = {
-    import c.universe._
-
+  def encodeThriftStruct[A: c.WeakTypeTag](x: c.Tree): c.Tree = {
     val A = weakTypeOf[A]
-    val apply = A.companion.member(TermName("apply")) match {
-      case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
-      case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
-    }
+    val apply = getApplyMethod(A)
 
     val pairs = apply.paramLists.head.map { param =>
       val name = param.name
@@ -250,26 +204,7 @@ object CirceScroogeMacros {
         case other => (other, false)
       }
 
-      val encoderForType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, tpe)
-      val implicitEncoder: c.Tree = {
-        val normalImplicitEncoder = c.inferImplicitValue(encoderForType)
-        if (normalImplicitEncoder.nonEmpty) {
-          // Found an implicit, no need to use Lazy.
-          // We want to avoid Lazy as much as possible, because extracting its `.value` incurs a runtime cost.
-          normalImplicitEncoder
-        } else {
-          // If we couldn't find an implicit, try again with shapeless `Lazy`.
-          // This is to work around a problem with diverging implicits.
-          // If you try to summon an implicit for heavily nested type, e.g. `Encoder[Option[Seq[String]]]` then the compiler sometimes gives up.
-          // Wrapping with `Lazy` fixes this issue.
-          val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForType)
-          val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
-          if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$tpe] even after resorting to Lazy")
-
-          // Note: In theory we could use the `implicitLazyEncoder` that we just found, but... for some reason it crashes the compiler :(
-          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$tpe]]].value"
-        }
-      }
+      val implicitEncoder: c.Tree = getImplicitEncoder(tpe)
 
       if (isOption) q"""thrift.${name.toTermName}.map(${name.toString} -> $implicitEncoder.apply(_))"""
       else q"""_root_.scala.Some(${name.toString} -> $implicitEncoder.apply(thrift.${name.toTermName}))"""
@@ -279,43 +214,22 @@ object CirceScroogeMacros {
       q"""{ _root_.io.circe.Encoder.instance((thrift: $A) => _root_.io.circe.Json.fromFields($pairs.flatten)) }"""
 
     tree
-
   }
 
-  implicit def encodeThriftUnion[A <: ThriftUnion]: Encoder[A] = macro encodeThriftUnion_impl[A]
-
-  def encodeThriftUnion_impl[A: c.WeakTypeTag](c: blackbox.Context): c.Tree = {
+  def encodeThriftUnion[A: c.WeakTypeTag]: c.Tree = {
     import c.universe._
 
     val A = weakTypeOf[A]
 
-    val memberClasses: Iterable[Symbol] = A.companion.members.filter { member =>
-      if (member.isClass && member.name.toString != "UnknownUnionField") {
-        member.asClass.baseClasses.contains(A.typeSymbol)
-      } else false
-    }
+    val memberClasses: Iterable[Symbol] = getUnionMemberClasses(A)
 
     val encoderCases: Iterable[Tree] = memberClasses.map { memberClass =>
-      val applyMethod = memberClass.typeSignature.companion.member(TermName("apply")) match {
-        case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
-        case _ => c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' apply method (${A.typeSymbol.fullName})")
-      }
+      val applyMethod = getApplyMethod(memberClass.typeSignature)
 
       val param: Symbol = applyMethod.paramLists.headOption.flatMap(_.headOption).getOrElse(c.abort(c.enclosingPosition, s"Not a valid union class: could not find the member class' parameter (${A.typeSymbol.fullName})"))
       val paramType = param.typeSignature.dealias
 
-      val encoderForParamType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, paramType)
-      val implicitEncoderForParam: c.Tree = {
-        val normalImplicitEncoder = c.inferImplicitValue(encoderForParamType)
-        if (normalImplicitEncoder.nonEmpty) {
-          normalImplicitEncoder
-        } else {
-          val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForParamType)
-          val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
-          if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$paramType] even after resorting to Lazy")
-          q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$paramType]]].value"
-        }
-      }
+      val implicitEncoderForParam: c.Tree = getImplicitEncoder(paramType)
 
       cq"""data: $memberClass => Json.obj(${param.name.toString} -> $implicitEncoderForParam.apply(data.${param.name.toTermName}))"""
     }
@@ -325,5 +239,56 @@ object CirceScroogeMacros {
         case ..${encoderCases ++ Seq(cq"""_ => _root_.io.circe.Json.Null""")}
       }
     """
+  }
+
+  private def getApplyMethod(tpe: Type): MethodSymbol = {
+    tpe.companion.member(TermName("apply")) match {
+      case symbol if symbol.isMethod && symbol.asMethod.paramLists.size == 1 => symbol.asMethod
+      case _ => c.abort(c.enclosingPosition, "Not a valid Scrooge class: could not find the companion object's apply method")
+    }
+  }
+
+  private def getUnionMemberClasses(unionType: Type): Iterable[Symbol] = {
+    unionType.companion.members.filter { member =>
+      if (member.isClass && member.name.toString != "UnknownUnionField") {
+        member.asClass.baseClasses.contains(unionType.typeSymbol)
+      } else false
+    }
+  }
+
+  private def getImplicitDecoder(tpe: Type): c.Tree = {
+    val decoderForType = appliedType(weakTypeOf[Decoder[_]].typeConstructor, tpe)
+
+    val normalImplicitDecoder = c.inferImplicitValue(decoderForType)
+    if (normalImplicitDecoder.nonEmpty) {
+      // Found an implicit, no need to use Lazy.
+      // We want to avoid Lazy as much as possible, because extracting its `.value` incurs a runtime cost.
+      normalImplicitDecoder
+    } else {
+      // If we couldn't find an implicit, try again with shapeless `Lazy`.
+      // This is to work around a problem with diverging implicits.
+      // If you try to summon an implicit for heavily nested type, e.g. `Decoder[Option[Seq[String]]]` then the compiler sometimes gives up.
+      // Wrapping with `Lazy` fixes this issue.
+      val lazyDecoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, decoderForType)
+      val implicitLazyDecoder = c.inferImplicitValue(lazyDecoderForType)
+      if (implicitLazyDecoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Decoder[$tpe] even after resorting to Lazy")
+
+      // Note: In theory we could use the `implicitLazyDecoder` that we just found, but... for some reason it crashes the compiler :(
+      q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Decoder[$tpe]]].value"
+    }
+  }
+
+  private def getImplicitEncoder(tpe: Type): c.Tree = {
+    val encoderForType = appliedType(weakTypeOf[Encoder[_]].typeConstructor, tpe)
+    val normalImplicitEncoder = c.inferImplicitValue(encoderForType)
+    if (normalImplicitEncoder.nonEmpty) {
+      normalImplicitEncoder
+    } else {
+      val lazyEncoderForType = appliedType(weakTypeOf[Lazy[_]].typeConstructor, encoderForType)
+      val implicitLazyEncoder = c.inferImplicitValue(lazyEncoderForType)
+      if (implicitLazyEncoder.isEmpty) c.abort(c.enclosingPosition, s"Could not find an implicit Encoder[$tpe] even after resorting to Lazy")
+
+      q"_root_.scala.Predef.implicitly[_root_.shapeless.Lazy[_root_.io.circe.Encoder[$tpe]]].value"
+    }
   }
 }
