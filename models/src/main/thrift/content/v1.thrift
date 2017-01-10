@@ -1361,7 +1361,7 @@ struct Debug {
 
     1: optional CapiDateTime lastSeenByPorterAt
 
-    2: optional CapiDateTime revisionSeenByPorter
+    2: optional i64 revisionSeenByPorter
 
     3: optional string contentSource
 }
