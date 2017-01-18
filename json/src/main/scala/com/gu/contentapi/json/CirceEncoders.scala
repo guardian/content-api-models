@@ -4,7 +4,7 @@ import com.gu.contentapi.client.model.v1._
 import com.twitter.scrooge.ThriftEnum
 import io.circe._
 import io.circe.syntax._
-import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.fezziwig.CirceScroogeMacros.{encodeThriftStruct, encodeThriftUnion}
 import com.gu.contentatom.thrift.{Atom, AtomData}
 import org.joda.time.format.ISODateTimeFormat
 

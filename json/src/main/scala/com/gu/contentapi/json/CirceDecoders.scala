@@ -2,7 +2,7 @@ package com.gu.contentapi.json
 
 import io.circe._
 import com.gu.contentatom.thrift.{Atom, AtomData}
-import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion}
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import cats.syntax.either._

@@ -18,7 +18,5 @@ The content-api-models project builds the following jar files:
 
 * content-api-models-json - Json parsers and deserializers. Used internally by the content api and also by the `content-api-scala-client` to convert from Elasticsearch returned json to the Scrooge-generated Thrift classes. As a client you should never need to depend on this explicitly, although you may have a transitive dependency on it if using the `content-api-scala-client`.
 
-* content-api-models-macros - Scala macros to generate Circe `Decoder` instances for Scrooge-generated Thrift classes. As a client you will never need to depend on this as it is used internally by `content-api-models`.
-
 * content-api-models - Contains the Thrift definitions of the content api models only. As a client it is unlikely that you should ever need to depend on this but rather use the `content-api-models-scala` dependency instead.
 

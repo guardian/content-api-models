@@ -8,7 +8,7 @@ import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.contentapi.circe.CirceScroogeMacros._
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion, encodeThriftStruct, encodeThriftUnion}
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
