@@ -49,7 +49,7 @@ val circeVersion = "0.6.1"
   */
 lazy val root = Project(id = "root", base = file("."))
   .settings(commonSettings)
-  .aggregate(models, json, macros, scala)
+  .aggregate(models, json, scala)
   .settings(
     publishArtifact := false,
     releaseProcess := Seq(
@@ -65,19 +65,6 @@ lazy val root = Project(id = "root", base = file("."))
       commitNextVersion,
       releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
-    )
-  )
-
-lazy val macros = Project(id = "content-api-models-macros", base = file("macros"))
-  .settings(commonSettings)
-  .settings(
-    description := "Macros",
-    libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "org.apache.thrift" % "libthrift" % "0.9.1",
-      "com.twitter" %% "scrooge-core" % "4.5.0",
-      "org.apache.commons" % "commons-lang3" % "3.4"
     )
   )
 
@@ -130,11 +117,12 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   * JSON parser project
   */
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(scala % "provided", macros)
+  .dependsOn(scala % "provided")
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
+      "com.gu" % "fezziwig" % "0.1.0",
       "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
