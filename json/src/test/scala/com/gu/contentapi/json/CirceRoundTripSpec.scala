@@ -153,7 +153,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
 
     val jsons: Option[(Json, Json)] = for {
       jsonBefore <- parse(loadJson(jsonFileName)).toOption
-      transformedBefore <- jsonBefore.cursor.downField("response").map(c => transformBeforeDecode(c.focus))
+      transformedBefore <- jsonBefore.hcursor.downField("response").success.map(c => transformBeforeDecode(c.value))
       decoded <- transformedBefore.as[T].toOption
       encoded: Json = decoded.asJson
       jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
