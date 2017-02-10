@@ -42,7 +42,7 @@ val commonSettings = Seq(
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
-val circeVersion = "0.6.1"
+val circeVersion = "0.7.0"
 
 /**
   * Root project
@@ -122,7 +122,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" % "fezziwig" % "0.1.0",
+      "com.gu" %% "fezziwig" % "0.2",
       "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,

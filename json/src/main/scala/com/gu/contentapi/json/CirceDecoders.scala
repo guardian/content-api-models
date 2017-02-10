@@ -15,8 +15,7 @@ object CirceDecoders {
     */
   implicit final val decodeString: Decoder[String] = new Decoder[String] {
     final def apply(c: HCursor): Decoder.Result[String] = {
-      val focus = c.focus
-      val maybeFromStringOrLong = focus.asString.orElse(focus.asNumber.flatMap(_.toLong.map(_.toString)))
+      val maybeFromStringOrLong = c.value.asString.orElse(c.value.asNumber.flatMap(_.toLong.map(_.toString)))
       Either.fromOption(o = maybeFromStringOrLong, ifNone = DecodingFailure("String", c.history))
     }
   }
@@ -32,8 +31,7 @@ object CirceDecoders {
     */
   implicit final val decodeBoolean: Decoder[Boolean] = new Decoder[Boolean] {
     final def apply(c: HCursor): Decoder.Result[Boolean] = {
-      val focus = c.focus
-      val maybeFromBooleanOrString = focus.asBoolean.orElse(focus.asString.flatMap {
+      val maybeFromBooleanOrString = c.value.asBoolean.orElse(c.value.asString.flatMap {
         case "true" => Some(true)
         case "false" => Some(false)
         case _ => None

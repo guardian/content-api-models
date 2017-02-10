@@ -14,7 +14,7 @@ object JsonHelpers {
 
   def parseJson[T : Decoder](rawJson: String): T = {
     val json = parse(rawJson).leftMap(e => throw e).getOrElse(Json.Null)
-    val response = json.cursor.downField("response").map(c => c.focus).getOrElse(Json.Null)
+    val response = json.hcursor.downField("response").top.getOrElse(Json.Null)
     response.as[T].toOption.get
   }
 }

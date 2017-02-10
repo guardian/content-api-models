@@ -34,14 +34,14 @@ class JsonDecodeBenchmark {
     val rawJson = Resources.toString(Resources.getResource(filename), StandardCharsets.UTF_8)
     val circeJson = {
       import io.circe.jawn._
-      parse(rawJson).getOrElse(Json.Null)
+      parse(rawJson).fold(_ => Json.Null, identity)
     }
     circeJson
   }
 
   val contentJson = loadJson("content-with-blocks.json")
   val massiveContentsListJson = loadJson("massive-contents-list.json")
-  val contentOpt = contentJson.as[Content].leftMap(e => throw e).toOption.get
+  val contentOpt = contentJson.as[Content].fold(e => throw e, identity)
 
   @Benchmark
   @BenchmarkMode(Array(Mode.AverageTime))
@@ -64,7 +64,7 @@ class JsonDecodeBenchmark {
     val results =
       for {
         i <- 1 to 10
-        content <- contentJson.as[Content].leftMap(e => throw e).toOption
+        content = contentJson.as[Content].fold(e => throw e, identity)
       } yield content
     val response = SearchResponse(
       status = "ok",
@@ -84,11 +84,11 @@ class JsonDecodeBenchmark {
   @BenchmarkMode(Array(Mode.AverageTime))
   @OutputTimeUnit(TimeUnit.MILLISECONDS)
   def circeDecodeEachMassiveContent(bh: Blackhole) = {
-    massiveContentsListJson.asArray.foreach { contentJsonArray: List[Json] =>
+    massiveContentsListJson.asArray.foreach { contentJsonArray: Vector[Json] =>
       val results =
         for {
           contentJson <- contentJsonArray
-          content <- contentJson.as[Content].leftMap(e => throw e).toOption
+          content = contentJson.as[Content].fold(e => throw e, identity)
         } yield content
       val response = SearchResponse(
         status = "ok",
