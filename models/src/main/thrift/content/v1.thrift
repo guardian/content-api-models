@@ -1195,6 +1195,16 @@ struct Tag {
     21: optional string rcsId
 
     22: optional string r2ContributorId
+
+    /*
+     * A set of schema.org types, e.g. "Person", "Place"
+     */
+    23: optional set<string> tagCategories
+
+    /*
+     * A set of Guardian Entity IDs associated with this Tag
+     */
+    24: optional set<string> entityIds
 }
 
 struct Edition {
