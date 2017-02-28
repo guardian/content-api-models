@@ -1645,6 +1645,8 @@ struct ItemResponse {
     26: optional contentatom.Atom review
 
     27: optional contentatom.Atom recipe
+
+    28: optional contentatom.Atom storyquestions
 }
 
 struct TagsResponse {
