@@ -1292,6 +1292,8 @@ struct Atoms {
     7: optional list<contentatom.Atom> reviews
 
     8: optional list<contentatom.Atom> recipes
+
+    9: optional list<contentatom.Atom> storyquestions
 }
 
 struct ContentStats {
