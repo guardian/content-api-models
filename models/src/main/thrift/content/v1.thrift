@@ -181,7 +181,9 @@ enum CrosswordType {
 
     EVERYMAN = 5,
 
-    DIAN_QUIPTIC_CROSSWORD = 6
+    DIAN_QUIPTIC_CROSSWORD = 6,
+
+    WEEKEND = 7
 }
 
 enum Office {
