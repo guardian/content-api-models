@@ -704,6 +704,11 @@ struct BlockElement {
 
 }
 
+struct MembershipPlaceholder {
+
+    1: optional string campaignCode
+}
+
 struct BlockAttributes {
 
     1: optional bool keyEvent
@@ -713,6 +718,8 @@ struct BlockAttributes {
     3: optional string title
 
     4: optional bool pinned
+
+    5: optional MembershipPlaceholder membershipPlaceholder
 }
 
 struct User {
