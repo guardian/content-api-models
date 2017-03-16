@@ -21,9 +21,33 @@ object CirceDecoders {
     }
   }
 
-  implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
-    val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
-    CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
+  /**
+    * A CapiDateTime is an object with 2 fields. However, when decoding from the model
+    * returned by Elasticsearch, the field is a string. So here we decode from either a
+    * string or an object.
+    */
+  implicit val dateTimeDecoder: Decoder[CapiDateTime] = new Decoder[CapiDateTime] {
+    final def apply(c: HCursor): Decoder.Result[CapiDateTime] = {
+      val maybeResult = c.value.asObject.map { obj =>
+        val map = obj.toMap
+        val result = for {
+          iso8601Json <- map.get("iso8601")
+          iso8601 <- iso8601Json.asString
+          dateTimeJson <- map.get("dateTime")
+          dateTime <- dateTimeJson.asNumber.flatMap(_.toLong)
+        } yield CapiDateTime.apply(dateTime, iso8601)
+
+        Either.fromOption(result, DecodingFailure("dateTimeDecoder: invalid object", c.history))
+
+      } orElse {
+        c.value.asString.map { dateTimeString =>
+          val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
+          Either.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
+        }
+      }
+
+      maybeResult getOrElse Either.left(DecodingFailure("dateTimeDecoder: must be string or object", c.history))
+    }
   }
 
   /**
