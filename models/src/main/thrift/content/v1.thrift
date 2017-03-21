@@ -1,5 +1,6 @@
 include "story_package_article.thrift"
 include "contentatom.thrift"
+include "atoms/review.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 
@@ -1726,6 +1727,25 @@ struct AtomsResponse {
     7: required i32 pages
 
     8: required list<contentatom.Atom> results
+}
+
+struct ReviewsResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required list<review.ReviewAtom> results
 }
 
 struct PackagesResponse {

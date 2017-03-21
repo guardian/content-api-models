@@ -67,6 +67,7 @@ object CirceDecoders {
   implicit val tagsResponseDecoder = Decoder[TagsResponse]
   implicit val sectionsResponseDecoder = Decoder[SectionsResponse]
   implicit val atomsResponseDecoder = Decoder[AtomsResponse]
+  implicit val ReviewsResponseDecoder = Decoder[ReviewsResponse]
   implicit val packagesResponseDecoder = Decoder[PackagesResponse]
   implicit val errorResponseDecoder = Decoder[ErrorResponse]
   implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]

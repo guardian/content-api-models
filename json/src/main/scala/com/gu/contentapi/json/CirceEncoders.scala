@@ -69,6 +69,7 @@ object CirceEncoders {
   implicit val tagsResponseEncoder = Encoder[TagsResponse]
   implicit val sectionsResponseEncoder = Encoder[SectionsResponse]
   implicit val atomsResponseEncoder = Encoder[AtomsResponse]
+  implicit val reviewsResponseEncoder = Encoder[ReviewsResponse]
   implicit val packagesResponseEncoder = Encoder[PackagesResponse]
   implicit val errorResponseEncoder = Encoder[ErrorResponse]
   implicit val videoStatsResponseEncoder = Encoder[VideoStatsResponse]
