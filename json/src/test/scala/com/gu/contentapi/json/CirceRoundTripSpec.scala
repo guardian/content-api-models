@@ -147,6 +147,10 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[SearchResponse]("search.json")
   }
 
+  it should "round-trip an EntitiesResponse" in {
+    checkRoundTrip[EntitiesResponse]("entities.json")
+  }
+
   def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
                                   transformBeforeDecode: Json => Json = identity,
                                   transformAfterEncode: Json => Json = identity) = {

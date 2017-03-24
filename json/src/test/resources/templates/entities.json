@@ -1,0 +1,16 @@
+{
+  "response": {
+    "status": "ok",
+    "total": 1,
+    "results": [
+      {
+        "id": "place/africa",
+        "entityType": "place",
+        "googleId": "kg:/m/0dg3n1",
+        "place": {
+          "name": "Africa"
+        }
+      }
+    ]
+  }
+}
