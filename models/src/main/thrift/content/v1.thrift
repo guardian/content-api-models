@@ -1,5 +1,6 @@
 include "story_package_article.thrift"
 include "contentatom.thrift"
+include "entity.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 
@@ -1804,4 +1805,13 @@ struct AtomUsageResponse {
 
     8: required list<string> results
 
+}
+
+struct EntitiesResponse {
+
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<entity.Entity> results
 }
