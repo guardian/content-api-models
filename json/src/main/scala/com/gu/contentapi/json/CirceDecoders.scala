@@ -1,11 +1,12 @@
 package com.gu.contentapi.json
 
 import io.circe._
-import com.gu.contentatom.thrift.{Atom, AtomData}
+import com.gu.contentatom.thrift.{Atom, AtomData, AtomType}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion}
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import cats.syntax.either._
+import com.gu.storypackage.model.v1.Article
 
 object CirceDecoders {
 
@@ -20,9 +21,33 @@ object CirceDecoders {
     }
   }
 
-  implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
-    val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
-    CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
+  /**
+    * A CapiDateTime is an object with 2 fields. However, when decoding from the model
+    * returned by Elasticsearch, the field is a string. So here we decode from either a
+    * string or an object.
+    */
+  implicit val dateTimeDecoder: Decoder[CapiDateTime] = new Decoder[CapiDateTime] {
+    final def apply(c: HCursor): Decoder.Result[CapiDateTime] = {
+      val maybeResult = c.value.asObject.map { obj =>
+        val map = obj.toMap
+        val result = for {
+          iso8601Json <- map.get("iso8601")
+          iso8601 <- iso8601Json.asString
+          dateTimeJson <- map.get("dateTime")
+          dateTime <- dateTimeJson.asNumber.flatMap(_.toLong)
+        } yield CapiDateTime.apply(dateTime, iso8601)
+
+        Either.fromOption(result, DecodingFailure("dateTimeDecoder: invalid object", c.history))
+
+      } orElse {
+        c.value.asString.map { dateTimeString =>
+          val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
+          Either.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
+        }
+      }
+
+      maybeResult getOrElse Either.left(DecodingFailure("dateTimeDecoder: must be string or object", c.history))
+    }
   }
 
   /**
@@ -49,6 +74,7 @@ object CirceDecoders {
   implicit val assetDecoder = Decoder[Asset]
   implicit val elementDecoder = Decoder[Element]
   implicit val referenceDecoder = Decoder[Reference]
+  implicit val blockElementDecoder = Decoder[BlockElement]
   implicit val blockDecoder = Decoder[Block]
   implicit val blocksDecoder = genBlocksDecoder
   implicit val rightsDecoder = Decoder[Rights]
@@ -57,9 +83,15 @@ object CirceDecoders {
   implicit val contentStatsDecoder = Decoder[ContentStats]
   implicit val sectionDecoder = Decoder[Section]
   implicit val debugDecoder = Decoder[Debug]
+  implicit val atomTypeDecoder = Decoder[AtomType]
+  implicit val atomDataDecoder = Decoder[AtomData]
+  implicit val atomDecoder = Decoder[Atom]
+  implicit val atomsDecoder = Decoder[Atoms]
   implicit val contentDecoder = Decoder[Content]
   implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
   implicit val networkFrontDecoder = Decoder[NetworkFront]
+  implicit val articleDecoder = Decoder[Article]
+  implicit val packageArticleDecoder = Decoder[PackageArticle]
   implicit val packageDecoder = Decoder[Package]
   implicit val itemResponseDecoder = Decoder[ItemResponse]
   implicit val searchResponseDecoder = Decoder[SearchResponse]
@@ -72,10 +104,6 @@ object CirceDecoders {
   implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
   implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
-
-  implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
-  implicit val atomDecoder = Decoder[Atom]
-  implicit val atomsDecoder = Decoder[Atoms]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.
