@@ -6,6 +6,7 @@ import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct,
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import cats.syntax.either._
+import com.gu.contententity.thrift.Entity
 
 object CirceDecoders {
 
@@ -72,6 +73,8 @@ object CirceDecoders {
   implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
   implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
+  implicit val entityDecoder = Decoder[Entity]
+  implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
 
   implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
   implicit val atomDecoder = Decoder[Atom]

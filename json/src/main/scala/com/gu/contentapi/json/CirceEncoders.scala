@@ -74,6 +74,7 @@ object CirceEncoders {
   implicit val videoStatsResponseEncoder = Encoder[VideoStatsResponse]
   implicit val atomsUsageResponseEncoder = Encoder[AtomUsageResponse]
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
+  implicit val entitiesResponseEncoder = Encoder[EntitiesResponse]
 
   def genDateTimeEncoder: Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime = ISODateTimeFormat.dateTime().withOffsetParsed().parseDateTime(capiDateTime.iso8601)
