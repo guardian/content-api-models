@@ -30,7 +30,8 @@ enum ContentType {
     PICTURE = 4,
     VIDEO = 5,
     CROSSWORD = 6,
-    AUDIO = 7
+    AUDIO = 7,
+    HOSTED_CONTENT_VIDEO = 8
 }
 
 /*
