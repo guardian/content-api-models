@@ -1815,3 +1815,25 @@ struct EntitiesResponse {
 
     3: required list<entity.Entity> results
 }
+
+/*
+ * This struct should be removed once we remove the hacky ophan storyquestions endpoint in Concierge we've put in place for Ophan.
+ */
+struct PathAndStoryQuestionsAtomId {
+
+    /* The logical id for piece of content. */
+    1: required string path
+
+    /* The atom id of a story questions atom */
+    2: required string storyQuestionsAtomId
+}
+
+/*
+ * This struct should be removed once we remove the hacky ophan storyquestions endpoint in Concierge we've put in place for Ophan.
+ */
+struct OphanStoryQuestionsResponse {
+
+    1: required string status
+
+    2: required list<PathAndStoryQuestionsAtomId> pathToAtomIds
+}

@@ -60,6 +60,7 @@ object CirceDecoders {
   implicit val debugDecoder = Decoder[Debug]
   implicit val contentDecoder = Decoder[Content]
   implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
+  implicit val pathAndStoryQuestionsAtomIdDecoder = Decoder[PathAndStoryQuestionsAtomId]
   implicit val networkFrontDecoder = Decoder[NetworkFront]
   implicit val packageDecoder = Decoder[Package]
   implicit val itemResponseDecoder = Decoder[ItemResponse]
@@ -75,6 +76,7 @@ object CirceDecoders {
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
   implicit val entityDecoder = Decoder[Entity]
   implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
+  implicit val ophanStoryQuestionsResponseDecoder = Decoder[OphanStoryQuestionsResponse]
 
   implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
   implicit val atomDecoder = Decoder[Atom]
