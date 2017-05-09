@@ -80,8 +80,9 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.34",
-      "com.gu" % "content-entity-thrift" % "0.1.5"
+      "com.gu" % "content-atom-model-thrift" % "2.4.36",
+      "com.gu" % "content-entity-thrift" % "0.1.5",
+      "com.gu" % "story-model-thrift" % "1.1"
     )
   )
 
@@ -101,7 +102,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "content-api-models",
       "story-packages-model-thrift",
       "content-atom-model-thrift",
-      "content-entity-thrift"
+      "content-entity-thrift",
+      "story-model-thrift"
     ),
     // See: https://github.com/twitter/scrooge/issues/199
     scroogeThriftSources in Compile ++= {

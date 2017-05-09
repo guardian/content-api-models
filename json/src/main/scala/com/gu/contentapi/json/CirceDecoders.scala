@@ -7,6 +7,7 @@ import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
 import cats.syntax.either._
 import com.gu.contententity.thrift.Entity
+import com.gu.story.model.v1.Story
 
 object CirceDecoders {
 
@@ -77,6 +78,8 @@ object CirceDecoders {
   implicit val entityDecoder = Decoder[Entity]
   implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
   implicit val ophanStoryQuestionsResponseDecoder = Decoder[OphanStoryQuestionsResponse]
+  implicit val storyDecoder = Decoder[Story]
+  implicit val storiesResponseDecoder = Decoder[StoriesResponse]
 
   implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
   implicit val atomDecoder = Decoder[Atom]
