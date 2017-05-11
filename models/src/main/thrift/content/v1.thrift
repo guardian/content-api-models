@@ -1670,6 +1670,8 @@ struct ItemResponse {
     27: optional contentatom.Atom recipe
 
     28: optional contentatom.Atom storyquestions
+
+    29: optional story_model.Story story
 }
 
 struct TagsResponse {
