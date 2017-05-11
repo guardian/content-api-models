@@ -1,6 +1,7 @@
 include "story_package_article.thrift"
 include "contentatom.thrift"
 include "entity.thrift"
+include "story_model.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 
@@ -1836,4 +1837,13 @@ struct OphanStoryQuestionsResponse {
     1: required string status
 
     2: required list<PathAndStoryQuestionsAtomId> pathToAtomIds
+}
+
+struct StoriesResponse {
+
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<story_model.Story> results
 }
