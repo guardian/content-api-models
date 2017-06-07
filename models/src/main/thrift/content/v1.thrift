@@ -1305,6 +1305,14 @@ struct Atoms {
     8: optional list<contentatom.Atom> recipes
 
     9: optional list<contentatom.Atom> storyquestions
+
+    10: optional list<contentatom.Atom> qas
+
+    11: optional list<contentatom.Atom> guides
+
+    12: optional list<contentatom.Atom> profiles
+
+    13: optional list<contentatom.Atom> timelines
 }
 
 struct ContentStats {
@@ -1672,6 +1680,14 @@ struct ItemResponse {
     28: optional contentatom.Atom storyquestions
 
     29: optional story_model.Story story
+
+    30: optional contentatom.Atom qa
+
+    31: optional contentatom.Atom guide
+
+    32: optional contentatom.Atom profile
+
+    33: optional contentatom.Atom timeline
 }
 
 struct TagsResponse {

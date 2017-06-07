@@ -27,6 +27,11 @@ val mavenSettings = Seq(
         <name>Luke Taylor</name>
         <url>https://github.com/LATaylor-guardian</url>
       </developer>
+      <developer>
+        <id>regiskuckaertz</id>
+        <name>Regis Kuckaertz</name>
+        <url>https://github.com/regiskuckaertz</url>
+      </developer>
     </developers>
   ),
   publishMavenStyle := true,
@@ -80,7 +85,7 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.36",
+      "com.gu" % "content-atom-model-thrift" % "2.4.39",
       "com.gu" % "content-entity-thrift" % "0.1.5",
       "com.gu" % "story-model-thrift" % "1.1"
     )
