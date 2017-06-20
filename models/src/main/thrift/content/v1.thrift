@@ -1308,7 +1308,7 @@ struct Atoms {
 
     9: optional list<contentatom.Atom> storyquestions
 
-    10: optional list<contentatom.Atom> qas
+    10: optional list<contentatom.Atom> qandas
 
     11: optional list<contentatom.Atom> guides
 
@@ -1683,7 +1683,7 @@ struct ItemResponse {
 
     29: optional story_model.Story story
 
-    30: optional contentatom.Atom qa
+    30: optional contentatom.Atom qanda
 
     31: optional contentatom.Atom guide
 
