@@ -117,7 +117,13 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.9.1",
       "com.twitter" %% "scrooge-core" % "4.5.0"
-    )
+    ),
+
+    /**
+      * WARNING - upgrading the following will break clients
+      */
+    dependencyOverrides += "org.apache.thrift" % "libthrift" % "0.9.1",
+    dependencyOverrides += "com.twitter" %% "scrooge-core" % "4.5.0"
   )
 
 /**
@@ -129,7 +135,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "0.2",
+      "com.gu" %% "fezziwig" % "0.4",
       "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,

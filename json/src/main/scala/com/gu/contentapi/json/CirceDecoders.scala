@@ -1,7 +1,7 @@
 package com.gu.contentapi.json
 
 import io.circe._
-import com.gu.contentatom.thrift.{Atom, AtomData}
+import com.gu.contentatom.thrift.{Atom, AtomData, AtomType}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion}
 import com.gu.contentapi.client.model.v1._
 import org.joda.time.format.ISODateTimeFormat
@@ -22,10 +22,34 @@ object CirceDecoders {
     }
   }
 
-  implicit val dateTimeDecoder = Decoder[String].map { dateTimeString =>
-    val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
-    CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime()))
+  /**
+    * A CapiDateTime is an object with 2 fields. We currently need to support decoding from
+    * a string or an object.
+    */
+  implicit val dateTimeDecoder: Decoder[CapiDateTime] = new Decoder[CapiDateTime] {
+    final def apply(c: HCursor): Decoder.Result[CapiDateTime] = {
+      val maybeResult = c.value.asObject.map { obj =>
+        val map = obj.toMap
+        val result = for {
+          iso8601Json <- map.get("iso8601")
+          iso8601 <- iso8601Json.asString
+          dateTimeJson <- map.get("dateTime")
+          dateTime <- dateTimeJson.asNumber.flatMap(_.toLong)
+        } yield CapiDateTime.apply(dateTime, iso8601)
+
+        Either.fromOption(result, DecodingFailure("dateTimeDecoder: invalid object", c.history))
+
+      } orElse {
+        c.value.asString.map { dateTimeString =>
+          val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
+          Either.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
+        }
+      }
+
+      maybeResult getOrElse Either.left(DecodingFailure("dateTimeDecoder: must be string or object", c.history))
+    }
   }
+
 
   /**
     * We override Circe's provided behaviour so we can decode the JSON strings "true" and "false"
@@ -51,6 +75,7 @@ object CirceDecoders {
   implicit val assetDecoder = Decoder[Asset]
   implicit val elementDecoder = Decoder[Element]
   implicit val referenceDecoder = Decoder[Reference]
+  implicit val blockElementDecoder = Decoder[BlockElement]
   implicit val blockDecoder = Decoder[Block]
   implicit val blocksDecoder = genBlocksDecoder
   implicit val rightsDecoder = Decoder[Rights]
@@ -59,10 +84,15 @@ object CirceDecoders {
   implicit val contentStatsDecoder = Decoder[ContentStats]
   implicit val sectionDecoder = Decoder[Section]
   implicit val debugDecoder = Decoder[Debug]
+  implicit val atomTypeDecoder = Decoder[AtomType]
+  implicit val atomDataDecoder = Decoder[AtomData]
+  implicit val atomDecoder = Decoder[Atom]
+  implicit val atomsDecoder = Decoder[Atoms]
   implicit val contentDecoder = Decoder[Content]
   implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
   implicit val pathAndStoryQuestionsAtomIdDecoder = Decoder[PathAndStoryQuestionsAtomId]
   implicit val networkFrontDecoder = Decoder[NetworkFront]
+  implicit val packageArticleDecoder = Decoder[PackageArticle]
   implicit val packageDecoder = Decoder[Package]
   implicit val itemResponseDecoder = Decoder[ItemResponse]
   implicit val searchResponseDecoder = Decoder[SearchResponse]
@@ -80,10 +110,6 @@ object CirceDecoders {
   implicit val ophanStoryQuestionsResponseDecoder = Decoder[OphanStoryQuestionsResponse]
   implicit val storyDecoder = Decoder[Story]
   implicit val storiesResponseDecoder = Decoder[StoriesResponse]
-
-  implicit val atomDataDecoder = Decoder[AtomData]  //ThriftUnion
-  implicit val atomDecoder = Decoder[Atom]
-  implicit val atomsDecoder = Decoder[Atoms]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
   // although shapeless's Lazy is supposed to work around that.
