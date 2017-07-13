@@ -32,6 +32,11 @@ val mavenSettings = Seq(
         <name>Regis Kuckaertz</name>
         <url>https://github.com/regiskuckaertz</url>
       </developer>
+      <developer>
+        <id>annebyrne</id>
+        <name>Anne Byrne</name>
+        <url>https://github.com/annebyrne</url>
+      </developer>
     </developers>
   ),
   publishMavenStyle := true,
@@ -40,14 +45,14 @@ val mavenSettings = Seq(
 )
 
 val commonSettings = Seq(
-  scalaVersion := "2.11.8",
-  crossPaths := false,
+  scalaVersion := "2.12.3",
+  crossScalaVersions := Seq("2.11.8", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
-val circeVersion = "0.7.0"
+val circeVersion = "0.8.0"
 
 /**
   * Root project
@@ -116,14 +121,13 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     },
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.9.1",
-      "com.twitter" %% "scrooge-core" % "4.5.0"
+      "com.twitter" %% "scrooge-core" % "4.18.0"
     ),
 
     /**
       * WARNING - upgrading the following will break clients
       */
-    dependencyOverrides += "org.apache.thrift" % "libthrift" % "0.9.1",
-    dependencyOverrides += "com.twitter" %% "scrooge-core" % "4.5.0"
+    dependencyOverrides += "org.apache.thrift" % "libthrift" % "0.9.1"
   )
 
 /**
@@ -135,14 +139,14 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "0.4",
+      "com.gu" %% "fezziwig" % "0.6",
       "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
-      "com.github.agourlay" %% "cornichon" % "0.9.1" % "test",
-      "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+      "org.gnieh" %% "diffson-circe" % "2.2.2" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
     mappings in (Compile, packageDoc) := Nil

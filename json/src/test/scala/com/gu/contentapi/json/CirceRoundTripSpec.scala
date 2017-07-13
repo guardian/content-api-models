@@ -1,6 +1,5 @@
 package com.gu.contentapi.json
 
-import com.github.agourlay.cornichon.json.JsonDiff.Diff
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.utils.JsonHelpers._
 import io.circe.{Decoder, Encoder, Json}
@@ -12,7 +11,7 @@ import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct,
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
-
+import gnieh.diffson.circe._
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {
 
@@ -167,22 +166,9 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     jsons.foreach(j => checkDiff(j._1, j._2))
   }
 
-  val Identical = Diff(Json.Null, Json.Null, Json.Null)
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
-    import com.github.agourlay.cornichon.json.JsonDiff.{ diff, Diff }
-    val d: Diff = diff(jsonBefore, jsonAfter)
-
-    if (d != Identical) {
-      println("JSON before:")
-      println(jsonBefore.spaces2)
-      println("=====")
-      println("JSON after:")
-      println(jsonAfter.spaces2)
-      println("=====")
-      println("Diff:")
-      println(d)
-    }
-
-    d should be(Identical)
+    val diff = JsonDiff.diff(jsonBefore, jsonAfter, false)
+    diff should be(JsonPatch(Nil))
+    if (diff != JsonPatch(Nil)) println(diff)
   }
 }
