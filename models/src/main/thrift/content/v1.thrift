@@ -1397,6 +1397,8 @@ struct Debug {
     2: optional i64 revisionSeenByPorter
 
     3: optional string contentSource
+
+    4: optional string originatingSystem
 }
 
 struct Content {
