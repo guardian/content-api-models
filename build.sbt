@@ -46,7 +46,7 @@ val mavenSettings = Seq(
 
 val commonSettings = Seq(
   scalaVersion := "2.12.3",
-  crossScalaVersions := Seq("2.11.8", scalaVersion.value),
+  crossPaths := false,
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
@@ -103,6 +103,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   .dependsOn(models)
   .settings(commonSettings)
   .settings(
+    crossPaths := true,
+    crossScalaVersions := Seq("2.11.8", scalaVersion.value),
     description := "Generated classes of the Scala models for the Guardian's Content API",
     javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
