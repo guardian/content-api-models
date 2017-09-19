@@ -1,6 +1,7 @@
 # Content API Thrift models
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models)
+[![Build Status](https://travis-ci.org/guardian/content-api-models.svg?branch=master)](https://travis-ci.org/guardian/content-api-models)
 
 To release:
 
