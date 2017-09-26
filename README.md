@@ -6,7 +6,7 @@
 To release:
 
 ```
-$ sbt release
+$ sbt 'release cross'
 ```
 
 will publish to [Maven Central](http://search.maven.org/) via Sonatype. You will need Sonatype credentials and a PGP key. It can take up to 2hrs to show up in search.
