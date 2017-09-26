@@ -1093,6 +1093,10 @@ struct Sponsorship {
 
     9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
 
+    10: optional CapiDateTime validFrom
+
+    11: optional CapiDateTime validTo
+
 }
 
 struct Tag {
