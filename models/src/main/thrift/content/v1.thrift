@@ -1099,6 +1099,8 @@ struct Podcast {
     6: optional string image
 
     7: optional list<PodcastCategory> categories
+
+    8: optional string podcastType
 }
 
 struct Tag {
