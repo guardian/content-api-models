@@ -21,6 +21,7 @@
           "id" : "media-atom-id",
           "atomType" : "media",
           "labels" : [ ],
+          "commissioningDesks" : [ ],
           "defaultHtml" : "<div</div>\n",
           "data" : {
             "media": {
