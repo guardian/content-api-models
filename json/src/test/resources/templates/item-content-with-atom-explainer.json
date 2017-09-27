@@ -22,6 +22,7 @@
           "id" : "explainer-atom-id",
           "atomType" : "explainer",
           "labels" : [ ],
+          "commissioningDesks" : [ ],
           "defaultHtml" : "<div</div>\n",
           "data" : {
             "explainer": {
