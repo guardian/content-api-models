@@ -161,7 +161,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
       encoded: Json = decoded.asJson
       jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
     } yield (jsonBefore, jsonAfter)
-
+  
     jsons should not be None
     jsons.foreach(j => checkDiff(j._1, j._2))
   }

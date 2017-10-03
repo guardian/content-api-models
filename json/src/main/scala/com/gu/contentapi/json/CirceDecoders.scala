@@ -4,10 +4,10 @@ import io.circe._
 import com.gu.contentatom.thrift.{Atom, AtomData, AtomType}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion}
 import com.gu.contentapi.client.model.v1._
-import org.joda.time.format.ISODateTimeFormat
 import cats.syntax.either._
 import com.gu.contententity.thrift.Entity
 import com.gu.story.model.v1.Story
+import java.time.OffsetDateTime
 
 object CirceDecoders {
 
@@ -41,8 +41,8 @@ object CirceDecoders {
 
       } orElse {
         c.value.asString.map { dateTimeString =>
-          val dateTime = ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(dateTimeString)
-          Either.right(CapiDateTime.apply(dateTime.getMillis, dateTime.toString(ISODateTimeFormat.dateTime())))
+          val dateTime: OffsetDateTime = OffsetDateTime.parse(dateTimeString)
+          Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), dateTime.toString()))
         }
       }
 

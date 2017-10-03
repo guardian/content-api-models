@@ -140,7 +140,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
       "com.gu" %% "fezziwig" % "0.6",
-      "joda-time" % "joda-time" % "2.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
