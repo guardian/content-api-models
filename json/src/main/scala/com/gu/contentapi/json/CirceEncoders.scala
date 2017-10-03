@@ -7,7 +7,9 @@ import io.circe.syntax._
 import com.gu.fezziwig.CirceScroogeMacros.{encodeThriftStruct, encodeThriftUnion}
 import com.gu.contentatom.thrift.{Atom, AtomData}
 import com.gu.story.model.v1.Story
-import org.joda.time.format.ISODateTimeFormat
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 object CirceEncoders {
 
@@ -82,8 +84,8 @@ object CirceEncoders {
   implicit val storiesResponseEncoder = Encoder[StoriesResponse]
 
   def genDateTimeEncoder: Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
-    val dateTime = ISODateTimeFormat.dateTime().withOffsetParsed().parseDateTime(capiDateTime.iso8601)
+    val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)
     // We don't include millis in JSON, for backwards-compatibility
-    Json.fromString(dateTime.toString(ISODateTimeFormat.dateTimeNoMillis()))
+    Json.fromString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dateTime.truncatedTo(ChronoUnit.SECONDS)))
   }
 }
