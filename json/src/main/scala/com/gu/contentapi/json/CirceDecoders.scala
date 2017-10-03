@@ -8,6 +8,7 @@ import cats.syntax.either._
 import com.gu.contententity.thrift.Entity
 import com.gu.story.model.v1.Story
 import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 object CirceDecoders {
 
@@ -42,7 +43,7 @@ object CirceDecoders {
       } orElse {
         c.value.asString.map { dateTimeString =>
           val dateTime: OffsetDateTime = OffsetDateTime.parse(dateTimeString)
-          Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), dateTime.toString()))
+          Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), DateTimeFormatter.OFFSET_DATE_TIME.format(dateTime)))
         }
       }
 
