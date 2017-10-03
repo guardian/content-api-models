@@ -11,7 +11,7 @@ object CapiModelEnrichment {
   }
 
   implicit class RichOffsetDateTime(val dt: OffsetDateTime) extends AnyVal {
-    def toCapiDateTime: CapiDateTime = CapiDateTime.apply(dt.toInstant.toEpochMilli, dt.toString)
+    def toCapiDateTime: CapiDateTime = CapiDateTime.apply(dt.toInstant.toEpochMilli, DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dt))
   }
 
 }
