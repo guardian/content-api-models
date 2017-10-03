@@ -43,7 +43,7 @@ object CirceDecoders {
       } orElse {
         c.value.asString.map { dateTimeString =>
           val dateTime: OffsetDateTime = OffsetDateTime.parse(dateTimeString)
-          Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), DateTimeFormatter.OFFSET_DATE_TIME.format(dateTime)))
+          Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dateTime)))
         }
       }
 
