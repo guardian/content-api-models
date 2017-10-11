@@ -8,7 +8,9 @@ import cats.syntax.either._
 import com.gu.contententity.thrift.Entity
 import com.gu.story.model.v1.Story
 import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
+import java.time.chrono.IsoChronology
+import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder, ResolverStyle}
+import java.time.temporal.ChronoField
 
 object CirceDecoders {
 
@@ -28,6 +30,22 @@ object CirceDecoders {
     * a string or an object.
     */
   implicit val dateTimeDecoder: Decoder[CapiDateTime] = new Decoder[CapiDateTime] {
+    //We need this custom formatter because some fields in capi only have the date
+    private val formatter = new DateTimeFormatterBuilder()
+      .parseCaseInsensitive()
+      .append(DateTimeFormatter.ISO_LOCAL_DATE)
+      .optionalStart
+      .appendLiteral('T')
+      .append(DateTimeFormatter.ISO_LOCAL_TIME)
+      .appendOffsetId
+      .optionalEnd
+      .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+      .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+      .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+      .parseDefaulting(ChronoField.NANO_OF_SECOND, 0)
+      .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
+      .toFormatter
+
     final def apply(c: HCursor): Decoder.Result[CapiDateTime] = {
       val maybeResult = c.value.asObject.map { obj =>
         val map = obj.toMap
@@ -42,7 +60,7 @@ object CirceDecoders {
 
       } orElse {
         c.value.asString.map { dateTimeString =>
-          val dateTime: OffsetDateTime = OffsetDateTime.parse(dateTimeString)
+          val dateTime = OffsetDateTime.parse(dateTimeString, formatter)
           Either.right(CapiDateTime.apply(dateTime.toInstant.toEpochMilli(), DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dateTime)))
         }
       }
