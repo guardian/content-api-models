@@ -94,11 +94,17 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     }
   }
 
-    it should "parse date with no time" in {
-      val jsonBefore = Json.fromString("2016-05-04")
-      val capiDateTime = jsonBefore.as[CapiDateTime].toOption
-      capiDateTime should be(Some(CapiDateTime(1462320000000L, "2016-05-04T00:00:00Z")))
-    }
+  it should "parse date with no time" in {
+    val jsonBefore = Json.fromString("2016-05-04")
+    val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+    capiDateTime should be(Some(CapiDateTime(1462320000000L, "2016-05-04T00:00:00Z")))
+  }
+
+  it should "parse date with no zone" in {
+    val jsonBefore = Json.fromString("2015-10-22T17:02:41")
+    val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+    capiDateTime should be(Some(CapiDateTime(1445533361000L, "2015-10-22T17:02:41Z")))
+  }
 
   it should "round-trip an ItemResponse with a quiz atom" in {
     checkRoundTrip[ItemResponse]("item-content-with-atom-quiz.json")

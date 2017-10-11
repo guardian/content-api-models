@@ -37,7 +37,9 @@ object CirceDecoders {
       .optionalStart
       .appendLiteral('T')
       .append(DateTimeFormatter.ISO_LOCAL_TIME)
+      .optionalStart
       .appendOffsetId
+      .optionalEnd
       .optionalEnd
       .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
       .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
