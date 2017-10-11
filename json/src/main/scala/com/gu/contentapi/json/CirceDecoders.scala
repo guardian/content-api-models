@@ -25,29 +25,29 @@ object CirceDecoders {
     }
   }
 
+  //We need this custom formatter because some fields in capi only have the date
+  val formatter = new DateTimeFormatterBuilder()
+    .parseCaseInsensitive()
+    .append(DateTimeFormatter.ISO_LOCAL_DATE)
+    .optionalStart
+    .appendLiteral('T')
+    .append(DateTimeFormatter.ISO_LOCAL_TIME)
+    .optionalStart
+    .appendOffsetId
+    .optionalEnd
+    .optionalEnd
+    .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+    .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+    .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+    .parseDefaulting(ChronoField.NANO_OF_SECOND, 0)
+    .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
+    .toFormatter
+
   /**
     * A CapiDateTime is an object with 2 fields. We currently need to support decoding from
     * a string or an object.
     */
   implicit val dateTimeDecoder: Decoder[CapiDateTime] = new Decoder[CapiDateTime] {
-    //We need this custom formatter because some fields in capi only have the date
-    private val formatter = new DateTimeFormatterBuilder()
-      .parseCaseInsensitive()
-      .append(DateTimeFormatter.ISO_LOCAL_DATE)
-      .optionalStart
-      .appendLiteral('T')
-      .append(DateTimeFormatter.ISO_LOCAL_TIME)
-      .optionalStart
-      .appendOffsetId
-      .optionalEnd
-      .optionalEnd
-      .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-      .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-      .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-      .parseDefaulting(ChronoField.NANO_OF_SECOND, 0)
-      .parseDefaulting(ChronoField.OFFSET_SECONDS, 0)
-      .toFormatter
-
     final def apply(c: HCursor): Decoder.Result[CapiDateTime] = {
       val maybeResult = c.value.asObject.map { obj =>
         val map = obj.toMap
