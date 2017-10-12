@@ -2,7 +2,7 @@ package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.utils.JsonHelpers._
-import io.circe.{Decoder, Encoder, Json}
+import io.circe._
 import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
@@ -92,6 +92,18 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
       val jsonAfter = capiDateTime.map(_.asJson)
       jsonAfter should be(Some(Json.fromString("2016-05-04T12:34:56+01:00")))
     }
+  }
+
+  it should "parse date with no time" in {
+    val jsonBefore = Json.fromString("2016-05-04")
+    val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+    capiDateTime should be(Some(CapiDateTime(1462320000000L, "2016-05-04T00:00:00Z")))
+  }
+
+  it should "parse date with no zone" in {
+    val jsonBefore = Json.fromString("2015-10-22T17:02:41")
+    val capiDateTime = jsonBefore.as[CapiDateTime].toOption
+    capiDateTime should be(Some(CapiDateTime(1445533361000L, "2015-10-22T17:02:41Z")))
   }
 
   it should "round-trip an ItemResponse with a quiz atom" in {
