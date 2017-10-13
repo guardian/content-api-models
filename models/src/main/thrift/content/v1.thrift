@@ -75,7 +75,7 @@ enum ElementType {
     COMMENT = 6,
 
     /*
-     * A rich link to guardian content - presents a nice trail outside of the contnet body
+     * A rich link to guardian content - presents a nice trail outside of the content body
      */
     RICH_LINK = 7,
 
@@ -559,6 +559,7 @@ struct RichLinkElementFields {
     3: optional string linkText
     4: optional string linkPrefix
     5: optional string role
+    6: optional Sponsorship sponsorship 
 }
 
 struct MembershipElementFields {
