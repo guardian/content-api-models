@@ -75,7 +75,7 @@ enum ElementType {
     COMMENT = 6,
 
     /*
-     * A rich link to guardian content - presents a nice trail outside of the contnet body
+     * A rich link to guardian content - presents a nice trail outside of the content body
      */
     RICH_LINK = 7,
 
@@ -553,12 +553,54 @@ struct WitnessElementFields {
     26: optional string role
 }
 
+
+struct SponsorshipTargeting {
+    1: optional CapiDateTime publishedSince
+
+    2: optional list<string> validEditions
+}
+
+struct SponsorshipLogoDimensions {
+
+    1: required i32 width
+
+    2: required i32 height
+
+}
+
+struct Sponsorship {
+
+    1: required SponsorshipType sponsorshipType
+
+    2: required string sponsorName
+
+    3: required string sponsorLogo
+
+    4: required string sponsorLink
+
+    5: optional SponsorshipTargeting targeting
+
+    6: optional string aboutLink
+
+    7: optional SponsorshipLogoDimensions sponsorLogoDimensions
+
+    8: optional string highContrastSponsorLogo
+
+    9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
+
+    10: optional CapiDateTime validFrom
+
+    11: optional CapiDateTime validTo
+
+}
+
 struct RichLinkElementFields {
     1: optional string url
     2: optional string originalUrl
     3: optional string linkText
     4: optional string linkPrefix
     5: optional string role
+    6: optional Sponsorship sponsorship
 }
 
 struct MembershipElementFields {
@@ -1057,46 +1099,6 @@ struct Podcast {
     6: optional string image
 
     7: optional list<PodcastCategory> categories
-}
-
-struct SponsorshipTargeting {
-    1: optional CapiDateTime publishedSince
-
-    2: optional list<string> validEditions
-}
-
-struct SponsorshipLogoDimensions {
-
-    1: required i32 width
-
-    2: required i32 height
-
-}
-
-struct Sponsorship {
-
-    1: required SponsorshipType sponsorshipType
-
-    2: required string sponsorName
-
-    3: required string sponsorLogo
-
-    4: required string sponsorLink
-
-    5: optional SponsorshipTargeting targeting
-
-    6: optional string aboutLink
-
-    7: optional SponsorshipLogoDimensions sponsorLogoDimensions
-
-    8: optional string highContrastSponsorLogo
-
-    9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
-
-    10: optional CapiDateTime validFrom
-
-    11: optional CapiDateTime validTo
-
 }
 
 struct Tag {
