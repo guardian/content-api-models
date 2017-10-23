@@ -1532,6 +1532,10 @@ struct Content {
      * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian.
      */
     23: required bool isHosted = false
+
+    24: optional string pillarId
+
+    25: optional string pillarName
 }
 
 struct NetworkFront {
