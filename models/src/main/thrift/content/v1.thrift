@@ -1608,6 +1608,13 @@ struct MostViewedVideo {
     2: required i32 count
 }
 
+struct Pillar {
+    1: required string id
+
+    2: required string name
+
+    3: required list<string> sectionIds
+}
 
 /* These are Responses structures shared with the Content API */
 
@@ -1881,3 +1888,12 @@ struct StoriesResponse {
 
     3: required list<story_model.Story> results
 }
+
+struct PillarsResponse {
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<Pillar> results
+}
+
