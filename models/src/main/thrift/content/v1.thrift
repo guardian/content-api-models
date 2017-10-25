@@ -1532,6 +1532,10 @@ struct Content {
      * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian.
      */
     23: required bool isHosted = false
+
+    24: optional string pillarId
+
+    25: optional string pillarName
 }
 
 struct NetworkFront {
@@ -1604,6 +1608,13 @@ struct MostViewedVideo {
     2: required i32 count
 }
 
+struct Pillar {
+    1: required string id
+
+    2: required string name
+
+    3: required list<string> sectionIds
+}
 
 /* These are Responses structures shared with the Content API */
 
@@ -1877,3 +1888,12 @@ struct StoriesResponse {
 
     3: required list<story_model.Story> results
 }
+
+struct PillarsResponse {
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<Pillar> results
+}
+
