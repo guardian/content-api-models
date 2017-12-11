@@ -90,7 +90,7 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.59",
+      "com.gu" % "content-atom-model-thrift" % "2.4.60",
       "com.gu" % "content-entity-thrift" % "0.1.5",
       "com.gu" % "story-model-thrift" % "1.1"
     )
