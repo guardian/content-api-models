@@ -1068,6 +1068,8 @@ struct ContentFields {
     47: optional string internalVideoCode
 
     48: optional bool shouldHideReaderRevenue
+
+    49: optional i32 internalCommissionedWordcount
 }
 
 struct Reference {
