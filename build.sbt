@@ -45,14 +45,15 @@ val mavenSettings = Seq(
 )
 
 val commonSettings = Seq(
-  scalaVersion := "2.12.3",
-  crossScalaVersions := Seq("2.11.8", scalaVersion.value),
+  scalaVersion := "2.12.4",
+  crossScalaVersions := Seq("2.11.12", scalaVersion.value),
+  scalacOptions += "-Ypartial-unification", // Cats requires this: https://github.com/typelevel/cats/pull/1946/files
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 ) ++ mavenSettings
 
-val circeVersion = "0.8.0"
+val circeVersion = "0.9.0"
 
 /**
   * Root project
@@ -139,12 +140,12 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "0.6",
+      "com.gu" %% "fezziwig" % "0.8",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
-      "org.gnieh" %% "diffson-circe" % "2.2.2" % "test",
+      "org.gnieh" %% "diffson-circe" % "2.2.5" % "test",
       "org.scalatest" %% "scalatest" % "3.0.1" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
