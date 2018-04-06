@@ -1070,6 +1070,8 @@ struct ContentFields {
     48: optional bool shouldHideReaderRevenue
 
     49: optional i32 internalCommissionedWordcount
+
+    50: optional bool showAffiliateLinks
 }
 
 struct Reference {
