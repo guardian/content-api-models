@@ -165,7 +165,9 @@ enum TagType {
 
     TRACKING = 9,
 
-    PAID_CONTENT = 10
+    PAID_CONTENT = 10,
+
+    CAMPAIGN = 11
 
 }
 
@@ -1230,6 +1232,11 @@ struct Tag {
      * A set of Guardian Entity IDs associated with this Tag
      */
     24: optional set<string> entityIds
+
+    /**
+    * If the tag is a campaign, it should have a subtype eg callout
+    */
+    25: optional string campaignInformationType
 }
 
 struct Edition {
