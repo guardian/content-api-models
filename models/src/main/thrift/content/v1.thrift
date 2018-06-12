@@ -1629,6 +1629,12 @@ struct Pillar {
     3: required list<string> sectionIds
 }
 
+struct RemovedContent {
+    1: required string id
+
+    2: required CapiDateTime lastModified
+}
+
 /* These are Responses structures shared with the Content API */
 
 struct SearchResponse {
@@ -1828,6 +1834,8 @@ struct RemovedContentResponse {
     8: required string orderBy
 
     9: required list<string> results
+
+    10: optional list<RemovedContent> resultsWithLastModified
 }
 
 struct ErrorResponse {
