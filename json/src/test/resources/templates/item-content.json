@@ -450,6 +450,9 @@
                 "syndicatable": true,
                 "subscriptionDatabases": true,
                 "developerCommunity": true
+            },
+            "debug": {
+                "lastSeenByPorterAt": "2013-01-16T10:14:31.634Z"        
             }
         }
     }

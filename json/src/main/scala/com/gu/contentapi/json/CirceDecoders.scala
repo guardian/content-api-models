@@ -33,6 +33,9 @@ object CirceDecoders {
     .appendLiteral('T')
     .append(DateTimeFormatter.ISO_LOCAL_TIME)
     .optionalStart
+    .appendFraction(ChronoField.NANO_OF_SECOND, 3, 3, false)
+    .optionalEnd
+    .optionalStart
     .appendOffsetId
     .optionalEnd
     .optionalEnd
