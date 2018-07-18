@@ -44,7 +44,7 @@ object CirceEncoders {
   }
 
   implicit val networkFrontEncoder = Encoder[NetworkFront]
-  implicit val dateTimeEncoder = genDateTimeEncoder
+  implicit val dateTimeEncoder = genDateTimeEncoder()
   implicit val contentFieldsEncoder = Encoder[ContentFields]
   implicit val editionEncoder = Encoder[Edition]
   implicit val sponsorshipEncoder = Encoder[Sponsorship]
@@ -59,7 +59,19 @@ object CirceEncoders {
   implicit val crosswordEncoder = Encoder[Crossword]
   implicit val contentStatsEncoder = Encoder[ContentStats]
   implicit val sectionEncoder = Encoder[Section]
-  implicit val debugEncoder = Encoder[Debug]
+  implicit val debugEncoder: Encoder[Debug] = Encoder.instance { d =>
+    Json.fromJsonObject(
+      JsonObject(
+        "lastSeenByPorterAt" -> d.lastSeenByPorterAt.fold(Json.Null)(_.asJson(genDateTimeEncoder(false))),
+        "revisionSeenByPorter" -> d.revisionSeenByPorter.fold(Json.Null)(_.asJson),
+        "contentSource" -> d.contentSource.fold(Json.Null)(_.asJson),
+        "originatingSystem" -> d.originatingSystem.fold(Json.Null)(_.asJson)
+      ).filter {
+        case (_, Json.Null) => false
+        case _ => true
+      }
+    )
+  }
   implicit val atomDataEncoder = Encoder[AtomData]
   implicit val atomEncoder = Encoder[Atom]
   implicit val atomsEncoder = Encoder[Atoms]
@@ -86,9 +98,9 @@ object CirceEncoders {
   implicit val storiesResponseEncoder = Encoder[StoriesResponse]
   implicit val pillarsResponseEncoder = Encoder[PillarsResponse]
 
-  def genDateTimeEncoder: Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
+  def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)
     // We don't include millis in JSON, for backwards-compatibility
-    Json.fromString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dateTime.truncatedTo(ChronoUnit.SECONDS)))
+    Json.fromString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(if (truncate) dateTime.truncatedTo(ChronoUnit.SECONDS) else dateTime))
   }
 }
