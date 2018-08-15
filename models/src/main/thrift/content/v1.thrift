@@ -1107,6 +1107,8 @@ struct Podcast {
     7: optional list<PodcastCategory> categories
 
     8: optional string podcastType
+
+    9: optional string googlePodcastsUrl
 }
 
 struct Tag {
