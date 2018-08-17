@@ -1109,6 +1109,8 @@ struct Podcast {
     8: optional string podcastType
 
     9: optional string googlePodcastsUrl
+
+    10: optional string spotifyUrl
 }
 
 struct Tag {
