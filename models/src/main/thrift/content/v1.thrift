@@ -1340,6 +1340,8 @@ struct Atoms {
     13: optional list<contentatom.Atom> timelines
 
     14: optional list<contentatom.Atom> commonsdivisions
+
+    15: optional list<contentatom.Atom> charts
 }
 
 struct ContentStats {
@@ -1736,6 +1738,8 @@ struct ItemResponse {
     33: optional contentatom.Atom timeline
 
     34: optional contentatom.Atom commonsdivision
+
+    35: optional contentatom.Atom chart
 }
 
 struct TagsResponse {
