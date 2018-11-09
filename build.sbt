@@ -45,7 +45,7 @@ val mavenSettings = Seq(
 )
 
 val commonSettings = Seq(
-  scalaVersion := "2.12.4",
+  scalaVersion := "2.12.7",
   crossScalaVersions := Seq("2.11.12", scalaVersion.value),
   scalacOptions += "-Ypartial-unification", // Cats requires this: https://github.com/typelevel/cats/pull/1946/files
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
