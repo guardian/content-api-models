@@ -82,7 +82,7 @@ lazy val root = Project(id = "root", base = file("."))
 /**
   * Thrift models project
   */
-lazy val models = Project(id = "content-api-models", base = file("models"))
+lazy val models = Project(id = "content-api-models", base = file("content"))
   .settings(commonSettings)
   .disablePlugins(ScroogeSBT)
   .settings(
@@ -108,7 +108,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
-    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
+    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../content/src/main/thrift",
     scroogeThriftDependencies in Compile ++= Seq(
       "content-api-models",
       "story-packages-model-thrift",
