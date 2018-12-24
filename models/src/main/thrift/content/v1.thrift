@@ -1342,6 +1342,8 @@ struct Atoms {
     14: optional list<contentatom.Atom> commonsdivisions
 
     15: optional list<contentatom.Atom> charts
+
+    16: optional list<contentatom.Atom> audios
 }
 
 struct ContentStats {
