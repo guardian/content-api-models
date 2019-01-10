@@ -1742,6 +1742,8 @@ struct ItemResponse {
     34: optional contentatom.Atom commonsdivision
 
     35: optional contentatom.Atom chart
+
+    36: optional contentatom.Atom audio
 }
 
 struct TagsResponse {
