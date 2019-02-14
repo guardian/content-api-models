@@ -1077,7 +1077,7 @@ struct ContentFields {
 
     50: optional bool showAffiliateLinks
 
-    51: optional bool bylineHtml
+    51: optional string bylineHtml
 }
 
 struct Reference {
