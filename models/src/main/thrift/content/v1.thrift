@@ -384,6 +384,8 @@ struct PullquoteElementFields {
     1: optional string html
 
     2: optional string attribution
+
+    3: optional string role
 }
 
 struct TweetElementFields {
@@ -1074,6 +1076,8 @@ struct ContentFields {
     49: optional i32 internalCommissionedWordcount
 
     50: optional bool showAffiliateLinks
+
+    51: optional string bylineHtml
 }
 
 struct Reference {
