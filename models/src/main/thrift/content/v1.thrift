@@ -1245,6 +1245,11 @@ struct Tag {
     * If the tag is a campaign, it should have a subtype eg callout
     */
     25: optional string campaignInformationType
+
+    /**
+    * The internal name of the tag
+    */
+    26: optional string internalName
 }
 
 struct Edition {
