@@ -1249,7 +1249,7 @@ struct Tag {
     /**
     * The internal name of the tag
     */
-    26: optional string internalName
+    26: required string internalName
 }
 
 struct Edition {
