@@ -50,7 +50,8 @@ val commonSettings = Seq(
   scalacOptions += "-Ypartial-unification", // Cats requires this: https://github.com/typelevel/cats/pull/1946/files
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
-  licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
+  licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
+  resolvers += Resolver.sonatypeRepo("releases")
 ) ++ mavenSettings
 
 val circeVersion = "0.10.0"
@@ -91,7 +92,7 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.66",
+      "com.gu" % "content-atom-model-thrift" % "2.4.67",
       "com.gu" % "content-entity-thrift" % "0.1.5",
       "com.gu" % "story-model-thrift" % "1.1"
     )
