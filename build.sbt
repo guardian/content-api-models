@@ -54,7 +54,7 @@ val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("releases")
 ) ++ mavenSettings
 
-val circeVersion = "0.10.0"
+val circeVersion = "0.11.1"
 
 /**
   * Root project
@@ -91,10 +91,10 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     description := "Scala models for the Guardian's Content API",
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
-      "com.gu" % "story-packages-model-thrift" % "1.0.3",
-      "com.gu" % "content-atom-model-thrift" % "2.4.67",
-      "com.gu" % "content-entity-thrift" % "0.1.5",
-      "com.gu" % "story-model-thrift" % "1.1"
+      "com.gu" % "story-packages-model-thrift" % "2.0.0",
+      "com.gu" % "content-atom-model-thrift" % "3.0.0",
+      "com.gu" % "content-entity-thrift" % "1.0.0",
+      "com.gu" % "story-model-thrift" % "2.0.0"
     )
   )
 
@@ -122,14 +122,9 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       (scroogeUnpackDeps in Compile).value.flatMap { dir => (dir ** "*.thrift").get }
     },
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.9.1",
-      "com.twitter" %% "scrooge-core" % "4.18.0"
-    ),
-
-    /**
-      * WARNING - upgrading the following will break clients
-      */
-    dependencyOverrides += "org.apache.thrift" % "libthrift" % "0.9.1"
+      "org.apache.thrift" % "libthrift" % "0.10.0",
+      "com.twitter" %% "scrooge-core" % "19.3.0"
+    )
   )
 
 /**
@@ -141,7 +136,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "0.9",
+      "com.gu" %% "fezziwig" % "1.0",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
