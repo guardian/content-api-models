@@ -1,7 +1,5 @@
-import com.twitter.scrooge.ScroogeSBT._
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
-import com.twitter.scrooge.ScroogeSBT
 
 val mavenSettings = Seq(
   pomExtra := (
@@ -39,6 +37,7 @@ val mavenSettings = Seq(
       </developer>
     </developers>
   ),
+  publishTo := sonatypePublishTo.value,
   publishMavenStyle := true,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false }
