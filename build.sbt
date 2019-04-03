@@ -54,7 +54,7 @@ val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("releases")
 ) ++ mavenSettings
 
-val circeVersion = "0.11.1"
+val circeVersion = "0.11.0"
 
 /**
   * Root project
@@ -87,14 +87,14 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   .settings(commonSettings)
   .disablePlugins(ScroogeSBT)
   .settings(
-    resolvers += Resolver.sonatypeRepo("releases"),
+    resolvers ++= Seq(Resolver.sonatypeRepo("releases"), Resolver.sonatypeRepo("public")),
     description := "Scala models for the Guardian's Content API",
     unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "2.0.0",
       "com.gu" % "content-atom-model-thrift" % "3.0.0",
       "com.gu" % "content-entity-thrift" % "1.0.0",
-      "com.gu" % "story-model-thrift" % "2.0.0"
+      "com.gu" % "story-model-thrift" % "2.0"
     )
   )
 
