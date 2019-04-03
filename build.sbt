@@ -105,7 +105,6 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   .settings(commonSettings)
   .settings(
     description := "Generated classes of the Scala models for the Guardian's Content API",
-    javacOptions ++= Seq("-source", "1.7", "-target", "1.7"),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
