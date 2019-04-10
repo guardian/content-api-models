@@ -92,7 +92,7 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
     libraryDependencies ++= Seq(
       "com.gu" % "story-packages-model-thrift" % "2.0.0",
       "com.gu" % "content-atom-model-thrift" % "3.0.0",
-      "com.gu" % "content-entity-thrift" % "1.0.0",
+      "com.gu" % "content-entity-thrift" % "2.0.0",
       "com.gu" % "story-model-thrift" % "2.0"
     )
   )
