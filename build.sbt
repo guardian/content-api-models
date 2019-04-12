@@ -50,7 +50,7 @@ val commonSettings = Seq(
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
-  resolvers += Resolver.sonatypeRepo("releases")
+  resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings
 
 val circeVersion = "0.11.0"
@@ -86,15 +86,7 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   .settings(commonSettings)
   .disablePlugins(ScroogeSBT)
   .settings(
-    resolvers ++= Seq(Resolver.sonatypeRepo("releases"), Resolver.sonatypeRepo("public")),
     description := "Scala models for the Guardian's Content API",
-    unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" },
-    libraryDependencies ++= Seq(
-      "com.gu" % "story-packages-model-thrift" % "2.0.0",
-      "com.gu" % "content-atom-model-thrift" % "3.0.0",
-      "com.gu" % "content-entity-thrift" % "2.0.0",
-      "com.gu" % "story-model-thrift" % "2.0"
-    )
   )
 
   /**
@@ -109,7 +101,6 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
     scroogeThriftDependencies in Compile ++= Seq(
-      "content-api-models",
       "story-packages-model-thrift",
       "content-atom-model-thrift",
       "content-entity-thrift",
@@ -121,7 +112,11 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     },
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.10.0",
-      "com.twitter" %% "scrooge-core" % "19.3.0"
+      "com.twitter" %% "scrooge-core" % "19.3.0",
+      "com.gu" % "story-packages-model-thrift" % "2.0.1",
+      "com.gu" % "content-atom-model-thrift" % "3.0.2",
+      "com.gu" % "content-entity-thrift" % "2.0.1",
+      "com.gu" % "story-model-thrift" % "2.0.1"
     )
   )
 
