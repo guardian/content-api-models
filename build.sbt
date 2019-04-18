@@ -115,6 +115,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     scroogeThriftSources in Compile ++= {
       (scroogeUnpackDeps in Compile).value.flatMap { dir => (dir ** "*.thrift").get }
     },
+    scroogePublishThrift in Compile := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.10.0",
       "com.twitter" %% "scrooge-core" % "19.3.0",
