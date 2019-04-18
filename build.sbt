@@ -87,6 +87,11 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   .disablePlugins(ScroogeSBT)
   .settings(
     description := "Scala models for the Guardian's Content API",
+    crossPaths := false,
+    publishArtifact in packageDoc := false,
+    publishArtifact in packageSrc := false,
+    includeFilter in unmanagedResources := "*.thrift",
+    unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" }
   )
 
   /**
