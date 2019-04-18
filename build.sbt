@@ -38,6 +38,7 @@ val mavenSettings = Seq(
     </developers>
   ),
   publishTo := sonatypePublishTo.value,
+  publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishMavenStyle := true,
   publishArtifact in Test := false,
   pomIncludeRepository := { _ => false }
