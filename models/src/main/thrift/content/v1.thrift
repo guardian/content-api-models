@@ -2,26 +2,12 @@ include "story_package_article.thrift"
 include "contentatom.thrift"
 include "entity.thrift"
 include "story_model.thrift"
+include "platform.thrift"
+include "CapiDateTime.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 
 //include "atoms/quiz.thrift"
-
-struct CapiDateTime {
-
-    /*
-     * Date times are represented as i64 - epoch millis
-     */
-    1: required i64 dateTime
-
-    /*
-     * Also represent as a string (yyyy-MM-dd`T`HH:mm:ss.SSSZZ) in order to preserve timezone info.
-     *
-     * Note: this field makes the i64 representation redundant.
-     */
-    2: required string iso8601
-
-}
 
 enum ContentType {
     ARTICLE = 0,
@@ -1566,6 +1552,8 @@ struct Content {
     24: optional string pillarId
 
     25: optional string pillarName
+
+    26: optional Platforms platforms
 }
 
 struct NetworkFront {
