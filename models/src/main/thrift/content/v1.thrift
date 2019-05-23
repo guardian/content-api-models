@@ -320,7 +320,7 @@ struct AssetFields {
 
   54: optional string apiUrl
 
-  55: optional CapiDateTime dateCreated
+  55: optional CapiDateTime.CapiDateTime dateCreated
 
   56: optional string youtubeUrl
 
@@ -342,9 +342,9 @@ struct AssetFields {
 
   65: optional string price
 
-  66: optional CapiDateTime start
+  66: optional CapiDateTime.CapiDateTime start
 
-  67: optional CapiDateTime end
+  67: optional CapiDateTime.CapiDateTime end
 
   68: optional bool safeEmbedCode
 }
@@ -533,7 +533,7 @@ struct WitnessElementFields {
     16: optional string html
     17: optional string apiUrl
     18: optional string photographer
-    19: optional CapiDateTime dateCreated
+    19: optional CapiDateTime.CapiDateTime dateCreated
     20: optional string youtubeUrl
     21: optional string youtubeSource
     22: optional string youtubeTitle
@@ -545,7 +545,7 @@ struct WitnessElementFields {
 
 
 struct SponsorshipTargeting {
-    1: optional CapiDateTime publishedSince
+    1: optional CapiDateTime.CapiDateTime publishedSince
 
     2: optional list<string> validEditions
 }
@@ -578,9 +578,9 @@ struct Sponsorship {
 
     9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
 
-    10: optional CapiDateTime validFrom
+    10: optional CapiDateTime.CapiDateTime validFrom
 
-    11: optional CapiDateTime validTo
+    11: optional CapiDateTime.CapiDateTime validTo
 
 }
 
@@ -603,8 +603,8 @@ struct MembershipElementFields {
     7: optional string identifier
     8: optional string image
     9: optional string price
-    10: optional CapiDateTime start
-    11: optional CapiDateTime end
+    10: optional CapiDateTime.CapiDateTime start
+    11: optional CapiDateTime.CapiDateTime end
 }
 
 struct EmbedElementFields {
@@ -803,22 +803,22 @@ struct Block {
     /*
      * The first time this block was created.
      */
-    7: optional CapiDateTime createdDate
+    7: optional CapiDateTime.CapiDateTime createdDate
 
     /*
      * The first time this block was published.
      */
-    8: optional CapiDateTime firstPublishedDate
+    8: optional CapiDateTime.CapiDateTime firstPublishedDate
 
     /*
      * The last time this block was published.
      */
-    9: optional CapiDateTime publishedDate
+    9: optional CapiDateTime.CapiDateTime publishedDate
 
     /*
      * The last time this block was modified.
      */
-    10: optional CapiDateTime lastModifiedDate
+    10: optional CapiDateTime.CapiDateTime lastModifiedDate
 
     /*
      * People who contributed to this block.
@@ -921,7 +921,7 @@ struct Crossword {
 
     3: required i32 number
 
-    4: required CapiDateTime date
+    4: required CapiDateTime.CapiDateTime date
 
     5: required CrosswordDimensions dimensions
 
@@ -941,7 +941,7 @@ struct Crossword {
 
     13: optional string annotatedSolution
 
-    14: optional CapiDateTime dateSolutionAvailable
+    14: optional CapiDateTime.CapiDateTime dateSolutionAvailable
 
 }
 
@@ -982,15 +982,15 @@ struct ContentFields {
 
     11: optional i32 wordcount
 
-    12: optional CapiDateTime commentCloseDate
+    12: optional CapiDateTime.CapiDateTime commentCloseDate
 
     13: optional bool commentable
 
-    14: optional CapiDateTime creationDate
+    14: optional CapiDateTime.CapiDateTime creationDate
 
     15: optional string displayHint
 
-    16: optional CapiDateTime firstPublicationDate
+    16: optional CapiDateTime.CapiDateTime firstPublicationDate
 
     17: optional bool hasStoryPackage
 
@@ -1006,17 +1006,17 @@ struct ContentFields {
 
     23: optional bool isPremoderated
 
-    24: optional CapiDateTime lastModified
+    24: optional CapiDateTime.CapiDateTime lastModified
 
     25: optional bool liveBloggingNow
 
-    26: optional CapiDateTime newspaperEditionDate
+    26: optional CapiDateTime.CapiDateTime newspaperEditionDate
 
     27: optional Office productionOffice
 
     28: optional string publication
 
-    29: optional CapiDateTime scheduledPublicationDate
+    29: optional CapiDateTime.CapiDateTime scheduledPublicationDate
 
     30: optional string secureThumbnail
 
@@ -1416,7 +1416,7 @@ struct ContentStats {
 
 struct Debug {
 
-    1: optional CapiDateTime lastSeenByPorterAt
+    1: optional CapiDateTime.CapiDateTime lastSeenByPorterAt
 
     2: optional i64 revisionSeenByPorter
 
@@ -1455,7 +1455,7 @@ struct Content {
      * "significant updates" are made to a story the web publication date is
      * updated.
      */
-    5: optional CapiDateTime webPublicationDate
+    5: optional CapiDateTime.CapiDateTime webPublicationDate
 
     /*
      * Short description of this item of content.
@@ -1553,7 +1553,7 @@ struct Content {
 
     25: optional string pillarName
 
-    26: optional Platforms platforms
+    26: optional Platform.Platforms platforms
 }
 
 struct NetworkFront {
@@ -1614,7 +1614,7 @@ struct Package {
     /* The package name */
     3: required string packageName
 
-    4: required CapiDateTime lastModified
+    4: required CapiDateTime.CapiDateTime lastModified
 }
 
 struct MostViewedVideo {
@@ -1637,7 +1637,7 @@ struct Pillar {
 struct RemovedContent {
     1: required string id
 
-    2: required CapiDateTime lastModified
+    2: required CapiDateTime.CapiDateTime lastModified
 }
 
 /* These are Responses structures shared with the Content API */

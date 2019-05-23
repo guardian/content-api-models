@@ -15,15 +15,15 @@ struct WebPlatform {
 
   1: required string title
 
-  2: required CapiDateTime publicationDate
+  2: required CapiDateTime.CapiDateTime publicationDate
 }
 
 struct PrintPlatform {
   0: required i32 pageNumber
     
-  1: required CapiDateTime editionDate
+  1: required CapiDateTime.CapiDateTime editionDate
 }
 
 struct EditionPlatform {
-  0: required CapiDateTime editionDate
+  0: required CapiDateTime.CapiDateTime editionDate
 }
