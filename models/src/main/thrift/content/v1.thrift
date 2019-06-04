@@ -1553,7 +1553,10 @@ struct Content {
 
     25: optional string pillarName
 
-    26: optional Platform.Platforms platforms
+    /*
+     * Where has this piece of content been published?
+     */
+    26: optional list<Platform.PublicationInstance> publicationInstances
 }
 
 struct NetworkFront {

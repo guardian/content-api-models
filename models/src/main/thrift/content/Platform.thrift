@@ -2,28 +2,52 @@ namespace scala com.gu.contentapi.client.model.v1
 
 include "CapiDateTime.thrift"
 
-struct Platforms {
-  0: optional WebPlatform web;
-
-  1: optional PrintPlatform print;
-
-  2: optional EditionPlatform edition;
+enum Platform {
+  WEB = 0
+  PRINT = 1
+  EDITION = 2
 }
 
-struct WebPlatform {
-  0: required string url
+struct PublicationInstance {
+  // let's have a platform enum to avoid ambiguity of this struct (only fields
+  // in the selected platform are relevant)
+  0: required Platform platform
+
+  1: optional WebFields webFields
+
+  2: optional PrintFields printFields
+
+  3: optional EditionFields editionFields
+}
+
+struct WebFields {
+  0: required string url // isn't this determined by the path???
 
   1: required string title
-
-  2: required CapiDateTime.CapiDateTime publicationDate
 }
 
-struct PrintPlatform {
-  0: required i32 pageNumber
-    
-  1: required CapiDateTime.CapiDateTime editionDate
+struct PrintFields {
+  0: required CapiDateTime.CapiDateTime issueDate
+
+  // These three tags might be better modeled as their own special thing but
+  // cheat for now and re-use the existing tags
+
+  // This should be the publication tag
+  1: required Tag publication
+
+  // This should be the book tag
+  2: required Tag book
+
+  // This should be the book section tag
+  3: required Tag bookSection
+
+  // The page number this article was found on
+  // Interestingly this might be multiple numbers for a spread and might change
+  //   from one edition (in the print sense) to another
+  // Not sure what the current logic is but worth investigating...
+  4: required i32 pageNumber
 }
 
-struct EditionPlatform {
-  0: required CapiDateTime.CapiDateTime editionDate
+struct EditionFields {
+  0: required CapiDateTime.CapiDateTime issueDate
 }
