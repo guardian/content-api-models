@@ -2,8 +2,11 @@ include "story_package_article.thrift"
 include "contentatom.thrift"
 include "entity.thrift"
 include "story_model.thrift"
-include "Platform.thrift"
 include "CapiDateTime.thrift"
+include "Platform.thrift"
+include "Reference.thrift"
+include "Sponsorship.thrift"
+include "Tag.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 
@@ -129,34 +132,6 @@ enum ElementType {
 
 }
 
-enum TagType {
-
-    CONTRIBUTOR = 0,
-
-    KEYWORD = 1,
-
-    SERIES = 2,
-
-    NEWSPAPER_BOOK_SECTION = 3,
-
-    NEWSPAPER_BOOK = 4,
-
-    BLOG = 5,
-
-    TONE = 6,
-
-    TYPE = 7,
-
-    PUBLICATION = 8,
-
-    TRACKING = 9,
-
-    PAID_CONTENT = 10,
-
-    CAMPAIGN = 11
-
-}
-
 enum CrosswordType {
 
     QUICK = 0,
@@ -193,12 +168,6 @@ enum AssetType {
 enum MembershipTier {
     MEMBERS_ONLY = 0,
     PAID_MEMBERS_ONLY = 1
-}
-
-enum SponsorshipType {
-    SPONSORED = 0,
-    FOUNDATION = 1,
-    PAID_CONTENT = 2
 }
 
 struct Rights {
@@ -543,54 +512,13 @@ struct WitnessElementFields {
     26: optional string role
 }
 
-
-struct SponsorshipTargeting {
-    1: optional CapiDateTime.CapiDateTime publishedSince
-
-    2: optional list<string> validEditions
-}
-
-struct SponsorshipLogoDimensions {
-
-    1: required i32 width
-
-    2: required i32 height
-
-}
-
-struct Sponsorship {
-
-    1: required SponsorshipType sponsorshipType
-
-    2: required string sponsorName
-
-    3: required string sponsorLogo
-
-    4: required string sponsorLink
-
-    5: optional SponsorshipTargeting targeting
-
-    6: optional string aboutLink
-
-    7: optional SponsorshipLogoDimensions sponsorLogoDimensions
-
-    8: optional string highContrastSponsorLogo
-
-    9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
-
-    10: optional CapiDateTime.CapiDateTime validFrom
-
-    11: optional CapiDateTime.CapiDateTime validTo
-
-}
-
 struct RichLinkElementFields {
     1: optional string url
     2: optional string originalUrl
     3: optional string linkText
     4: optional string linkPrefix
     5: optional string role
-    6: optional Sponsorship sponsorship
+    6: optional Sponsorship.Sponsorship sponsorship
 }
 
 struct MembershipElementFields {
@@ -1066,178 +994,6 @@ struct ContentFields {
     51: optional string bylineHtml
 }
 
-struct Reference {
-
-    1: required string id
-
-    2: required string type
-}
-
-struct PodcastCategory {
-
-    1: required string main
-
-    2: optional string sub
-}
-
-struct Podcast {
-
-    1: required string linkUrl
-
-    2: required string copyright
-
-    3: required string author
-
-    4: optional string subscriptionUrl
-
-    5: required bool explicit
-
-    6: optional string image
-
-    7: optional list<PodcastCategory> categories
-
-    8: optional string podcastType
-
-    9: optional string googlePodcastsUrl
-
-    10: optional string spotifyUrl
-}
-
-struct Tag {
-
-    /*
-     * The id of this tag: this should always be the path
-     * to the tag page on www.theguardian.com
-     */
-    1: required string id
-
-    /*
-     * The type of this tag
-     */
-    2: required TagType type
-
-    /*
-     * Section is usually provided: some tags (notably contributor tags)
-     * does not belong to any section so this will be None
-     */
-    3: optional string sectionId
-
-    /*
-     * The display name of the section.  Will be None if sectionId is None.
-     */
-    4: optional string sectionName
-
-    /*
-     * Short description of this tag.
-     */
-    5: required string webTitle
-
-    /*
-     * Full url on which tag page can be found on www.theguardian.com
-     */
-    6: required string webUrl
-
-    /*
-     * Full url on which full information about this tag can be found on
-     * the content api.
-     *
-     * For tags, this allows access to the editorsPicks for the tag,
-     * and automatically shows the most recent content for the tag.
-     */
-    7: required string apiUrl
-
-    /*
-     * List of references associated with the tag. References are
-     * strings that identify things beyond the content api. A good example
-     * is an isbn number, which associates the tag with a book.
-     *
-     * Use showReferences passing in the the type of reference you want to
-     * see or 'all' to see all references.
-     */
-    8: required list<Reference> references
-
-    /**
-     * A tag *may* have a description field.
-     *
-     * Contributor tags never have a description field. They may
-     * instead have a 'bio' field.
-     */
-    9: optional string description
-
-    /**
-     * If this tag is a contributor then we *may* have a small bio
-     * for the contributor.
-     *
-     * This field is optional in all cases, even contributors are not
-     * guaranteed to have one.
-     */
-    10: optional string bio
-
-    /*
-     * If this tag is a contributor then we *may* have a small byline
-     * picturefor the contributor.
-     *
-     * This field is optional in all cases, even contributors are not
-     * guaranteed to have one.
-     */
-    11: optional string bylineImageUrl
-
-    /**
-     * If this tag is a contributor then we *may* have a large byline
-     * picture for the contributor.
-     */
-    12: optional string bylineLargeImageUrl
-
-    /*
-     * If this tag is a series it could be a podcast.
-     */
-    13: optional Podcast podcast
-
-    /*
-     * If the tag is a contributor it may have a first name, a last name, email address and a twitter handle.
-     */
-    14: optional string firstName
-
-    15: optional string lastName
-
-    16: optional string emailAddress
-
-    17: optional string twitterHandle
-
-    /**
-    * A list of all the active sponsorships running against this tag
-    */
-    18: optional list<Sponsorship> activeSponsorships
-
-    19: optional string paidContentType
-
-    20: optional string paidContentCampaignColour
-
-    21: optional string rcsId
-
-    22: optional string r2ContributorId
-
-    /*
-     * A set of schema.org types, e.g. "Person", "Place"
-     */
-    23: optional set<string> tagCategories
-
-    /*
-     * A set of Guardian Entity IDs associated with this Tag
-     */
-    24: optional set<string> entityIds
-
-    /**
-    * If the tag is a campaign, it should have a subtype eg callout
-    */
-    25: optional string campaignInformationType
-
-    /**
-    * The internal name of the tag
-    */
-    26: optional string internalName
-}
-
 struct Edition {
 
     /*
@@ -1301,7 +1057,7 @@ struct Section {
     /**
     * A list of all the active sponsorships running against this section
     */
-    6: optional list<Sponsorship> activeSponsorships
+    6: optional list<Sponsorship.Sponsorship> activeSponsorships
 }
 
 struct Atoms {
@@ -1494,7 +1250,7 @@ struct Content {
      * The order of tags is significant; tags towards the top of the list
      * are considered editorially more important than those towards the end.
      */
-    10: required list<Tag> tags = []
+    10: required list<Tag.Tag> tags = []
 
     /*
      * New representation to elements (assets lists) only returns if show-elements("all")
@@ -1510,7 +1266,7 @@ struct Content {
      * Use showReferences passing in the the type of reference you want to
      * see or 'all' to see all references.
      */
-    12: required list<Reference> references = []
+    12: required list<Reference.Reference> references = []
 
     /*
      * Set to true if the rights to this content have expired. Expired
@@ -1686,7 +1442,7 @@ struct ItemResponse {
 
     9: optional Content content
 
-    10: optional Tag tag
+    10: optional Tag.Tag tag
 
     11: optional Edition edition
 
@@ -1762,7 +1518,7 @@ struct TagsResponse {
 
     7: required i32 pages
 
-    8: required list<Tag> results
+    8: required list<Tag.Tag> results
 }
 
 struct SectionsResponse {

@@ -1,6 +1,7 @@
 namespace scala com.gu.contentapi.client.model.v1
 
 include "CapiDateTime.thrift"
+include "Tag.thrift"
 
 enum Platform {
   WEB = 0
@@ -33,13 +34,13 @@ struct PrintFields {
   // cheat for now and re-use the existing tags
 
   // This should be the publication tag
-  1: required Tag publication
+  1: required Tag.Tag publication
 
   // This should be the book tag
-  2: required Tag book
+  2: required Tag.Tag book
 
   // This should be the book section tag
-  3: required Tag bookSection
+  3: required Tag.Tag bookSection
 
   // The page number this article was found on
   // Interestingly this might be multiple numbers for a spread and might change
