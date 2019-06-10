@@ -92,6 +92,12 @@ object CirceDecoders {
 
   // The following implicits technically shouldn't be necessary
   // but stuff doesn't compile without them
+  implicit val platformKeyDecoder: KeyDecoder[Platform] = KeyDecoder.instance {
+    case "WEB" | "web"         => Some(Platform.Web)
+    case "PRINT" | "print"     => Some(Platform.Print)
+    case "EDITION" | "edition" => Some(Platform.Edition)
+    case _                     => None
+  }
   implicit val contentFieldsDecoder = Decoder[ContentFields]
   implicit val editionDecoder = Decoder[Edition]
   implicit val sponsorshipDecoder = Decoder[Sponsorship]
