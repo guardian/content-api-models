@@ -1312,7 +1312,7 @@ struct Content {
     /*
      * Where has this piece of content been published?
      */
-    26: optional list<Platform.PublicationInstance> publicationInstances
+    26: optional map<Platform.Platform, Platform.PublicationInstance> publicationInstances
 }
 
 struct NetworkFront {
