@@ -76,7 +76,7 @@ object CirceEncoders {
   implicit val atomEncoder = Encoder[Atom]
   implicit val atomsEncoder = Encoder[Atoms]
   implicit val pillarEncoder = Encoder[Pillar]
-  implicit val platformKeyEncoder: KeyEncoder[Platform] = KeyEncoder.instance(p => p.name)
+  implicit val platformKeyEncoder: KeyEncoder[Platform] = KeyEncoder.instance(p => p.originalName)
   implicit val platformEncoder = Encoder[Platform]
   implicit val publicationEncoder = Encoder[PublicationInstance]
   implicit val contentEncoder = Encoder[Content]
