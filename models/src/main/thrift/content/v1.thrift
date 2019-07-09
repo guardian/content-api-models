@@ -215,6 +215,23 @@ enum SponsorshipType {
     PAID_CONTENT = 2
 }
 
+/**
+ * How an embedded content fits into its container onces displayed, if the container size
+ * does not match the content size.
+ * This directly translates to CSS: left top, left center, etc.
+ */
+enum AssetPosition {
+    TOPLEFT      = 0,
+    TOPCENTER    = 1,
+    TOPRIGHT     = 2,
+    CENTERLEFT   = 3,
+    CENTER       = 4,
+    CENTERRIGHT  = 5,
+    BOTTOMLEFT   = 6,
+    BOTTOMCENTER = 7,
+    BOTTOMRIGHT  = 8
+}
+
 struct Rights {
 
     1: optional bool syndicatable = false
@@ -361,6 +378,8 @@ struct AssetFields {
   67: optional CapiDateTime end
 
   68: optional bool safeEmbedCode
+
+  69: optional AssetPosition position = CENTER
 }
 
 struct Asset {
