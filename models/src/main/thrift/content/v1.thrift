@@ -988,6 +988,8 @@ struct Element {
     4: optional i32 galleryIndex
 
     5: required list<Asset> assets
+
+    6: optional ObjectPosition position = ObjectPosition.CENTER
 }
 
 struct ContentFields {
