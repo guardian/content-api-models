@@ -379,7 +379,7 @@ struct AssetFields {
 
   68: optional bool safeEmbedCode
 
-  69: optional AssetPosition position = CENTER
+  69: optional AssetPosition position = AssetPosition.CENTER
 }
 
 struct Asset {
