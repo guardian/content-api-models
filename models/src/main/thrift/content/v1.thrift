@@ -222,13 +222,13 @@ enum SponsorshipType {
  */
 enum ObjectPosition {
     TOPLEFT      = 0,
-    TOPCENTER    = 1,
+    TOPCENTRE    = 1,
     TOPRIGHT     = 2,
-    CENTERLEFT   = 3,
-    CENTER       = 4,
-    CENTERRIGHT  = 5,
+    CENTRELEFT   = 3,
+    CENTRE       = 4,
+    CENTRERIGHT  = 5,
     BOTTOMLEFT   = 6,
-    BOTTOMCENTER = 7,
+    BOTTOMCENTRE = 7,
     BOTTOMRIGHT  = 8
 }
 
@@ -514,7 +514,7 @@ struct ImageElementFields {
 
     14: optional string role
 
-    15: optional ObjectPosition position = ObjectPosition.CENTER
+    15: optional ObjectPosition position = ObjectPosition.CENTRE
 }
 
 struct InteractiveElementFields {
@@ -989,7 +989,7 @@ struct Element {
 
     5: required list<Asset> assets
 
-    6: optional ObjectPosition position = ObjectPosition.CENTER
+    6: optional ObjectPosition position = ObjectPosition.CENTRE
 }
 
 struct ContentFields {
