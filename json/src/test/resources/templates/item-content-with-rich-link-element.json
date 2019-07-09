@@ -729,7 +729,8 @@
                 "width": 620
               }
             }
-          ]
+          ],
+          "position": "centre"
         },
         {
           "id": "_no_ids",
@@ -745,7 +746,8 @@
                 "linkPrefix": "Related: "
               }
             }
-          ]
+          ],
+          "position": "centre"
         },
         {
           "id": "a905244730fa7f302e4ea5354c666c7cfacabb36",
@@ -825,7 +827,8 @@
                 "width": 745
               }
             }
-          ]
+          ],
+          "position": "centre"
         },
         {
           "id": "_no_ids",
@@ -845,7 +848,8 @@
                 "embedType": "interactive"
               }
             }
-          ]
+          ],
+          "position": "centre"
         },
         {
           "id": "49b7ef3940bc0513a2aeabe5464b5d5c121225f0",
@@ -967,7 +971,8 @@
                 "width": 5143
               }
             }
-          ]
+          ],
+          "position": "centre"
         },
         {
           "id": "39f473f8df5b2c8798170aced5c738f2f03bca7f",
@@ -1039,7 +1044,8 @@
                 "width": 596
               }
             }
-          ]
+          ],
+          "position": "centre"
         }
       ],
       "id": "world/2015/sep/24/mecca-crush-during-hajj-kills-at-least-100-saudi-state-tv",

@@ -138,7 +138,8 @@
             "isMaster": true
           },
           "mimeType": "image/jpeg"
-        }]
+        }],
+        "position": "centre"
       }, {
         "id": "696525541826924546",
         "relation": "body",
@@ -163,7 +164,8 @@
             "id": "696525541826924546",
             "html": "<blockquote class=\"twitter-tweet\"><p lang=\"und\" dir=\"ltr\">✌🏿 <a href=\"https://t.co/wesip4IhOR\">pic.twitter.com/wesip4IhOR</a></p>&mdash; Shawn Lynch (@MoneyLynch) <a href=\"https://twitter.com/MoneyLynch/status/696525541826924546\">February 8, 2016</a></blockquote>\n"
           }
-        }]
+        }],
+        "position": "centre"
       }, {
         "id": "696527786379386881",
         "relation": "body",
@@ -178,7 +180,8 @@
             "id": "696527786379386881",
             "html": "<blockquote class=\"twitter-tweet\"><p lang=\"en\" dir=\"ltr\">Salute to my guy <a href=\"https://twitter.com/MoneyLynch\">@MoneyLynch</a> ... It was an honor sharing the field with you.</p>&mdash; Richard Sherman (@RSherman_25) <a href=\"https://twitter.com/RSherman_25/status/696527786379386881\">February 8, 2016</a></blockquote>\n"
           }
-        }]
+        }],
+        "position": "centre"
       }, {
         "id": "70e8a99b645a6af9c8b52c9a98c9da061f90ecac",
         "relation": "thumbnail",
@@ -292,7 +295,8 @@
             "height": 2956,
             "isMaster": true
           }
-        }]
+        }],
+        "position": "centre"
       }],
       "tags": [],
       "references": []
