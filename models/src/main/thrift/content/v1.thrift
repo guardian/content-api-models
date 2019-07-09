@@ -220,7 +220,7 @@ enum SponsorshipType {
  * does not match the content size.
  * This directly translates to CSS: left top, left center, etc.
  */
-enum AssetPosition {
+enum ObjectPosition {
     TOPLEFT      = 0,
     TOPCENTER    = 1,
     TOPRIGHT     = 2,
@@ -378,8 +378,6 @@ struct AssetFields {
   67: optional CapiDateTime end
 
   68: optional bool safeEmbedCode
-
-  69: optional AssetPosition position = AssetPosition.CENTER
 }
 
 struct Asset {
@@ -516,6 +514,7 @@ struct ImageElementFields {
 
     14: optional string role
 
+    15: optional ObjectPosition position = ObjectPosition.CENTER
 }
 
 struct InteractiveElementFields {
