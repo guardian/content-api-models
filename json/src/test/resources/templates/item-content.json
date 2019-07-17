@@ -402,8 +402,7 @@
                                 "width": 460
                             }
                         }
-                    ],
-                    "position": "centre"
+                    ]
                 },
                 {
                     "id": "gu-image-402807042",
@@ -424,8 +423,7 @@
                                 "width": 140
                             }
                         }
-                    ],
-                    "position": "centre"
+                    ]
                 },
                 {
                     "id": "gu-audio-458408910",
@@ -444,8 +442,7 @@
                                 "durationSeconds": 17
                             }
                         }
-                    ],
-                    "position": "centre"
+                    ]
                 }
             ],
             "references": [],

@@ -378,6 +378,9 @@ struct AssetFields {
   67: optional CapiDateTime end
 
   68: optional bool safeEmbedCode
+
+  /** The point of focus for this asset... assuming it's a visual asset */
+  69: optional ObjectPosition position
 }
 
 struct Asset {
@@ -513,8 +516,6 @@ struct ImageElementFields {
     13: optional string comment
 
     14: optional string role
-
-    15: optional ObjectPosition position = ObjectPosition.CENTRE
 }
 
 struct InteractiveElementFields {
@@ -988,8 +989,6 @@ struct Element {
     4: optional i32 galleryIndex
 
     5: required list<Asset> assets
-
-    6: optional ObjectPosition position = ObjectPosition.CENTRE
 }
 
 struct ContentFields {
