@@ -12,9 +12,11 @@ union PublicationInstance {
 }
 
 struct WebFields {
-  0: required string url // isn't this determined by the path???
+  0: required CapiDateTime.CapiDateTime publicationDate
 
-  1: required string title
+  1: required string url
+
+  2: required string title
 }
 
 struct PrintFields {
@@ -41,4 +43,7 @@ struct PrintFields {
 
 struct EditionFields {
   0: required CapiDateTime.CapiDateTime issueDate
+
+  // This should be the name of the app
+  1: required Tag.Tag publication
 }
