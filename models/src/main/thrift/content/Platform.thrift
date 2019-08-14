@@ -3,22 +3,12 @@ namespace scala com.gu.contentapi.client.model.v1
 include "CapiDateTime.thrift"
 include "Tag.thrift"
 
-enum Platform {
-  WEB = 0
-  PRINT = 1
-  EDITION = 2
-}
+union PublicationInstance {
+  1: WebFields web
 
-struct PublicationInstance {
-  // let's have a platform enum to avoid ambiguity of this struct (only fields
-  // in the selected platform are relevant)
-  0: required Platform platform
+  2: PrintFields print
 
-  1: optional WebFields webFields
-
-  2: optional PrintFields printFields
-
-  3: optional EditionFields editionFields
+  3: EditionFields edition
 }
 
 struct WebFields {
