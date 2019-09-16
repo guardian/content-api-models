@@ -6,7 +6,6 @@ import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct,
 import com.gu.contentapi.client.model.v1._
 import cats.syntax.either._
 import com.gu.contententity.thrift.Entity
-import com.gu.story.model.v1.Story
 import java.time.OffsetDateTime
 import java.time.chrono.IsoChronology
 import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder, ResolverStyle}
@@ -134,7 +133,6 @@ object CirceDecoders {
   implicit val entityDecoder = Decoder[Entity]
   implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
   implicit val ophanStoryQuestionsResponseDecoder = Decoder[OphanStoryQuestionsResponse]
-  implicit val storyDecoder = Decoder[Story]
   implicit val storiesResponseDecoder = Decoder[StoriesResponse]
   implicit val pillarsResponseDecoder = Decoder[PillarsResponse]
 
