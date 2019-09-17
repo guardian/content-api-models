@@ -109,8 +109,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     scroogeThriftDependencies in Compile ++= Seq(
       "story-packages-model-thrift",
       "content-atom-model-thrift",
-      "content-entity-thrift",
-      "story-model-thrift"
+      "content-entity-thrift"
     ),
     // See: https://github.com/twitter/scrooge/issues/199
     scroogeThriftSources in Compile ++= {
@@ -122,8 +121,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "com.twitter" %% "scrooge-core" % "19.3.0",
       "com.gu" % "story-packages-model-thrift" % "2.0.1",
       "com.gu" % "content-atom-model-thrift" % "3.0.2",
-      "com.gu" % "content-entity-thrift" % "2.0.1",
-      "com.gu" % "story-model-thrift" % "2.0.1"
+      "com.gu" % "content-entity-thrift" % "2.0.1"
     )
   )
 

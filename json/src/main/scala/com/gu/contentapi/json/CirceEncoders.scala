@@ -6,7 +6,6 @@ import io.circe._
 import io.circe.syntax._
 import com.gu.fezziwig.CirceScroogeMacros.{encodeThriftStruct, encodeThriftUnion}
 import com.gu.contentatom.thrift.{Atom, AtomData}
-import com.gu.story.model.v1.Story
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -94,8 +93,6 @@ object CirceEncoders {
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
   implicit val entitiesResponseEncoder = Encoder[EntitiesResponse]
   implicit val ophanStoryQuestionsResponseEncoder = Encoder[OphanStoryQuestionsResponse]
-  implicit val storyEncoder = Encoder[Story]
-  implicit val storiesResponseEncoder = Encoder[StoriesResponse]
   implicit val pillarsResponseEncoder = Encoder[PillarsResponse]
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
