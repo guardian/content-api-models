@@ -45,16 +45,15 @@ val mavenSettings = Seq(
 )
 
 val commonSettings = Seq(
-  scalaVersion := "2.12.8",
-  crossScalaVersions := Seq("2.11.12", scalaVersion.value),
-  scalacOptions += "-Ypartial-unification", // Cats requires this: https://github.com/typelevel/cats/pull/1946/files
+  scalaVersion := "2.13.1",
+  crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings
 
-val circeVersion = "0.11.0"
+val circeVersion = "0.12.0"
 
 /**
   * Root project
@@ -117,11 +116,11 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     },
     scroogePublishThrift in Compile := false,
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.10.0",
-      "com.twitter" %% "scrooge-core" % "19.3.0",
-      "com.gu" % "story-packages-model-thrift" % "2.0.1",
-      "com.gu" % "content-atom-model-thrift" % "3.0.2",
-      "com.gu" % "content-entity-thrift" % "2.0.1"
+      "org.apache.thrift" % "libthrift" % "0.12.0",
+      "com.twitter" %% "scrooge-core" % "19.9.0",
+      "com.gu" % "story-packages-model-thrift" % "2.0.2",
+      "com.gu" % "content-atom-model-thrift" % "3.0.4",
+      "com.gu" % "content-entity-thrift" % "2.0.2"
     )
   )
 
@@ -134,13 +133,13 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "1.1",
+      "com.gu" %% "fezziwig" % "1.3",
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
-      "org.gnieh" %% "diffson-circe" % "3.1.0" % "test",
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+      "org.gnieh" %% "diffson-circe" % "4.0.0" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ),
     mappings in (Compile, packageDoc) := Nil
