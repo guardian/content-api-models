@@ -46,6 +46,7 @@ val mavenSettings = Seq(
 
 val commonSettings = Seq(
   scalaVersion := "2.13.1",
+  crossScalaVersions := Seq("2.12.10", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
@@ -101,7 +102,6 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   .settings(commonSettings)
   .settings(
     description := "Generated classes of the Scala models for the Guardian's Content API",
-    crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value),
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
     scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
@@ -132,7 +132,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
-    crossScalaVersions := Seq("2.12.10", scalaVersion.value),
     libraryDependencies ++= Seq(
       "com.gu" %% "fezziwig" % "1.3",
       "io.circe" %% "circe-core" % circeVersion,
