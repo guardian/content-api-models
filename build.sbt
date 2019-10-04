@@ -53,7 +53,24 @@ val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings
 
-val circeVersion = "0.12.0"
+def customDeps(scalaVersion: String) = CrossVersion.partialVersion(scalaVersion) match {
+  case Some((2, 11)) => 
+    val circeVersion = "0.11.1"
+    Seq(
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+      "io.circe" %% "circe-optics" % circeVersion,
+    )
+  case _ => 
+    val circeVersion = "0.12.0"
+    Seq(
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+      "io.circe" %% "circe-optics" % circeVersion,
+    )
+}
 
 /**
   * Root project
@@ -120,7 +137,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "com.twitter" %% "scrooge-core" % "19.9.0",
       "com.gu" % "story-packages-model-thrift" % "2.0.2",
       "com.gu" % "content-atom-model-thrift" % "3.0.4",
-      "com.gu" % "content-entity-thrift" % "2.0.2"
+      "com.gu" % "content-entity-thrift" % "2.0.2",
+      "org.gnieh" %% "diffson-circe" % "4.0.0" % "test"
     )
   )
 
@@ -134,14 +152,9 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
       "com.gu" %% "fezziwig" % "1.3",
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
-      "org.gnieh" %% "diffson-circe" % "4.0.0" % "test",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
-    ),
+    ) ++ customDeps(scalaVersion.value),
     mappings in (Compile, packageDoc) := Nil
   )
 
