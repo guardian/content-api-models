@@ -53,23 +53,17 @@ val commonSettings = Seq(
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings
 
-def customDeps(scalaVersion: String) = CrossVersion.partialVersion(scalaVersion) match {
-  case Some((2, 11)) => 
-    val circeVersion = "0.11.1"
-    Seq(
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
-    )
-  case _ => 
-    val circeVersion = "0.12.0"
-    Seq(
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
-    )
+def customDeps(scalaVersion: String) = {
+  val circeVersion = CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, 11)) => "0.11.1"
+    case _ => "0.12.0"
+  }
+  Seq(
+    "io.circe" %% "circe-core" % circeVersion,
+    "io.circe" %% "circe-generic" % circeVersion,
+    "io.circe" %% "circe-parser" % circeVersion,
+    "io.circe" %% "circe-optics" % circeVersion,
+  )
 }
 
 /**
