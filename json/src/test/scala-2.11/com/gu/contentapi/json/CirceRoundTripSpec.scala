@@ -179,7 +179,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
   }
 
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
-    val d = diff(jsonBefore, jsonAfter, false)
+    val d = JsonDiff.diff(jsonBefore, jsonAfter, false)
     d should be(JsonPatch(Nil))
     if (d != JsonPatch(Nil)) println(d)
   }
