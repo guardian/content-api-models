@@ -114,7 +114,6 @@ object CirceDecoders {
   implicit val pillarDecoder = Decoder[Pillar]
   implicit val contentDecoder = Decoder[Content]
   implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
-  implicit val pathAndStoryQuestionsAtomIdDecoder = Decoder[PathAndStoryQuestionsAtomId]
   implicit val networkFrontDecoder = Decoder[NetworkFront]
   implicit val packageArticleDecoder = Decoder[PackageArticle]
   implicit val packageDecoder = Decoder[Package]

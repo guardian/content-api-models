@@ -77,7 +77,6 @@ object CirceEncoders {
   implicit val pillarEncoder = Encoder[Pillar]
   implicit val contentEncoder = Encoder[Content]
   implicit val mostViewedVideoEncoder = Encoder[MostViewedVideo]
-  implicit val pathAndStoryQuestionsAtomIdEncoder = Encoder[PathAndStoryQuestionsAtomId]
   implicit val packageEncoder = Encoder[Package]
   implicit val removedContentEncoder = Encoder[RemovedContent]
   implicit val itemResponseEncoder = Encoder[ItemResponse]
