@@ -77,7 +77,6 @@ object CirceEncoders {
   implicit val pillarEncoder = Encoder[Pillar]
   implicit val contentEncoder = Encoder[Content]
   implicit val mostViewedVideoEncoder = Encoder[MostViewedVideo]
-  implicit val pathAndStoryQuestionsAtomIdEncoder = Encoder[PathAndStoryQuestionsAtomId]
   implicit val packageEncoder = Encoder[Package]
   implicit val removedContentEncoder = Encoder[RemovedContent]
   implicit val itemResponseEncoder = Encoder[ItemResponse]
@@ -92,7 +91,6 @@ object CirceEncoders {
   implicit val atomsUsageResponseEncoder = Encoder[AtomUsageResponse]
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
   implicit val entitiesResponseEncoder = Encoder[EntitiesResponse]
-  implicit val ophanStoryQuestionsResponseEncoder = Encoder[OphanStoryQuestionsResponse]
   implicit val pillarsResponseEncoder = Encoder[PillarsResponse]
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>

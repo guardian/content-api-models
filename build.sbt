@@ -37,7 +37,7 @@ val mavenSettings = Seq(
       </developer>
     </developers>
   ),
-  publishTo := sonatypePublishTo.value,
+  publishTo := sonatypePublishToBundle.value,
   publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishMavenStyle := true,
   publishArtifact in Test := false,
@@ -71,10 +71,10 @@ lazy val root = Project(id = "root", base = file("."))
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
+      releaseStepCommandAndRemaining("+publishSigned"),
+      releaseStepCommand("sonatypeBundleRelease"),
       setNextVersion,
       commitNextVersion,
-      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     )
   )
@@ -119,7 +119,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "org.apache.thrift" % "libthrift" % "0.12.0",
       "com.twitter" %% "scrooge-core" % "19.9.0",
       "com.gu" % "story-packages-model-thrift" % "2.0.2",
-      "com.gu" % "content-atom-model-thrift" % "3.0.4",
+      "com.gu" % "content-atom-model-thrift" % "3.1.0",
       "com.gu" % "content-entity-thrift" % "2.0.2"
     )
   )
