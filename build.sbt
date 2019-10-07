@@ -37,7 +37,7 @@ val mavenSettings = Seq(
       </developer>
     </developers>
   ),
-  publishTo := sonatypePublishTo.value,
+  publishTo := sonatypePublishToBundle.value,
   publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishMavenStyle := true,
   publishArtifact in Test := false,
@@ -71,10 +71,10 @@ lazy val root = Project(id = "root", base = file("."))
       setReleaseVersion,
       commitReleaseVersion,
       tagRelease,
-      publishArtifacts,
+      releaseStepCommandAndRemaining("+publishSigned"),
+      releaseStepCommand("sonatypeBundleRelease"),
       setNextVersion,
       commitNextVersion,
-      releaseStepCommand("sonatypeReleaseAll"),
       pushChanges
     )
   )
