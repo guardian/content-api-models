@@ -46,14 +46,27 @@ val mavenSettings = Seq(
 
 val commonSettings = Seq(
   scalaVersion := "2.13.1",
-  crossScalaVersions := Seq("2.12.10", scalaVersion.value),
+  crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings
 
-val circeVersion = "0.12.0"
+def customDeps(scalaVersion: String) = {
+  val (circeVersion, diffsonVersion, fezziwigVersion) = CrossVersion.partialVersion(scalaVersion) match {
+    case Some((2, 11)) => ("0.11.0", "3.1.1", "1.2")
+    case _ => ("0.12.0", "4.0.0", "1.3")
+  }
+  Seq(
+    "com.gu" %% "fezziwig" % fezziwigVersion,
+    "io.circe" %% "circe-core" % circeVersion,
+    "io.circe" %% "circe-generic" % circeVersion,
+    "io.circe" %% "circe-parser" % circeVersion,
+    "io.circe" %% "circe-optics" % circeVersion,
+    "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
+  )
+}
 
 /**
   * Root project
@@ -133,15 +146,9 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "com.gu" %% "fezziwig" % "1.3",
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion,
-      "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
-      "org.gnieh" %% "diffson-circe" % "4.0.0" % "test",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
-    ),
+    ) ++ customDeps(scalaVersion.value),
     mappings in (Compile, packageDoc) := Nil
   )
 
