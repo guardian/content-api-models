@@ -92,7 +92,6 @@ object CirceEncoders {
   implicit val atomsUsageResponseEncoder = Encoder[AtomUsageResponse]
   implicit val removedContentResponseEncoder = Encoder[RemovedContentResponse]
   implicit val entitiesResponseEncoder = Encoder[EntitiesResponse]
-  implicit val ophanStoryQuestionsResponseEncoder = Encoder[OphanStoryQuestionsResponse]
   implicit val pillarsResponseEncoder = Encoder[PillarsResponse]
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>

@@ -132,7 +132,6 @@ object CirceDecoders {
   implicit val removedContentResponseDecoder = Decoder[RemovedContentResponse]
   implicit val entityDecoder = Decoder[Entity]
   implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
-  implicit val ophanStoryQuestionsResponseDecoder = Decoder[OphanStoryQuestionsResponse]
   implicit val pillarsResponseDecoder = Decoder[PillarsResponse]
 
   // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
