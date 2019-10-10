@@ -1337,7 +1337,7 @@ struct Atoms {
 
     8: optional list<contentatom.Atom> recipes
 
-    9: optional list<contentatom.Atom> storyquestions
+    //9: optional list<contentatom.Atom> storyquestions DEPRECATED
 
     10: optional list<contentatom.Atom> qandas
 
@@ -1735,7 +1735,7 @@ struct ItemResponse {
 
     27: optional contentatom.Atom recipe
 
-    28: optional contentatom.Atom storyquestions
+    // 28: optional contentatom.Atom storyquestions DEPRECATED
 
     30: optional contentatom.Atom qanda
 
