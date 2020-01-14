@@ -132,7 +132,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "org.apache.thrift" % "libthrift" % "0.12.0",
       "com.twitter" %% "scrooge-core" % "19.9.0",
       "com.gu" % "story-packages-model-thrift" % "2.0.2",
-      "com.gu" % "content-atom-model-thrift" % "3.1.1",
+      "com.gu" % "content-atom-model-thrift" % "3.1.2",
       "com.gu" % "content-entity-thrift" % "2.0.2"
     )
   )
