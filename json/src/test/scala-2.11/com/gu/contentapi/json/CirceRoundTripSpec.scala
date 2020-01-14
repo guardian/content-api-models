@@ -35,10 +35,6 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[SectionsResponse]("sections.json")
   }
 
-  it should "round-trip a RemovedContentResponse" in {
-    checkRoundTrip[RemovedContentResponse]("removed.json")
-  }
-
   it should "round-trip an EditionsResponse" in {
     checkRoundTrip[EditionsResponse]("editions.json")
   }
