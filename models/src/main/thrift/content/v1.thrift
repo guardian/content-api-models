@@ -1748,6 +1748,8 @@ struct ItemResponse {
     35: optional contentatom.Atom chart
 
     36: optional contentatom.Atom audio
+
+    37: optional contentatom.Atom emailsignup
 }
 
 struct TagsResponse {
