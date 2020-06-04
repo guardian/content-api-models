@@ -176,7 +176,11 @@ lazy val typescript = (project in file("ts"))
     scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
 
     scroogeTypescriptPackageLicense := "Apache-2.0",
-    scroogeThriftDependencies in Compile ++= Seq("content-entity-thrift"),
+    scroogeThriftDependencies in Compile ++= Seq(
+      "content-entity-thrift",
+      "content-atom-model-thrift",
+      "story-packages-model-thrift"
+    ),
     scroogeTypescriptPackageMapping := Map(
       "content-entity-thrift" -> "@guardian/content-entity-model",
       "content-atom-model-thrift" -> "@guardian/content-atom-model",
