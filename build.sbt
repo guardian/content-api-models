@@ -45,8 +45,8 @@ val mavenSettings = Seq(
 )
 
 val commonSettings = Seq(
-  scalaVersion := "2.13.1",
-  crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value),
+  scalaVersion := "2.13.2",
+  crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
@@ -130,10 +130,10 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     scroogePublishThrift in Compile := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.12.0",
-      "com.twitter" %% "scrooge-core" % "19.9.0",
-      "com.gu" % "story-packages-model-thrift" % "2.0.2",
-      "com.gu" % "content-atom-model-thrift" % "3.2.0",
-      "com.gu" % "content-entity-thrift" % "2.0.2"
+      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.gu" % "story-packages-model-thrift" % "2.0.3",
+      "com.gu" % "content-atom-model-thrift" % "3.2.1",
+      "com.gu" % "content-entity-thrift" % "2.0.5"
     )
   )
 
@@ -160,4 +160,37 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
     libraryDependencies += "com.google.guava" % "guava" % "19.0",
     javaOptions in Jmh ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
+  )
+
+lazy val typescript = (project in file("ts"))
+  .enablePlugins(ScroogeTypescriptGen)
+  .settings(commonSettings)
+  .settings(
+    name := "content-api-models-typescript",
+    scroogeTypescriptNpmPackageName := "@guardian/content-api-models",
+    Compile / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
+    Test / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
+    description := "Typescript library built from the content api thrift definitions",
+
+    scroogeLanguages in Compile := Seq("typescript"),
+    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
+
+    scroogeTypescriptPackageLicense := "Apache-2.0",
+    scroogeThriftDependencies in Compile ++= Seq(
+      "content-entity-thrift",
+      "content-atom-model-thrift",
+      "story-packages-model-thrift"
+    ),
+    scroogeTypescriptPackageMapping := Map(
+      "content-entity-thrift" -> "@guardian/content-entity-model",
+      "content-atom-model-thrift" -> "@guardian/content-atom-model",
+      "story-packages-model-thrift" -> "@guardian/story-packages-model"
+    ),
+    libraryDependencies ++= Seq(
+      "org.apache.thrift" % "libthrift" % "0.12.0",
+      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.gu" % "story-packages-model-thrift" % "2.0.3",
+      "com.gu" % "content-atom-model-thrift" % "3.2.1",
+      "com.gu" % "content-entity-thrift" % "2.0.5"
+    )
   )

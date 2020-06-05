@@ -3,6 +3,7 @@ include "contentatom.thrift"
 include "entity.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
+#@namespace typescript _at_guardian.content_api_models.v1
 
 //include "atoms/quiz.thrift"
 

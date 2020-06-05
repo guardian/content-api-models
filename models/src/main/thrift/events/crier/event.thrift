@@ -1,4 +1,5 @@
 namespace scala com.gu.crier.model.event.v1
+#@namespace typescript _at_guardian.content_api_models.crier.event.v1
 
 include "content/v1.thrift"
 include "contentatom.thrift"

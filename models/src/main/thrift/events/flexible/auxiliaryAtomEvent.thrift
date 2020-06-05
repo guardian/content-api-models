@@ -1,4 +1,5 @@
 namespace scala com.gu.auxiliaryatom.model.auxiliaryatomevent.v1
+#@namespace typescript _at_guardian.content_api_models.auxiliaryatomevent.v1
 
 enum EventType {
     ADD = 0,
