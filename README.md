@@ -3,17 +3,18 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models_2.12)
 [![Build Status](https://travis-ci.org/guardian/content-api-models.svg?branch=master)](https://travis-ci.org/guardian/content-api-models)
 
-To release, in the SBT repl:
+Ensure the version is composed of three parts (`1.2.3`) as NPM doesn't accept shorter versions such as `1.2`.
 
+The `release cross` command will publish to [Maven Central](http://search.maven.org/) via Sonatype. You will need Sonatype credentials and a PGP key. It can take up to 2hrs to show up in search.
+
+`release NPM` will release the typescript package to NPM. Ensure you have an NPM account, part of the [@guardian](https://www.npmjs.com/org/guardian) org with a [configured token](https://docs.npmjs.com/creating-and-viewing-authentication-tokens)
+
+To release, in the SBT repl:
 ```sbtshell
 release cross // will release the scala / thrift projects
 project typescript
 releaseNpm <version> // you have to specify the version again i.e releaseNpm 1.0.0
 ```
-
-will publish to [Maven Central](http://search.maven.org/) via Sonatype. You will need Sonatype credentials and a PGP key. It can take up to 2hrs to show up in search.
-
-It will also release to NPM, ensure you have an NPM account, part of the [@guardian](https://www.npmjs.com/org/guardian) org with a [configured token](https://docs.npmjs.com/creating-and-viewing-authentication-tokens)
 
 ## Information about built bundles
 
