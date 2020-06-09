@@ -1,6 +1,10 @@
 import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
+val contentEntityVersion = "2.0.6"
+val contentAtomVersion = "3.2.2"
+val storyPackageVersion = "2.0.4"
+
 val mavenSettings = Seq(
   pomExtra := (
     <url>https://github.com/guardian/content-api-models</url>
@@ -131,9 +135,9 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.12.0",
       "com.twitter" %% "scrooge-core" % "20.4.1",
-      "com.gu" % "story-packages-model-thrift" % "2.0.3",
-      "com.gu" % "content-atom-model-thrift" % "3.2.1",
-      "com.gu" % "content-entity-thrift" % "2.0.5"
+      "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
+      "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
+      "com.gu" % "content-entity-thrift" % contentEntityVersion
     )
   )
 
@@ -189,8 +193,8 @@ lazy val typescript = (project in file("ts"))
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % "0.12.0",
       "com.twitter" %% "scrooge-core" % "20.4.1",
-      "com.gu" % "story-packages-model-thrift" % "2.0.3",
-      "com.gu" % "content-atom-model-thrift" % "3.2.1",
-      "com.gu" % "content-entity-thrift" % "2.0.5"
+      "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
+      "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
+      "com.gu" % "content-entity-thrift" % contentEntityVersion
     )
   )
