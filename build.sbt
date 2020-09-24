@@ -2,7 +2,7 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 
 val contentEntityVersion = "2.0.6"
-val contentAtomVersion = "3.2.2"
+val contentAtomVersion = "3.2.4"
 val storyPackageVersion = "2.0.4"
 
 val mavenSettings = Seq(
