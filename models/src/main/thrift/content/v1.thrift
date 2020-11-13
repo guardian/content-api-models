@@ -215,6 +215,12 @@ enum SponsorshipType {
     PAID_CONTENT = 2
 }
 
+enum EmbedTracksType {
+    UNKNOWN = 0,
+    TRACKS = 1,
+    DOES_NOT_TRACK = 2
+}
+
 struct Rights {
 
     1: optional bool syndicatable = false
@@ -630,6 +636,8 @@ struct EmbedElementFields {
     3: optional string alt
 
     4: optional bool isMandatory
+
+    5: optional EmbedTracking tracking
 }
 
 struct InstagramElementFields {
@@ -1885,3 +1893,6 @@ struct PillarsResponse {
     3: required list<Pillar> results
 }
 
+struct EmbedTracking {
+    1: required EmbedTracksType tracks = EmbedTracksType.UNKNOWN
+}
