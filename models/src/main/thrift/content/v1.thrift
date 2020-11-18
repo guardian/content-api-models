@@ -637,7 +637,6 @@ struct EmbedElementFields {
 
     4: optional bool isMandatory
 
-    5: optional EmbedTracking tracking
 }
 
 struct InstagramElementFields {
@@ -759,6 +758,8 @@ struct BlockElement {
     19: optional VineElementFields vineTypeData
 
     20: optional ContentAtomElementFields contentAtomTypeData
+
+    21: optional EmbedTracking tracking
 
 }
 
