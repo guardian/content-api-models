@@ -759,6 +759,11 @@ struct BlockElement {
 
     20: optional ContentAtomElementFields contentAtomTypeData
 
+    /*
+     * Optional field which may appear on a block element with a html field containing third party embed code.
+     * Likely to appear on embed and other rich media type elements.
+     * Does not appear on text block elements as the html field of a text element does not contain embed code.
+     */
     21: optional EmbedTracking tracking
 
 }
