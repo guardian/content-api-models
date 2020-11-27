@@ -430,6 +430,9 @@ struct AudioElementFields {
     9: optional bool clean
 
     10: optional bool explicit
+
+    11: optional string role
+
 }
 
 struct VideoElementFields {
@@ -625,6 +628,7 @@ struct MembershipElementFields {
     9: optional string price
     10: optional CapiDateTime start
     11: optional CapiDateTime end
+    12: optional string role
 }
 
 struct EmbedElementFields {
@@ -661,6 +665,8 @@ struct InstagramElementFields {
 
     9: optional string caption
 
+    10 : optional string role
+
 }
 
 struct CommentElementFields {
@@ -684,6 +690,9 @@ struct CommentElementFields {
     9: optional string authorName
 
     10: optional i32 commentId
+
+    11: optional string role
+
 }
 
 struct VineElementFields {
@@ -707,6 +716,8 @@ struct VineElementFields {
     9: optional string alt
 
     10: optional string caption
+
+    11: optional string role
 
 }
 
