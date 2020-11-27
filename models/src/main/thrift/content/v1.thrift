@@ -637,6 +637,8 @@ struct EmbedElementFields {
 
     4: optional bool isMandatory
 
+    5: optional string role
+
 }
 
 struct InstagramElementFields {
@@ -714,8 +716,9 @@ struct ContentAtomElementFields {
 
   2: required string atomType
 
-}
+  3: optional string role
 
+}
 
 struct BlockElement {
 
