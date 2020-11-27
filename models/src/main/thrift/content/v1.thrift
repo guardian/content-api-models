@@ -383,6 +383,9 @@ struct Asset {
 struct TextElementFields {
 
     1: optional string html
+
+    2: optional string role
+
 }
 
 struct PullquoteElementFields {
