@@ -383,6 +383,9 @@ struct Asset {
 struct TextElementFields {
 
     1: optional string html
+
+    2: optional string role
+
 }
 
 struct PullquoteElementFields {
@@ -430,6 +433,9 @@ struct AudioElementFields {
     9: optional bool clean
 
     10: optional bool explicit
+
+    11: optional string role
+
 }
 
 struct VideoElementFields {
@@ -625,6 +631,7 @@ struct MembershipElementFields {
     9: optional string price
     10: optional CapiDateTime start
     11: optional CapiDateTime end
+    12: optional string role
 }
 
 struct EmbedElementFields {
@@ -636,6 +643,8 @@ struct EmbedElementFields {
     3: optional string alt
 
     4: optional bool isMandatory
+
+    5: optional string role
 
 }
 
@@ -658,6 +667,8 @@ struct InstagramElementFields {
     8: optional string alt
 
     9: optional string caption
+
+    10 : optional string role
 
 }
 
@@ -682,6 +693,9 @@ struct CommentElementFields {
     9: optional string authorName
 
     10: optional i32 commentId
+
+    11: optional string role
+
 }
 
 struct VineElementFields {
@@ -706,6 +720,8 @@ struct VineElementFields {
 
     10: optional string caption
 
+    11: optional string role
+
 }
 
 struct ContentAtomElementFields {
@@ -714,8 +730,9 @@ struct ContentAtomElementFields {
 
   2: required string atomType
 
-}
+  3: optional string role
 
+}
 
 struct BlockElement {
 
