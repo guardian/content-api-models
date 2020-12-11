@@ -44,6 +44,12 @@ struct RetrievableContent {
      * The internal revision number of the replaced content payload
      */
     4: optional i32 internalRevision
+
+    /*
+     * The content type
+     * Convenience field to help consumers filter events
+     */
+    5: optional v1.ContentType contentType
 }
 
 union EventPayload {
