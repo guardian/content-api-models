@@ -1601,6 +1601,8 @@ struct Content {
     24: optional string pillarId
 
     25: optional string pillarName
+
+    26: optional list<string> aliasPaths
 }
 
 struct NetworkFront {
