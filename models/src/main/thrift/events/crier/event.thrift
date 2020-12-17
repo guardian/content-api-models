@@ -50,6 +50,13 @@ struct RetrievableContent {
      * Convenience field to help consumers filter events
      */
     5: optional v1.ContentType contentType
+
+    /*
+    * If the content's URL has evolved over time, we include
+    * the aliasPaths so that e.g. de-caching can be comprehensively
+    * triggered when the content is updated
+    */
+    6: optional list<string> aliasPaths
 }
 
 union EventPayload {
