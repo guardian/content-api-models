@@ -8,7 +8,7 @@ enum EventType {
     Delete = 2,
 }
 
-struct ContentDecacheEvent {
+struct ContentDecachedEvent {
     1: required string contentId
 
     2: required EventType eventType
