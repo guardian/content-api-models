@@ -59,6 +59,20 @@ struct RetrievableContent {
     6: optional list<string> aliasPaths
 }
 
+/*
+* Until the advent of aliasPaths, we never needed to send a payload in delete events.
+* The DeletedContent struct enables us to include aliasPaths as a new kind of payload
+* and we decided that it would be sensible to express that in a future-expandable way
+* rather than create a new payload type specifically and only for aliasPaths
+ */
+struct DeletedContent {
+
+    /*
+    * The aliases associated with evolved URLs
+    */
+    1: optional list<string> aliasPaths
+}
+
 union EventPayload {
 
   1: v1.Content content
@@ -66,6 +80,8 @@ union EventPayload {
   2: RetrievableContent retrievableContent
 
   3: contentatom.Atom atom
+
+  4: DeletedContent deletedContent
 }
 
 struct Event {
