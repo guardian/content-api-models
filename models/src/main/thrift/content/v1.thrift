@@ -395,6 +395,8 @@ struct PullquoteElementFields {
     2: optional string attribution
 
     3: optional string role
+
+    4: optional string source
 }
 
 struct TweetElementFields {
@@ -645,6 +647,8 @@ struct EmbedElementFields {
     4: optional bool isMandatory
 
     5: optional string role
+
+    6: optional string source
 
 }
 
