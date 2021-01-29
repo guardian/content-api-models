@@ -398,11 +398,7 @@ struct PullquoteElementFields {
 
     4: optional string source
 
-    5: optional i32 height
-
-    6: optional i32 width
-
-    7: optional string sourceDomain
+    5: optional string sourceDomain
 }
 
 struct TweetElementFields {
@@ -419,11 +415,7 @@ struct TweetElementFields {
 
     6: optional string role
 
-    7: optional i32 height
-
-    8: optional i32 width
-
-    9: optional string sourceDomain
+    7: optional string sourceDomain
 }
 
 struct AudioElementFields {
@@ -450,11 +442,7 @@ struct AudioElementFields {
 
     11: optional string role
 
-    12: optional i32 height
-
-    13: optional i32 width
-
-    14: optional string sourceDomain
+    12: optional string sourceDomain
 }
 
 struct VideoElementFields {
@@ -544,9 +532,7 @@ struct InteractiveElementFields {
     9: optional string iframeUrl
     10: optional string role
     11: optional bool isMandatory
-    12: optional i32 height
-    13: optional i32 width
-    14: optional string sourceDomain
+    12: optional string sourceDomain
 }
 
 struct StandardElementFields {
@@ -674,11 +660,7 @@ struct EmbedElementFields {
 
     6: optional string source
 
-    7: optional i32 height
-
-    8: optional i32 width
-
-    9: optional string sourceDomain
+    7: optional string sourceDomain
 }
 
 struct InstagramElementFields {
@@ -703,9 +685,7 @@ struct InstagramElementFields {
 
     10: optional string role
 
-    11: optional i32 height
-
-    12: optional string sourceDomain
+    11: optional string sourceDomain
 }
 
 struct CommentElementFields {
