@@ -9,7 +9,7 @@ enum EventType {
 }
 
 struct ContentDecachedEvent {
-    1: required string contentId
+    1: required string contentPath
 
     2: required EventType eventType
 
@@ -20,9 +20,10 @@ struct ContentDecachedEvent {
     3: optional v1.ContentType contentType
 
    /*
-    * If the content's URL has evolved over time, we include
-    * the aliasPaths so that e.g. de-caching can be comprehensively
-    * triggered when the content is updated
+    * Deprecated aliasPaths field.
+    * Content items which decache multiple paths should issue multiple decache messages
+    * Do not reuse this label number.
+    * 4: optional list<string> aliasPaths
     */
-    4: optional list<string> aliasPaths
+
 }
