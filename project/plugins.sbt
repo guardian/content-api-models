@@ -5,4 +5,4 @@ addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.3.5")
 
 addSbtPlugin("com.twitter" % "scrooge-sbt-plugin" % "20.4.1")
 resolvers += "Guardian Platform Bintray" at "https://dl.bintray.com/guardian/platforms"
-addSbtPlugin("com.gu" % "sbt-scrooge-typescript" % "1.2.3")
+addSbtPlugin("com.gu" % "sbt-scrooge-typescript" % "1.2.6")
