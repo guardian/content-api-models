@@ -221,6 +221,12 @@ enum EmbedTracksType {
     DOES_NOT_TRACK = 2
 }
 
+enum PlatformType {
+    WEB = 0,
+    AMP = 1,
+    APPS = 2
+}
+
 struct Rights {
 
     1: optional bool syndicatable = false
