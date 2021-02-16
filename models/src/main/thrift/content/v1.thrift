@@ -1964,5 +1964,8 @@ struct PillarsResponse {
 
 struct EmbedTracking {
     1: required EmbedTracksType tracks = EmbedTracksType.UNKNOWN
-    2: optional list<PlatformType> unsupportedPlatforms
+}
+
+struct EmbedReach {
+    1: list<PlatformType> unsupportedPlatforms
 }

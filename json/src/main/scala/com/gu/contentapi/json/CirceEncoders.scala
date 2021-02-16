@@ -91,6 +91,7 @@ object CirceEncoders {
   implicit val entitiesResponseEncoder = Encoder[EntitiesResponse]
   implicit val pillarsResponseEncoder = Encoder[PillarsResponse]
   implicit val embedTrackingEncoder = Encoder[EmbedTracking]
+  implicit val embedReachEncoder = Encoder[EmbedReach]
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)
