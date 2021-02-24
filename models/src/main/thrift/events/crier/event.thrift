@@ -56,7 +56,7 @@ struct RetrievableContent {
     * the aliasPaths so that e.g. de-caching can be comprehensively
     * triggered when the content is updated
     */
-    6: optional list<string> aliasPaths
+    6: optional list<v1.AliasPath> aliasPaths
 }
 
 /*
@@ -70,7 +70,7 @@ struct DeletedContent {
     /*
     * The aliases associated with evolved URLs
     */
-    1: optional list<string> aliasPaths
+    1: optional list<v1.AliasPath> aliasPaths
 }
 
 union EventPayload {
