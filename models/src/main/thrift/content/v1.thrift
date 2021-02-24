@@ -1518,6 +1518,13 @@ struct Debug {
     4: optional string originatingSystem
 }
 
+struct AliasPath {
+
+    1: required string path
+
+    2: required CapiDateTime ceasedToBeCanonicalAt
+}
+
 struct Content {
 
     /*
@@ -1646,7 +1653,13 @@ struct Content {
 
     25: optional string pillarName
 
-    26: optional list<string> aliasPaths
+    /* NOT USED
+     * aliasPaths as an optional list of string has been superceded
+     * by aliasPaths as an optional list of type AliasPath
+     */
+    //26: optional list<string> aliasPaths
+
+    27: optional list<AliasPath> aliasPaths
 }
 
 struct NetworkFront {
