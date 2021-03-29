@@ -778,6 +778,14 @@ struct ContentAtomElementFields {
 
 }
 
+struct CodeElementFields {
+
+  1: required string html
+
+  2: required string language
+
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -826,6 +834,8 @@ struct BlockElement {
      * Does not appear on text block elements as the html field of a text element does not contain embed code.
      */
     21: optional EmbedTracking tracking
+
+    22: optional CodeElementFields codeTypeData
 
 }
 
