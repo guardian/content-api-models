@@ -4,6 +4,7 @@ import sbtrelease.ReleaseStateTransformations._
 val contentEntityVersion = "2.0.6"
 val contentAtomVersion = "3.2.4"
 val storyPackageVersion = "2.0.4"
+val thriftVersion = "0.14.1"
 
 val mavenSettings = Seq(
   pomExtra := (
@@ -133,7 +134,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     },
     scroogePublishThrift in Compile := false,
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.12.0",
+      "org.apache.thrift" % "libthrift" % thriftVersion,
       "com.twitter" %% "scrooge-core" % "20.4.1",
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
@@ -191,7 +192,7 @@ lazy val typescript = (project in file("ts"))
       "story-packages-model-thrift" -> "@guardian/story-packages-model"
     ),
     libraryDependencies ++= Seq(
-      "org.apache.thrift" % "libthrift" % "0.12.0",
+      "org.apache.thrift" % "libthrift" % thriftVersion,
       "com.twitter" %% "scrooge-core" % "20.4.1",
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
