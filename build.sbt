@@ -73,6 +73,48 @@ def customDeps(scalaVersion: String) = {
   )
 }
 
+/*
+ Trialling being able to release snapshot versions from WIP branch without updating back to git
+ e.g. $ sbt -Dsnapshot=true release cross
+ or
+      $ sbt -Dsnapshot=true
+      sbt> release cross
+      sbt> project typeScript
+      sbt> releaseNpm <snapshotVer>
+
+ One downside here is that you'd have to (I think) exit and re-start sbt without the -D when you
+ want to run a non-snapshot release. This is probably fine because we only run releases from
+ our main/master branch when changes are merged in normal circumstances.
+*/
+
+val releaseProcessSteps: Seq[ReleaseStep] = {
+  val always = Seq(
+    checkSnapshotDependencies,
+    inquireVersions,
+    runClean,
+    runTest
+  )
+
+  val forProdRelease: Seq[ReleaseStep] = Seq(
+    setReleaseVersion,
+    commitReleaseVersion,
+    tagRelease,
+    releaseStepCommandAndRemaining("+publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease"),
+    setNextVersion,
+    commitNextVersion,
+    pushChanges
+  )
+
+  val forSnapshotRelease: Seq[ReleaseStep] = Seq(
+    releaseStepCommandAndRemaining("+publishSigned"),
+    releaseStepCommand("sonatypeBundleRelease")
+  )
+
+  always ++ (if (sys.props.getOrElse("snapshot", "false") == "true") forSnapshotRelease else forProdRelease)
+
+}
+
 /**
   * Root project
   */
@@ -81,20 +123,7 @@ lazy val root = Project(id = "root", base = file("."))
   .aggregate(models, json, scala)
   .settings(
     publishArtifact := false,
-    releaseProcess := Seq(
-      checkSnapshotDependencies,
-      inquireVersions,
-      runClean,
-      runTest,
-      setReleaseVersion,
-      commitReleaseVersion,
-      tagRelease,
-      releaseStepCommandAndRemaining("+publishSigned"),
-      releaseStepCommand("sonatypeBundleRelease"),
-      setNextVersion,
-      commitNextVersion,
-      pushChanges
-    )
+    releaseProcess := releaseProcessSteps
   )
 
 /**
