@@ -5,7 +5,7 @@ import sbtrelease.{Version, versionFormatError}
 val contentEntityVersion = "2.0.6"
 val contentAtomVersion = "3.2.4"
 val storyPackageVersion = "2.0.4"
-val thriftVersion = "0.14.1"
+val thriftVersion = "0.13.0"
 
 val candidateReleaseType = "candidate"
 val candidateReleaseSuffix = "-RC1"
@@ -56,7 +56,7 @@ val mavenSettings = Seq(
 )
 
 val versionSettingsMaybe = {
-  sys.props.get("releaseType").map {
+  sys.props.get("RELEASE_TYPE").map {
     case v if v == candidateReleaseType => candidateReleaseSuffix
     case v if v == snapshotReleaseType => snapshotReleaseSuffix
   }.map { suffix =>
@@ -78,7 +78,7 @@ val commonSettings = Seq(
 def customDeps(scalaVersion: String) = {
   val (circeVersion, diffsonVersion, fezziwigVersion) = CrossVersion.partialVersion(scalaVersion) match {
     case Some((2, 11)) => ("0.11.0", "3.1.1", "1.2")
-    case _ => ("0.12.0", "4.0.0", "1.3")
+    case _ => ("0.12.0", "4.0.0", "1.4")
   }
   Seq(
     "com.gu" %% "fezziwig" % fezziwigVersion,
@@ -92,9 +92,9 @@ def customDeps(scalaVersion: String) = {
 
 /*
  Trialling being able to release snapshot versions from WIP branch without updating back to git
- e.g. $ sbt [-DreleaseType=snapshot|candidate] release cross
+ e.g. $ sbt [-DRELEASE_TYPE=snapshot|candidate] release cross
  or
-      $ sbt [-DreleaseType=snapshot|candidate]
+      $ sbt [-DRELEASE_TYPE=snapshot|candidate]
       sbt> release cross
       sbt> project typeScript
       sbt> releaseNpm <version>
@@ -142,7 +142,7 @@ val releaseProcessSteps: Seq[ReleaseStep] = {
   Release Candidate assemblies can be published to Sonatype and Maven.
 
   To make this work, start SBT with the candidate releaseType;
-    sbt -DreleaseType=candidate
+    sbt -DRELEASE_TYPE=candidate
 
   This gets around the "problem" of sbt-sonatype assuming that a -SNAPSHOT build should not be delivered to Maven.
 
@@ -157,8 +157,8 @@ val releaseProcessSteps: Seq[ReleaseStep] = {
     setNextVersion,
   )
 
-  // remember to set with sbt -DreleaseType=snapshot|candidate if running a non-prod release
-  commonSteps ++ (sys.props.get("releaseType") match {
+  // remember to set with sbt -DRELEASE_TYPE=snapshot|candidate if running a non-prod release
+  commonSteps ++ (sys.props.get("RELEASE_TYPE") match {
     case Some(v) if v == snapshotReleaseType => snapshotSteps // this deploys -SNAPSHOT build to sonatype snapshot repo only
     case Some(v) if v == candidateReleaseType => candidateSteps // this enables a release candidate build to sonatype and Maven
     case None => prodSteps  // our normal deploy route
