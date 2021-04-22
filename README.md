@@ -16,6 +16,30 @@ project typescript
 releaseNpm <version> // you have to specify the version again i.e releaseNpm 1.0.0
 ```
 
+### Releasing SNAPSHOT or release candidate versions
+
+It's also possible to release a snapshot build to Sonatype's snapshot repo with no promotion to Maven Central. This can be useful for trialling a test or upgraded dependency internally.
+
+To do this, start sbt with a RELEASE_TYPE variable;
+
+`sbt -DRELEASE_TYPE=snapshot`
+
+Then, when you run `release cross`, you'll be asked to confirm that you intend to make a SNAPSHOT release, and if you proceed will be prompted to complete the snapshot version details. Whatever you specify here will be written back to the `version.sbt` but this won't be automatically committed back to github.
+
+You are able to re-release the same snapshot version repeatedly (which is handy if you're having GPG-related issues etc.)
+
+Making a release candidate is also possible by using the appropriate RELEASE_TYPE variable;
+
+`sbt -DRELEASE_TYPE=candidate`
+
+Here, the main differences are that the version number is expected to be of the format 1.2.3-RC1, and the release will be promoted to Maven Central. 
+
+As with the snapshot release process you'll be prompted to confirm and specify the version number you need to use, and changes applied to `version.sbt` will not be automatically committed to github etc.
+
+Unlike a production release, these alternatives are useful for testing/developing with another team or application and can be executed from a branch so there's no need to have everything merged into main/master branches prior to making your changes available.
+
+**Note:** `releaseNpm` also appears happy to accept non-production version numbers but may be less forgiving with re-publishing the same version number. This may require more effort if it becomes a problem.
+
 ## Information about built bundles
 
 The content-api-models project builds the following bundles: 

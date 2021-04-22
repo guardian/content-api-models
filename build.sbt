@@ -12,7 +12,7 @@ val candidateReleaseSuffix = "-RC1"
 val snapshotReleaseType = "snapshot"
 val snapshotReleaseSuffix = "-SNAPSHOT"
 
-val mavenSettings = Seq(
+lazy val mavenSettings = Seq(
   pomExtra := (
     <url>https://github.com/guardian/content-api-models</url>
     <scm>
@@ -55,7 +55,7 @@ val mavenSettings = Seq(
   pomIncludeRepository := { _ => false }
 )
 
-val versionSettingsMaybe = {
+lazy val versionSettingsMaybe = {
   sys.props.get("RELEASE_TYPE").map {
     case v if v == candidateReleaseType => candidateReleaseSuffix
     case v if v == snapshotReleaseType => snapshotReleaseSuffix
@@ -66,7 +66,7 @@ val versionSettingsMaybe = {
   }.toSeq
 }
 
-val commonSettings = Seq(
+lazy val commonSettings = Seq(
   scalaVersion := "2.13.2",
   crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
@@ -104,8 +104,23 @@ def customDeps(scalaVersion: String) = {
  our main/master branch when changes are merged in normal circumstances.
 */
 
-val releaseProcessSteps: Seq[ReleaseStep] = {
+lazy val checkReleaseType: ReleaseStep = ReleaseStep({ st: State =>
+  val releaseType = sys.props.get("RELEASE_TYPE").map {
+    case v if v == candidateReleaseType => candidateReleaseType.toUpperCase
+    case v if v == snapshotReleaseType => snapshotReleaseType.toUpperCase
+  }.getOrElse("PRODUCTION")
+
+  SimpleReader.readLine(s"This will be a $releaseType release. Continue? [y/N]: ") match {
+    case Some(v) if Seq("Y", "YES").contains(v.toUpperCase) => // we don't care about the value - it's a flow control mechanism
+    case _ => sys.error(s"Release aborted by user!")
+  }
+  // we haven't changed state, just pass it on if we haven't thrown an error from above
+  st
+})
+
+lazy val releaseProcessSteps: Seq[ReleaseStep] = {
   val commonSteps = Seq(
+    checkReleaseType,
     checkSnapshotDependencies,
     inquireVersions,
     runClean,
@@ -135,7 +150,9 @@ val releaseProcessSteps: Seq[ReleaseStep] = {
 
   */
   val snapshotSteps: Seq[ReleaseStep] = Seq(
-    releaseStepCommandAndRemaining("+publishSigned")
+    setReleaseVersion,
+    releaseStepCommandAndRemaining("+publishSigned"),
+    setNextVersion
   )
 
   /*
@@ -154,7 +171,7 @@ val releaseProcessSteps: Seq[ReleaseStep] = {
     setReleaseVersion,
     releaseStepCommandAndRemaining("+publishSigned"),
     releaseStepCommand("sonatypeBundleRelease"),
-    setNextVersion,
+    setNextVersion
   )
 
   // remember to set with sbt -DRELEASE_TYPE=snapshot|candidate if running a non-prod release
