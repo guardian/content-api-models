@@ -1,7 +1,13 @@
 # Content API Thrift models
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models_2.12)
 [![Build Status](https://travis-ci.org/guardian/content-api-models.svg?branch=master)](https://travis-ci.org/guardian/content-api-models)
+
+## Version Info
+
+### 17.0.0 
+* This release imports the `sbt-scrooge-typescript 1.4.0` sbt plugin which has the potential to introduce some [breaking changes](https://github.com/apache/thrift/blob/master/CHANGES.md#breaking-changes-2) for generated typescript mappings via thrift 0.13.0, specifically related to the [handling of `Int64`](https://issues.apache.org/jira/browse/THRIFT-4675) data.
+
+## Releasing
 
 Ensure the version is composed of three parts (`1.2.3`) as NPM doesn't accept shorter versions such as `1.2`.
 
