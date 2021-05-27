@@ -685,6 +685,8 @@ struct EmbedElementFields {
 //    8: optional i32 width
 
     9: optional string sourceDomain
+
+    10: optional string caption
 }
 
 struct InstagramElementFields {
