@@ -23,6 +23,8 @@ project typescript
 releaseNpm <version> // you have to specify the version again i.e releaseNpm 1.0.0
 ```
 
+It is worth noting that different teams follow different practices for model releases. In CAPI, we always release from master/main, so when you are happy with your local release, you can go ahead and make your PR. Once that is merged into main, you can publish your release to Maven. Two consecutive commits will automatically be made to master/main updating the next version number.
+
 ### Releasing SNAPSHOT or release candidate versions
 
 It's also possible to release a snapshot build to Sonatype's snapshot repo with no promotion to Maven Central. This can be useful for trialling a test or upgraded dependency internally.
@@ -68,3 +70,6 @@ To publish a snapshot version locally.
 ```
 sbt +publishLocal
 ```
+
+
+
