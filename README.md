@@ -23,6 +23,11 @@ project typescript
 releaseNpm <version> // you have to specify the version again i.e releaseNpm 1.0.0
 ```
 
+If you see the message `Cannot run program "tsc"` you will need to install TypeScript:
+```
+npm install -g typescript
+```
+
 It is worth noting that different teams follow different practices for model releases. In CAPI, we always release from master/main, so when you are happy with your local release, you can go ahead and make your PR. Once that is merged into main, you can publish your release to Maven. Two consecutive commits will automatically be made to master/main updating the next version number.
 
 ### Releasing SNAPSHOT or release candidate versions
