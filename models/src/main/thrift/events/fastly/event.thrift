@@ -26,4 +26,9 @@ struct ContentDecachedEvent {
     * 4: optional list<string> aliasPaths
     */
 
+   /*
+    * When was this decache event originally published
+    * Date times are represented as i64 - epoch millis
+    */
+    5: optional i64 eventPublished
 }
