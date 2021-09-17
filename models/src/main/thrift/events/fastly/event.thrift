@@ -30,5 +30,5 @@ struct ContentDecachedEvent {
     * When was this decache event originally published
     * Date times are represented as i64 - epoch millis
     */
-    5: optional i64 published
+    5: optional i64 eventPublished
 }
