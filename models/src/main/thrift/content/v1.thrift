@@ -1708,7 +1708,7 @@ struct Publications {
 
     3: optional Publication dailyEdtion
 
-    4: optional List<Publication> fronts
+    4: optional list<Publication> fronts
 }
 
 /*
