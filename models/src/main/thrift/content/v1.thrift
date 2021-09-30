@@ -1165,6 +1165,8 @@ struct ContentFields {
     50: optional bool showAffiliateLinks
 
     51: optional string bylineHtml
+
+    52: optional string kicker
 }
 
 struct Reference {
@@ -1672,6 +1674,121 @@ struct Content {
     //26: optional list<string> aliasPaths
 
     27: optional list<AliasPath> aliasPaths
+
+    /*
+    * The path used to access this content within CAPI - one path for each publication
+    * */
+    28: optional string path
+
+    /*
+    * Information about whether the content is currently published, and when it was published
+    * Used to lock down content to a publication (i.e. so that fields cannot leak across publication boundaries)
+    * */
+    29: optional PublicationState publicationState
+
+    /*
+    * Information about where the content is published to
+    * (in which publication, and where in this publication, does this content appear?)
+    * */
+    30: optional PublishedLocation publicationLocation
+
+    /*
+    * Versions of this content in requested publications (show-publications=___)
+    * */
+    31: optional Publications publications
+}
+
+/*
+* Publications can be of the following (named) types
+* */
+struct Publications {
+    1: optional Publication web
+
+    2: optional Publication kindle
+
+    3: optional Publication dailyEdtion
+
+    4: optional List<Publication> fronts
+}
+
+/*
+* A publication is a structured collection of articles.
+*
+* If an article belongs to a publication, we store this relationship on the article.
+*
+* To render an article on a publication, we need to know the following about the article:
+* 1) when it is published
+* 2) where it is published
+* 3) what fields we need to publish
+*
+* We need to ensure that fields cannot leak across publication boundaries.
+* */
+struct Publication {
+    1: required string path
+
+    2: required PublishedLocation publishedLocation
+
+    3: required PublicationState publicationState
+
+    4: optional PublicationFields publicationFields
+}
+
+/*
+* Information about where the content is published to
+* (in which publication, and where in this publication, does this content appear?)
+*
+* Different publicatons need different information to understand where to publish the content to
+* For example, the web only needs to understand the url it will publish to
+* Whereas Kindle will need a set of book tags to understand where it will appear in the Kindle issue
+* */
+struct PublishedLocation {
+    1: optional PublicationTags tags
+
+    2: optional i32 pageNumber
+
+    3: optional string webUrl
+}
+
+struct PublicationTags {
+    1: required Tag book
+
+    2: required Tag bookSection
+}
+
+/*
+* Information about whether the content is currently published, and when it was published
+* Used to lock down content to a publication (i.e. so that fields cannot leak across publication boundaries)
+* */
+struct PublicationState {
+    1: required bool isPublished
+
+    2: required CapiDateTime publicationDate
+
+    3: required CapiDateTime firstPublicationDate
+
+    4: optional CapiDateTime scheduledPublicationDate
+}
+
+struct PublicationFields {
+    1: optional OverrideContentFields overrideContent
+
+    2: optional AdditionalContentFields additionalContent
+
+    3: optional MetadataFields metadata
+}
+
+struct OverrideContentFields {
+    1: optional string headline
+
+    2: optional string trailText
+}
+
+struct AdditionalContentFields {
+    1: optional string kicker
+}
+
+struct MetadataFields {
+    1: optional string frontStyle
 }
 
 struct NetworkFront {
