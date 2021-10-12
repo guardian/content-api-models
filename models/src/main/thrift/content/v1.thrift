@@ -23,6 +23,12 @@ struct CapiDateTime {
 
 }
 
+enum PublicationType {
+    WEB = 0,
+    KINDLE = 1,
+    DAILYEDITION = 2
+}
+
 enum ContentType {
     ARTICLE = 0,
     LIVEBLOG = 1,
@@ -1681,21 +1687,26 @@ struct Content {
     28: optional string path
 
     /*
+    * The publication type of the article - e.g. a kindle path will yield an article with a publication type 'kindle'
+    * */
+    29: optional PublicationType publicationType
+
+    /*
     * Information about whether the content is currently published, and when it was published
     * Used to lock down content to a publication (i.e. so that fields cannot leak across publication boundaries)
     * */
-    29: optional PublicationState publicationState
+    30: optional PublicationState publicationState
 
     /*
     * Information about where the content is published to
     * (in which publication, and where in this publication, does this content appear?)
     * */
-    30: optional PublishedLocation publicationLocation
+    31: optional PublishedLocation publishedLocation
 
     /*
     * Versions of this content in requested publications (show-publications=___)
     * */
-    31: optional Publications publications
+    32: optional Publications publications
 }
 
 /*
@@ -1706,9 +1717,7 @@ struct Publications {
 
     2: optional Publication kindle
 
-    3: optional Publication dailyEdtion
-
-    4: optional list<Publication> fronts
+    3: optional Publication dailyEdition
 }
 
 /*
@@ -1739,20 +1748,22 @@ struct Publication {
 *
 * Different publicatons need different information to understand where to publish the content to
 * For example, the web only needs to understand the url it will publish to
-* Whereas Kindle will need a set of book tags to understand where it will appear in the Kindle issue
+* Whereas Kindle will need a set of book tags and page number to understand where it will appear in the Kindle issue
 * */
 struct PublishedLocation {
-    1: optional PublicationTags tags
+    1: optional list<Tag> tags
 
-    2: optional i32 pageNumber
+    2: optional Tag book
 
-    3: optional string webUrl
-}
+    3: optional Tag bookSection
 
-struct PublicationTags {
-    1: required Tag book
+    4: optional i32 pageNumber
 
-    2: required Tag bookSection
+    5: optional string webUrl
+
+    6: optional string container
+
+    7: optional string issue
 }
 
 /*
