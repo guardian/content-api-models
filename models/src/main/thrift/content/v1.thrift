@@ -1537,6 +1537,36 @@ struct AliasPath {
     2: required CapiDateTime ceasedToBeCanonicalAt
 }
 
+struct ContentPublication {
+
+    1: optional string publication
+
+    2: optional list<string> tagIds
+
+    3: optional string book
+
+    4: optional string bookSection
+
+    5: optional string headline
+
+    6: optional string standfirst
+
+    7: optional string trailText
+
+    /** we may not need main - but keeping consistent with flexible model WIP for now */
+    8: optional string main
+
+    9: optional string body
+
+    10: optional i32 publicationPageNumber
+
+    11: optional CapiDateTime publicationDate
+
+    12: optional i32 wordCount
+
+    13: optional i32 charCount
+}
+
 struct Content {
 
     /*
@@ -1672,6 +1702,9 @@ struct Content {
     //26: optional list<string> aliasPaths
 
     27: optional list<AliasPath> aliasPaths
+
+    28: optional list<ContentPublication> publications
+
 }
 
 struct NetworkFront {
