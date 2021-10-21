@@ -1539,32 +1539,23 @@ struct AliasPath {
 
 struct ContentPublication {
 
-    1: optional string publication
+    1: optional list<string> tags
 
-    2: optional list<string> tagIds
+    2: optional string headline
 
-    3: optional string book
+    3: optional string standfirst
 
-    4: optional string bookSection
+    4: optional string trailText
 
-    5: optional string headline
+    5: optional string body
 
-    6: optional string standfirst
+    6: optional i32 pageNumber
 
-    7: optional string trailText
+    7: optional CapiDateTime publicationDate
 
-    /** we may not need main - but keeping consistent with flexible model WIP for now */
-    8: optional string main
+    8: optional i32 wordCount
 
-    9: optional string body
-
-    10: optional i32 publicationPageNumber
-
-    11: optional CapiDateTime publicationDate
-
-    12: optional i32 wordCount
-
-    13: optional i32 charCount
+    9: optional i32 charCount
 }
 
 struct Content {
