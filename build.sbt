@@ -51,7 +51,7 @@ lazy val mavenSettings = Seq(
   publishTo := sonatypePublishToBundle.value,
   publishConfiguration := publishConfiguration.value.withOverwrite(true),
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   pomIncludeRepository := { _ => false }
 )
 
@@ -203,10 +203,10 @@ lazy val models = Project(id = "content-api-models", base = file("models"))
   .settings(
     description := "Scala models for the Guardian's Content API",
     crossPaths := false,
-    publishArtifact in packageDoc := false,
-    publishArtifact in packageSrc := false,
-    includeFilter in unmanagedResources := "*.thrift",
-    unmanagedResourceDirectories in Compile += { baseDirectory.value / "src/main/thrift" }
+    packageDoc / publishArtifact  := false,
+    packageSrc / publishArtifact  := false,
+    unmanagedResources / includeFilter  := "*.thrift",
+    Compile / unmanagedResourceDirectories  += { baseDirectory.value / "src/main/thrift" }
   )
 
   /**
@@ -218,18 +218,18 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   .settings(
     description := "Generated classes of the Scala models for the Guardian's Content API",
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
-    scroogeThriftOutputFolder in Compile := sourceManaged.value / "thrift",
-    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
-    scroogeThriftDependencies in Compile ++= Seq(
+    Compile / scroogeThriftOutputFolder  := sourceManaged.value / "thrift",
+    Compile / scroogeThriftSourceFolder   := baseDirectory.value / "../models/src/main/thrift",
+    Compile / scroogeThriftDependencies  ++= Seq(
       "story-packages-model-thrift",
       "content-atom-model-thrift",
       "content-entity-thrift"
     ),
     // See: https://github.com/twitter/scrooge/issues/199
-    scroogeThriftSources in Compile ++= {
-      (scroogeUnpackDeps in Compile).value.flatMap { dir => (dir ** "*.thrift").get }
+    Compile / scroogeThriftSources ++= {
+      (Compile / scroogeUnpackDeps).value.flatMap { dir => (dir ** "*.thrift").get }
     },
-    scroogePublishThrift in Compile := false,
+    Compile / scroogePublishThrift := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
       "com.twitter" %% "scrooge-core" % "20.4.1",
@@ -251,7 +251,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "com.google.guava" % "guava" % "19.0" % "test"
     ) ++ customDeps(scalaVersion.value),
-    mappings in (Compile, packageDoc) := Nil
+    Compile / packageDoc / mappings := Nil
   )
 
 lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
@@ -260,7 +260,7 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .enablePlugins(JmhPlugin)
   .settings(
     libraryDependencies += "com.google.guava" % "guava" % "19.0",
-    javaOptions in Jmh ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
+    Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
 
@@ -274,11 +274,11 @@ lazy val typescript = (project in file("ts"))
     Test / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     description := "Typescript library built from the content api thrift definitions",
 
-    scroogeLanguages in Compile := Seq("typescript"),
-    scroogeThriftSourceFolder in Compile := baseDirectory.value / "../models/src/main/thrift",
+    Compile / scroogeLanguages := Seq("typescript"),
+    Compile / scroogeThriftSourceFolder  := baseDirectory.value / "../models/src/main/thrift",
 
     scroogeTypescriptPackageLicense := "Apache-2.0",
-    scroogeThriftDependencies in Compile ++= Seq(
+    Compile / scroogeThriftDependencies  ++= Seq(
       "content-entity-thrift",
       "content-atom-model-thrift",
       "story-packages-model-thrift"
