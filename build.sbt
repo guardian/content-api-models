@@ -5,7 +5,7 @@ import sbtrelease.{Version, versionFormatError}
 val contentEntityVersion = "2.0.6"
 val contentAtomVersion = "3.2.4"
 val storyPackageVersion = "2.0.4"
-val thriftVersion = "0.13.0"
+val thriftVersion = "0.15.0"
 
 val candidateReleaseType = "candidate"
 val candidateReleaseSuffix = "-RC1"
@@ -45,6 +45,11 @@ lazy val mavenSettings = Seq(
         <id>annebyrne</id>
         <name>Anne Byrne</name>
         <url>https://github.com/annebyrne</url>
+      </developer>
+      <developer>
+        <id>justinpinner</id>
+        <name>Justin Pinner</name>
+        <url>https://github.com/justinpinner</url>
       </developer>
     </developers>
   ),
