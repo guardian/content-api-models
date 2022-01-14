@@ -3,7 +3,7 @@ import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
 val contentEntityVersion = "2.1.0-RC2"
-val contentAtomVersion = "3.3.0-RC1"
+val contentAtomVersion = "3.3.0-RC2"
 val storyPackageVersion = "2.1.0-RC1"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "21.12.0"
