@@ -2,10 +2,11 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
-val contentEntityVersion = "2.0.6"
-val contentAtomVersion = "3.2.4"
-val storyPackageVersion = "2.0.4"
+val contentEntityVersion = "2.1.0-RC2"
+val contentAtomVersion = "3.3.0-RC1"
+val storyPackageVersion = "2.1.0-RC1"
 val thriftVersion = "0.15.0"
+val scroogeVersion = "21.12.0"
 
 val candidateReleaseType = "candidate"
 val candidateReleaseSuffix = "-RC1"
@@ -46,7 +47,7 @@ lazy val mavenSettings = Seq(
         <name>Anne Byrne</name>
         <url>https://github.com/annebyrne</url>
       </developer>
-      <developer>
+       <developer>
         <id>justinpinner</id>
         <name>Justin Pinner</name>
         <url>https://github.com/justinpinner</url>
@@ -73,7 +74,11 @@ lazy val versionSettingsMaybe = {
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.13.2",
-  crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value),
+  // downgrade scrooge reserved word clashes to warnings
+  Compile / scroogeDisableStrict := true,
+  // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
+  // https://twitter.github.io/scrooge/changelog.html#id11
+  crossScalaVersions := Seq("2.12.11", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
@@ -83,7 +88,7 @@ lazy val commonSettings = Seq(
 def customDeps(scalaVersion: String) = {
   val (circeVersion, diffsonVersion, fezziwigVersion) = CrossVersion.partialVersion(scalaVersion) match {
     case Some((2, 11)) => ("0.11.0", "3.1.1", "1.2")
-    case _ => ("0.12.0", "4.0.0", "1.4")
+    case _ => ("0.14.1", "4.1.1", "1.6")  // scala 2.12+
   }
   Seq(
     "com.gu" %% "fezziwig" % fezziwigVersion,
@@ -237,7 +242,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     Compile / scroogePublishThrift := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
-      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
@@ -295,7 +300,7 @@ lazy val typescript = (project in file("ts"))
     ),
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
-      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
