@@ -30,7 +30,7 @@ npm install -g typescript
 
 It is worth noting that different teams follow different practices for model releases. In CAPI, we always release from master/main, so when you are happy with your local release, you can go ahead and make your PR. Once that is merged into main, you can publish your release to Maven. Two consecutive commits will automatically be made to master/main updating the next version number.
 
-### Releasing SNAPSHOT or release candidate versions
+### Releasing SNAPSHOT or beta versions
 
 It's also possible to release a snapshot build to Sonatype's snapshot repo with no promotion to Maven Central. This can be useful for trialling a test or upgraded dependency internally.
 
@@ -42,17 +42,17 @@ Then, when you run `release cross`, you'll be asked to confirm that you intend t
 
 You are able to re-release the same snapshot version repeatedly (which is handy if you're having GPG-related issues etc.)
 
-Making a release candidate is also possible by using the appropriate RELEASE_TYPE variable;
+Making a beta release is also possible by using the appropriate RELEASE_TYPE variable;
 
-`sbt -DRELEASE_TYPE=candidate`
+`sbt -DRELEASE_TYPE=beta`
 
-Here, the main differences are that the version number is expected to be of the format 1.2.3-RC1, and the release will be promoted to Maven Central. 
+Here, the main differences are that the version number is expected to be of the format 1.2.3-beta.n, and the release will be promoted to Maven Central. 
 
 As with the snapshot release process you'll be prompted to confirm and specify the version number you need to use, and changes applied to `version.sbt` will not be automatically committed to github etc.
 
 Unlike a production release, these alternatives are useful for testing/developing with another team or application and can be executed from a branch so there's no need to have everything merged into main/master branches prior to making your changes available.
 
-**Note:** `releaseNpm` also appears happy to accept non-production version numbers but may be less forgiving with re-publishing the same version number. This may require more effort if it becomes a problem.
+**Note:** `releaseNpm` (provided by our sbt-scrooge-typescript plugin) has been updated to apply a beta tag to the release, just be sure to use the `x.y.z-beta.n` version number format or NPM may reject it.
 
 ## Information about built bundles
 

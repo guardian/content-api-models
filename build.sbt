@@ -2,14 +2,14 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
-val contentEntityVersion = "2.1.0-RC2"
-val contentAtomVersion = "3.3.0-RC2"
-val storyPackageVersion = "2.1.0-RC1"
+val contentEntityVersion = "2.2.0-beta.4"
+val contentAtomVersion = "3.4.0-beta.1"
+val storyPackageVersion = "2.2.0-beta.1"
 val thriftVersion = "0.15.0"
-val scroogeVersion = "21.12.0"
+val scroogeVersion = "22.1.0" // update plugins too if this version changes
 
-val candidateReleaseType = "candidate"
-val candidateReleaseSuffix = "-RC1"
+val betaReleaseType = "beta"
+val betaReleaseSuffix = "-beta.0"
 val snapshotReleaseType = "snapshot"
 val snapshotReleaseSuffix = "-SNAPSHOT"
 
@@ -63,7 +63,7 @@ lazy val mavenSettings = Seq(
 
 lazy val versionSettingsMaybe = {
   sys.props.get("RELEASE_TYPE").map {
-    case v if v == candidateReleaseType => candidateReleaseSuffix
+    case v if v == betaReleaseType => betaReleaseSuffix
     case v if v == snapshotReleaseType => snapshotReleaseSuffix
   }.map { suffix =>
     releaseVersion := {
@@ -116,7 +116,7 @@ def customDeps(scalaVersion: String) = {
 
 lazy val checkReleaseType: ReleaseStep = ReleaseStep({ st: State =>
   val releaseType = sys.props.get("RELEASE_TYPE").map {
-    case v if v == candidateReleaseType => candidateReleaseType.toUpperCase
+    case v if v == betaReleaseType => betaReleaseType.toUpperCase
     case v if v == snapshotReleaseType => snapshotReleaseType.toUpperCase
   }.getOrElse("PRODUCTION")
 
@@ -166,14 +166,14 @@ lazy val releaseProcessSteps: Seq[ReleaseStep] = {
   )
 
   /*
-  Release Candidate assemblies can be published to Sonatype and Maven.
+  Beta assemblies can be published to Sonatype and Maven.
 
   To make this work, start SBT with the candidate releaseType;
-    sbt -DRELEASE_TYPE=candidate
+    sbt -DRELEASE_TYPE=beta
 
   This gets around the "problem" of sbt-sonatype assuming that a -SNAPSHOT build should not be delivered to Maven.
 
-  In this mode, the version number will be presented as e.g. 1.2.3-RC1, but the git tagging and version-updating
+  In this mode, the version number will be presented as e.g. 1.2.3-beta.0, but the git tagging and version-updating
   steps are not triggered, so it's up to the developer to keep track of what was released and manipulate subsequent
   release and next versions appropriately.
   */
@@ -187,7 +187,7 @@ lazy val releaseProcessSteps: Seq[ReleaseStep] = {
   // remember to set with sbt -DRELEASE_TYPE=snapshot|candidate if running a non-prod release
   commonSteps ++ (sys.props.get("RELEASE_TYPE") match {
     case Some(v) if v == snapshotReleaseType => snapshotSteps // this deploys -SNAPSHOT build to sonatype snapshot repo only
-    case Some(v) if v == candidateReleaseType => candidateSteps // this enables a release candidate build to sonatype and Maven
+    case Some(v) if v == betaReleaseType => candidateSteps // this enables a beta build to sonatype and Maven
     case None => prodSteps  // our normal deploy route
   })
 
@@ -274,19 +274,27 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
     publishArtifact := false
   )
 
+lazy val npmBetaReleaseTagMaybe =
+  sys.props.get("RELEASE_TYPE").map {
+    case v if v == betaReleaseType =>
+      // Why hard-code "beta" instead of using the value of the variable? That's to ensure it's always presented as
+      // --tag beta to the npm release process provided by the ScroogeTypescriptGen plugin regardless of how we identify
+      // a beta release here
+      scroogeTypescriptPublishTag := "beta"
+  }.toSeq
+
 lazy val typescript = (project in file("ts"))
   .enablePlugins(ScroogeTypescriptGen)
   .settings(commonSettings)
+  .settings(npmBetaReleaseTagMaybe)
   .settings(
     name := "content-api-models-typescript",
     scroogeTypescriptNpmPackageName := "@guardian/content-api-models",
     Compile / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     Test / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     description := "Typescript library built from the content api thrift definitions",
-
     Compile / scroogeLanguages := Seq("typescript"),
     Compile / scroogeThriftSourceFolder  := baseDirectory.value / "../models/src/main/thrift",
-
     scroogeTypescriptPackageLicense := "Apache-2.0",
     Compile / scroogeThriftDependencies  ++= Seq(
       "content-entity-thrift",
