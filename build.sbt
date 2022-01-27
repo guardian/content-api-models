@@ -2,12 +2,21 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
-val contentEntityVersion = "2.2.0-beta.4"
-val contentAtomVersion = "3.4.0-beta.1"
-val storyPackageVersion = "2.2.0-beta.1"
+// dependency versions
+val contentEntityVersion = "2.2.1"
+val contentAtomVersion = "3.4.0"
+val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
+val circeVersion = "0.14.1"
+val fezziwigVersion = "1.6"
 
+// dependency versions (for tests only)
+val scalaTestVersion = "3.0.8"
+val guavaVersion = "19.0"
+val diffsonVersion = "4.1.1"
+
+// support non-production release types
 val betaReleaseType = "beta"
 val betaReleaseSuffix = "-beta.0"
 val snapshotReleaseType = "snapshot"
@@ -84,21 +93,6 @@ lazy val commonSettings = Seq(
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings ++ versionSettingsMaybe
-
-def customDeps(scalaVersion: String) = {
-  val (circeVersion, diffsonVersion, fezziwigVersion) = CrossVersion.partialVersion(scalaVersion) match {
-    case Some((2, 11)) => ("0.11.0", "3.1.1", "1.2")
-    case _ => ("0.14.1", "4.1.1", "1.6")  // scala 2.12+
-  }
-  Seq(
-    "com.gu" %% "fezziwig" % fezziwigVersion,
-    "io.circe" %% "circe-core" % circeVersion,
-    "io.circe" %% "circe-generic" % circeVersion,
-    "io.circe" %% "circe-parser" % circeVersion,
-    "io.circe" %% "circe-optics" % circeVersion,
-    "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
-  )
-}
 
 /*
  Trialling being able to release snapshot versions from WIP branch without updating back to git
@@ -258,9 +252,15 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-      "com.google.guava" % "guava" % "19.0" % "test"
-    ) ++ customDeps(scalaVersion.value),
+      "com.gu" %% "fezziwig" % fezziwigVersion,
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+      "io.circe" %% "circe-optics" % circeVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+      "com.google.guava" % "guava" % guavaVersion % "test",
+      "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
+    ),
     Compile / packageDoc / mappings := Nil
   )
 
