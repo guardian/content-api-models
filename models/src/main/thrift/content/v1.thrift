@@ -1537,9 +1537,9 @@ struct AliasPath {
     2: required CapiDateTime ceasedToBeCanonicalAt
 }
 
-struct ContentPublication {
+struct ChannelFields {
 
-    1: optional list<string> tags
+    1: required bool isAvailable
 
     2: optional string headline
 
@@ -1556,6 +1556,15 @@ struct ContentPublication {
     8: optional i32 wordCount
 
     9: optional i32 charCount
+
+}
+
+struct ContentChannel {
+
+    1: required string channelId
+
+    2: required ChannelFields fields
+
 }
 
 struct Content {
@@ -1694,7 +1703,7 @@ struct Content {
 
     27: optional list<AliasPath> aliasPaths
 
-    28: optional list<ContentPublication> publications
+    28: optional list<ContentChannel> channels
 
 }
 
