@@ -370,6 +370,7 @@ struct AssetFields {
 
   66: optional CapiDateTime start
 
+  /* `end` is a reserved word in scrooge, so use Compile / scroogeDisableStrict := true in build.sbt */
   67: optional CapiDateTime end
 
   68: optional bool safeEmbedCode
@@ -662,6 +663,7 @@ struct MembershipElementFields {
     8: optional string image
     9: optional string price
     10: optional CapiDateTime start
+    /* `end` is a reserved word in scrooge, so use Compile / scroogeDisableStrict := true in build.sbt */
     11: optional CapiDateTime end
     12: optional string role
 }

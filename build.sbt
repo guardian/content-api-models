@@ -2,13 +2,23 @@ import sbt.Keys._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
-val contentEntityVersion = "2.0.6"
-val contentAtomVersion = "3.2.4"
-val storyPackageVersion = "2.0.4"
-val thriftVersion = "0.13.0"
+// dependency versions
+val contentEntityVersion = "2.2.1"
+val contentAtomVersion = "3.4.0"
+val storyPackageVersion = "2.2.0"
+val thriftVersion = "0.15.0"
+val scroogeVersion = "22.1.0" // update plugins too if this version changes
+val circeVersion = "0.14.1"
+val fezziwigVersion = "1.6"
 
-val candidateReleaseType = "candidate"
-val candidateReleaseSuffix = "-RC1"
+// dependency versions (for tests only)
+val scalaTestVersion = "3.0.8"
+val guavaVersion = "19.0"
+val diffsonVersion = "4.1.1"
+
+// support non-production release types
+val betaReleaseType = "beta"
+val betaReleaseSuffix = "-beta.0"
 val snapshotReleaseType = "snapshot"
 val snapshotReleaseSuffix = "-SNAPSHOT"
 
@@ -46,6 +56,11 @@ lazy val mavenSettings = Seq(
         <name>Anne Byrne</name>
         <url>https://github.com/annebyrne</url>
       </developer>
+       <developer>
+        <id>justinpinner</id>
+        <name>Justin Pinner</name>
+        <url>https://github.com/justinpinner</url>
+      </developer>
     </developers>
   ),
   publishTo := sonatypePublishToBundle.value,
@@ -57,7 +72,7 @@ lazy val mavenSettings = Seq(
 
 lazy val versionSettingsMaybe = {
   sys.props.get("RELEASE_TYPE").map {
-    case v if v == candidateReleaseType => candidateReleaseSuffix
+    case v if v == betaReleaseType => betaReleaseSuffix
     case v if v == snapshotReleaseType => snapshotReleaseSuffix
   }.map { suffix =>
     releaseVersion := {
@@ -68,27 +83,16 @@ lazy val versionSettingsMaybe = {
 
 lazy val commonSettings = Seq(
   scalaVersion := "2.13.2",
-  crossScalaVersions := Seq("2.11.12", "2.12.11", scalaVersion.value),
+  // downgrade scrooge reserved word clashes to warnings
+  Compile / scroogeDisableStrict := true,
+  // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
+  // https://twitter.github.io/scrooge/changelog.html#id11
+  crossScalaVersions := Seq("2.12.11", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers += Resolver.sonatypeRepo("public")
 ) ++ mavenSettings ++ versionSettingsMaybe
-
-def customDeps(scalaVersion: String) = {
-  val (circeVersion, diffsonVersion, fezziwigVersion) = CrossVersion.partialVersion(scalaVersion) match {
-    case Some((2, 11)) => ("0.11.0", "3.1.1", "1.2")
-    case _ => ("0.12.0", "4.0.0", "1.4")
-  }
-  Seq(
-    "com.gu" %% "fezziwig" % fezziwigVersion,
-    "io.circe" %% "circe-core" % circeVersion,
-    "io.circe" %% "circe-generic" % circeVersion,
-    "io.circe" %% "circe-parser" % circeVersion,
-    "io.circe" %% "circe-optics" % circeVersion,
-    "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
-  )
-}
 
 /*
  Trialling being able to release snapshot versions from WIP branch without updating back to git
@@ -106,7 +110,7 @@ def customDeps(scalaVersion: String) = {
 
 lazy val checkReleaseType: ReleaseStep = ReleaseStep({ st: State =>
   val releaseType = sys.props.get("RELEASE_TYPE").map {
-    case v if v == candidateReleaseType => candidateReleaseType.toUpperCase
+    case v if v == betaReleaseType => betaReleaseType.toUpperCase
     case v if v == snapshotReleaseType => snapshotReleaseType.toUpperCase
   }.getOrElse("PRODUCTION")
 
@@ -156,14 +160,14 @@ lazy val releaseProcessSteps: Seq[ReleaseStep] = {
   )
 
   /*
-  Release Candidate assemblies can be published to Sonatype and Maven.
+  Beta assemblies can be published to Sonatype and Maven.
 
   To make this work, start SBT with the candidate releaseType;
-    sbt -DRELEASE_TYPE=candidate
+    sbt -DRELEASE_TYPE=beta
 
   This gets around the "problem" of sbt-sonatype assuming that a -SNAPSHOT build should not be delivered to Maven.
 
-  In this mode, the version number will be presented as e.g. 1.2.3-RC1, but the git tagging and version-updating
+  In this mode, the version number will be presented as e.g. 1.2.3-beta.0, but the git tagging and version-updating
   steps are not triggered, so it's up to the developer to keep track of what was released and manipulate subsequent
   release and next versions appropriately.
   */
@@ -177,7 +181,7 @@ lazy val releaseProcessSteps: Seq[ReleaseStep] = {
   // remember to set with sbt -DRELEASE_TYPE=snapshot|candidate if running a non-prod release
   commonSteps ++ (sys.props.get("RELEASE_TYPE") match {
     case Some(v) if v == snapshotReleaseType => snapshotSteps // this deploys -SNAPSHOT build to sonatype snapshot repo only
-    case Some(v) if v == candidateReleaseType => candidateSteps // this enables a release candidate build to sonatype and Maven
+    case Some(v) if v == betaReleaseType => candidateSteps // this enables a beta build to sonatype and Maven
     case None => prodSteps  // our normal deploy route
   })
 
@@ -232,7 +236,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     Compile / scroogePublishThrift := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
-      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
@@ -248,9 +252,15 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
   .settings(
     description := "Json parser for the Guardian's Content API models",
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-      "com.google.guava" % "guava" % "19.0" % "test"
-    ) ++ customDeps(scalaVersion.value),
+      "com.gu" %% "fezziwig" % fezziwigVersion,
+      "io.circe" %% "circe-core" % circeVersion,
+      "io.circe" %% "circe-generic" % circeVersion,
+      "io.circe" %% "circe-parser" % circeVersion,
+      "io.circe" %% "circe-optics" % circeVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+      "com.google.guava" % "guava" % guavaVersion % "test",
+      "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
+    ),
     Compile / packageDoc / mappings := Nil
   )
 
@@ -264,19 +274,27 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
     publishArtifact := false
   )
 
+lazy val npmBetaReleaseTagMaybe =
+  sys.props.get("RELEASE_TYPE").map {
+    case v if v == betaReleaseType =>
+      // Why hard-code "beta" instead of using the value of the variable? That's to ensure it's always presented as
+      // --tag beta to the npm release process provided by the ScroogeTypescriptGen plugin regardless of how we identify
+      // a beta release here
+      scroogeTypescriptPublishTag := "beta"
+  }.toSeq
+
 lazy val typescript = (project in file("ts"))
   .enablePlugins(ScroogeTypescriptGen)
   .settings(commonSettings)
+  .settings(npmBetaReleaseTagMaybe)
   .settings(
     name := "content-api-models-typescript",
     scroogeTypescriptNpmPackageName := "@guardian/content-api-models",
     Compile / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     Test / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     description := "Typescript library built from the content api thrift definitions",
-
     Compile / scroogeLanguages := Seq("typescript"),
     Compile / scroogeThriftSourceFolder  := baseDirectory.value / "../models/src/main/thrift",
-
     scroogeTypescriptPackageLicense := "Apache-2.0",
     Compile / scroogeThriftDependencies  ++= Seq(
       "content-entity-thrift",
@@ -290,7 +308,7 @@ lazy val typescript = (project in file("ts"))
     ),
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
-      "com.twitter" %% "scrooge-core" % "20.4.1",
+      "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
