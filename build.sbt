@@ -281,6 +281,9 @@ lazy val npmBetaReleaseTagMaybe =
       // --tag beta to the npm release process provided by the ScroogeTypescriptGen plugin regardless of how we identify
       // a beta release here
       scroogeTypescriptPublishTag := "beta"
+
+    case v if v == snapshotReleaseType =>
+      scroogeTypescriptPublishTag := "snapshot"
   }.toSeq
 
 lazy val typescript = (project in file("ts"))
