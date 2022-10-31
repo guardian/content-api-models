@@ -795,7 +795,7 @@ struct CalloutElementFields {
 
   1: optional string campaignId
 
-  2: optional string isNonCollapsible
+  2: optional bool isNonCollapsible
 
 }
 
