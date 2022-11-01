@@ -118,9 +118,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[ItemResponse]("item-content-with-atom-explainer.json")
   }
 
-  it should "round-trip an ItemResponse with blocks" in {
-    checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
-  }
+
 
   it should "round-trip an ItemResponse with a crossword" in {
     checkRoundTrip[ItemResponse]("item-content-with-crossword.json")
@@ -162,14 +160,39 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[EntitiesResponse]("entities.json")
   }
 
+  it should "round-trip an ItemResponse with blocks" in {
+    checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
+  }
+
   def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
                                   transformBeforeDecode: Json => Json = identity,
                                   transformAfterEncode: Json => Json = identity) = {
 
     val jsons: Option[(Json, Json)] = for {
-      jsonBefore <- parse(loadJson(jsonFileName)).toOption
-      transformedBefore <- jsonBefore.hcursor.downField("response").success.map(c => transformBeforeDecode(c.value))
-      decoded <- transformedBefore.as[T].toOption
+      jsonBefore <- {
+        val res = parse(loadJson(jsonFileName)).toOption
+//        if (jsonFileName == "item-content-with-blocks.json") {
+//          println("jsonBefore: ")
+//          println(res)
+//        }
+        res
+      }
+      transformedBefore <- {
+        val res = jsonBefore.hcursor.downField("response").success.map(c => transformBeforeDecode(c.value))
+//        if (jsonFileName == "item-content-with-blocks.json") {
+//          println("transformedBefore: ")
+//          println(res)
+//        }
+        res
+      }
+      decoded <- {
+        val res = transformedBefore.as[T]
+        if (jsonFileName == "item-content-with-blocks.json") {
+          println("decoded: ")
+          println(res)
+        }
+        res.toOption
+      }
       encoded: Json = decoded.asJson
       jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
     } yield (jsonBefore, jsonAfter)
