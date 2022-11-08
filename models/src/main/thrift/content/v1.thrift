@@ -140,6 +140,7 @@ enum ElementType {
      */
     VINE = 19
 
+    CALLOUT = 20
 
 }
 
@@ -790,6 +791,14 @@ struct CodeElementFields {
 
 }
 
+struct CalloutElementFields {
+
+  1: optional string campaignId
+
+  2: optional bool isNonCollapsible
+
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -840,6 +849,8 @@ struct BlockElement {
     21: optional EmbedTracking tracking
 
     22: optional CodeElementFields codeTypeData
+
+    23: optional CalloutElementFields calloutTypeData
 
 }
 
@@ -1519,6 +1530,8 @@ struct ContentStats {
     * The number of vines that exist in a piece of content.
     */
     14: required i32 vines
+
+    15: required i32 callouts
 }
 
 struct Debug {
