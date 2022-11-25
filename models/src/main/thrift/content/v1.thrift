@@ -432,6 +432,8 @@ struct TweetElementFields {
 //    8: optional i32 width
 
     9: optional string sourceDomain
+
+    10: optional bool isMandatory
 }
 
 struct AudioElementFields {
@@ -463,6 +465,8 @@ struct AudioElementFields {
 //    13: optional i32 width
 
     14: optional string sourceDomain
+
+    15: optional bool isMandatory
 }
 
 struct VideoElementFields {
@@ -506,6 +510,8 @@ struct VideoElementFields {
     19: optional string originalUrl
 
     20: optional string sourceDomain
+
+    21: optional bool isMandatory
 }
 
 struct ImageElementFields {
@@ -743,6 +749,8 @@ struct CommentElementFields {
 
     11: optional string role
 
+    12: optional bool isMandatory
+
 }
 
 struct VineElementFields {
@@ -780,6 +788,8 @@ struct ContentAtomElementFields {
   2: required string atomType
 
   3: optional string role
+
+  4: optional bool isMandatory
 
 }
 
