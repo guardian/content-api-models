@@ -1178,6 +1178,8 @@ struct ContentFields {
     50: optional bool showAffiliateLinks
 
     51: optional string bylineHtml
+
+    52: optional bool showTableOfContents
 }
 
 struct Reference {
