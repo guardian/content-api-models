@@ -807,6 +807,12 @@ struct CalloutElementFields {
 
   2: optional bool isNonCollapsible
 
+  3: optional string overridePrompt
+
+  4: optional string overrideTitle
+
+  5: optional string overrideDescription
+
 }
 
 struct BlockElement {
