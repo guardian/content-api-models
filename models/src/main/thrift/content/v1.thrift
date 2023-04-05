@@ -1235,6 +1235,8 @@ struct Podcast {
     10: optional string spotifyUrl
 
     11: optional string acastId
+
+    12: optional string pocketCastsUrl
 }
 
 struct Tag {
@@ -1570,6 +1572,22 @@ struct AliasPath {
     2: required CapiDateTime ceasedToBeCanonicalAt
 }
 
+struct ChannelFields {
+
+    1: required bool isAvailable
+
+    2: optional CapiDateTime publicationDate
+
+}
+
+struct ContentChannel {
+
+    1: required string channelId
+
+    2: required ChannelFields fields
+
+}
+
 struct Content {
 
     /*
@@ -1705,6 +1723,12 @@ struct Content {
     //26: optional list<string> aliasPaths
 
     27: optional list<AliasPath> aliasPaths
+
+    /*
+    * Identifies which channel(s) this content is available in
+    */
+    28: optional list<ContentChannel> channels
+
 }
 
 struct NetworkFront {
