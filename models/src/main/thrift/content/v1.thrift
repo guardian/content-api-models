@@ -375,6 +375,8 @@ struct AssetFields {
   67: optional CapiDateTime end
 
   68: optional bool safeEmbedCode
+
+  69: optional bool isMandatory
 }
 
 struct Asset {
