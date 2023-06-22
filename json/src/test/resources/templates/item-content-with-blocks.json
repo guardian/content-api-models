@@ -24,7 +24,8 @@
         "comments":0,
         "instagram":0,
         "vines":0,
-        "callouts":0
+        "callouts":0,
+        "cartoons": 1
       },
       "blocks": {
         "main": {
@@ -146,6 +147,32 @@
                   "imageType":"Photograph"
                 },
                 "type": "image"
+              },
+              {
+                "assets": [],
+                "cartoonTypeData": {
+                  "variants": [
+                    {
+                      "viewportSize": "large",
+                      "images": [
+                        {
+                          "mimeType": "image/jpeg",
+                          "file": "https://api.media.test.dev-gutools.co.uk/images/75a4d4caaadaaf021c2dc6d4890b1524ef80b017",
+                          "width": 4129,
+                          "height": 1254,
+                          "mediaId": "75a4d4caaadaaf021c2dc6d4890b1524ef80b017"
+                        }
+                      ]
+                    }
+                  ],
+                  "role": "showcase",
+                  "credit":"Simone Lia",
+                  "caption": "The Mary Poppins Method",
+                  "alt": "The Mary Poppins Method",
+                  "source": "The Observer",
+                  "displayCredit": true
+                },
+                "type": "cartoon"
               }
           ]
         }, {
