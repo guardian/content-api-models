@@ -377,6 +377,8 @@ struct AssetFields {
   68: optional bool safeEmbedCode
 
   69: optional bool isMandatory
+
+  70: optional string category
 }
 
 struct Asset {
