@@ -381,7 +381,7 @@ struct AssetFields {
 
   69: optional bool isMandatory
 
-  70: optional list<CartoonVariant> variants
+  70: optional list<CartoonVariant> cartoonVariants
 }
 
 struct Asset {
