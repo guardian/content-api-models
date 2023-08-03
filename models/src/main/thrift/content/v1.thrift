@@ -1601,7 +1601,10 @@ struct ContentStats {
 
     15: required i32 callouts
 
-    16: required i32 cartoons
+    /*
+    * TODO: add cartoons stat when ready for final release
+    * 16: required i32 cartoons
+    */
 }
 
 struct Debug {
