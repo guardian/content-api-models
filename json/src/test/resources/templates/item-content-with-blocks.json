@@ -165,11 +165,13 @@
                     }
                   ],
                   "role": "showcase",
-                  "credit":"Simone Lia",
+                  "photographer":"Simone Lia",
                   "caption": "The Mary Poppins Method",
                   "alt": "The Mary Poppins Method",
                   "source": "The Observer",
-                  "displayCredit": true
+                  "displayCredit": true,
+                  "imageType": "Illustration",
+                  "credit": "Illustration: Simone Lia/The Observer"
                 },
                 "type": "cartoon"
               }

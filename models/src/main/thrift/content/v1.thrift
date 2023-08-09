@@ -838,6 +838,9 @@ struct CartoonElementFields {
 
     7: optional bool displayCredit;
 
+    8: optional string photographer;
+
+    9: optional string imageType;
 }
 
 struct CartoonVariant {
