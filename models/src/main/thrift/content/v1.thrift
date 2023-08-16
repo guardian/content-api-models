@@ -142,6 +142,8 @@ enum ElementType {
 
     CALLOUT = 20
 
+    CARTOON = 21
+
 }
 
 enum TagType {
@@ -202,7 +204,8 @@ enum AssetType {
     VIDEO = 1,
     AUDIO = 2,
     EMBED = 3,
-    TWEET = 4
+    TWEET = 4,
+    CARTOON = 5
 }
 
 enum MembershipTier {
@@ -377,6 +380,8 @@ struct AssetFields {
   68: optional bool safeEmbedCode
 
   69: optional bool isMandatory
+
+  70: optional list<CartoonVariant> cartoonVariants
 }
 
 struct Asset {
@@ -817,6 +822,48 @@ struct CalloutElementFields {
 
 }
 
+struct CartoonElementFields {
+
+    1: optional list<CartoonVariant> variants;
+
+    2: optional string role;
+
+    3: optional string credit;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    6: optional string source;
+
+    7: optional bool displayCredit;
+
+    8: optional string photographer;
+
+    9: optional string imageType;
+}
+
+struct CartoonVariant {
+
+    1: required string viewportSize;
+
+    2: required list<CartoonImage> images;
+
+}
+
+struct CartoonImage {
+
+    1: required string mimeType;
+
+    2: required string file;
+
+    3: optional i32 width;
+
+    4: optional i32 height;
+
+    5: optional string mediaId;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -869,6 +916,8 @@ struct BlockElement {
     22: optional CodeElementFields codeTypeData
 
     23: optional CalloutElementFields calloutTypeData
+
+    24: optional CartoonElementFields cartoonTypeData
 
 }
 
@@ -1554,6 +1603,11 @@ struct ContentStats {
     14: required i32 vines
 
     15: required i32 callouts
+
+    /*
+    * TODO: add cartoons stat when ready for final release
+    * 16: required i32 cartoons
+    */
 }
 
 struct Debug {
