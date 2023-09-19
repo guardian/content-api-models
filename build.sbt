@@ -1,4 +1,5 @@
 import sbt.Keys._
+import sbt.{Test, Tests}
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
@@ -91,7 +92,9 @@ lazy val commonSettings = Seq(
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
-  resolvers += Resolver.sonatypeRepo("public")
+  resolvers ++= Resolver.sonatypeOssRepos("public"),
+  Test / testOptions +=
+    Tests.Argument(TestFrameworks.ScalaTest, "-u", s"test-results/scala-${scalaVersion.value}", "-o")
 ) ++ mavenSettings ++ versionSettingsMaybe
 
 /*
@@ -257,9 +260,9 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
-      "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
-      "com.google.guava" % "guava" % guavaVersion % "test",
-      "org.gnieh" %% "diffson-circe" % diffsonVersion % "test"
+      "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
+      "com.google.guava" % "guava" % guavaVersion % Test,
+      "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
     ),
     Compile / packageDoc / mappings := Nil
   )
