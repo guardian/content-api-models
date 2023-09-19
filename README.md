@@ -1,7 +1,8 @@
 # Content API Thrift models
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.gu/content-api-models)
-[![Build Status](https://travis-ci.org/guardian/content-api-models.svg?branch=master)](https://travis-ci.org/guardian/content-api-models)
+[![content-api-models-scala Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala)
+[![content-api-models-json Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json)
+[![CI](https://github.com/guardian/content-api-models/actions/workflows/ci.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/ci.yml)
 
 ## Version Info
 
