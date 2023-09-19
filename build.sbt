@@ -3,6 +3,9 @@ import sbt.{Test, Tests}
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.{Version, versionFormatError}
 
+ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / versionPolicyIntention := Compatibility.BinaryAndSourceCompatible
+
 // dependency versions
 val contentEntityVersion = "2.2.1"
 val contentAtomVersion = "3.4.1"
