@@ -22,7 +22,7 @@ jobs:
           java-version: 11
           cache: sbt
       - name: Build and Test
-        run: sbt -v +test
+        run: sbt -v +test versionPolicyCheck
       - name: Test Summary
         uses: test-summary/action@v2
         with:
