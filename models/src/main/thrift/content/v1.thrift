@@ -144,6 +144,8 @@ enum ElementType {
 
     CARTOON = 21
 
+    RECIPE = 22
+
 }
 
 enum TagType {
@@ -808,6 +810,12 @@ struct CodeElementFields {
 
 }
 
+struct RecipeElementFields {
+
+  1: optional string src
+
+}
+
 struct CalloutElementFields {
 
   1: optional string campaignId
@@ -918,6 +926,8 @@ struct BlockElement {
     23: optional CalloutElementFields calloutTypeData
 
     24: optional CartoonElementFields cartoonTypeData
+
+    25: optional RecipeElementFields recipeTypeData
 
 }
 
