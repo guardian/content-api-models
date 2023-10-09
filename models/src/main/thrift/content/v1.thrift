@@ -144,6 +144,7 @@ enum ElementType {
 
     CARTOON = 21
 
+    RECIPE = 22
 }
 
 enum TagType {
@@ -864,6 +865,10 @@ struct CartoonImage {
     5: optional string mediaId;
 }
 
+struct RecipeElementFields {
+    1: optional string recipeJson;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -919,6 +924,7 @@ struct BlockElement {
 
     24: optional CartoonElementFields cartoonTypeData
 
+    25: optional RecipeElementFields recipeTypeData
 }
 
 struct MembershipPlaceholder {
