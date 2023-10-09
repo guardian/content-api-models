@@ -1,12 +1,16 @@
 name: Publish to Sonatype and NPM
 
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'jsh/release-via-gh-actions'
   release:
     types: [published]
 
 jobs:
   release_snapshot_sonatype:
-    if: "github.event.release.prerelease"
+    # if: "github.event.release.prerelease || github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +30,7 @@ jobs:
           BASE_VERSION=$(git describe --tags | cut -f2 -d"@")
 
           # Because NPM releases are not mutable, and it'd be difficult to generate a suffix for a beta-release,
-          # we must ask the user to supply the NPM version for pre-release.
+          # we must ask the user to supply the NPM-compatible version for pre-release.
           if [[ ! $BASE_VERSION =~ (alpha|beta) ]] ; then
             echo "Received $BASE_VERSION, but for pre-release, the version number must be an npm-compatible alpha or beta release - please label preleases in an npm-compatible format, e.g. 17.7.0-alpha.0, 20.25.1-beta.5"
             exit 1
@@ -52,7 +56,7 @@ jobs:
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
 
   release_production_sonatype:
-    if: "! github.event.release.prerelease"
+    if: "github.event.release.prerelease"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -66,7 +70,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
-          cache: npm
       - name: Release Production to Sonatype
         run: |
           VERSION=$(git describe --tags | cut -f2 -d"@")
