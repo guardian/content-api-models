@@ -50,12 +50,13 @@ jobs:
           echo $PGP_SECRET | base64 --decode | gpg --batch --import
           export GPG_TTY=$(tty)
           echo "Releasing version $BASE_VERSION as pre-release to Sonatype as $SONATYPE_VERSION and NPM as $BASE_VERSION"
-          yes | sbt -DRELEASE_TYPE=snapshot \"clean\" \"release cross release-version $SONATYPE_VERSION with-defaults\" \"typescript/releaseNpm $NPM_VERSION\"
+          yes | sbt -DRELEASE_TYPE=snapshot "clean; release cross release-version $SONATYPE_VERSION with-defaults; typescript/releaseNpm $NPM_VERSION"
         env:
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   release_production_sonatype:
     if: "github.event.release.prerelease"
