@@ -43,7 +43,8 @@ jobs:
 
           # No need to support NPM releases – there's no direct analogue to a SNAPSHOT release.
           # Beta releases are classed as 'production' releases.
-          yes | sbt -DRELEASE_TYPE=snapshot "clean; release cross release-version $VERSION with-defaults"
+          sbt -J-Xss32M -DRELEASE_TYPE=snapshot "clean" "release cross release-version $VERSION with-defaults"
+
         env:
           # We use armour formatted files for keys, but we know the newlines they contain don't survive
           # passing through environment vars, so this secret should be an armour-formatted PGP key passed
