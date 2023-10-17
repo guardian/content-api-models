@@ -10,7 +10,7 @@ on:
 
 jobs:
   release_snapshot_sonatype:
-    # if: "github.event.release.prerelease"
+    if: "github.event.release.prerelease"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
   release_production_sonatype:
-    if: "github.event.release.prerelease"
+    # if: "github.event.release.prerelease"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -68,9 +68,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
       - name: Release Production to Sonatype
         run: |
-          VERSION=$(git describe --tags | cut -f2 -d"@")
+          VERSION=17.7.0-beta.1
           if [[ ${VERSION:0:1} == "v" ]] ; then
             VERSION=${VERSION:1}
           fi
@@ -83,10 +84,10 @@ jobs:
           echo $PGP_SECRET | base64 --decode | gpg --batch --import
           export GPG_TTY=$(tty)
           echo "Releasing version $VERSION Sonatype as production"
-          yes | sbt -DRELEASE_TYPE=production "clean" "release cross release-version $VERSION with-defaults" "typescript/releaseNpm $VERSION"
+          sbt -J-Xss32M -DRELEASE_TYPE=snapshot "clean" "release cross release-version $VERSION with-defaults" "project typescript" "releaseNpm $VERSION"
         env:
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
