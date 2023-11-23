@@ -5,7 +5,7 @@ import sbtrelease.{Version, versionFormatError}
 
 // dependency versions
 val contentEntityVersion = "2.2.1"
-val contentAtomVersion = "3.4.2"
+val contentAtomVersion = "4.0.0"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
