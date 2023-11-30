@@ -126,68 +126,42 @@ lazy val checkReleaseType: ReleaseStep = ReleaseStep({ st: State =>
 })
 
 lazy val releaseProcessSteps: Seq[ReleaseStep] = {
-  val commonSteps = Seq(
-    checkReleaseType,
+  val commonSteps:Seq[ReleaseStep] = Seq(
     checkSnapshotDependencies,
     inquireVersions,
     runClean,
-    runTest
+    runTest,
+    setReleaseVersion,
   )
 
-  val prodSteps: Seq[ReleaseStep] = Seq(
-    setReleaseVersion,
+  val localExtraSteps:Seq[ReleaseStep] = Seq(
     commitReleaseVersion,
     tagRelease,
-    releaseStepCommandAndRemaining("+publishSigned"),
-    releaseStepCommand("sonatypeBundleRelease"),
+    publishArtifacts,
     setNextVersion,
-    commitNextVersion,
-    pushChanges
+    commitNextVersion
   )
 
-  /*
-  SNAPSHOT versions are published directly to Sonatype snapshot repo and no local bundle is assembled
-  Also, we cannot use `sonatypeBundleUpload` or `sonatypeRelease` commands which are usually wrapped up
-  within a call to `sonatypeBundleRelease` (https://github.com/xerial/sbt-sonatype#publishing-your-artifact).
+  val snapshotSteps:Seq[ReleaseStep] = Seq(
+    publishArtifacts,
+    releaseStepCommand("sonatypeReleaseAll")
+  )
 
-  Therefore SNAPSHOT versions are not promoted to Maven Central and clients will have to ensure they have the
-  appropriate resolver entry in their build.sbt, e.g.
-
-  resolvers += Resolver.sonatypeRepo("snapshots")
-
-  */
-  val snapshotSteps: Seq[ReleaseStep] = Seq(
-    setReleaseVersion,
+  val prodSteps:Seq[ReleaseStep] = Seq(
     releaseStepCommandAndRemaining("+publishSigned"),
-    setNextVersion
+    releaseStepCommand("sonatypeBundleRelease")
   )
 
-  /*
-  Beta assemblies can be published to Sonatype and Maven.
-
-  To make this work, start SBT with the candidate releaseType;
-    sbt -DRELEASE_TYPE=beta
-
-  This gets around the "problem" of sbt-sonatype assuming that a -SNAPSHOT build should not be delivered to Maven.
-
-  In this mode, the version number will be presented as e.g. 1.2.3-beta.0, but the git tagging and version-updating
-  steps are not triggered, so it's up to the developer to keep track of what was released and manipulate subsequent
-  release and next versions appropriately.
-  */
-  val candidateSteps: Seq[ReleaseStep] = Seq(
-    setReleaseVersion,
-    releaseStepCommandAndRemaining("+publishSigned"),
-    releaseStepCommand("sonatypeBundleRelease"),
-    setNextVersion
+  val localPostRelease:Seq[ReleaseStep]  = Seq(
+    pushChanges,
   )
 
-  // remember to set with sbt -DRELEASE_TYPE=snapshot|candidate if running a non-prod release
-  commonSteps ++ (sys.props.get("RELEASE_TYPE") match {
-    case Some(v) if v == snapshotReleaseType => snapshotSteps // this deploys -SNAPSHOT build to sonatype snapshot repo only
-    case Some(v) if v == betaReleaseType => candidateSteps // this enables a beta build to sonatype and Maven
-    case None => prodSteps  // our normal deploy route
-  })
-
+  (sys.props.get("RELEASE_TYPE"), sys.env.get("CI")) match {
+    case (Some(v), None) if v == snapshotReleaseType => commonSteps ++ localExtraSteps ++ snapshotSteps ++ localPostRelease
+    case (_, None) => commonSteps ++ localExtraSteps ++ prodSteps ++ localPostRelease
+    case (Some(v), _) if v == snapshotReleaseType => commonSteps ++ snapshotSteps
+    case (_, _)=> commonSteps ++ prodSteps
+  }
 }
 
 /**

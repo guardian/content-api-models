@@ -9,51 +9,20 @@
 ### 17.0.0 
 * This release imports the `sbt-scrooge-typescript 1.4.0` sbt plugin which has the potential to introduce some [breaking changes](https://github.com/apache/thrift/blob/master/CHANGES.md#breaking-changes-2) for generated typescript mappings via thrift 0.13.0, specifically related to the [handling of `Int64`](https://issues.apache.org/jira/browse/THRIFT-4675) data.
 
-## Releasing
+# Publishing a new release
 
-Ensure the version is composed of three parts (`1.2.3`) as NPM doesn't accept shorter versions such as `1.2`.
+This repository has a Github Action that will create new releases for Sonatype and NPM when a new release is created in Github.
 
-The `release cross` command will publish to [Maven Central](http://search.maven.org/) via Sonatype. You will need Sonatype credentials and a PGP key. It can take up to 2hrs to show up in search.
+- Push the branch with the changes you want to release to Github.
+- Begin creating a new release (here's a [quick link.](https://github.com/guardian/flexible-model/releases/new))
+- Set the `Target` to your branch.
+- Create a tag:
+- - For a production release, the tag should be the new version number, e.g. `vX.X.X`. Beta releases are production releases – for example `v1.0.0-beta.0`.
+- - For a snapshot release, the tag should ideally have the format `vX.X.X-SNAPSHOT`.
+- **If you are intending to release a snapshot,** double-check that the "Set as pre-release" box is ticked.
+- Click the "Publish release" button. The action will trigger, and your release should be on its way.
 
-`release NPM` will release the typescript package to NPM. Ensure you have an NPM account, part of the [@guardian](https://www.npmjs.com/org/guardian) org with a [configured token](https://docs.npmjs.com/creating-and-viewing-authentication-tokens)
-
-To release, in the SBT repl:
-```sbtshell
-release cross // will release the scala / thrift projects
-project typescript
-releaseNpm <version> // you have to specify the version again i.e releaseNpm 1.0.0
-```
-
-If you see the message `Cannot run program "tsc"` you will need to install TypeScript:
-```
-npm install -g typescript
-```
-
-It is worth noting that different teams follow different practices for model releases. In CAPI, we always release from master/main, so when you are happy with your local release, you can go ahead and make your PR. Once that is merged into main, you can publish your release to Maven. Two consecutive commits will automatically be made to master/main updating the next version number.
-
-### Releasing SNAPSHOT or beta versions
-
-It's also possible to release a snapshot build to Sonatype's snapshot repo with no promotion to Maven Central. This can be useful for trialling a test or upgraded dependency internally.
-
-To do this, start sbt with a RELEASE_TYPE variable;
-
-`sbt -DRELEASE_TYPE=snapshot`
-
-Then, when you run `release cross`, you'll be asked to confirm that you intend to make a SNAPSHOT release, and if you proceed will be prompted to complete the snapshot version details. Whatever you specify here will be written back to the `version.sbt` but this won't be automatically committed back to github.
-
-You are able to re-release the same snapshot version repeatedly (which is handy if you're having GPG-related issues etc.)
-
-Making a beta release is also possible by using the appropriate RELEASE_TYPE variable;
-
-`sbt -DRELEASE_TYPE=beta`
-
-Here, the main differences are that the version number is expected to be of the format 1.2.3-beta.n, and the release will be promoted to Maven Central. 
-
-As with the snapshot release process you'll be prompted to confirm and specify the version number you need to use, and changes applied to `version.sbt` will not be automatically committed to github etc.
-
-Unlike a production release, these alternatives are useful for testing/developing with another team or application and can be executed from a branch so there's no need to have everything merged into main/master branches prior to making your changes available.
-
-**Note:** `releaseNpm` (provided by our sbt-scrooge-typescript plugin) has been updated to apply a beta tag to the release, just be sure to use the `x.y.z-beta.n` version number format or NPM may reject it.
+To release a package from your local machine, follow the instructions for [publishing a new version to Maven Central via Sonatype](https://docs.google.com/document/d/1rNXjoZDqZMsQblOVXPAIIOMWuwUKe3KzTCttuqS7AcY/edit#).
 
 ## Information about built bundles
 
