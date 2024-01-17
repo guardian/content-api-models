@@ -897,19 +897,8 @@ struct ListElementFields {
 
     3: optional string displayHint;
 
-    4: optional string caption;
+    4: optional list<ListItem> items;
 
-    5: optional string alt;
-
-    6: optional string source;
-
-    7: optional bool displayCredit;
-
-    8: optional string photographer;
-
-    9: optional string imageType;
-
-    10: foo BlockElement
 }
 
 struct BlockElement {
