@@ -145,6 +145,8 @@ enum ElementType {
     CARTOON = 21
 
     RECIPE = 22
+
+    LIST = 23
 }
 
 enum TagType {
@@ -869,6 +871,47 @@ struct RecipeElementFields {
     1: optional string recipeJson;
 }
 
+enum EnumerationType {
+    NONE = 0,
+    NUMBERED = 1,
+    ALPHABETICAL = 2,
+}
+
+struct ListItem {
+    1: optional string title;
+
+    2: optional CapiDateTime: date; // will probably use a different type to CapiDateTime
+
+    3: optional list<BlockElement> elements = [];
+
+    4: optional string byline;
+
+    5: required list<Tag> contributors = []
+}
+
+struct ListElementFields {
+
+    1: optional EnumerationType enumerationType;
+
+    2: optional bool reverseOrder;
+
+    3: optional string displayHint;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    6: optional string source;
+
+    7: optional bool displayCredit;
+
+    8: optional string photographer;
+
+    9: optional string imageType;
+
+    10: foo BlockElement
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -925,6 +968,8 @@ struct BlockElement {
     24: optional CartoonElementFields cartoonTypeData
 
     25: optional RecipeElementFields recipeTypeData
+
+    26: optional ListElementFields listTypeData
 }
 
 struct MembershipPlaceholder {
