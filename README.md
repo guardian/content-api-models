@@ -3,6 +3,7 @@
 [![content-api-models-scala Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala)
 [![content-api-models-json Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json)
 [![CI](https://github.com/guardian/content-api-models/actions/workflows/ci.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/ci.yml)
+[![Release](https://github.com/guardian/content-api-models/actions/workflows/release.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/release.yml)
 
 ## Version Info
 
@@ -11,18 +12,10 @@
 
 # Publishing a new release
 
-This repository has a Github Action that will create new releases for Sonatype and NPM when a new release is created in Github.
+This repo uses [`gha-scala-library-release-workflow`](https://github.com/guardian/gha-scala-library-release-workflow)
+to automate publishing releases (both full & preview releases) - see
+[**Making a Release**](https://github.com/guardian/gha-scala-library-release-workflow/blob/main/docs/making-a-release.md).
 
-- Push the branch with the changes you want to release to Github.
-- Begin creating a new release (here's a [quick link.](https://github.com/guardian/flexible-model/releases/new))
-- Set the `Target` to your branch.
-- Create a tag:
-- - For a production release, the tag should be the new version number, e.g. `vX.X.X`. Beta releases are production releases – for example `v1.0.0-beta.0`.
-- - For a snapshot release, the tag should ideally have the format `vX.X.X-SNAPSHOT`.
-- **If you are intending to release a snapshot,** double-check that the "Set as pre-release" box is ticked.
-- Click the "Publish release" button. The action will trigger, and your release should be on its way.
-
-To release a package from your local machine, follow the instructions for [publishing a new version to Maven Central via Sonatype](https://docs.google.com/document/d/1rNXjoZDqZMsQblOVXPAIIOMWuwUKe3KzTCttuqS7AcY/edit#).
 
 ## Information about built bundles
 
