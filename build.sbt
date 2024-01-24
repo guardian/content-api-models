@@ -135,9 +135,14 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
     publishArtifact := false
   )
 
+lazy val npmPreviewReleaseTagMaybe = if (sys.env.get("RELEASE_TYPE").contains("PREVIEW_FEATURE_BRANCH")) {
+  Seq(scroogeTypescriptPublishTag := "preview")
+} else Seq.empty
+
 lazy val typescript = (project in file("ts"))
   .enablePlugins(ScroogeTypescriptGen)
   .settings(artifactProductionSettings)
+  .settings(npmPreviewReleaseTagMaybe)
   .settings(
     name := "content-api-models-typescript",
     scroogeTypescriptNpmPackageName := "@guardian/content-api-models",
