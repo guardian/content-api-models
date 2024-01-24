@@ -1,6 +1,6 @@
-import sbt.Keys._
+import sbt.Keys.*
 import sbt.{Test, Tests}
-import sbtrelease.ReleaseStateTransformations._
+import sbtrelease.ReleaseStateTransformations.*
 import sbtrelease.{Version, versionFormatError}
 
 // dependency versions
@@ -83,12 +83,12 @@ lazy val versionSettingsMaybe = {
 }
 
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.2",
+  scalaVersion := "2.13.12",
   // downgrade scrooge reserved word clashes to warnings
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
   // https://twitter.github.io/scrooge/changelog.html#id11
-  crossScalaVersions := Seq("2.12.11", scalaVersion.value),
+  crossScalaVersions := Seq("2.12.18", scalaVersion.value),
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
