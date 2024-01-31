@@ -871,34 +871,24 @@ struct RecipeElementFields {
     1: optional string recipeJson;
 }
 
-enum EnumerationType {
-    NONE = 0,
-    NUMBERED = 1,
-    ALPHABETICAL = 2,
+enum ListType {
+    KEY_TAKEAWAYS = 1,
+    Q_AND_A_EXPLAINER = 2,
 }
 
 struct ListItem {
-    1: optional string title;
 
-    2: optional CapiDateTime: date; // will probably use a different type to CapiDateTime
+    1: required list<BlockElement> elements = [];
 
-    3: optional list<BlockElement> elements = [];
+    2: optional string title;
 
-    4: optional string byline;
-
-    5: required list<Tag> contributors = []
 }
 
 struct ListElementFields {
 
-    1: optional EnumerationType enumerationType;
-
-    2: optional bool reverseOrder;
-
-    3: optional string displayHint;
-
-    4: optional list<ListItem> items;
-
+    1: required list<ListItem> items;
+    
+    2: optional ListType type;
 }
 
 struct BlockElement {
