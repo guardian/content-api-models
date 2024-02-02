@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - integrate-snyk-scala
   workflow_dispatch: 
 jobs:
   security:
