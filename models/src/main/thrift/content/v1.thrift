@@ -220,6 +220,12 @@ enum SponsorshipType {
     PAID_CONTENT = 2
 }
 
+enum SponsorshipPackage {
+    DEFAULT = 0,
+    US = 1,
+    US_EXCLUSIVE = 2
+}
+
 enum EmbedTracksType {
     UNKNOWN = 0,
     TRACKS = 1,
@@ -656,6 +662,7 @@ struct Sponsorship {
 
     11: optional CapiDateTime validTo
 
+    12: optional SponsorshipPackage sponsorshipPackage
 }
 
 struct RichLinkElementFields {
