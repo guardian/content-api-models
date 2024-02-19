@@ -1,6 +1,7 @@
 include "story_package_article.thrift"
 include "contentatom.thrift"
 include "entity.thrift"
+include "schemaorg.thrift"
 
 namespace scala com.gu.contentapi.client.model.v1
 #@namespace typescript _at_guardian.content_api_models.v1
@@ -1683,6 +1684,10 @@ struct ContentChannel {
 
 }
 
+struct SchemaOrg {
+    1: optional list<schemaorg.SchemaRecipe> recipe
+}
+
 struct Content {
 
     /*
@@ -1824,6 +1829,10 @@ struct Content {
     */
     28: optional list<ContentChannel> channels
 
+    /*
+    * Schema.org compatible data
+     */
+    29: optional SchemaOrg schemaOrg
 }
 
 struct NetworkFront {
