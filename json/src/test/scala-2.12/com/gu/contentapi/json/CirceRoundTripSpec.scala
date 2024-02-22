@@ -67,6 +67,10 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     tagTypeAfter should equal(tagTypeBefore)
   }
 
+  it should "serialize a US Exclusive sponsorship package as a snake-case string" in {
+    SponsorshipPackage.UsExclusive.asJson should be(Json.fromString("us-exclusive"))
+  }
+
   it should "serialize an Office to an uppercase JString" in {
     Office.Uk.asJson should be(Json.fromString("UK"))
   }
