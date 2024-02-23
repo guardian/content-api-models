@@ -30,24 +30,6 @@ object CirceEncoders {
 
   implicit def officeEncoder[A <: Office]: Encoder[A] = Encoder[String].contramap(o => o.name.toUpperCase)
 
-  /**
-    * We need special encoders for things with Maps, probably because of implicit divergence.
-    * TODO - surely there's a way to avoid doing this?!
-    */
-  implicit val blockMapEncoder: Encoder[scala.collection.Map[String,Seq[Block]]] = Encoder.instance[scala.collection.Map[String,Seq[Block]]] { m =>
-    val fields = m.toList.map {
-      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
-    }
-    Json.fromFields(fields)
-  }
-
-  implicit val separatorLocationsEncoder: Encoder[scala.collection.Map[String,Seq[Int]]] = Encoder.instance[scala.collection.Map[String,Seq[Int]]] { s =>
-    val fields = s.toList.map {
-      case (k, v) => k -> Json.fromValues(v.map(_.asJson))
-    }
-    Json.fromFields(fields)
-  }
-
   implicit val dateTimeEncoder: Encoder[CapiDateTime] = genDateTimeEncoder()
   implicit val debugEncoder: Encoder[Debug] = Encoder.instance { d =>
     Json.fromJsonObject(
