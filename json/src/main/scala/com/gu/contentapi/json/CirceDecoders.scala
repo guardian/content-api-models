@@ -94,8 +94,6 @@ object CirceDecoders {
     }
   }
 
-  // The following implicits technically shouldn't be necessary
-  // but stuff doesn't compile without them
   implicit val contentFieldsDecoder: Decoder[ContentFields] = deriveDecoder
   implicit val editionDecoder: Decoder[Edition] = deriveDecoder
   implicit val sponsorshipDecoder: Decoder[Sponsorship] = deriveDecoder
@@ -140,9 +138,9 @@ object CirceDecoders {
   implicit val blockAttributesDecoder: Decoder[BlockAttributes] = deriveDecoder
   implicit val membershipPlaceholderDecoder: Decoder[MembershipPlaceholder] = deriveDecoder
   implicit val userDecoder: Decoder[User] = deriveDecoder
-  implicit val blocksDecoder: Decoder[Blocks] = genBlocksDecoder
+  implicit val blocksDecoder: Decoder[Blocks] = deriveDecoder
   implicit val rightsDecoder: Decoder[Rights] = deriveDecoder
-  implicit val crosswordEntryDecoder: Decoder[CrosswordEntry] = genCrosswordEntryDecoder
+  implicit val crosswordEntryDecoder: Decoder[CrosswordEntry] = deriveDecoder
   implicit val crosswordPositionDecoder: Decoder[CrosswordPosition] = deriveDecoder
   implicit val crosswordDecoder: Decoder[Crossword] = deriveDecoder
   implicit val crosswordDimensionsDecoder: Decoder[CrosswordDimensions] = deriveDecoder
@@ -234,45 +232,4 @@ object CirceDecoders {
   implicit val entitiesResponseDecoder: Decoder[EntitiesResponse] = deriveDecoder
   implicit val pillarsResponseDecoder: Decoder[PillarsResponse] = deriveDecoder
   implicit val embedReachDecoder: Decoder[EmbedReach] = deriveDecoder
-
-  // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
-  // although shapeless's Lazy is supposed to work around that.
-
-  def genBlocksDecoder(implicit blockDecoder: Decoder[Block]): Decoder[Blocks] = Decoder.instance[Blocks] { cursor =>
-    for {
-      main <- cursor.get[Option[Block]]("main")
-      body <- cursor.get[Option[Seq[Block]]]("body")
-      totalBodyBlocks <- cursor.get[Option[Int]]("totalBodyBlocks")
-      requestedBodyBlocks <- cursor.get[Option[Map[String, Seq[Block]]]]("requestedBodyBlocks")
-    } yield Blocks(main, body, totalBodyBlocks, requestedBodyBlocks)
-  }
-
-  def genCrosswordEntryDecoder(implicit dec: Decoder[Option[Map[String,Seq[Int]]]]): Decoder[CrosswordEntry] = Decoder.instance[CrosswordEntry] { cursor =>
-    for {
-      id <- cursor.get[String]("id")
-      number <- cursor.get[Option[Int]]("number")
-      humanNumber <- cursor.get[Option[String]]("humanNumber")
-      direction <- cursor.get[Option[String]]("direction")
-      position <- cursor.get[Option[CrosswordPosition]]("position")
-      separatorLocations <- cursor.get[Option[Map[String, Seq[Int]]]]("separatorLocations")
-      length <- cursor.get[Option[Int]]("length")
-      clue <- cursor.get[Option[String]]("clue")
-      group <- cursor.get[Option[Seq[String]]]("group")
-      solution <- cursor.get[Option[String]]("solution")
-      format <- cursor.get[Option[String]]("format")
-    } yield CrosswordEntry(
-      id,
-      number,
-      humanNumber,
-      direction,
-      position,
-      separatorLocations,
-      length,
-      clue,
-      group,
-      solution,
-      format
-    )
-  }
-
 }
