@@ -9,7 +9,6 @@ import com.twitter.scrooge.ThriftEnum
 import io.circe._
 import io.circe.generic.semiauto._
 import io.circe.syntax._
-import com.gu.fezziwig.CirceScroogeMacros._
 import com.gu.fezziwig.CirceScroogeWhiteboxMacros._
 import com.gu.storypackage.model.{v1 => storypackage}
 import java.time.OffsetDateTime
@@ -26,7 +25,7 @@ object CirceEncoders {
   private def pascalCaseToHyphenated(s: String): String =
     LowerCaseFollowedByUpperCase.replaceAllIn(s, m => m.group(1) + "-" + m.group(2)).toLowerCase
 
-  // implicit def thriftEnumEncoder[T <: ThriftEnum]: Encoder[T] = Encoder[String].contramap(t => pascalCaseToHyphenated(t.name))
+  implicit def thriftEnumEncoder[T <: ThriftEnum]: Encoder[T] = Encoder[String].contramap(t => pascalCaseToHyphenated(t.name))
 
   implicit def officeEncoder[A <: Office]: Encoder[A] = Encoder[String].contramap(o => o.name.toUpperCase)
 
