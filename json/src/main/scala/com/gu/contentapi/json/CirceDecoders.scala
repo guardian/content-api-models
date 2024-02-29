@@ -98,7 +98,7 @@ object CirceDecoders {
   implicit val assetDecoder = Decoder[Asset]
   implicit val elementDecoder = Decoder[Element]
   implicit val referenceDecoder = Decoder[Reference]
-  implicit val blockElementDecoder = Decoder[BlockElement]
+  implicit val blockElementDecoder: Decoder[BlockElement] = shapeless.cachedImplicit
   implicit val blockDecoder = Decoder[Block]
   implicit val blocksDecoder = genBlocksDecoder
   implicit val rightsDecoder = Decoder[Rights]

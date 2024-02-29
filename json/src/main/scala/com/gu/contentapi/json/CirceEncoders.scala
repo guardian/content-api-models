@@ -42,8 +42,9 @@ object CirceEncoders {
     Json.fromFields(fields)
   }
 
+  implicit val blockElementEncoder: Encoder[BlockElement] = shapeless.cachedImplicit
   implicit val networkFrontEncoder = Encoder[NetworkFront]
-  implicit val dateTimeEncoder = genDateTimeEncoder()
+  implicit val dateTimeEncoder: Encoder[CapiDateTime] = genDateTimeEncoder()
   implicit val contentFieldsEncoder = Encoder[ContentFields]
   implicit val editionEncoder = Encoder[Edition]
   implicit val sponsorshipEncoder = Encoder[Sponsorship]
