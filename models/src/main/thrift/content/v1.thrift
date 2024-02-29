@@ -193,7 +193,9 @@ enum CrosswordType {
 
     DIAN_QUIPTIC_CROSSWORD = 6,
 
-    WEEKEND = 7
+    WEEKEND = 7,
+
+    QUICK_CRYPTIC = 8
 }
 
 enum Office {
