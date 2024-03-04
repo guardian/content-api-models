@@ -29,14 +29,20 @@ The content-api-models project builds the following bundles:
 
 * [@guardian/content-api-models](https://www.npmjs.com/package/@guardian/content-api-models) - An npm package containing the generated models and their type definitions.
 
-
-
 ## Publishing locally 
 
 To publish a snapshot version locally.
 
 ```
 sbt +publishLocal
+```
+
+## Running tests
+
+To run tests for a specific Scala version:
+
+```
+sbt ++2.12.11 test
 ```
 
 
