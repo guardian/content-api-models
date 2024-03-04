@@ -50,11 +50,9 @@ object CirceEncoders {
   implicit val sponsorshipTargetingEncoder: Encoder[SponsorshipTargeting] = deriveEncoder
   implicit val sponsorshipLogoDimensionsEncoder: Encoder[SponsorshipLogoDimensions] = deriveEncoder
   implicit val tagEncoder: Encoder[Tag] = deriveEncoder
-  implicit val tagTypeEncoder: Encoder[TagType] = deriveEncoder
   implicit val podcastEncoder: Encoder[Podcast] = deriveEncoder
   implicit val podcastCategoryEncoder: Encoder[PodcastCategory] = deriveEncoder
   implicit val assetEncoder: Encoder[Asset] = deriveEncoder
-  implicit val assetTypeEncoder: Encoder[AssetType] = deriveEncoder
   implicit val assetFieldsEncoder: Encoder[AssetFields] = deriveEncoder
   implicit val cartoonVariantEncoder: Encoder[CartoonVariant] = deriveEncoder
   implicit val cartoonImageEncoder: Encoder[CartoonImage] = deriveEncoder
@@ -97,7 +95,6 @@ object CirceEncoders {
   implicit val crosswordCreatorEncoder: Encoder[CrosswordCreator] = deriveEncoder
   implicit val contentStatsEncoder: Encoder[ContentStats] = deriveEncoder
   implicit val sectionEncoder: Encoder[Section] = deriveEncoder
-  implicit val atomTypeEncoder: Encoder[contentatom.AtomType] = deriveEncoder
   implicit val atomDataEncoder: Encoder[contentatom.AtomData] = deriveEncoder
   implicit val quizAtomEncoder: Encoder[quiz.QuizAtom] = deriveEncoder
   implicit val quizContentEncoder: Encoder[quiz.QuizContent] = deriveEncoder
