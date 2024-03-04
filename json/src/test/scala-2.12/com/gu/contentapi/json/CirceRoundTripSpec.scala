@@ -7,7 +7,8 @@ import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion, encodeThriftStruct, encodeThriftUnion}
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
+import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructLabelledGeneric, thriftUnionLabelledGeneric}
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
@@ -166,20 +167,29 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[EntitiesResponse]("entities.json")
   }
 
-  def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
-                                  transformBeforeDecode: Json => Json = identity,
-                                  transformAfterEncode: Json => Json = identity) = {
-
-    val jsons: Option[(Json, Json)] = for {
-      jsonBefore <- parse(loadJson(jsonFileName)).toOption
-      transformedBefore <- jsonBefore.hcursor.downField("response").success.map(c => transformBeforeDecode(c.value))
-      decoded <- transformedBefore.as[T].toOption
+  def checkRoundTrip[T : Decoder : Encoder](
+    jsonFileName: String,
+    transformBeforeDecode: Json => Json = identity,
+    transformAfterEncode: Json => Json = identity
+  ) = {
+    val jsonBefore: Json = parse(loadJson(jsonFileName)).toOption.get
+    val transformedBefore: Json = jsonBefore.hcursor.downField("response").success.map(
+      c => transformBeforeDecode(c.value)
+    ).get
+    val jsons: Either[DecodingFailure, (Json, Json)] = for {
+      decoded <- transformedBefore.as[T]
       encoded: Json = decoded.asJson
-      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
+      jsonAfter: Json = Json.fromFields(
+        List("response" -> transformAfterEncode(encoded.deepDropNullValues))
+      )
     } yield (jsonBefore, jsonAfter)
-  
-    jsons should not be None
-    jsons.foreach(j => checkDiff(j._1, j._2))
+
+    jsons match {
+      case Left(e) => {
+        fail(s"Got error decoding: $e")
+      }
+      case Right((j1, j2)) => checkDiff(j1, j2)
+    }
   }
 
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
