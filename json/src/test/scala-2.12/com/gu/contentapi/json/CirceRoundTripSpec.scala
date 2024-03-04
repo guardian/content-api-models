@@ -7,7 +7,8 @@ import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion, encodeThriftStruct, encodeThriftUnion}
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
+import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructLabelledGeneric, thriftUnionLabelledGeneric}
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
@@ -32,31 +33,31 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
       } yield refs
     }
 
-    checkRoundTrip[TagsResponse]("tags-including-sponsored-tag.json", transformAfterEncode = removeReferences)
+    checkRoundTripSimple[TagsResponse]("tags-including-sponsored-tag.json", transformAfterEncode = removeReferences)
   }
 
   it should "round-trip a SectionsResponse" in {
-    checkRoundTrip[SectionsResponse]("sections.json")
+    checkRoundTripSimple[SectionsResponse]("sections.json")
   }
 
   it should "round-trip an EditionsResponse" in {
-    checkRoundTrip[EditionsResponse]("editions.json")
+    checkRoundTripSimple[EditionsResponse]("editions.json")
   }
 
   it should "round-trip an ErrorResponse" in {
-    checkRoundTrip[ErrorResponse]("error.json")
+    checkRoundTripSimple[ErrorResponse]("error.json")
   }
 
   it should "round-trip a VideoStatsResponse" in {
-    checkRoundTrip[VideoStatsResponse]("video-stats.json")
+    checkRoundTripSimple[VideoStatsResponse]("video-stats.json")
   }
 
   it should "round-trip an AtomUsageResponse" in {
-    checkRoundTrip[AtomUsageResponse]("atom-usage.json")
+    checkRoundTripSimple[AtomUsageResponse]("atom-usage.json")
   }
 
   it should "round-trip a content ItemResponse" in {
-    checkRoundTrip[ItemResponse]("item-content.json")
+    checkRoundTripSimple[ItemResponse]("item-content.json")
   }
 
   it should "round-trip a Thrift Enum with a complex name" in {
@@ -111,59 +112,59 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
   }
 
   it should "round-trip an ItemResponse with a quiz atom" in {
-    checkRoundTrip[ItemResponse]("item-content-with-atom-quiz.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-atom-quiz.json")
   }
 
   it should "round-trip an ItemResponse with a media atom" in {
-    checkRoundTrip[ItemResponse]("item-content-with-atom-media.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-atom-media.json")
   }
 
   it should "round-trip an ItemResponse with an explainer atom" in {
-    checkRoundTrip[ItemResponse]("item-content-with-atom-explainer.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-atom-explainer.json")
   }
 
   it should "round-trip an ItemResponse with blocks" in {
-    checkRoundTrip[ItemResponse]("item-content-with-blocks.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-blocks.json")
   }
 
   it should "round-trip an ItemResponse with a crossword" in {
-    checkRoundTrip[ItemResponse]("item-content-with-crossword.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-crossword.json")
   }
 
   it should "round-trip an ItemResponse with a membership element" in {
-    checkRoundTrip[ItemResponse]("item-content-with-membership-element.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-membership-element.json")
   }
 
   it should "round-trip an ItemResponse with packages" in {
-    checkRoundTrip[ItemResponse]("item-content-with-package.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-package.json")
   }
 
   it should "round-trip an ItemResponse with rich link element" in {
-    checkRoundTrip[ItemResponse]("item-content-with-rich-link-element.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-rich-link-element.json")
   }
 
   it should "round-trip an ItemResponse with tweets" in {
-    checkRoundTrip[ItemResponse]("item-content-with-tweets.json")
+    checkRoundTripSimple[ItemResponse]("item-content-with-tweets.json")
   }
 
   it should "round-trip an ItemResponse with section, edition, most-viewed, editors-picks" in {
-    checkRoundTrip[ItemResponse]("item-section.json")
+    checkRoundTripSimple[ItemResponse]("item-section.json")
   }
 
   it should "round-trip an ItemResponse with tags" in {
-    checkRoundTrip[ItemResponse]("item-tag.json")
+    checkRoundTripSimple[ItemResponse]("item-tag.json")
   }
 
   it should "round-trip a PackagesResponse" in {
-    checkRoundTrip[PackagesResponse]("packages.json")
+    checkRoundTripSimple[PackagesResponse]("packages.json")
   }
 
   it should "round-trip a SearchResponse" in {
-    checkRoundTrip[SearchResponse]("search.json")
+    checkRoundTripSimple[SearchResponse]("search.json")
   }
 
   it should "round-trip an EntitiesResponse" in {
-    checkRoundTrip[EntitiesResponse]("entities.json")
+    checkRoundTripSimple[EntitiesResponse]("entities.json")
   }
 
   def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
@@ -180,6 +181,23 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
   
     jsons should not be None
     jsons.foreach(j => checkDiff(j._1, j._2))
+  }
+
+  def checkRoundTripSimple[T : Decoder : Encoder](jsonFileName: String, transformAfterEncode: Json => Json = identity) = {
+    val jsonBefore: Json = parse(loadJson(jsonFileName)).toOption.get
+    val extracted: Json = jsonBefore.hcursor.downField("response").success.map(c => c.value).get
+    val jsons: Either[DecodingFailure, (Json, Json)] = for {
+      decoded <- extracted.as[T]
+      encoded: Json = decoded.asJson
+      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded.deepDropNullValues)))
+    } yield (jsonBefore, jsonAfter)
+
+    jsons match {
+      case Left(e) => {
+        fail(s"Got error decoding: $e")
+      }
+      case Right((j1, j2)) => checkDiff(j1, j2)
+    }
   }
 
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
