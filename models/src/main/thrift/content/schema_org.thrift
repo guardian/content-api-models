@@ -1,6 +1,9 @@
 namespace scala com.gu.contentapi.client.model.schemaorg
 #@namespace typescript _at_guardian.content_api_models.schemaorg
 
+struct SchemaOrg {
+    1: optional list<SchemaRecipe> recipe
+}
 
 struct SchemaRecipe {
     1: required string _at_context
