@@ -22,8 +22,8 @@ struct SchemaRecipe {
     14: optional string cookTime
     15: optional string totalTime
     16: optional AuthorInfo author
-    17: optional string suitableForDiet
-    18: optional string cookingMethod
+    17: optional list<string> suitableForDiet
+    18: optional list<string> cookingMethod
 }
 
 struct RecipeStep {
