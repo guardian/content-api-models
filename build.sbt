@@ -247,7 +247,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   * JSON parser project
   */
 lazy val json = Project(id = "content-api-models-json", base = file("json"))
-  .dependsOn(scala % "provided")
+  .dependsOn(scala)
   .settings(commonSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
