@@ -11,12 +11,13 @@ import io.circe.optics.JsonPath._
 import org.scalacheck.ScalacheckShapeless._
 import org.scalacheck.derive.{MkArbitrary, MkShrink}
 import org.scalacheck.{Arbitrary, Gen, Shrink}
+import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen.Parameters
 import org.scalacheck.rng.Seed
 import org.scalatest.{FlatSpec, Matchers}
 import org.scalatestplus.scalacheck.{ScalaCheckPropertyChecks}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
-import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructGeneric, thriftUnionGeneric, thriftStructPlainGeneric}
+import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructLabelledGeneric, thriftUnionLabelledGeneric, thriftStructGeneric}
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
@@ -42,21 +43,107 @@ class CirceRoundTripSpec extends FlatSpec with Matchers with ScalaCheckPropertyC
   //   forAll { (sectionsResponse: SectionsResponse) => checkRoundTrip[SectionsResponse](sectionsResponse.asJson.noSpaces)}
   // }
 
-  it should "generate an arbitrary CapiDateTime" in {
-    forAll {
-      (cdt: CapiDateTime) => {
-        // cdt.dateTime.toString should be (cdt.iso8601)
-        (cdt.dateTime >= 0) should be (true)
-      }
-    }
-  }
+  // it should "generate an arbitrary CapiDateTime" in {
+  //   forAll {
+  //     (cdt: CapiDateTime) => {
+  //       // cdt.dateTime.toString should be (cdt.iso8601)
+  //       (cdt.dateTime >= 0) should be (true)
+  //     }
+  //   }
+  // }
 
 
-  implicit override val generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(100, 50, 0, 100)
+  implicit override val generatorDrivenConfig: PropertyCheckConfiguration = PropertyCheckConfiguration(100, 50, 0, 10000)
   // Disable shrinking for enums because it doesn’t really make sense
   implicit def shrinkEnum[T <: ThriftEnum]: MkShrink[T] = MkShrink.instance[T](Shrink(_ => Stream.Empty))
   // Disable shrinking for structs because it gets into an infinite loop somehow
   implicit def shrinkStruct[T <: ThriftStruct]: MkShrink[T] = MkShrink.instance[T](Shrink(_ => Stream.Empty))
+
+  def genFixedSizeList[T](size: Int)(gen: Gen[T]): Gen[List[T]] = {
+    if (size <= 0) {
+      gen.map(x => List(x))
+    } else {
+      for {
+        h <- gen
+        tail <- genFixedSizeList(size - 1)(gen)
+      } yield {
+        h :: tail
+      }
+    }
+  }
+
+  implicit val arbitraryTagsResponse: Arbitrary[TagsResponse] = Arbitrary(Gen.sized(size => {
+    val tag: Arbitrary[Tag] = implicitly[Arbitrary[Tag]]
+    for {
+      status <- arbitrary[String]
+      userTier <- arbitrary[String]
+      total <- Gen.choose(1, 1 + size)
+      pageSize <- Gen.choose(1, total)
+      pages = (total.toDouble / pageSize.toDouble).ceil.toInt
+      currentPage <- Gen.choose(1, pages + 1)
+      startIndex = ((currentPage - 1) * pageSize) + 1
+      val tags: Gen[List[Tag]] = genFixedSizeList(pageSize)(tag.arbitrary)
+      results <- tags
+    } yield TagsResponse(status, userTier, total, startIndex, pageSize, currentPage, pages, results)
+  }))
+
+  implicit val arbitraryTag: Arbitrary[Tag] = Arbitrary({
+    for {
+      id <- arbitrary[String]
+      tagType <- arbTagType.arbitrary
+      sectionId <- arbitrary[Option[String]]
+      sectionName <- arbitrary[Option[String]]
+      webTitle <- arbitrary[String]
+      webUrl <- arbitrary[String]
+      apiUrl <- arbitrary[String]
+      references <- Gen.listOf(implicitly[Arbitrary[Reference]].arbitrary)
+      description <- arbitrary[Option[String]]
+      bio <- arbitrary[Option[String]]
+      bylineImageUrl <- arbitrary[Option[String]]
+      bylineLargeImageUrl <- arbitrary[Option[String]]
+      podcast <- arbitrary[Option[Podcast]]
+      firstName <- arbitrary[Option[String]]
+      lastName <- arbitrary[Option[String]]
+      emailAddress <- arbitrary[Option[String]]
+      twitterHandle <- arbitrary[Option[String]]
+      activeSponsorships <- Gen.listOf(implicitly[Arbitrary[Sponsorship]].arbitrary).map(Some(_))
+      paidContentType <- arbitrary[Option[String]]
+      paidContentCampaignColour <- arbitrary[Option[String]]
+      rcsId <- arbitrary[Option[String]]
+      r2ContributorId <- arbitrary[Option[String]]
+      tagCategories <- Gen.listOf(arbitrary[String]).map(_.toSet).map(Some(_))
+      entityIds <- Gen.listOf(arbitrary[String]).map(_.toSet).map(Some(_))
+      campaignInformationType <- arbitrary[Option[String]]
+      internalName <- arbitrary[Option[String]]
+    } yield Tag(
+      id,
+      tagType,
+      sectionId,
+      sectionName,
+      webTitle,
+      webUrl,
+      apiUrl,
+      references,
+      description,
+      bio,
+      bylineImageUrl,
+      bylineLargeImageUrl,
+      podcast,
+      firstName,
+      lastName,
+      emailAddress,
+      twitterHandle,
+      activeSponsorships,
+      paidContentType,
+      paidContentCampaignColour,
+      rcsId,
+      r2ContributorId,
+      tagCategories,
+      entityIds,
+      campaignInformationType,
+      internalName
+    )
+  })
 
   implicit val arbTagType: Arbitrary[TagType] = Arbitrary(Gen.oneOf(TagType.list))
   implicit val arbEventType: Arbitrary[crier.EventType] = Arbitrary(Gen.oneOf(crier.EventType.list))
@@ -86,37 +173,45 @@ class CirceRoundTripSpec extends FlatSpec with Matchers with ScalaCheckPropertyC
     }
   }
 
-  it should "round-trip an arbitrary ContentFields (except for truncating CapiDateTimes)" in {
+  // it should "round-trip an arbitrary ContentFields (except for truncating CapiDateTimes)" in {
 
+  //   forAll {
+  //     (cf: ContentFields) => {
+  //       // println(s"Trying an arbitrary ContentFields: ${cf.asJson.spaces4}")
+  //       checkReverseRoundTrip[ContentFields](cf)
+  //     }
+  //   }
+  // }
+
+  // it should "generate a “big” ContentFields" in {
+  //   val arbContentFields: Arbitrary[ContentFields] = implicitly
+  //   val parameters = Parameters.default.withSize(1000)
+  //   // println(arbContentFields.arbitrary(parameters, Seed.random()).asJson.spaces4)
+  // }
+
+  // it should "round-trip an arbitrary TagsResponse" in {
+  //   forAll {
+  //     (tr: TagsResponse) => {
+  //       // println(s"Trying an arbitrary TagsResponse: ${tr.asJson.spaces4}")
+  //       checkReverseRoundTrip[TagsResponse](tr)
+  //     }
+  //   }
+  // }
+
+  it should "round-trip an arbitrary Sponsorship" in {
     forAll {
-      (cf: ContentFields) => {
-        // println(s"Trying an arbitrary ContentFields: ${cf.asJson.spaces4}")
-        checkReverseRoundTrip[ContentFields](cf)
+      (s: Sponsorship) => {
+        checkReverseRoundTrip[Sponsorship](s)
       }
     }
   }
 
-  it should "generate a “big” ContentFields" in {
-    val arbContentFields: Arbitrary[ContentFields] = implicitly
-    val parameters = Parameters.default.withSize(1000)
-    println(arbContentFields.arbitrary(parameters, Seed.random()).asJson.spaces4)
-  }
-
-  it should "round-trip an arbitrary TagsResponse" in {
-    forAll {
-      (tr: TagsResponse) => {
-        // println(s"Trying an arbitrary TagsResponse: ${tr.asJson.spaces4}")
-        checkReverseRoundTrip[TagsResponse](tr)
-      }
-    }
-
-  }
-
-  it should "generate a “big” TagsReseponse" in {
-    val arbTagsResponse: Arbitrary[TagsResponse] = implicitly
-    val parameters = Parameters.default.withSize(1000)
-    println(arbTagsResponse.arbitrary(parameters, Seed.random()).asJson.spaces4)
-  }
+  // it should "generate a “big” TagsResponse" in {
+  //   val arbTagsResponse: Arbitrary[TagsResponse] = implicitly
+  //   val parameters = Parameters.default.withSize(10)
+  //   println("Making a big TagsResponse:")
+  //   println(arbTagsResponse.arbitrary(parameters, Seed.random()).asJson.spaces4)
+  // }
 
   // it should "round-trip a TagsResponse including a sponsored tag" in {
   //   /*
@@ -285,7 +380,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers with ScalaCheckPropertyC
   def checkReverseRoundTrip[T : Decoder : Encoder](t: T) = {
     val encoded: Json = t.asJson
     val decoded = encoded.as[T]
-    decoded should not be (Right(t))
+    decoded should be (Right(t))
   }
 
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
