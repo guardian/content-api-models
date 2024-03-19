@@ -148,6 +148,8 @@ enum ElementType {
     RECIPE = 22
 
     LIST = 23
+
+    TIMELINE = 24
 }
 
 enum TagType {
@@ -901,6 +903,26 @@ struct ListElementFields {
     2: optional ListType type;
 }
 
+struct TimelineItem {
+    1: required list<BlockElement> elements = [];
+
+    2: optional string title;
+
+    3: optional string date;
+
+    4: optional string label; // should this be a list?
+}
+
+struct TimelineSection {
+    1: required list<TimelineItem> items;
+
+    2: optional string title;
+}
+
+struct TimelineElementFields {
+    1: required list<TimelineSection> sections;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -959,6 +981,8 @@ struct BlockElement {
     25: optional RecipeElementFields recipeTypeData
 
     26: optional ListElementFields listTypeData
+
+    27: optional TimelineElementFields timelineTypeData
 }
 
 struct MembershipPlaceholder {
