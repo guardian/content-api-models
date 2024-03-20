@@ -903,18 +903,20 @@ struct ListElementFields {
     2: optional ListType type;
 }
 
-struct TimelineItem {
-    1: required list<BlockElement> elements = [];
+struct TimelineEvent {
+    1: required list<BlockElement> body = [];
 
-    2: optional string title;
+    2: optional BlockElement main;
 
-    3: optional string date;
+    3: optional string title;
 
-    4: optional string label; // should this be a list?
+    4: optional string date;
+
+    5: optional string label;
 }
 
 struct TimelineSection {
-    1: required list<TimelineItem> items;
+    1: required list<TimelineEvent> events;
 
     2: optional string title;
 }
