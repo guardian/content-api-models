@@ -10,7 +10,7 @@ val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
 val circeVersion = "0.14.1"
-val fezziwigVersion = "2.0.0-PREVIEW.update-readme-for-version-200.2024-03-19T1647.d02aaedd"
+val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
 val scalaTestVersion = "3.0.8"
