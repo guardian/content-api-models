@@ -3,6 +3,7 @@ package com.gu.contentapi.json
 import io.circe._
 import io.circe.generic.semiauto._
 import com.gu.contentapi.client.model.v1._
+import com.gu.contentapi.client.model.schemaorg.{SchemaOrg, SchemaRecipe, AuthorInfo, RecipeStep}
 import com.gu.contentatom.thrift.atom._
 import com.gu.contentatom.{thrift => contentatom}
 import com.gu.contententity.thrift.entity._
@@ -206,6 +207,10 @@ object CirceDecoders {
   implicit val pillarDecoder: Decoder[Pillar] = deriveDecoder
   implicit val contentDecoder: Decoder[Content] = deriveDecoder
   implicit val aliasPathDecoder: Decoder[AliasPath] = deriveDecoder
+  implicit val schemaOrgDecoder: Decoder[SchemaOrg] = deriveDecoder
+  implicit val schemaRecipeDecoder: Decoder[SchemaRecipe] = deriveDecoder
+  implicit val recipeStepDecoder: Decoder[RecipeStep] = deriveDecoder
+  implicit val authorInfoDecoder: Decoder[AuthorInfo] = deriveDecoder
   implicit val contentChannelDecoder: Decoder[ContentChannel] = deriveDecoder
   implicit val channelFieldsDecoder: Decoder[ChannelFields] = deriveDecoder
   implicit val mostViewedVideoDecoder: Decoder[MostViewedVideo] = deriveDecoder

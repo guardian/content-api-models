@@ -1,6 +1,7 @@
 package com.gu.contentapi.json
 
 import com.gu.contentapi.client.model.v1._
+import com.gu.contentapi.client.model.schemaorg.{SchemaOrg, SchemaRecipe, AuthorInfo, RecipeStep}
 import com.gu.contentatom.thrift.atom._
 import com.gu.contentatom.{thrift => contentatom}
 import com.gu.contententity.thrift.entity._
@@ -155,6 +156,10 @@ object CirceEncoders {
   implicit val pillarEncoder: Encoder[Pillar] = deriveEncoder
   implicit val contentEncoder: Encoder[Content] = deriveEncoder
   implicit val aliasPathEncoder: Encoder[AliasPath] = deriveEncoder
+  implicit val schemaOrgEncoder: Encoder[SchemaOrg] = deriveEncoder
+  implicit val schemaRecipeEncoder: Encoder[SchemaRecipe] = deriveEncoder
+  implicit val recipeStepEncoder: Encoder[RecipeStep] = deriveEncoder
+  implicit val authorInfoEncoder: Encoder[AuthorInfo] = deriveEncoder
   implicit val contentChannelEncoder: Encoder[ContentChannel] = deriveEncoder
   implicit val channelFieldsEncoder: Encoder[ChannelFields] = deriveEncoder
   implicit val mostViewedVideoEncoder: Encoder[MostViewedVideo] = deriveEncoder
