@@ -4,8 +4,8 @@ import sbtrelease.ReleaseStateTransformations.*
 import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
-val contentEntityVersion = "2.2.1"
-val contentAtomVersion = "4.0.0"
+val contentEntityVersion = "3.0.3"
+val contentAtomVersion = "4.0.2-PREVIEW.db-rttest-content-entity-release.2024-03-26T1749.cb6c4e64"//TODO - need to update this with latest release that has new content-entity version already
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
