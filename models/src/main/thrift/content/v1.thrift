@@ -904,13 +904,13 @@ struct ListElementFields {
 }
 
 struct TimelineEvent {
-    1: required list<BlockElement> body = [];
+    1: required list<BlockElement> body = []; /* The content associated with the event */
 
-    2: optional BlockElement main;
+    2: optional BlockElement main; /* The primary media (probably image or video) associated with the event */
 
     3: optional string title;
 
-    4: optional string date;
+    4: optional string date; /* String representation chosen because this may be used to represent a fuzzy date */
 
     5: optional string label;
 }
