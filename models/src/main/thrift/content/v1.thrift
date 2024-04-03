@@ -148,6 +148,8 @@ enum ElementType {
     RECIPE = 22
 
     LIST = 23
+
+    TIMELINE = 24
 }
 
 enum TagType {
@@ -901,6 +903,28 @@ struct ListElementFields {
     2: optional ListType type;
 }
 
+struct TimelineEvent {
+    1: required list<BlockElement> body = []; /* The content associated with the event */
+
+    2: optional BlockElement main; /* The primary media (probably image or video) associated with the event */
+
+    3: optional string title;
+
+    4: optional string date; /* String representation chosen because this may be used to represent a fuzzy date */
+
+    5: optional string label;
+}
+
+struct TimelineSection {
+    1: required list<TimelineEvent> events;
+
+    2: optional string title;
+}
+
+struct TimelineElementFields {
+    1: required list<TimelineSection> sections;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -959,6 +983,8 @@ struct BlockElement {
     25: optional RecipeElementFields recipeTypeData
 
     26: optional ListElementFields listTypeData
+
+    27: optional TimelineElementFields timelineTypeData
 }
 
 struct MembershipPlaceholder {
