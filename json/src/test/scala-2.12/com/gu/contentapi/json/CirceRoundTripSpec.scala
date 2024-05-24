@@ -7,7 +7,8 @@ import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
 import org.scalatest.{FlatSpec, Matchers}
-import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion, encodeThriftStruct, encodeThriftUnion}
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
+import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructLabelledGeneric, thriftUnionLabelledGeneric}
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
@@ -166,23 +167,40 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[EntitiesResponse]("entities.json")
   }
 
-  def checkRoundTrip[T : Decoder : Encoder](jsonFileName: String,
-                                  transformBeforeDecode: Json => Json = identity,
-                                  transformAfterEncode: Json => Json = identity) = {
-
-    val jsons: Option[(Json, Json)] = for {
-      jsonBefore <- parse(loadJson(jsonFileName)).toOption
-      transformedBefore <- jsonBefore.hcursor.downField("response").success.map(c => transformBeforeDecode(c.value))
-      decoded <- transformedBefore.as[T].toOption
-      encoded: Json = decoded.asJson
-      jsonAfter: Json = Json.fromFields(List("response" -> transformAfterEncode(encoded)))
-    } yield (jsonBefore, jsonAfter)
-  
-    jsons should not be None
-    jsons.foreach(j => checkDiff(j._1, j._2))
+  def checkRoundTrip[T : Decoder : Encoder](
+    jsonFileName: String,
+    transformBeforeDecode: Json => Json = identity,
+    transformAfterEncode: Json => Json = identity
+  ): Unit = {
+    val test: Either[RoundTripCheckError, Unit] = for {
+       jsonBefore <- parse(loadJson(jsonFileName)).left.map(FailedToLoadJson(jsonFileName, _))
+       transformedBefore <- jsonBefore.hcursor.downField("response").success.map(
+         c => transformBeforeDecode(c.value)
+       ).toRight(NoResponseField(jsonFileName, jsonBefore))
+       decoded <- transformedBefore.as[T].left.map(FailedToDecode(transformedBefore, _))
+       encoded: Json = decoded.asJson
+       jsonAfter: Json = Json.fromFields(
+         List("response" -> transformAfterEncode(encoded.deepDropNullValues))
+       )
+     } yield {
+       checkDiff(jsonBefore, jsonAfter)
+     }
+    test.left.map{
+      case FailedToLoadJson(filename, failure) =>
+        fail(s"Failed to load json from $filename for test: $failure")
+      case NoResponseField(filename, json) =>
+        fail(s"Expected to find a “response” field at the top level of $filename, instead got: $json")
+      case FailedToDecode(transformed, failure) =>
+        fail(s"Failed to decode transformed json ($transformed), got failure: $failure")
+    }.merge
   }
 
-  def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
+  sealed trait RoundTripCheckError
+  case class FailedToLoadJson(filename: String, parseFailure: ParsingFailure) extends RoundTripCheckError
+  case class NoResponseField(filename: String, json: Json) extends RoundTripCheckError
+  case class FailedToDecode(transformed: Json, failure: DecodingFailure) extends RoundTripCheckError
+
+  def checkDiff(jsonBefore: Json, jsonAfter: Json): Unit = {
     val d = diff(jsonBefore, jsonAfter)
     d should be(JsonPatch(Nil))
     if (d != JsonPatch(Nil)) println(d)

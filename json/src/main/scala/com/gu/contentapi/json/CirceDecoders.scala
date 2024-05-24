@@ -1,11 +1,17 @@
 package com.gu.contentapi.json
 
 import io.circe._
-import com.gu.contentatom.thrift.{Atom, AtomData, AtomType}
-import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, decodeThriftUnion}
+import io.circe.generic.semiauto._
 import com.gu.contentapi.client.model.v1._
+import com.gu.contentapi.client.model.schemaorg.{SchemaOrg, SchemaRecipe, AuthorInfo, RecipeStep}
+import com.gu.contentatom.thrift.atom._
+import com.gu.contentatom.{thrift => contentatom}
+import com.gu.contententity.thrift.entity._
+import com.gu.contententity.{thrift => contententity}
+import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
+import com.gu.fezziwig.CirceScroogeWhiteboxMacros._
+import com.gu.storypackage.model.{v1 => storypackage}
 import cats.syntax.either._
-import com.gu.contententity.thrift.Entity
 import java.time.OffsetDateTime
 import java.time.chrono.IsoChronology
 import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder, ResolverStyle}
@@ -89,88 +95,146 @@ object CirceDecoders {
     }
   }
 
-  // The following implicits technically shouldn't be necessary
-  // but stuff doesn't compile without them
-  implicit val contentFieldsDecoder = Decoder[ContentFields]
-  implicit val editionDecoder = Decoder[Edition]
-  implicit val sponsorshipDecoder = Decoder[Sponsorship]
-  implicit val tagDecoder = Decoder[Tag]
-  implicit val assetDecoder = Decoder[Asset]
-  implicit val elementDecoder = Decoder[Element]
-  implicit val referenceDecoder = Decoder[Reference]
-  implicit val blockElementDecoder: Decoder[BlockElement] = shapeless.cachedImplicit
-  implicit val blockDecoder = Decoder[Block]
-  implicit val blocksDecoder = genBlocksDecoder
-  implicit val rightsDecoder = Decoder[Rights]
-  implicit val crosswordEntryDecoder = genCrosswordEntryDecoder
-  implicit val crosswordDecoder = Decoder[Crossword]
-  implicit val contentStatsDecoder = Decoder[ContentStats]
-  implicit val sectionDecoder = Decoder[Section]
-  implicit val debugDecoder = Decoder[Debug]
-  implicit val atomTypeDecoder = Decoder[AtomType]
-  implicit val atomDataDecoder = Decoder[AtomData]
-  implicit val atomDecoder = Decoder[Atom]
-  implicit val atomsDecoder = Decoder[Atoms]
-  implicit val pillarDecoder = Decoder[Pillar]
-  implicit val contentDecoder = Decoder[Content]
-  implicit val mostViewedVideoDecoder = Decoder[MostViewedVideo]
-  implicit val networkFrontDecoder = Decoder[NetworkFront]
-  implicit val packageArticleDecoder = Decoder[PackageArticle]
-  implicit val packageDecoder = Decoder[Package]
-  implicit val itemResponseDecoder = Decoder[ItemResponse]
-  implicit val searchResponseDecoder = Decoder[SearchResponse]
-  implicit val editionsResponseDecoder = Decoder[EditionsResponse]
-  implicit val tagsResponseDecoder = Decoder[TagsResponse]
-  implicit val sectionsResponseDecoder = Decoder[SectionsResponse]
-  implicit val atomsResponseDecoder = Decoder[AtomsResponse]
-  implicit val packagesResponseDecoder = Decoder[PackagesResponse]
-  implicit val errorResponseDecoder = Decoder[ErrorResponse]
-  implicit val videoStatsResponseDecoder = Decoder[VideoStatsResponse]
-  implicit val atomsUsageResponseDecoder = Decoder[AtomUsageResponse]
-  implicit val entityDecoder = Decoder[Entity]
-  implicit val entitiesResponseDecoder = Decoder[EntitiesResponse]
-  implicit val pillarsResponseDecoder = Decoder[PillarsResponse]
-  implicit val embedTrackingDecoder = Decoder[EmbedTracking]
-  implicit val embedReachDecoder = Decoder[EmbedReach]
-
-  // These two need to be written manually. I think the `Map[K, V]` type having 2 type params causes implicit divergence,
-  // although shapeless's Lazy is supposed to work around that.
-
-  def genBlocksDecoder(implicit blockDecoder: Decoder[Block]): Decoder[Blocks] = Decoder.instance[Blocks] { cursor =>
-    for {
-      main <- cursor.get[Option[Block]]("main")
-      body <- cursor.get[Option[Seq[Block]]]("body")
-      totalBodyBlocks <- cursor.get[Option[Int]]("totalBodyBlocks")
-      requestedBodyBlocks <- cursor.get[Option[Map[String, Seq[Block]]]]("requestedBodyBlocks")
-    } yield Blocks(main, body, totalBodyBlocks, requestedBodyBlocks)
-  }
-
-  def genCrosswordEntryDecoder(implicit dec: Decoder[Option[Map[String,Seq[Int]]]]): Decoder[CrosswordEntry] = Decoder.instance[CrosswordEntry] { cursor =>
-    for {
-      id <- cursor.get[String]("id")
-      number <- cursor.get[Option[Int]]("number")
-      humanNumber <- cursor.get[Option[String]]("humanNumber")
-      direction <- cursor.get[Option[String]]("direction")
-      position <- cursor.get[Option[CrosswordPosition]]("position")
-      separatorLocations <- cursor.get[Option[Map[String, Seq[Int]]]]("separatorLocations")
-      length <- cursor.get[Option[Int]]("length")
-      clue <- cursor.get[Option[String]]("clue")
-      group <- cursor.get[Option[Seq[String]]]("group")
-      solution <- cursor.get[Option[String]]("solution")
-      format <- cursor.get[Option[String]]("format")
-    } yield CrosswordEntry(
-      id,
-      number,
-      humanNumber,
-      direction,
-      position,
-      separatorLocations,
-      length,
-      clue,
-      group,
-      solution,
-      format
-    )
-  }
-
+  implicit val contentFieldsDecoder: Decoder[ContentFields] = deriveDecoder
+  implicit val editionDecoder: Decoder[Edition] = deriveDecoder
+  implicit val sponsorshipDecoder: Decoder[Sponsorship] = deriveDecoder
+  implicit val sponsorshipTargetingDecoder: Decoder[SponsorshipTargeting] = deriveDecoder
+  implicit val sponsorshipLogoDimensionsDecoder: Decoder[SponsorshipLogoDimensions] = deriveDecoder
+  implicit val tagDecoder: Decoder[Tag] = deriveDecoder
+  implicit val podcastDecoder: Decoder[Podcast] = deriveDecoder
+  implicit val podcastCategoryDecoder: Decoder[PodcastCategory] = deriveDecoder
+  implicit val assetDecoder: Decoder[Asset] = deriveDecoder
+  implicit val assetFieldsDecoder: Decoder[AssetFields] = deriveDecoder
+  implicit val cartoonVariantDecoder: Decoder[CartoonVariant] = deriveDecoder
+  implicit val cartoonImageDecoder: Decoder[CartoonImage] = deriveDecoder
+  implicit val elementDecoder: Decoder[Element] = deriveDecoder
+  implicit val referenceDecoder: Decoder[Reference] = deriveDecoder
+  implicit val blockElementDecoder: Decoder[BlockElement] = deriveDecoder
+  implicit val textElementFieldsDecoder: Decoder[TextElementFields] = deriveDecoder
+  implicit val videoElementFieldsDecoder: Decoder[VideoElementFields] = deriveDecoder
+  implicit val tweetElementFieldsDecoder: Decoder[TweetElementFields] = deriveDecoder
+  implicit val imageElementFieldsDecoder: Decoder[ImageElementFields] = deriveDecoder
+  implicit val audioElementFieldsDecoder: Decoder[AudioElementFields] = deriveDecoder
+  implicit val pullquoteElementFieldsDecoder: Decoder[PullquoteElementFields] = deriveDecoder
+  implicit val interactiveElementFieldsDecoder: Decoder[InteractiveElementFields] = deriveDecoder
+  implicit val standardElementFieldsDecoder: Decoder[StandardElementFields] = deriveDecoder
+  implicit val witnessElementFieldsDecoder: Decoder[WitnessElementFields] = deriveDecoder
+  implicit val richLinkElementFieldsDecoder: Decoder[RichLinkElementFields] = deriveDecoder
+  implicit val membershipElementFieldsDecoder: Decoder[MembershipElementFields] = deriveDecoder
+  implicit val embedElementFieldsDecoder: Decoder[EmbedElementFields] = deriveDecoder
+  implicit val instagramElementFieldsDecoder: Decoder[InstagramElementFields] = deriveDecoder
+  implicit val commentElementFieldsDecoder: Decoder[CommentElementFields] = deriveDecoder
+  implicit val vineElementFieldsDecoder: Decoder[VineElementFields] = deriveDecoder
+  implicit val contentAtomElementFieldsDecoder: Decoder[ContentAtomElementFields] = deriveDecoder
+  implicit val embedTrackingDecoder: Decoder[EmbedTracking] = deriveDecoder
+  implicit val codeElementFieldsDecoder: Decoder[CodeElementFields] = deriveDecoder
+  implicit val calloutElementFieldsDecoder: Decoder[CalloutElementFields] = deriveDecoder
+  implicit val cartoonElementFieldsDecoder: Decoder[CartoonElementFields] = deriveDecoder
+  implicit val recipeElementFieldsDecoder: Decoder[RecipeElementFields] = deriveDecoder
+  implicit val listElementFieldsDecoder: Decoder[ListElementFields] = deriveDecoder
+  implicit val listItemDecoder: Decoder[ListItem] = deriveDecoder
+  implicit val timelineElementFieldsDecoder: Decoder[TimelineElementFields] = deriveDecoder
+  implicit val timelineSectionDecoder: Decoder[TimelineSection] = deriveDecoder
+  implicit val timelineEventDecoder: Decoder[TimelineEvent] = deriveDecoder
+  implicit val blockDecoder: Decoder[Block] = deriveDecoder
+  implicit val blockAttributesDecoder: Decoder[BlockAttributes] = deriveDecoder
+  implicit val membershipPlaceholderDecoder: Decoder[MembershipPlaceholder] = deriveDecoder
+  implicit val userDecoder: Decoder[User] = deriveDecoder
+  implicit val blocksDecoder: Decoder[Blocks] = deriveDecoder
+  implicit val rightsDecoder: Decoder[Rights] = deriveDecoder
+  implicit val crosswordEntryDecoder: Decoder[CrosswordEntry] = deriveDecoder
+  implicit val crosswordPositionDecoder: Decoder[CrosswordPosition] = deriveDecoder
+  implicit val crosswordDecoder: Decoder[Crossword] = deriveDecoder
+  implicit val crosswordDimensionsDecoder: Decoder[CrosswordDimensions] = deriveDecoder
+  implicit val crosswordCreatorDecoder: Decoder[CrosswordCreator] = deriveDecoder
+  implicit val contentStatsDecoder: Decoder[ContentStats] = deriveDecoder
+  implicit val sectionDecoder: Decoder[Section] = deriveDecoder
+  implicit val debugDecoder: Decoder[Debug] = deriveDecoder
+  implicit val atomDataDecoder: Decoder[contentatom.AtomData] = deriveDecoder
+  implicit val quizAtomDecoder: Decoder[quiz.QuizAtom] = deriveDecoder
+  implicit val quizContentDecoder: Decoder[quiz.QuizContent] = deriveDecoder
+  implicit val questionDecoder: Decoder[quiz.Question] = deriveDecoder
+  implicit val answerDecoder: Decoder[quiz.Answer] = deriveDecoder
+  implicit val quizAssetDecoder: Decoder[quiz.Asset] = deriveDecoder
+  implicit val resultGroupsDecoder: Decoder[quiz.ResultGroups] = deriveDecoder
+  implicit val resultGroupDecoder: Decoder[quiz.ResultGroup] = deriveDecoder
+  implicit val resultBucketsDecoder: Decoder[quiz.ResultBuckets] = deriveDecoder
+  implicit val resultBucketDecoder: Decoder[quiz.ResultBucket] = deriveDecoder
+  implicit val mediaAtomDecoder: Decoder[media.MediaAtom] = deriveDecoder
+  implicit val imageDecoder: Decoder[contentatom.Image] = deriveDecoder
+  implicit val imageAssetDecoder: Decoder[contentatom.ImageAsset] = deriveDecoder
+  implicit val imageAssetDimensionsDecoder: Decoder[contentatom.ImageAssetDimensions] = deriveDecoder
+  implicit val mediaAssetDecoder: Decoder[media.Asset] = deriveDecoder
+  implicit val mediaMetadataDecoder: Decoder[media.Metadata] = deriveDecoder
+  implicit val mediaPlutoDataDecoder: Decoder[media.PlutoData] = deriveDecoder
+  implicit val mediaYoutubeDataDecoder: Decoder[media.YoutubeData] = deriveDecoder
+  implicit val explainerAtomDecoder: Decoder[explainer.ExplainerAtom] = deriveDecoder
+  implicit val ctaAtomDecoder: Decoder[cta.CTAAtom] = deriveDecoder
+  implicit val interactiveAtomDecoder: Decoder[interactive.InteractiveAtom] = deriveDecoder
+  implicit val reviewAtomDecoder: Decoder[review.ReviewAtom] = deriveDecoder
+  implicit val ratingDecoder: Decoder[review.Rating] = deriveDecoder
+  implicit val restaurantDecoder: Decoder[restaurant.Restaurant] = deriveDecoder
+  implicit val addressDecoder: Decoder[contententity.Address] = deriveDecoder
+  implicit val geolocationDecoder: Decoder[contententity.Geolocation] = deriveDecoder
+  implicit val gameDecoder: Decoder[game.Game] = deriveDecoder
+  implicit val priceDecoder: Decoder[contententity.Price] = deriveDecoder
+  implicit val filmDecoder: Decoder[film.Film] = deriveDecoder
+  implicit val personDecoder: Decoder[person.Person] = deriveDecoder
+  implicit val qAndAAtomDecoder: Decoder[qanda.QAndAAtom] = deriveDecoder
+  implicit val qAndAItemDecoder: Decoder[qanda.QAndAItem] = deriveDecoder
+  implicit val guideAtomDecoder: Decoder[guide.GuideAtom] = deriveDecoder
+  implicit val guideItemDecoder: Decoder[guide.GuideItem] = deriveDecoder
+  implicit val profileAtomDecoder: Decoder[profile.ProfileAtom] = deriveDecoder
+  implicit val profileItemDecoder: Decoder[profile.ProfileItem] = deriveDecoder
+  implicit val timelineAtomDecoder: Decoder[timeline.TimelineAtom] = deriveDecoder
+  implicit val timelineItemDecoder: Decoder[timeline.TimelineItem] = deriveDecoder
+  implicit val commonsDivisionDecoder: Decoder[commonsdivision.CommonsDivision] = deriveDecoder
+  implicit val votesDecoder: Decoder[commonsdivision.Votes] = deriveDecoder
+  implicit val mpDecoder: Decoder[commonsdivision.Mp] = deriveDecoder
+  implicit val chartAtomDecoder: Decoder[chart.ChartAtom] = deriveDecoder
+  implicit val furnitureDecoder: Decoder[chart.Furniture] = deriveDecoder
+  implicit val tabularDataDecoder: Decoder[chart.TabularData] = deriveDecoder
+  implicit val seriesColourDecoder: Decoder[chart.SeriesColour] = deriveDecoder
+  implicit val axisDecoder: Decoder[chart.Axis] = deriveDecoder
+  implicit val rangeDecoder: Decoder[chart.Range] = deriveDecoder
+  implicit val displaySettingsDecoder: Decoder[chart.DisplaySettings] = deriveDecoder
+  implicit val audioAtomDecoder: Decoder[audio.AudioAtom] = deriveDecoder
+  implicit val offPlatformDecoder: Decoder[audio.OffPlatform] = deriveDecoder
+  implicit val emailSignUpAtomDecoder: Decoder[emailsignup.EmailSignUpAtom] = deriveDecoder
+  implicit val atomDecoder: Decoder[contentatom.Atom] = deriveDecoder
+  implicit val contentChangeDetailsDecoder: Decoder[contentatom.ContentChangeDetails] = deriveDecoder
+  implicit val changeRecordDecoder: Decoder[contentatom.ChangeRecord] = deriveDecoder
+  implicit val contentatomUserDecoder: Decoder[contentatom.User] = deriveDecoder
+  implicit val flagsDecoder: Decoder[contentatom.Flags] = deriveDecoder
+  implicit val atomsDecoder: Decoder[Atoms] = deriveDecoder
+  implicit val pillarDecoder: Decoder[Pillar] = deriveDecoder
+  implicit val contentDecoder: Decoder[Content] = deriveDecoder
+  implicit val aliasPathDecoder: Decoder[AliasPath] = deriveDecoder
+  implicit val schemaOrgDecoder: Decoder[SchemaOrg] = deriveDecoder
+  implicit val schemaRecipeDecoder: Decoder[SchemaRecipe] = deriveDecoder
+  implicit val recipeStepDecoder: Decoder[RecipeStep] = deriveDecoder
+  implicit val authorInfoDecoder: Decoder[AuthorInfo] = deriveDecoder
+  implicit val contentChannelDecoder: Decoder[ContentChannel] = deriveDecoder
+  implicit val channelFieldsDecoder: Decoder[ChannelFields] = deriveDecoder
+  implicit val mostViewedVideoDecoder: Decoder[MostViewedVideo] = deriveDecoder
+  implicit val networkFrontDecoder: Decoder[NetworkFront] = deriveDecoder
+  implicit val packageArticleDecoder: Decoder[PackageArticle] = deriveDecoder
+  implicit val articleDecoder: Decoder[storypackage.Article] = deriveDecoder
+  implicit val packageDecoder: Decoder[Package] = deriveDecoder
+  implicit val itemResponseDecoder: Decoder[ItemResponse] = deriveDecoder
+  implicit val searchResponseDecoder: Decoder[SearchResponse] = deriveDecoder
+  implicit val editionsResponseDecoder: Decoder[EditionsResponse] = deriveDecoder
+  implicit val tagsResponseDecoder: Decoder[TagsResponse] = deriveDecoder
+  implicit val sectionsResponseDecoder: Decoder[SectionsResponse] = deriveDecoder
+  implicit val atomsResponseDecoder: Decoder[AtomsResponse] = deriveDecoder
+  implicit val packagesResponseDecoder: Decoder[PackagesResponse] = deriveDecoder
+  implicit val errorResponseDecoder: Decoder[ErrorResponse] = deriveDecoder
+  implicit val videoStatsResponseDecoder: Decoder[VideoStatsResponse] = deriveDecoder
+  implicit val atomsUsageResponseDecoder: Decoder[AtomUsageResponse] = deriveDecoder
+  implicit val entityDecoder: Decoder[contententity.Entity] = deriveDecoder
+  implicit val placeDecoder: Decoder[place.Place] = deriveDecoder
+  implicit val organisationDecoder: Decoder[organisation.Organisation] = deriveDecoder
+  implicit val entitiesResponseDecoder: Decoder[EntitiesResponse] = deriveDecoder
+  implicit val pillarsResponseDecoder: Decoder[PillarsResponse] = deriveDecoder
+  implicit val embedReachDecoder: Decoder[EmbedReach] = deriveDecoder
 }
