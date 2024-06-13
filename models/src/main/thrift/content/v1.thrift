@@ -887,6 +887,7 @@ enum ListType {
     KEY_TAKEAWAYS = 1,
     Q_AND_A_EXPLAINER = 2,
     MINI_PROFILES = 3,
+    MULTI_BYLINE = 4,
 }
 
 struct ListItem {
