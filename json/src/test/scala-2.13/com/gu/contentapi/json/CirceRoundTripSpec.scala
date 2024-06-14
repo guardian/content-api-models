@@ -11,7 +11,11 @@ import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct,
 import com.gu.contentapi.json.CirceEncoders._
 import com.gu.contentapi.json.CirceDecoders._
 import cats.syntax.either._
-import gnieh.diffson.circe._
+import diffson._
+import diffson.lcs._
+import diffson.circe._
+import diffson.jsonpatch._
+import diffson.jsonpatch.simplediff._
 
 class CirceRoundTripSpec extends FlatSpec with Matchers {
 
@@ -175,7 +179,7 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
   }
 
   def checkDiff(jsonBefore: Json, jsonAfter: Json) = {
-    val d = JsonDiff.diff(jsonBefore, jsonAfter, false)
+    val d = diff(jsonBefore, jsonAfter)
     d should be(JsonPatch(Nil))
     if (d != JsonPatch(Nil)) println(d)
   }
