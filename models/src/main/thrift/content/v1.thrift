@@ -886,6 +886,8 @@ struct RecipeElementFields {
 enum ListType {
     KEY_TAKEAWAYS = 1,
     Q_AND_A_EXPLAINER = 2,
+    MINI_PROFILES = 3,
+    MULTI_BYLINE = 4,
 }
 
 struct ListItem {
@@ -893,6 +895,18 @@ struct ListItem {
     1: required list<BlockElement> elements = [];
 
     2: optional string title;
+
+    3: optional list<Tag> contributors;
+
+    4: optional string bio;
+
+    5: optional string contributorImageOverrideUrl;
+
+    6: optional string endNote;
+
+    7: optional string byline;
+
+    8: optional string bylineHtml;
 
 }
 
