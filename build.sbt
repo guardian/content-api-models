@@ -4,12 +4,12 @@ import sbtrelease.ReleaseStateTransformations.*
 import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
-val contentEntityVersion = "3.0.3"
-val contentAtomVersion = "4.0.4"
+val contentEntityVersion = "4.0.0"
+val contentAtomVersion = "5.0.0"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.20.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
-val circeVersion = "0.14.1"
+val circeVersion = "0.14.9"
 val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
@@ -117,7 +117,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
+      "io.circe" %% "circe-optics" % "0.14.1",  //circe-optics is now released at a difference cadence to circe main project - https://github.com/circe/circe-optics
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
       "com.google.guava" % "guava" % guavaVersion % Test,
       "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
