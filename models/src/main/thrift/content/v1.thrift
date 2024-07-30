@@ -198,7 +198,9 @@ enum CrosswordType {
 
     WEEKEND = 7,
 
-    QUICK_CRYPTIC = 8
+    QUICK_CRYPTIC = 8,
+
+    SPECIAL = 9
 }
 
 enum Office {
