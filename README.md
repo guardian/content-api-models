@@ -39,7 +39,9 @@ sbt +publishLocal
 
 ## Running tests
 
-To run tests for a specific Scala version:
+This repository is cross-compiled for scala 2.12 and 2.13, so the CI workflow uses `sbt +test` to run the tests against all versions in `crossScalaVersions`.
+
+You can also run the tests for a specific Scala version if necessary:
 
 ```
 sbt ++2.12.11 test
