@@ -898,7 +898,7 @@ struct ListItem {
 
     2: optional string title;
 
-    3: optional list<Tag> contributors;
+    3: optional list<string> contributorIds;
 
     4: optional string bio;
 
