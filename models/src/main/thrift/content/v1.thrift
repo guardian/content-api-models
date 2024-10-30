@@ -898,7 +898,8 @@ struct ListItem {
 
     2: optional string title;
 
-    3: optional list<string> contributorIds;
+    // NOT USED. contributors has been superceded by contributorIds
+    // 3: optional list<Tag> contributors;
 
     4: optional string bio;
 
@@ -909,6 +910,8 @@ struct ListItem {
     7: optional string byline;
 
     8: optional string bylineHtml;
+
+    9: optional list<string> contributorIds;
 
 }
 
