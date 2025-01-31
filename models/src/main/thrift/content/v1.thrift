@@ -2016,6 +2016,8 @@ struct ItemResponse {
 
     18: optional list<Content> mostViewed
 
+    // deeplyRead is #38
+
     19: optional list<Content> leadContent
 
     /* New story packages */
@@ -2055,6 +2057,8 @@ struct ItemResponse {
     36: optional contentatom.Atom audio
 
     37: optional contentatom.Atom emailsignup
+
+    38: optional list<Content> deeplyRead
 }
 
 struct TagsResponse {
