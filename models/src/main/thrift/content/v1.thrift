@@ -200,7 +200,9 @@ enum CrosswordType {
 
     QUICK_CRYPTIC = 8,
 
-    SPECIAL = 9
+    SPECIAL = 9,
+
+    SUNDAY_QUICK = 10
 }
 
 enum Office {
