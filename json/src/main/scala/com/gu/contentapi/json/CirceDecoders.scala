@@ -237,4 +237,5 @@ object CirceDecoders {
   implicit val entitiesResponseDecoder: Decoder[EntitiesResponse] = deriveDecoder
   implicit val pillarsResponseDecoder: Decoder[PillarsResponse] = deriveDecoder
   implicit val embedReachDecoder: Decoder[EmbedReach] = deriveDecoder
+  implicit val styledLinkElementFieldsDecoder: Decoder[StyledLinkElementFields] = deriveDecoder
 }
