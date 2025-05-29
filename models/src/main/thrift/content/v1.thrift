@@ -150,6 +150,11 @@ enum ElementType {
     LIST = 23
 
     TIMELINE = 24
+
+    /*
+     * A styled link element
+     */
+    STYLED_LINK = 25
 }
 
 enum TagType {
@@ -436,6 +441,15 @@ struct PullquoteElementFields {
 //    6: optional i32 width
 
     7: optional string sourceDomain
+}
+
+struct StyledLinkElementFields {
+
+    1: optional string label;
+
+    2: optional string url;
+
+    3: optional string styledLinkType;
 }
 
 struct TweetElementFields {
@@ -1006,6 +1020,8 @@ struct BlockElement {
     26: optional ListElementFields listTypeData
 
     27: optional TimelineElementFields timelineTypeData
+
+    28: optional StyledLinkElementFields styledLinkTypeData
 }
 
 struct MembershipPlaceholder {
