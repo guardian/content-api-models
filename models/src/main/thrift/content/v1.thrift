@@ -440,13 +440,17 @@ struct PullquoteElementFields {
     7: optional string sourceDomain
 }
 
+enum LinkType {
+    PRODUCT_BUTTON = 0,
+}
+
 struct LinkElementFields {
 
     1: optional string label;
 
     2: optional string url;
 
-    3: optional string linkType;
+    3: optional LinkType linkType;
 }
 
 struct TweetElementFields {
