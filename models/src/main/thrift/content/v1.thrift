@@ -1375,6 +1375,10 @@ struct Podcast {
     11: optional string acastId
 
     12: optional string pocketCastsUrl
+
+    13: optional bool episodicArtworkEnabled
+
+    14: optional CapiDateTime episodicArtworkEnabledFrom
 }
 
 struct Tag {
