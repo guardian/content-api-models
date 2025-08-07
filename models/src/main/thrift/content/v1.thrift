@@ -1351,6 +1351,10 @@ struct ContentFields {
     51: optional string bylineHtml
 
     52: optional bool showTableOfContents
+
+    53: optional i32 podcastEpisodeNumber
+    
+    54: optional i32 podcastSeasonNumber
 }
 
 struct Reference {
