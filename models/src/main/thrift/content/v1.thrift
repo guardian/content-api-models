@@ -476,6 +476,12 @@ struct TweetElementFields {
     10: optional bool isMandatory
 }
 
+enum PodcastEpisodeType {
+    FULL = 0,
+    TRAILER = 1,
+    BONUS = 2
+}
+
 struct AudioElementFields {
 
     1: optional string html
@@ -507,6 +513,12 @@ struct AudioElementFields {
     14: optional string sourceDomain
 
     15: optional bool isMandatory
+
+    16: optional i32 podcastEpisodeNumber
+
+    17: optional i32 podcastSeasonNumber
+
+    18: optional PodcastEpisodeType podcastEpisodeType
 }
 
 struct VideoElementFields {
