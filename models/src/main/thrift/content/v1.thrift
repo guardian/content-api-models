@@ -152,6 +152,8 @@ enum ElementType {
     TIMELINE = 24
 
     LINK = 25
+
+    PRODUCT = 26
 }
 
 enum TagType {
@@ -961,6 +963,46 @@ struct TimelineElementFields {
     1: required list<TimelineSection> sections;
 }
 
+struct Statistic {
+    1: optional string name,
+
+    2: optional string value,
+}
+
+struct ProductElementFields {
+  1: optional string productName;
+
+  2: optional string brandName;
+
+  3: optional string primaryHeading;
+
+  4: optional string secondaryHeading;
+
+  5: optional string starRating;
+
+  6: optional string primaryProductUrl;
+
+  7: optional string primaryCta;
+
+  8: optional string primaryRetailer;
+
+  9: optional string primaryPrice;
+
+  10: optional string secondaryProductUrl;
+
+  11: optional string secondaryCta;
+
+  12: optional string secondaryRetailer;
+
+  13: optional string secondaryPrice;
+
+  14: optional list<Statistic> statistics;
+
+  15: optional CartoonImage image;
+
+  16: optional list<Element> content;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -1023,6 +1065,8 @@ struct BlockElement {
     27: optional TimelineElementFields timelineTypeData
 
     28: optional LinkElementFields linkTypeData
+
+    29: optional ProductElementFields productTypeData
 }
 
 struct MembershipPlaceholder {
