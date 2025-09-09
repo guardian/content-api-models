@@ -911,6 +911,11 @@ enum ListType {
     MULTI_BYLINE = 4,
 }
 
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -1001,6 +1006,8 @@ struct ProductElementFields {
   15: optional CartoonImage image;
 
   16: optional list<Element> content;
+
+  17: required ProductDisplayType displayType;
 }
 
 struct BlockElement {
