@@ -1543,6 +1543,11 @@ struct Tag {
     * The internal name of the tag
     */
     26: optional string internalName
+
+    /**
+     * The number of pieces of content that reference this tag.
+     */
+    27: optional i32 docCount
 }
 
 struct Edition {
