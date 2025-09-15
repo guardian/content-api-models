@@ -27,5 +27,6 @@
     ],
     "webUrl": "http://www.theguardian.com/world/france",
     "apiUrl": "http://content.guardianapis.com/world/france",
-    "references" : [ ]
+    "references" : [ ],
+    "docCount": 24600
 }
