@@ -1073,7 +1073,7 @@ struct BlockElement {
 
     28: optional LinkElementFields linkTypeData
 
-    29: optional ProductElementFields productTypeData
+    29: optional ProductElementFields tempProductTypeData
 }
 
 struct MembershipPlaceholder {
