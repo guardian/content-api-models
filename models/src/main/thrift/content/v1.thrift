@@ -565,7 +565,7 @@ struct VideoElementFields {
 
     21: optional bool isMandatory
 
-    22: optional bool autoloopVideoOnPageLoad
+    22: optional bool isLoopingVideo
 }
 
 struct ImageElementFields {
