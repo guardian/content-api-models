@@ -1005,7 +1005,7 @@ struct ProductElementFields {
 
   15: optional CartoonImage image;
 
-  16: optional list<Element> content;
+  16: optional list<BlockElement> content;
 
   17: required ProductDisplayType displayType;
 }
