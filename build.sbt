@@ -30,7 +30,7 @@ lazy val artifactProductionSettings = Seq(
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
   // https://twitter.github.io/scrooge/changelog.html#id11
-  crossScalaVersions := Seq("2.12.18", scalaVersion.value),
+  crossScalaVersions := Seq("2.12.20", scalaVersion.value),
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers ++= Resolver.sonatypeOssRepos("public"),
