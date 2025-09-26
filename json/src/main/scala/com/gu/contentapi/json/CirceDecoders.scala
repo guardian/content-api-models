@@ -4,7 +4,7 @@ import io.circe._
 import io.circe.generic.semiauto._
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.client.model.schemaorg.{SchemaOrg, SchemaRecipe, AuthorInfo, RecipeStep}
-import com.gu.contentatom.thrift.ato2m._
+import com.gu.contentatom.thrift.atom._
 import com.gu.contentatom.{thrift => contentatom}
 import com.gu.contententity.thrift.entity._
 import com.gu.contententity.{thrift => contententity}
@@ -161,7 +161,7 @@ object CirceDecoders {
   implicit val resultBucketsDecoder: Decoder[quiz.ResultBuckets] = deriveDecoder
   implicit val resultBucketDecoder: Decoder[quiz.ResultBucket] = deriveDecoder
   implicit val mediaAtomDecoder: Decoder[media.MediaAtom] = deriveDecoder
-  implicit val atomImageDecoder: Decoder[contentatom.Image] = deriveDecoder
+  implicit val imageDecoder: Decoder[contentatom.Image] = deriveDecoder
   implicit val imageAssetDecoder: Decoder[contentatom.ImageAsset] = deriveDecoder
   implicit val imageAssetDimensionsDecoder: Decoder[contentatom.ImageAssetDimensions] = deriveDecoder
   implicit val mediaAssetDecoder: Decoder[media.Asset] = deriveDecoder
@@ -239,6 +239,6 @@ object CirceDecoders {
   implicit val embedReachDecoder: Decoder[EmbedReach] = deriveDecoder
   implicit val linkElementFieldsDecoder: Decoder[LinkElementFields] = deriveDecoder
   implicit val statisticDecoder: Decoder[Statistic] = deriveDecoder
-  implicit val imageDecoder: Decoder[Image] = deriveDecoder
+  implicit val productImageDecoder: Decoder[ProductImage] = deriveDecoder
   implicit val productElementFieldsDecoder: Decoder[ProductElementFields] = deriveDecoder
 }

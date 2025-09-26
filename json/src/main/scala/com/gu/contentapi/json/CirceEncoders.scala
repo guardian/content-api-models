@@ -110,7 +110,7 @@ object CirceEncoders {
   implicit val resultBucketsEncoder: Encoder[quiz.ResultBuckets] = deriveEncoder
   implicit val resultBucketEncoder: Encoder[quiz.ResultBucket] = deriveEncoder
   implicit val mediaAtomEncoder: Encoder[media.MediaAtom] = deriveEncoder
-  implicit val atomImageEncoder: Encoder[contentatom.Image] = deriveEncoder
+  implicit val imageEncoder: Encoder[contentatom.Image] = deriveEncoder
   implicit val imageAssetEncoder: Encoder[contentatom.ImageAsset] = deriveEncoder
   implicit val imageAssetDimensionsEncoder: Encoder[contentatom.ImageAssetDimensions] = deriveEncoder
   implicit val mediaAssetEncoder: Encoder[media.Asset] = deriveEncoder
@@ -188,7 +188,7 @@ object CirceEncoders {
   implicit val embedReachEncoder: Encoder[EmbedReach] = deriveEncoder
   implicit val linkElementFieldsEncoder: Encoder[LinkElementFields] = deriveEncoder
   implicit val statisticEncoder: Encoder[Statistic] = deriveEncoder
-  implicit val imageEncoder: Encoder[Image] = deriveEncoder
+  implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
   implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
