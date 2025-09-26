@@ -1003,11 +1003,17 @@ struct ProductElementFields {
 
   14: optional list<Statistic> statistics;
 
-  15: optional CartoonImage image;
+  15: optional Image image;
 
   16: optional list<BlockElement> content;
 
   17: required ProductDisplayType displayType;
+}
+
+struct Image {
+    1: required list<Asset> assets;
+
+    2: required ImageElementFields fields;
 }
 
 struct BlockElement {
