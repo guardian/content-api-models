@@ -1,6 +1,8 @@
 package com.gu.contentapi.json
 
 import io.circe._
+import io.circe.generic.extras._
+import io.circe.generic.extras.semiauto.deriveConfiguredDecoder
 import io.circe.generic.semiauto._
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.client.model.schemaorg.{SchemaOrg, SchemaRecipe, AuthorInfo, RecipeStep}
@@ -104,7 +106,7 @@ object CirceDecoders {
   implicit val podcastDecoder: Decoder[Podcast] = deriveDecoder
   implicit val podcastCategoryDecoder: Decoder[PodcastCategory] = deriveDecoder
   implicit val assetDecoder: Decoder[Asset] = deriveDecoder
-  implicit val assetFieldsDecoder: Decoder[AssetFields] = deriveDecoder
+  implicit val assetFieldsDecoder: Decoder[AssetFields] = deriveConfiguredDecoder
   implicit val cartoonVariantDecoder: Decoder[CartoonVariant] = deriveDecoder
   implicit val cartoonImageDecoder: Decoder[CartoonImage] = deriveDecoder
   implicit val elementDecoder: Decoder[Element] = deriveDecoder
@@ -120,7 +122,14 @@ object CirceDecoders {
   implicit val standardElementFieldsDecoder: Decoder[StandardElementFields] = deriveDecoder
   implicit val witnessElementFieldsDecoder: Decoder[WitnessElementFields] = deriveDecoder
   implicit val richLinkElementFieldsDecoder: Decoder[RichLinkElementFields] = deriveDecoder
-  implicit val membershipElementFieldsDecoder: Decoder[MembershipElementFields] = deriveDecoder
+  implicit val renameDatesConfiguration: Configuration = Configuration.default.copy(
+    transformMemberNames = {
+      case "startDate" => "start"
+      case "endDate" => "end"
+      case x => x
+    }
+  )
+  implicit val membershipElementFieldsDecoder: Decoder[MembershipElementFields] = deriveConfiguredDecoder
   implicit val embedElementFieldsDecoder: Decoder[EmbedElementFields] = deriveDecoder
   implicit val instagramElementFieldsDecoder: Decoder[InstagramElementFields] = deriveDecoder
   implicit val commentElementFieldsDecoder: Decoder[CommentElementFields] = deriveDecoder
