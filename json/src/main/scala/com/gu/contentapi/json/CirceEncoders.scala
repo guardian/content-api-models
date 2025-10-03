@@ -8,8 +8,6 @@ import com.gu.contententity.thrift.entity._
 import com.gu.contententity.{thrift => contententity}
 import com.twitter.scrooge.ThriftEnum
 import io.circe._
-import io.circe.generic.extras._
-import io.circe.generic.extras.semiauto.deriveConfiguredEncoder
 import io.circe.generic.semiauto._
 import io.circe.syntax._
 import com.gu.fezziwig.CirceScroogeWhiteboxMacros._
@@ -47,6 +45,19 @@ object CirceEncoders {
     )
   }
 
+  def renameStartAndEndFields(j: Json): Json = {
+    j.mapObject { x =>
+      (for {
+        endDate <- x("endDate")
+        startDate <- x("startDate")
+      } yield {
+        x
+          .remove("endDate").add("end", endDate)
+          .remove("startDate").add("start", startDate)
+      }).getOrElse(x)
+    }
+  }
+
   implicit val contentFieldsEncoder: Encoder[ContentFields] = deriveEncoder
   implicit val editionEncoder: Encoder[Edition] = deriveEncoder
   implicit val sponsorshipEncoder: Encoder[Sponsorship] = deriveEncoder
@@ -56,7 +67,7 @@ object CirceEncoders {
   implicit val podcastEncoder: Encoder[Podcast] = deriveEncoder
   implicit val podcastCategoryEncoder: Encoder[PodcastCategory] = deriveEncoder
   implicit val assetEncoder: Encoder[Asset] = deriveEncoder
-  implicit val assetFieldsEncoder: Encoder[AssetFields] = deriveConfiguredEncoder
+  implicit val assetFieldsEncoder: Encoder[AssetFields] = deriveEncoder[AssetFields].mapJson(renameStartAndEndFields(_))
   implicit val cartoonVariantEncoder: Encoder[CartoonVariant] = deriveEncoder
   implicit val cartoonImageEncoder: Encoder[CartoonImage] = deriveEncoder
   implicit val elementEncoder: Encoder[Element] = deriveEncoder
@@ -72,14 +83,7 @@ object CirceEncoders {
   implicit val standardElementFieldsEncoder: Encoder[StandardElementFields] = deriveEncoder
   implicit val witnessElementFieldsEncoder: Encoder[WitnessElementFields] = deriveEncoder
   implicit val richLinkElementFieldsEncoder: Encoder[RichLinkElementFields] = deriveEncoder
-  implicit val renameDatesConfiguration: Configuration = Configuration.default.copy(
-    transformMemberNames = {
-      case "startDate" => "start"
-      case "endDate" => "end"
-      case x => x
-    }
-  )
-  implicit val membershipElementFieldsEncoder: Encoder[MembershipElementFields] = deriveConfiguredEncoder
+  implicit val membershipElementFieldsEncoder: Encoder[MembershipElementFields] = deriveEncoder[MembershipElementFields].mapJson(renameStartAndEndFields(_))
   implicit val embedElementFieldsEncoder: Encoder[EmbedElementFields] = deriveEncoder
   implicit val instagramElementFieldsEncoder: Encoder[InstagramElementFields] = deriveEncoder
   implicit val commentElementFieldsEncoder: Encoder[CommentElementFields] = deriveEncoder

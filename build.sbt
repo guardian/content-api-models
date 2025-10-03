@@ -116,8 +116,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
-      // note below is deliberately not circeVersion as circe-generic-extras uses a different version number
-      "io.circe" %% "circe-generic-extras" % "0.14.4",
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
       "com.google.guava" % "guava" % guavaVersion % Test,
       "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
