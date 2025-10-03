@@ -152,6 +152,8 @@ enum ElementType {
     TIMELINE = 24
 
     LINK = 25
+
+    PRODUCT = 26
 }
 
 enum TagType {
@@ -923,6 +925,11 @@ enum ListType {
     MULTI_BYLINE = 4,
 }
 
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -973,6 +980,74 @@ struct TimelineSection {
 
 struct TimelineElementFields {
     1: required list<TimelineSection> sections;
+}
+
+struct Statistic {
+    1: optional string name,
+
+    2: optional string value,
+}
+
+struct ProductElementFields {
+  1: optional string productName;
+
+  2: optional string brandName;
+
+  3: optional string primaryHeading;
+
+  4: optional string secondaryHeading;
+
+  5: optional string starRating;
+
+  6: optional string primaryProductUrl;
+
+  7: optional string primaryCta;
+
+  8: optional string primaryRetailer;
+
+  9: optional string primaryPrice;
+
+  10: optional string secondaryProductUrl;
+
+  11: optional string secondaryCta;
+
+  12: optional string secondaryRetailer;
+
+  13: optional string secondaryPrice;
+
+  14: optional list<Statistic> statistics;
+
+  15: optional ProductImage image;
+
+  16: optional list<BlockElement> content;
+
+  17: required ProductDisplayType displayType;
+}
+
+struct ProductImage {
+       /** Caption of the image */
+       1: optional string caption;
+
+       /** Display credit for the image */
+       2: optional bool displayCredit;
+
+       /** Source of the image */
+       3: optional string source;
+
+       /** Caption of the image */
+       4: optional string photographer;
+
+       /** Alt text of the image */
+       5: optional string alt;
+
+       /** Media id of the image */
+       6: optional string mediaId;
+
+       /** Media url for the image */
+       7: optional string file;
+
+       /** Suppliers reference of the image */
+       8: optional string suppliersReference;
 }
 
 struct BlockElement {
@@ -1037,6 +1112,8 @@ struct BlockElement {
     27: optional TimelineElementFields timelineTypeData
 
     28: optional LinkElementFields linkTypeData
+
+    29: optional ProductElementFields tempProductTypeData
 }
 
 struct MembershipPlaceholder {
