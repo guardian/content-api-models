@@ -1025,9 +1025,29 @@ struct ProductElementFields {
 }
 
 struct ProductImage {
-    1: required list<Asset> assets;
+       /** Caption of the image */
+       1: optional string caption;
 
-    2: required ImageElementFields fields;
+       /** Display credit for the image */
+       2: optional bool displayCredit;
+
+       /** Source of the image */
+       3: optional string source;
+
+       /** Caption of the image */
+       4: optional string photographer;
+
+       /** Alt text of the image */
+       5: optional string alt;
+
+       /** Media id of the image */
+       6: optional string mediaId;
+
+       /** Media url for the image */
+       7: optional string file;
+
+       /** Suppliers reference of the image */
+       8: optional string suppliersReference;
 }
 
 struct BlockElement {
