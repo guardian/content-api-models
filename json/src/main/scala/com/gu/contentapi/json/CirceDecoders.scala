@@ -95,16 +95,12 @@ object CirceDecoders {
     }
   }
 
+  def renameField(oldName: String, newName: String): JsonObject => JsonObject =
+    o => o(oldName).fold(o)(v => o.remove(oldName).add(newName, v))
+
   def renameStartAndEndFields(c: ACursor): ACursor = {
     c.withFocus {
-      _.mapObject { x =>
-        (for {
-          endDate <- x("end")
-          startDate <- x("start")
-        } yield {
-          x.add("endDate", endDate).add("startDate", startDate)
-        }).getOrElse(x)
-      }
+      _.mapObject (renameField("end", "endDate").andThen(renameField("start", "startDate")))
     }
   }
 

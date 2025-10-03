@@ -45,17 +45,11 @@ object CirceEncoders {
     )
   }
 
-  def renameStartAndEndFields(j: Json): Json = {
-    j.mapObject { x =>
-      (for {
-        endDate <- x("endDate")
-        startDate <- x("startDate")
-      } yield {
-        x
-          .remove("endDate").add("end", endDate)
-          .remove("startDate").add("start", startDate)
-      }).getOrElse(x)
-    }
+  def renameField(oldName: String, newName: String): JsonObject => JsonObject =
+    o => o(oldName).fold(o)(v => o.remove(oldName).add(newName, v))
+
+  def renameStartAndEndFields: Json => Json = {
+    _.mapObject(renameField("endDate", "end").andThen(renameField("startDate", "start")))
   }
 
   implicit val contentFieldsEncoder: Encoder[ContentFields] = deriveEncoder
