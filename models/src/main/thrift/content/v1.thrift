@@ -988,6 +988,32 @@ struct Statistic {
     2: optional string value,
 }
 
+struct ProductImage {
+    /** Caption of the image */
+    1: optional string caption;
+
+    /** Display credit for the image */
+    2: optional bool displayCredit;
+
+    /** Source of the image */
+    3: optional string source;
+
+    /** Caption of the image */
+    4: optional string photographer;
+
+    /** Alt text of the image */
+    5: optional string alt;
+
+    /** The id of the image in the media api */
+    6: optional string mediaId;
+
+    /** The url of the image file */
+    7: optional string file;
+
+    /** Suppliers reference of the image */
+    8: optional string suppliersReference;
+}
+
 struct ProductElementFields {
   1: optional string productName;
 
@@ -1022,32 +1048,6 @@ struct ProductElementFields {
   16: optional list<BlockElement> content;
 
   17: required ProductDisplayType displayType;
-}
-
-struct ProductImage {
-       /** Caption of the image */
-       1: optional string caption;
-
-       /** Display credit for the image */
-       2: optional bool displayCredit;
-
-       /** Source of the image */
-       3: optional string source;
-
-       /** Caption of the image */
-       4: optional string photographer;
-
-       /** Alt text of the image */
-       5: optional string alt;
-
-       /** Media id of the image */
-       6: optional string mediaId;
-
-       /** Media url for the image */
-       7: optional string file;
-
-       /** Suppliers reference of the image */
-       8: optional string suppliersReference;
 }
 
 struct BlockElement {
