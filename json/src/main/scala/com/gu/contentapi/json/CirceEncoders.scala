@@ -187,7 +187,8 @@ object CirceEncoders {
   implicit val pillarsResponseEncoder: Encoder[PillarsResponse] = deriveEncoder
   implicit val embedReachEncoder: Encoder[EmbedReach] = deriveEncoder
   implicit val linkElementFieldsEncoder: Encoder[LinkElementFields] = deriveEncoder
-  implicit val statisticEncoder: Encoder[Statistic] = deriveEncoder
+  implicit val productCustomAttributeEncoder: Encoder[ProductCustomAttribute] = deriveEncoder
+  implicit val productCtaEncoder: Encoder[ProductCTA] = deriveEncoder
   implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
   implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
 

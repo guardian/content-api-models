@@ -928,6 +928,7 @@ enum ListType {
 enum ProductDisplayType {
     INLINE_WITH_PRODUCT_CARD = 0,
     INLINE_ONLY = 1,
+    PRODUCT_CARD_ONLY = 2,
 }
 
 struct ListItem {
@@ -982,7 +983,17 @@ struct TimelineElementFields {
     1: required list<TimelineSection> sections;
 }
 
-struct Statistic {
+struct ProductCTA {
+    1: optional string url;
+
+    2: optional string text;
+
+    3: optional string retailer;
+
+    4: optional string price;
+}
+
+struct ProductCustomAttribute {
     1: optional string name,
 
     2: optional string value,
@@ -1023,31 +1034,17 @@ struct ProductElementFields {
 
   4: optional string secondaryHeading;
 
-  5: optional string starRating;
+  5: required ProductDisplayType displayType;
 
-  6: optional string primaryProductUrl;
+  6: optional string starRating;
 
-  7: optional string primaryCta;
+  7: optional list<ProductCTA> productCtas;
 
-  8: optional string primaryRetailer;
+  8: optional list<ProductCustomAttribute> customAttributes;
 
-  9: optional string primaryPrice;
+  9: optional ProductImage image;
 
-  10: optional string secondaryProductUrl;
-
-  11: optional string secondaryCta;
-
-  12: optional string secondaryRetailer;
-
-  13: optional string secondaryPrice;
-
-  14: optional list<Statistic> statistics;
-
-  15: optional ProductImage image;
-
-  16: optional list<BlockElement> content;
-
-  17: required ProductDisplayType displayType;
+  10: optional list<BlockElement> content;
 }
 
 struct BlockElement {
