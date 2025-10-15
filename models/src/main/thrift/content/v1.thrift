@@ -188,8 +188,7 @@ enum KeywordType {
     EVENT = 2,
     WORK_OF_ART_OR_PRODUCT = 3,
     PLACE = 4,
-    OTHER = 5,
-    NONE = 6
+    OTHER = 5
 }
 
 enum CrosswordType {
