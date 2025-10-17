@@ -1023,6 +1023,18 @@ struct ProductImage {
 
     /** Suppliers reference of the image */
     8: optional string suppliersReference;
+
+    /** Type of the image */
+    9: optional string imageType;
+
+    /** height for the image */
+    10: optional i32 height;
+
+    /** width for the image */
+    11: optional i32 width;
+
+    /** Credit for the image */
+    12: optional string credit;
 }
 
 struct ProductElementFields {
