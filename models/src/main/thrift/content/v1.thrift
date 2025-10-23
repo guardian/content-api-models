@@ -911,6 +911,11 @@ enum ListType {
     MULTI_BYLINE = 4,
 }
 
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -961,11 +966,6 @@ struct TimelineSection {
 
 struct TimelineElementFields {
     1: required list<TimelineSection> sections;
-}
-
-enum ProductDisplayType {
-    INLINE_WITH_PRODUCT_CARD = 0,
-    INLINE_ONLY = 1,
 }
 
 struct ProductCTA {
