@@ -914,6 +914,7 @@ enum ListType {
 enum ProductDisplayType {
     INLINE_WITH_PRODUCT_CARD = 0,
     INLINE_ONLY = 1,
+    PRODUCT_CARD_ONLY = 2,
 }
 
 struct ListItem {
