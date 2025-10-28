@@ -986,42 +986,41 @@ struct ProductCustomAttribute {
 }
 
 struct ProductImage {
-       /** Caption of the image */
-       1: optional string caption;
+    /** Caption of the image */
+    1: optional string caption;
 
-       /** Display credit for the image */
-       2: optional bool displayCredit;
+    /** Display credit for the image */
+    2: optional bool displayCredit;
 
-       /** Source of the image */
-       3: optional string source;
+    /** Source of the image */
+    3: optional string source;
 
-       /** Caption of the image */
-       4: optional string photographer;
+    /** Caption of the image */
+    4: optional string photographer;
 
-       /** Alt text of the image */
-       5: optional string alt;
+    /** Alt text of the image */
+    5: optional string alt;
 
-       /** The id of the image in the media api */
-       6: optional string mediaId;
+    /** The id of the image in the media api */
+    6: optional string mediaId;
 
-       /** The url of the image file */
-       7: optional string file;
+    /** The url of the image file */
+    7: optional string file;
 
-       /** Suppliers reference of the image */
-       8: optional string suppliersReference;
+    /** Suppliers reference of the image */
+    8: optional string suppliersReference;
 
-       /** Type of the image */
-       9: optional string imageType;
+    /** Type of the image */
+    9: optional string imageType;
 
-       /** height for the image */
-       10: optional i32 height;
+    /** height for the image */
+    10: optional i32 height;
 
-       /** width for the image */
-       11: optional i32 width;
+    /** width for the image */
+    11: optional i32 width;
 
-       /** Credit for the image */
-       12: optional string credit;
-
+    /** Credit for the image */
+    12: optional string credit;
 }
 
 struct ProductElementFields {
