@@ -189,7 +189,7 @@ object CirceEncoders {
   implicit val linkElementFieldsEncoder: Encoder[LinkElementFields] = deriveEncoder
   implicit val productCustomAttributeEncoder: Encoder[ProductCustomAttribute] = deriveEncoder
   implicit val productCTAEncoder: Encoder[ProductCTA] = deriveEncoder
-  implicit val ProductImageEncoder: Encoder[ProductImage] = deriveEncoder
+  implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
   implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
