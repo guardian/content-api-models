@@ -1042,7 +1042,7 @@ struct ProductElementFields {
 
   9: optional ProductImage image;
 
-  10: optional list<Element> content;
+  10: optional list<BlockElement> content;
 }
 
 struct BlockElement {
