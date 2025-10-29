@@ -166,6 +166,8 @@ object CirceDecoders {
   implicit val imageAssetDimensionsDecoder: Decoder[contentatom.ImageAssetDimensions] = deriveDecoder
   implicit val mediaAssetDecoder: Decoder[media.Asset] = deriveDecoder
   implicit val mediaMetadataDecoder: Decoder[media.Metadata] = deriveDecoder
+  implicit val mediaSelfHostedDataDecoder: Decoder[media.SelfHostedData] = deriveEncoder
+  implicit val mediaVideoPlayerFormatDecoder: Decoder[media.VideoPlayerFormat] = deriveEncoder
   implicit val mediaPlutoDataDecoder: Decoder[media.PlutoData] = deriveDecoder
   implicit val mediaYoutubeDataDecoder: Decoder[media.YoutubeData] = deriveDecoder
   implicit val explainerAtomDecoder: Decoder[explainer.ExplainerAtom] = deriveDecoder
