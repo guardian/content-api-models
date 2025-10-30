@@ -152,6 +152,8 @@ enum ElementType {
     TIMELINE = 24
 
     LINK = 25
+
+    PRODUCT = 26
 }
 
 enum TagType {
@@ -923,6 +925,12 @@ enum ListType {
     MULTI_BYLINE = 4,
 }
 
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+    PRODUCT_CARD_ONLY = 2,
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -973,6 +981,82 @@ struct TimelineSection {
 
 struct TimelineElementFields {
     1: required list<TimelineSection> sections;
+}
+
+struct ProductCTA {
+    1: optional string url;
+
+    2: optional string text;
+
+    3: optional string retailer;
+
+    4: optional string price;
+}
+
+struct ProductCustomAttribute {
+    1: optional string name,
+
+    2: optional string value,
+}
+
+struct ProductImage {
+    /** Caption of the image */
+    1: optional string caption;
+
+    /** Display credit for the image */
+    2: optional bool displayCredit;
+
+    /** Source of the image */
+    3: optional string source;
+
+    /** Caption of the image */
+    4: optional string photographer;
+
+    /** Alt text of the image */
+    5: optional string alt;
+
+    /** The id of the image in the media api */
+    6: optional string mediaId;
+
+    /** The url of the image file */
+    7: optional string file;
+
+    /** Suppliers reference of the image */
+    8: optional string suppliersReference;
+
+    /** Type of the image */
+    9: optional string imageType;
+
+    /** height for the image */
+    10: optional i32 height;
+
+    /** width for the image */
+    11: optional i32 width;
+
+    /** Credit for the image */
+    12: optional string credit;
+}
+
+struct ProductElementFields {
+  1: optional string productName;
+
+  2: optional string brandName;
+
+  3: optional string primaryHeading;
+
+  4: optional string secondaryHeading;
+
+  5: required ProductDisplayType displayType;
+
+  6: optional string starRating;
+
+  7: optional list<ProductCTA> productCtas;
+
+  8: optional list<ProductCustomAttribute> customAttributes;
+
+  9: optional ProductImage image;
+
+  10: optional list<BlockElement> content;
 }
 
 struct BlockElement {
@@ -1037,6 +1121,8 @@ struct BlockElement {
     27: optional TimelineElementFields timelineTypeData
 
     28: optional LinkElementFields linkTypeData
+
+    29: optional ProductElementFields productTypeData
 }
 
 struct MembershipPlaceholder {
