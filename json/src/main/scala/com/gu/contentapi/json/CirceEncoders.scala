@@ -116,7 +116,6 @@ object CirceEncoders {
   implicit val mediaAssetEncoder: Encoder[media.Asset] = deriveEncoder
   implicit val mediaMetadataEncoder: Encoder[media.Metadata] = deriveEncoder
   implicit val mediaSelfHostDataEncoder: Encoder[media.SelfHostData] = deriveEncoder
-  implicit val mediaVideoPlayerFormatEncoder: Encoder[media.VideoPlayerFormat] = deriveEncoder
   implicit val mediaPlutoDataEncoder: Encoder[media.PlutoData] = deriveEncoder
   implicit val mediaYoutubeDataEncoder: Encoder[media.YoutubeData] = deriveEncoder
   implicit val explainerAtomEncoder: Encoder[explainer.ExplainerAtom] = deriveEncoder
