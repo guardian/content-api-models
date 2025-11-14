@@ -95,6 +95,15 @@ object CirceDecoders {
     }
   }
 
+  def renameField(oldName: String, newName: String): JsonObject => JsonObject =
+    o => o(oldName).fold(o)(v => o.remove(oldName).add(newName, v))
+
+  def renameStartAndEndFields(c: ACursor): ACursor = {
+    c.withFocus {
+      _.mapObject (renameField("end", "endDate").andThen(renameField("start", "startDate")))
+    }
+  }
+
   implicit val contentFieldsDecoder: Decoder[ContentFields] = deriveDecoder
   implicit val editionDecoder: Decoder[Edition] = deriveDecoder
   implicit val sponsorshipDecoder: Decoder[Sponsorship] = deriveDecoder
@@ -104,7 +113,7 @@ object CirceDecoders {
   implicit val podcastDecoder: Decoder[Podcast] = deriveDecoder
   implicit val podcastCategoryDecoder: Decoder[PodcastCategory] = deriveDecoder
   implicit val assetDecoder: Decoder[Asset] = deriveDecoder
-  implicit val assetFieldsDecoder: Decoder[AssetFields] = deriveDecoder
+  implicit val assetFieldsDecoder: Decoder[AssetFields] = deriveDecoder[AssetFields].prepare(renameStartAndEndFields)
   implicit val cartoonVariantDecoder: Decoder[CartoonVariant] = deriveDecoder
   implicit val cartoonImageDecoder: Decoder[CartoonImage] = deriveDecoder
   implicit val elementDecoder: Decoder[Element] = deriveDecoder
@@ -120,7 +129,7 @@ object CirceDecoders {
   implicit val standardElementFieldsDecoder: Decoder[StandardElementFields] = deriveDecoder
   implicit val witnessElementFieldsDecoder: Decoder[WitnessElementFields] = deriveDecoder
   implicit val richLinkElementFieldsDecoder: Decoder[RichLinkElementFields] = deriveDecoder
-  implicit val membershipElementFieldsDecoder: Decoder[MembershipElementFields] = deriveDecoder
+  implicit val membershipElementFieldsDecoder: Decoder[MembershipElementFields] = deriveDecoder[MembershipElementFields].prepare(renameStartAndEndFields)
   implicit val embedElementFieldsDecoder: Decoder[EmbedElementFields] = deriveDecoder
   implicit val instagramElementFieldsDecoder: Decoder[InstagramElementFields] = deriveDecoder
   implicit val commentElementFieldsDecoder: Decoder[CommentElementFields] = deriveDecoder
