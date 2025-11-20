@@ -30,13 +30,24 @@
                   "assetType": "video",
                   "version": 0,
                   "id": "a_video_atom",
-                  "platform": "youtube"
+                  "platform": "youtube",
+                  "dimensions": {
+                    "height": 900,
+                    "width": 720
+                  },
+                  "aspectRatio": "4:5"
                 }
               ],
               "activeVersion": 0,
               "plutoProjectId": "pluto_id",
               "category": "documentary",
-              "title": "March of the penguins"
+              "title": "March of the penguins",
+              "platform": "youtube",
+              "metadata": {
+                "selfHost": {
+                  "videoPlayerFormat": "loop"
+                }
+              }
             }
           },
           "contentChangeDetails" : {
