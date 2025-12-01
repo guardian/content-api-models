@@ -455,6 +455,12 @@ struct PullquoteElementFields {
 
 enum LinkType {
     PRODUCT_BUTTON = 0,
+    STANDARD_BUTTON = 1
+}
+
+enum VisualHierarchyImportance {
+    PRIMARY = 1
+    SECONDARY = 2
 }
 
 struct LinkElementFields {
@@ -464,6 +470,10 @@ struct LinkElementFields {
     2: optional string url;
 
     3: optional LinkType linkType;
+
+    4: optional VisualHierarchyImportance importance;
+
+    5: optional bool openTargetInNewWindow;
 }
 
 struct TweetElementFields {
