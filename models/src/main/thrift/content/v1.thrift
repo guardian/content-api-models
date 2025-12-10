@@ -184,6 +184,15 @@ enum TagType {
 
 }
 
+enum KeywordType {
+    PERSON = 0,
+    ORGANISATION = 1,
+    EVENT = 2,
+    WORK_OF_ART_OR_PRODUCT = 3,
+    PLACE = 4,
+    OTHER = 5
+}
+
 enum CrosswordType {
 
     QUICK = 0,
@@ -1631,6 +1640,11 @@ struct Tag {
     * The internal name of the tag
     */
     26: optional string internalName
+
+    /**
+    * The keyword type
+    */
+    27: optional KeywordType keywordType
 }
 
 struct Edition {
