@@ -867,6 +867,11 @@ struct CodeElementFields {
 
 }
 
+enum CalloutType {
+    COMMUNITY = 0,
+    REPORTER = 1
+}
+
 struct CalloutElementFields {
 
   1: optional string campaignId
@@ -878,6 +883,8 @@ struct CalloutElementFields {
   4: optional string overrideTitle
 
   5: optional string overrideDescription
+
+  6: optional CalloutType calloutType
 
 }
 
