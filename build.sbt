@@ -4,7 +4,7 @@ import sbtrelease.ReleaseStateTransformations.*
 import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
-val contentEntityVersion = "3.0.3"
+val contentEntityVersion = "4.0.0"
 val contentAtomVersion = "9.0.0"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
