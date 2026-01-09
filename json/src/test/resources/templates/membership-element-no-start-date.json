@@ -1,0 +1,14 @@
+{
+    "response": {
+        "venue": "The Scott room",
+        "identifier": "guardian-live",
+        "image": "https://media.guim.co.uk/e50e166a08e4279c352d83fa2f3210186999bd13/0_586_2064_1239/500.jpg",
+        "price": "£10",
+        "linkText": "Guardian Live | Guardian Newsroom: Should the UK bomb Syria?",
+        "location": "The Guardian, Kings Place, 90 York Way, London, N1 9GU",
+        "end": "2015-09-30T19:30:00Z",
+        "originalUrl": "https://membership.theguardian.com/event/guardian-live-guardian-newsroom-should-the-uk-bomb-syria-18761779989",
+        "title": "Guardian Live | Guardian Newsroom: Should the UK bomb Syria?",
+        "linkPrefix": "Membership Event: "
+    }
+}
