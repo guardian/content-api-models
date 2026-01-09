@@ -458,9 +458,9 @@ enum LinkType {
     STANDARD_BUTTON = 1
 }
 
-enum VisualHierarchyImportance {
+enum Priority {
     PRIMARY = 1
-    SECONDARY = 2
+    TERTIARY = 3
 }
 
 struct LinkElementFields {
@@ -471,9 +471,7 @@ struct LinkElementFields {
 
     3: optional LinkType linkType;
 
-    4: optional VisualHierarchyImportance importance;
-
-    5: optional bool openTargetInNewWindow;
+    4: optional Priority priority;
 }
 
 struct TweetElementFields {
