@@ -7,15 +7,15 @@ import sbtversionpolicy.withsbtrelease.ReleaseVersion
 val contentEntityVersion = "4.0.0"
 val contentAtomVersion = "9.0.0"
 val storyPackageVersion = "2.2.0"
-val thriftVersion = "0.15.0"
-val scroogeVersion = "22.1.0" // update plugins too if this version changes
-val circeVersion = "0.14.1"
+val thriftVersion = "0.22.0"
+val scroogeVersion = "22.12.0" // update plugins too if this version changes
+val circeVersion = "0.14.14"
 val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
-val scalaTestVersion = "3.0.8"
-val guavaVersion = "19.0"
-val diffsonVersion = "4.1.1"
+val scalaTestVersion = "3.0.9"
+val guavaVersion = "33.5.0-jre"
+val diffsonVersion = "4.6.0"
 
 // support non-production release types
 val betaReleaseType = "beta"
@@ -25,12 +25,12 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.16",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
   // https://twitter.github.io/scrooge/changelog.html#id11
-  crossScalaVersions := Seq("2.12.18", scalaVersion.value),
+  crossScalaVersions := Seq("2.12.20", scalaVersion.value),
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   resolvers ++= Resolver.sonatypeOssRepos("public"),
@@ -130,7 +130,7 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
-    libraryDependencies += "com.google.guava" % "guava" % "19.0",
+    libraryDependencies += "com.google.guava" % "guava" % "33.5.0-jre",
     Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
