@@ -577,6 +577,8 @@ struct VideoElementFields {
     20: optional string sourceDomain
 
     21: optional bool isMandatory
+
+    22: optional bool isLoopingVideo
 }
 
 struct ImageElementFields {
