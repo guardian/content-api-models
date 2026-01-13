@@ -455,6 +455,12 @@ struct PullquoteElementFields {
 
 enum LinkType {
     PRODUCT_BUTTON = 0,
+    STANDARD_BUTTON = 1
+}
+
+enum Priority {
+    PRIMARY = 1
+    TERTIARY = 3
 }
 
 struct LinkElementFields {
@@ -464,6 +470,8 @@ struct LinkElementFields {
     2: optional string url;
 
     3: optional LinkType linkType;
+
+    4: optional Priority priority;
 }
 
 struct TweetElementFields {
