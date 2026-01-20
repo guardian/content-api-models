@@ -15,7 +15,7 @@ val fezziwigVersion = "2.0.0"
 // dependency versions (for tests only)
 val scalaTestVersion = "3.0.8"
 val guavaVersion = "19.0"
-val diffsonVersion = "4.1.1"
+val diffsonVersion = "4.6.1"
 
 // support non-production release types
 val betaReleaseType = "beta"
