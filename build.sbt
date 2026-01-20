@@ -14,7 +14,7 @@ val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
 val scalaTestVersion = "3.0.8"
-val guavaVersion = "19.0"
+val guavaVersion = "33.5.0-jre"
 val diffsonVersion = "4.1.1"
 
 // support non-production release types
@@ -130,7 +130,7 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
-    libraryDependencies += "com.google.guava" % "guava" % "19.0",
+    libraryDependencies += "com.google.guava" % "guava" % "33.5.0-jre",
     Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
