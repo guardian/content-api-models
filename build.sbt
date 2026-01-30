@@ -45,6 +45,7 @@ lazy val root = Project(id = "root", base = file("."))
   .aggregate(models, json, scala)
   .settings(
     publish / skip := true,
+    scmInfo := Some(ScmInfo(url("https://github.com/guardian/content-api-models"), "scm:git@github.com:guardian/content-api-models.git")),
     releaseVersion := ReleaseVersion.fromAggregatedAssessedCompatibilityWithLatestRelease().value,
     releaseProcess := Seq[ReleaseStep](
       checkSnapshotDependencies,
