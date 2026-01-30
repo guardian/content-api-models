@@ -33,5 +33,4 @@ jobs:
         run: |
           sbt "project typescript" "releaseNpm ${{ needs.scala-maven-release.outputs.RELEASE_VERSION }}"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           RELEASE_TYPE: ${{ needs.scala-maven-release.outputs.RELEASE_TYPE }}
