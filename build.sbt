@@ -152,6 +152,7 @@ lazy val typescript = (project in file("ts"))
     description := "Typescript library built from the content api thrift definitions",
     Compile / scroogeLanguages := Seq("typescript"),
     Compile / scroogeThriftSourceFolder  := baseDirectory.value / "../models/src/main/thrift",
+    scroogeTypescriptPublishTag := "prerelease",
     scroogeTypescriptPackageLicense := "Apache-2.0",
     Compile / scroogeThriftDependencies  ++= Seq(
       "content-entity-thrift",
