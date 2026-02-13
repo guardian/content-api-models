@@ -167,6 +167,11 @@ class CirceRoundTripSpec extends FlatSpec with Matchers {
     checkRoundTrip[EntitiesResponse]("entities.json")
   }
 
+  it should "serialise and deserialise the renamed fields “startDate” and “endDate” as “start” and “end” respectively" in {
+    checkRoundTrip[MembershipElementFields]("membership-element.json")
+    checkRoundTrip[MembershipElementFields]("membership-element-no-start-date.json")
+  }
+
   def checkRoundTrip[T : Decoder : Encoder](
     jsonFileName: String,
     transformBeforeDecode: Json => Json = identity,

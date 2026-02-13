@@ -45,6 +45,13 @@ object CirceEncoders {
     )
   }
 
+  def renameField(oldName: String, newName: String): JsonObject => JsonObject =
+    o => o(oldName).fold(o)(v => o.remove(oldName).add(newName, v))
+
+  def renameStartAndEndFields: Json => Json = {
+    _.mapObject(renameField("endDate", "end").andThen(renameField("startDate", "start")))
+  }
+
   implicit val contentFieldsEncoder: Encoder[ContentFields] = deriveEncoder
   implicit val editionEncoder: Encoder[Edition] = deriveEncoder
   implicit val sponsorshipEncoder: Encoder[Sponsorship] = deriveEncoder
@@ -54,7 +61,7 @@ object CirceEncoders {
   implicit val podcastEncoder: Encoder[Podcast] = deriveEncoder
   implicit val podcastCategoryEncoder: Encoder[PodcastCategory] = deriveEncoder
   implicit val assetEncoder: Encoder[Asset] = deriveEncoder
-  implicit val assetFieldsEncoder: Encoder[AssetFields] = deriveEncoder
+  implicit val assetFieldsEncoder: Encoder[AssetFields] = deriveEncoder[AssetFields].mapJson(renameStartAndEndFields(_))
   implicit val cartoonVariantEncoder: Encoder[CartoonVariant] = deriveEncoder
   implicit val cartoonImageEncoder: Encoder[CartoonImage] = deriveEncoder
   implicit val elementEncoder: Encoder[Element] = deriveEncoder
@@ -70,7 +77,7 @@ object CirceEncoders {
   implicit val standardElementFieldsEncoder: Encoder[StandardElementFields] = deriveEncoder
   implicit val witnessElementFieldsEncoder: Encoder[WitnessElementFields] = deriveEncoder
   implicit val richLinkElementFieldsEncoder: Encoder[RichLinkElementFields] = deriveEncoder
-  implicit val membershipElementFieldsEncoder: Encoder[MembershipElementFields] = deriveEncoder
+  implicit val membershipElementFieldsEncoder: Encoder[MembershipElementFields] = deriveEncoder[MembershipElementFields].mapJson(renameStartAndEndFields(_))
   implicit val embedElementFieldsEncoder: Encoder[EmbedElementFields] = deriveEncoder
   implicit val instagramElementFieldsEncoder: Encoder[InstagramElementFields] = deriveEncoder
   implicit val commentElementFieldsEncoder: Encoder[CommentElementFields] = deriveEncoder
