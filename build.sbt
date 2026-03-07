@@ -25,7 +25,7 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.18",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
