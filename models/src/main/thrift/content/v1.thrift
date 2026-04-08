@@ -865,6 +865,8 @@ struct ContentAtomElementFields {
 
   4: optional bool isMandatory
 
+  5: optional string caption
+
 }
 
 struct CodeElementFields {
