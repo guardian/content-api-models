@@ -5,7 +5,7 @@ import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
 val contentEntityVersion = "4.0.0"
-val contentAtomVersion = "9.0.0"
+val contentAtomVersion = "10.0.0-PREVIEW.shadd-duration-to-media-asset-type.2026-04-16T1155.375b1d33"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.15.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
