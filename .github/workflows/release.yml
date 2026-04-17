@@ -4,18 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # scala-maven-release:
-  #   name: Maven Release
-  #   uses: guardian/gha-scala-library-release-workflow/.github/workflows/reusable-release.yml@v2
-  #   permissions: { contents: write, pull-requests: write }
-  #   secrets:
-  #     SONATYPE_TOKEN: ${{ secrets.AUTOMATED_MAVEN_RELEASE_SONATYPE_TOKEN }}
-  #     PGP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_PGP_SECRET }}
-  #     GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_GITHUB_APP_PRIVATE_KEY }}
-
   typescript-npm-release:
     name: NPM Release
-    needs: scala-maven-release
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -35,6 +25,4 @@ jobs:
         run: |
           which tsc
           tsc --version || echo "typescript not found"
-          sbt "project typescript" "releaseNpm ${{ needs.scala-maven-release.outputs.RELEASE_VERSION }}" || tsc --version
-        env:
-          RELEASE_TYPE: ${{ needs.scala-maven-release.outputs.RELEASE_TYPE }}
+          sbt "project typescript" "scroogeTypescriptCompile" || tsc --version
