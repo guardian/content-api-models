@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  scala-maven-release:
-    name: Maven Release
-    uses: guardian/gha-scala-library-release-workflow/.github/workflows/reusable-release.yml@v2
-    permissions: { contents: write, pull-requests: write }
-    secrets:
-      SONATYPE_TOKEN: ${{ secrets.AUTOMATED_MAVEN_RELEASE_SONATYPE_TOKEN }}
-      PGP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_PGP_SECRET }}
-      GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_GITHUB_APP_PRIVATE_KEY }}
+  # scala-maven-release:
+  #   name: Maven Release
+  #   uses: guardian/gha-scala-library-release-workflow/.github/workflows/reusable-release.yml@v2
+  #   permissions: { contents: write, pull-requests: write }
+  #   secrets:
+  #     SONATYPE_TOKEN: ${{ secrets.AUTOMATED_MAVEN_RELEASE_SONATYPE_TOKEN }}
+  #     PGP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_PGP_SECRET }}
+  #     GITHUB_APP_PRIVATE_KEY: ${{ secrets.AUTOMATED_MAVEN_RELEASE_GITHUB_APP_PRIVATE_KEY }}
 
   typescript-npm-release:
     name: NPM Release
@@ -33,6 +33,8 @@ jobs:
           registry-url: https://registry.npmjs.org
       - name: Release Typescript to NPM
         run: |
-          sbt "project typescript" "releaseNpm ${{ needs.scala-maven-release.outputs.RELEASE_VERSION }}"
+          which tsc
+          tsc --version || echo "typescript not found"
+          sbt "project typescript" "releaseNpm ${{ needs.scala-maven-release.outputs.RELEASE_VERSION }}" || tsc --version
         env:
           RELEASE_TYPE: ${{ needs.scala-maven-release.outputs.RELEASE_TYPE }}
