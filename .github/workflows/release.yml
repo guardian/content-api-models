@@ -10,13 +10,29 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: Check TypeScript Installation 1
+        run: |
+          which tsc
+          tsc --version || echo "typescript not found"
       - uses: actions/checkout@v4
+      - name: Check TypeScript Installation 2
+        run: |
+          which tsc
+          tsc --version || echo "typescript not found"
       - uses: actions/setup-java@v4
         with:
           distribution: corretto
           java-version: 11
           cache: sbt
+      - name: Check TypeScript Installation 3
+        run: |
+          which tsc
+          tsc --version || echo "typescript not found"
       - uses: sbt/setup-sbt@v1.1.0
+      - name: Check TypeScript Installation 4
+        run: |
+          which tsc
+          tsc --version || echo "typescript not found"
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
