@@ -13,7 +13,7 @@ val circeVersion = "0.14.1"
 val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
-val scalaTestVersion = "3.0.8"
+val scalaTestVersion = "3.0.9"
 val guavaVersion = "19.0"
 val diffsonVersion = "4.1.1"
 
