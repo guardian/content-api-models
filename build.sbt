@@ -13,7 +13,7 @@ val circeVersion = "0.14.1"
 val fezziwigVersion = "2.0.0"
 
 // dependency versions (for tests only)
-val scalaTestVersion = "3.0.8"
+val scalaTestVersion = "3.0.9"
 val guavaVersion = "19.0"
 val diffsonVersion = "4.1.1"
 
@@ -25,12 +25,12 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.18",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
   // https://twitter.github.io/scrooge/changelog.html#id11
-  crossScalaVersions := Seq("2.12.18", scalaVersion.value),
+  crossScalaVersions := Seq("2.12.21", scalaVersion.value),
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   scmInfo := Some(ScmInfo(url("https://github.com/guardian/content-api-models"), "scm:git@github.com:guardian/content-api-models.git")),
