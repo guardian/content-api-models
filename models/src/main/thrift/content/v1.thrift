@@ -299,7 +299,7 @@ struct AssetFields {
 
   12: optional string name
 
-  13: optional string secureFile
+  13: optional string secureFile // see also 71: secureFileWithAds
 
   14: optional bool isMaster
 
@@ -415,6 +415,8 @@ struct AssetFields {
   69: optional bool isMandatory
 
   70: optional list<CartoonVariant> cartoonVariants
+
+  71: optional string secureFileWithAds
 }
 
 struct Asset {
