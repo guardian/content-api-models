@@ -23,6 +23,7 @@
           "atomType" : "explainer",
           "labels" : [ ],
           "commissioningDesks" : [ ],
+          "tagIds" : [ ],
           "defaultHtml" : "<div</div>\n",
           "data" : {
             "explainer": {
