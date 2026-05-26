@@ -3,7 +3,7 @@
 [![content-api-models-scala Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-scala)
 [![content-api-models-json Scala version support](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/guardian/content-api-models/content-api-models-json)
 [![CI](https://github.com/guardian/content-api-models/actions/workflows/ci.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/ci.yml)
-[![Release](https://github.com/guardian/content-api-models/actions/workflows/release.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/release.yml)
+[![Release](https://github.com/guardian/content-api-models/actions/workflows/release.yml/badge.svg)](https://github.com/guardian/content-api-models/actions/workflows/release.yml?query=branch%3Amain)
 
 ## Version Info
 
