@@ -59,7 +59,7 @@ val models = Project(id = "content-api-models", base = file("content-api-models/
 /**
  * Thrift generated Scala classes project
  */
-val scala = Project(id = "content-api-models-scala", base = file("content-api-models/scala"))
+val contentApiModelsScala = Project(id = "content-api-models-scala", base = file("content-api-models/scala"))
   .dependsOn(models)
   .settings(artifactProductionSettings)
   .settings(
@@ -90,7 +90,7 @@ val scala = Project(id = "content-api-models-scala", base = file("content-api-mo
  * JSON parser project
  */
 val json = Project(id = "content-api-models-json", base = file("content-api-models/json"))
-  .dependsOn(scala)
+  .dependsOn(contentApiModelsScala)
   .settings(artifactProductionSettings)
   .settings(
     description := "Json parser for the Guardian's Content API models",
@@ -108,7 +108,7 @@ val json = Project(id = "content-api-models-json", base = file("content-api-mode
   )
 
 val benchmarks = Project(id = "benchmarks", base = file("content-api-models/benchmarks"))
-  .dependsOn(json, scala)
+  .dependsOn(json, contentApiModelsScala)
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
@@ -155,6 +155,7 @@ val contentApiModelsTypescript = Project(id = "content-api-models-typescript", b
 val contentApiClientProject = "content-api-client"
 
 val contentApiClient = Project(id = contentApiClientProject, base = file("content-api-scala-client/client"))
+  .dependsOn(contentApiModelsScala)
   .settings(artifactProductionSettings,
     name := contentApiClientProject,
     description := "Scala client for the Guardian's Content API",
@@ -167,8 +168,8 @@ val contentApiClient = Project(id = contentApiClientProject, base = file("conten
 
 val contentApiClientProjectDefault = contentApiClientProject + "-default"
 
-val contentApiDefaultClient = Project(id =contentApiClientProjectDefault, base = file("content-api-scala-client/client-default"))
-  .dependsOn(contentApiClient, models)
+val contentApiDefaultClient = Project(id = contentApiClientProjectDefault, base = file("content-api-scala-client/client-default"))
+  .dependsOn(contentApiClient)
   .settings(artifactProductionSettings,
     name := contentApiClientProjectDefault,
     description := "Default scala client for the Guardian's Content API",
@@ -185,7 +186,7 @@ val contentApiDefaultClient = Project(id =contentApiClientProjectDefault, base =
  * Root project
  */
 val root = Project(id = "root", base = file("."))
-  .aggregate(models, json, scala, contentApiClient, contentApiDefaultClient)
+  .aggregate(models, json, contentApiModelsScala, contentApiClient, contentApiDefaultClient)
   .settings(
     publish / skip := true,
     releaseVersion := ReleaseVersion.fromAggregatedAssessedCompatibilityWithLatestRelease().value,

@@ -2,7 +2,6 @@ import sbt._
 
 object Dependencies {
   val scalaVersions = Seq("2.12.19", "2.13.14")
-  val capiModelsVersion = "37.0.0"
   val thriftVersion = "0.20.0"
   val commonsCodecVersion = "1.17.0"
   val scalaTestVersion = "3.2.18"
@@ -14,7 +13,6 @@ object Dependencies {
   // Note: keep libthrift at a version functionally compatible with that used in content-api-models
   // if build failures occur due to eviction / sbt-assembly mergeStrategy errors
   val clientDeps = Seq(
-    "com.gu" %% "content-api-models-scala" % capiModelsVersion,
     "org.apache.thrift" % "libthrift" % thriftVersion,
     "commons-codec" % "commons-codec" % commonsCodecVersion,
     "org.scalatest" %% "scalatest" % scalaTestVersion % "test" exclude("org.mockito", "mockito-core"),

@@ -5,3 +5,4 @@ target/
 .DS_Store
 .metals
 .vscode
+test-results
