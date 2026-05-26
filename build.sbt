@@ -2,6 +2,7 @@ import sbt.Keys.*
 import sbt.{Test, Tests}
 import sbtrelease.ReleaseStateTransformations.*
 import sbtversionpolicy.withsbtrelease.ReleaseVersion
+import Dependencies._
 
 // dependency versions
 val contentEntityVersion = "4.0.0"
@@ -23,8 +24,7 @@ val betaReleaseSuffix = "-beta.0"
 val snapshotReleaseType = "snapshot"
 val snapshotReleaseSuffix = "-SNAPSHOT"
 
-
-lazy val artifactProductionSettings = Seq(
+val artifactProductionSettings = Seq(
   scalaVersion := "2.13.12",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
@@ -40,53 +40,34 @@ lazy val artifactProductionSettings = Seq(
 )
 
 /**
-  * Root project
-  */
-lazy val root = Project(id = "root", base = file("."))
-  .aggregate(models, json, scala)
-  .settings(
-    publish / skip := true,
-    releaseVersion := ReleaseVersion.fromAggregatedAssessedCompatibilityWithLatestRelease().value,
-    releaseProcess := Seq[ReleaseStep](
-      checkSnapshotDependencies,
-      inquireVersions,
-      runClean,
-      runTest,
-      setReleaseVersion,
-      commitReleaseVersion,
-      tagRelease,
-      setNextVersion,
-      commitNextVersion
-    )
-  )
-
-/**
-  * Thrift models project
-  */
-lazy val models = Project(id = "content-api-models", base = file("models"))
+ * Thrift models project
+ */
+val models = Project(id = "content-api-models", base = file("content-api-models/models"))
   .settings(artifactProductionSettings)
   .disablePlugins(ScroogeSBT)
   .settings(
     description := "Scala models for the Guardian's Content API",
     crossPaths := false,
-    packageDoc / publishArtifact  := false,
-    packageSrc / publishArtifact  := false,
-    unmanagedResources / includeFilter  := "*.thrift",
-    Compile / unmanagedResourceDirectories  += { baseDirectory.value / "src/main/thrift" }
+    packageDoc / publishArtifact := false,
+    packageSrc / publishArtifact := false,
+    unmanagedResources / includeFilter := "*.thrift",
+    Compile / unmanagedResourceDirectories += {
+      baseDirectory.value / "src/main/thrift"
+    }
   )
 
-  /**
-  * Thrift generated Scala classes project
-  */
-lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
+/**
+ * Thrift generated Scala classes project
+ */
+val scala = Project(id = "content-api-models-scala", base = file("content-api-models/scala"))
   .dependsOn(models)
   .settings(artifactProductionSettings)
   .settings(
     description := "Generated classes of the Scala models for the Guardian's Content API",
     scalacOptions ++= Seq("-deprecation", "-unchecked"),
-    Compile / scroogeThriftOutputFolder  := sourceManaged.value / "thrift",
-    Compile / scroogeThriftSourceFolder   := baseDirectory.value / "../models/src/main/thrift",
-    Compile / scroogeThriftDependencies  ++= Seq(
+    Compile / scroogeThriftOutputFolder := sourceManaged.value / "thrift",
+    Compile / scroogeThriftSourceFolder := baseDirectory.value / "../models/src/main/thrift",
+    Compile / scroogeThriftDependencies ++= Seq(
       "story-packages-model-thrift",
       "content-atom-model-thrift",
       "content-entity-thrift"
@@ -106,9 +87,9 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
   )
 
 /**
-  * JSON parser project
-  */
-lazy val json = Project(id = "content-api-models-json", base = file("json"))
+ * JSON parser project
+ */
+val json = Project(id = "content-api-models-json", base = file("content-api-models/json"))
   .dependsOn(scala)
   .settings(artifactProductionSettings)
   .settings(
@@ -126,7 +107,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
     Compile / packageDoc / mappings := Nil
   )
 
-lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
+val benchmarks = Project(id = "benchmarks", base = file("content-api-models/benchmarks"))
   .dependsOn(json, scala)
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
@@ -136,24 +117,23 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
     publishArtifact := false
   )
 
-lazy val npmPreviewReleaseTagMaybe = if (sys.env.get("RELEASE_TYPE").contains("PREVIEW_FEATURE_BRANCH")) {
+val npmPreviewReleaseTagMaybe = if (sys.env.get("RELEASE_TYPE").contains("PREVIEW_FEATURE_BRANCH")) {
   Seq(scroogeTypescriptPublishTag := "preview")
 } else Seq.empty
 
-lazy val typescript = (project in file("ts"))
+val contentApiModelsTypescript = Project(id = "content-api-models-typescript", base = file("ts"))
   .enablePlugins(ScroogeTypescriptGen)
   .settings(artifactProductionSettings)
   .settings(npmPreviewReleaseTagMaybe)
   .settings(
-    name := "content-api-models-typescript",
     scroogeTypescriptNpmPackageName := "@guardian/content-api-models",
     Compile / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     Test / scroogeDefaultJavaNamespace := scroogeTypescriptNpmPackageName.value,
     description := "Typescript library built from the content api thrift definitions",
     Compile / scroogeLanguages := Seq("typescript"),
-    Compile / scroogeThriftSourceFolder  := baseDirectory.value / "../models/src/main/thrift",
+    Compile / scroogeThriftSourceFolder := baseDirectory.value / "../models/src/main/thrift",
     scroogeTypescriptPackageLicense := "Apache-2.0",
-    Compile / scroogeThriftDependencies  ++= Seq(
+    Compile / scroogeThriftDependencies ++= Seq(
       "content-entity-thrift",
       "content-atom-model-thrift",
       "story-packages-model-thrift"
@@ -169,5 +149,55 @@ lazy val typescript = (project in file("ts"))
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
+    )
+  )
+
+val contentApiClientProject = "content-api-client"
+
+val contentApiClient = Project(id = contentApiClientProject, base = file("content-api-scala-client/client"))
+  .settings(artifactProductionSettings,
+    name := contentApiClientProject,
+    description := "Scala client for the Guardian's Content API",
+    buildInfoKeys := Seq[BuildInfoKey](version),
+    buildInfoPackage := "com.gu.contentapi.buildinfo",
+    buildInfoObject := "CapiBuildInfo",
+    libraryDependencies ++= clientDeps
+  )
+  .enablePlugins(BuildInfoPlugin)
+
+val contentApiClientProjectDefault = contentApiClientProject + "-default"
+
+val contentApiDefaultClient = Project(id =contentApiClientProjectDefault, base = file("content-api-scala-client/client-default"))
+  .dependsOn(contentApiClient, models)
+  .settings(artifactProductionSettings,
+    name := contentApiClientProjectDefault,
+    description := "Default scala client for the Guardian's Content API",
+    libraryDependencies ++= clientDeps ++ defaultClientDeps,
+    console / initialCommands := """
+      import com.gu.contentapi.client._
+      import scala.concurrent.ExecutionContext.Implicits.global
+      import scala.concurrent.Await
+      import scala.concurrent.duration._
+    """
+  )
+
+/**
+ * Root project
+ */
+val root = Project(id = "root", base = file("."))
+  .aggregate(models, json, scala, contentApiClient, contentApiDefaultClient)
+  .settings(
+    publish / skip := true,
+    releaseVersion := ReleaseVersion.fromAggregatedAssessedCompatibilityWithLatestRelease().value,
+    releaseProcess := Seq[ReleaseStep](
+      checkSnapshotDependencies,
+      inquireVersions,
+      runClean,
+      runTest,
+      setReleaseVersion,
+      commitReleaseVersion,
+      tagRelease,
+      setNextVersion,
+      commitNextVersion
     )
   )
