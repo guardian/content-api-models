@@ -101,7 +101,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
-      "com.gu" % "content-entity-thrift" % contentEntityVersion
+      "com.gu" % "content-entity-thrift" % contentEntityVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     )
   )
 
