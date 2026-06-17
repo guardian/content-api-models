@@ -636,6 +636,12 @@ struct InteractiveElementFields {
 //    12: optional i32 height
 //    13: optional i32 width
     14: optional string sourceDomain
+    /**
+     * Fallback content to display if the platform is not able to render the
+     * content at `url`, for example because the platform does not support
+     * rendering HTML natively.
+     */
+    15: optional list<BlockElement> fallbackContent
 }
 
 struct StandardElementFields {
