@@ -154,6 +154,8 @@ enum ElementType {
     LINK = 25
 
     PRODUCT = 26
+
+    PRODUCT_SUMMARY = 27
 }
 
 enum TagType {
@@ -952,6 +954,13 @@ enum ProductDisplayType {
     PRODUCT_CARD_ONLY = 2,
 }
 
+enum ProductSummaryDisplayType {
+    CTA_LIST = 0,
+    CAROUSEL = 1,
+    STACKED_CARD = 2
+    STACKED_CARD_EXPANDED = 3
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -1082,6 +1091,22 @@ struct ProductElementFields {
   11: optional string id;
 }
 
+struct SummaryProductRef {
+    1: optional string productId;
+
+    2: optional i32 ctaIndex;
+}
+
+struct ProductSummaryElementFields {
+    1: optional string title;
+
+    2: required ProductSummaryDisplayType displayType;
+
+    3: optional list<SummaryProductRef> products;
+
+    4: optional string id;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -1146,6 +1171,8 @@ struct BlockElement {
     28: optional LinkElementFields linkTypeData
 
     29: optional ProductElementFields productTypeData
+
+    30: optional ProductSummaryElementFields productSummaryTypeData
 }
 
 struct MembershipPlaceholder {

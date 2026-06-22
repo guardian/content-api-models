@@ -193,6 +193,8 @@ object CirceEncoders {
   implicit val productCTAEncoder: Encoder[ProductCTA] = deriveEncoder
   implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
   implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
+  implicit val summaryProductRefEncoder: Encoder[SummaryProductRef] = deriveEncoder
+  implicit val productSummaryElementFieldsEncoder: Encoder[ProductSummaryElementFields] = deriveEncoder
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)
