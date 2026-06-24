@@ -417,6 +417,8 @@ struct AssetFields {
   70: optional list<CartoonVariant> cartoonVariants
 
   71: optional string secureFileWithAds
+
+  72: optional list<ResponsiveImageVariant> responsiveImageVariants
 }
 
 struct Asset {
@@ -1119,9 +1121,9 @@ struct ResponsiveImageVariantImage {
 /** Responsive image element */
 struct ResponsiveImageElementFields {
     /**
-     * Lists of images to display at each responsive variant.
+     * Lists of images to display for each responsive variant.
      */
-    1: optional list<ResponsiveImageVariant> variants;
+    1: optional list<ResponsiveImageVariant> responsiveImageVariants;
 
     /** The role of the element (i.e. a hint about how it should be displayed) e.g. showcase, thumbnail, immersive */
     2: optional string role;
