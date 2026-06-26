@@ -154,6 +154,8 @@ enum ElementType {
     LINK = 25
 
     PRODUCT = 26
+
+    RESPONSIVE_IMAGE = 27
 }
 
 enum TagType {
