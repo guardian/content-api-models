@@ -155,7 +155,9 @@ enum ElementType {
 
     PRODUCT = 26
 
-    PRODUCT_SUMMARY = 27
+    RESPONSIVE_IMAGE = 27
+    
+    PRODUCT_SUMMARY = 28
 }
 
 enum TagType {
@@ -419,6 +421,8 @@ struct AssetFields {
   70: optional list<CartoonVariant> cartoonVariants
 
   71: optional string secureFileWithAds
+
+  72: optional list<ResponsiveImageVariant> responsiveImageVariants
 }
 
 struct Asset {
@@ -638,6 +642,12 @@ struct InteractiveElementFields {
 //    12: optional i32 height
 //    13: optional i32 width
     14: optional string sourceDomain
+    /**
+     * Fallback content to display if the platform is not able to render the
+     * content at `url`, for example because the platform does not support
+     * rendering HTML natively.
+     */
+    15: optional list<BlockElement> fallbackContent
 }
 
 struct StandardElementFields {
@@ -1107,6 +1117,60 @@ struct ProductSummaryElementFields {
     4: optional string id;
 }
 
+enum ColorScheme {
+    LIGHT = 0,
+    DARK = 1
+}
+
+struct ResponsiveImageVariant {
+    1: required string viewportSize;
+    2: required list<ResponsiveImageVariantImage> images;
+    3: optional ColorScheme colorScheme;
+}
+
+struct ResponsiveImageVariantImage {
+    /** The mime type of the image */
+    1: required string mimeType;
+
+    /** the url of the image file */
+    2: required string file;
+
+    /** The width of the image */
+    3: optional i32 width;
+
+    /** The height of the image */
+    4: optional i32 height;
+
+    /** The id of the image in the media api */
+    5: optional string mediaId;
+}
+
+/** Responsive image element */
+struct ResponsiveImageElementFields {
+    /**
+     * Lists of images to display for each responsive variant.
+     */
+    1: optional list<ResponsiveImageVariant> responsiveImageVariants;
+
+    /** The role of the element (i.e. a hint about how it should be displayed) e.g. showcase, thumbnail, immersive */
+    2: optional string role;
+
+    3: optional string photographer;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    /** The source of the image(s) */
+    6: optional string source;
+
+    /** If the credit should be displayed */
+    7: optional bool displayCredit;
+
+    /** Type of the image, usually one of Illustration, Photograph or Composite */
+    8: optional string imageType;
+}
+
 struct BlockElement {
 
     1: required ElementType type
@@ -1172,7 +1236,9 @@ struct BlockElement {
 
     29: optional ProductElementFields productTypeData
 
-    30: optional ProductSummaryElementFields productSummaryTypeData
+    30: optional ResponsiveImageElementFields responsiveImageTypeData
+    
+    31: optional ProductSummaryElementFields productSummaryTypeData
 }
 
 struct MembershipPlaceholder {
