@@ -9,7 +9,7 @@ val contentAtomVersion = "12.0.1"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.23.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
-val circeVersion = "0.14.1"
+val circeVersion = "0.14.16"
 val fezziwigVersion = "2.0.1"
 
 // dependency versions (for tests only)
