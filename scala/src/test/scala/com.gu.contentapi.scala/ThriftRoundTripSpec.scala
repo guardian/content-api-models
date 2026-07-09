@@ -13,6 +13,8 @@ import com.gu.contentapi.client.model.v1.ItemResponse
 import com.twitter.scrooge.ThriftStructCodec
 import org.scalatest.Assertion
 import com.twitter.scrooge.ThriftStruct
+import com.gu.contentapi.client.model.v1.Tag
+import com.gu.contentapi.client.model.v1.TagType
 
 class ThriftRoundTripSpec extends FlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
@@ -33,6 +35,27 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
         response.results(0).fields.get.headline shouldBe Some("Christy review – outstanding actors and Cork landmarks shine in a moving and funny Irish drama")
       }
     )
+  }
+
+  it should "round-trip TagType enum values" in {
+    for {
+      (rawPath, _tagType) <- Seq(
+        "some-contributor-tag.binary.thrift" -> TagType.Contributor,
+        "some-keyword-tag.binary.thrift" -> TagType.Keyword,
+        "some-series-tag.binary.thrift" -> TagType.Series,
+        "some-newspaper-book-section-tag.binary.thrift" -> TagType.NewspaperBookSection,
+        "some-newspaper-book-tag.binary.thrift" -> TagType.NewspaperBook,
+        "some-blog-tag.binary.thrift" -> TagType.Blog,
+        "some-tone-tag.binary.thrift" -> TagType.Tone,
+        "some-type-tag.binary.thrift" -> TagType.Type,
+        "some-publication-tag.binary.thrift" -> TagType.Publication,
+        "some-tracking-tag.binary.thrift" -> TagType.Tracking,
+        "some-paid-content-tag.binary.thrift" -> TagType.PaidContent,
+        "some-campaign-tag.binary.thrift" -> TagType.Campaign,
+      )
+    } yield {
+      checkRoundTrip(Path.of(rawPath), Tag)
+    }
   }
 
   def checkRoundTrip[T <: ThriftStruct](
