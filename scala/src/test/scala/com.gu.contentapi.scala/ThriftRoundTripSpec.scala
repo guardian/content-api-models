@@ -53,4 +53,33 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
     outputTransport.getArray() shouldEqual inputBytes
     assertion(struct)
   }
+
+  /**
+   * Helper for generating test files for a type.
+   *
+   * Start with a test like this:
+   *
+   * {{{
+   * it should "round-trip a ProductSummaryElementFields" in {
+   *   val fields = ProductSummaryElementFields(Some("Something"),ProductSummaryDisplayType.Carousel,Some(List(SummaryProductRef(Some("product-id"),Some(0)))),Some("An id"))
+   *   val testPath = Path.of("productSummaryElementFields.binary.thrift")
+   *   thriftToFile(testPath, fields)
+   *   checkRoundTrip(testPath, ProductSummaryElementFields)
+   * }
+   * }}}
+   *
+   * Running `sbt test` will generate an appropriate resource file by writing
+   * out the example value (`fields` here), and then you can remove the
+   * `thriftToFile` call and simplify the test.
+   */
+  def thriftToFile[T <: ThriftStruct](
+    resourcePath: Path,
+    value: T,
+  ) = {
+    val resourcesPath = Path.of("scala", "src", "test", "resources")
+    val outputStream = Files.newOutputStream(resourcesPath.resolve(resourcePath))
+    val transport = new TIOStreamTransport(outputStream)
+    val protocol = new TCompactProtocol(transport)
+    value.write(protocol)
+  }
 }
