@@ -39,7 +39,7 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
 
   it should "round-trip TagType enum values" in {
     for {
-      (rawPath, _tagType) <- Seq(
+      (rawPath, tagType) <- Seq(
         "some-contributor-tag.binary.thrift" -> TagType.Contributor,
         "some-keyword-tag.binary.thrift" -> TagType.Keyword,
         "some-series-tag.binary.thrift" -> TagType.Series,
@@ -54,7 +54,7 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
         "some-campaign-tag.binary.thrift" -> TagType.Campaign,
       )
     } yield {
-      checkRoundTrip(Path.of(rawPath), Tag)
+      checkRoundTrip(Path.of(rawPath), Tag, (tag: Tag) => tag.`type` shouldBe tagType)
     }
   }
 
