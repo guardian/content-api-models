@@ -62,6 +62,7 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
         "some-campaign-tag.binary.thrift" -> TagType.Campaign,
       )
     } yield {
+      compactToBinary(Path.of(rawPath), Tag)
       checkRoundTrip(Path.of(rawPath), Tag, (tag: Tag) => tag.`type` shouldBe tagType)
     }
   }
