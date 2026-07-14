@@ -2,12 +2,11 @@ package com.gu.contentapi.scala
 
 import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.client.model.v1.SearchResponse
-import org.apache.thrift.transport.TMemoryBuffer
-import org.apache.thrift.protocol.TCompactProtocol
+import org.apache.thrift.transport._
+import org.apache.thrift.protocol.{TProtocol, TBinaryProtocol, TCompactProtocol}
 import com.gu.contentapi.client.model.v1.Content
 import com.gu.contentapi.client.model.v1.ContentType
 import com.gu.contentapi.client.model.v1.CapiDateTime
-import org.apache.thrift.transport._
 import java.nio.file.Files
 import java.nio.file.Path
 import com.gu.contentapi.client.model.v1.ItemResponse
@@ -17,6 +16,10 @@ import com.twitter.scrooge.ThriftStruct
 
 class ThriftRoundTripSpec extends FlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
+    compactToBinary(
+      Path.of("hot-divorcee-summer.binary.thrift"),
+      ItemResponse,
+    )
     checkRoundTrip(
       Path.of("hot-divorcee-summer.binary.thrift"),
       ItemResponse,
@@ -27,6 +30,10 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
   }
 
   it should "round-trip a SearchResponse" in {
+    compactToBinary(
+      Path.of("search-ballincollig.binary.thrift"),
+      SearchResponse,
+    )
     checkRoundTrip(
       Path.of("search-ballincollig.binary.thrift"),
       SearchResponse,
@@ -41,17 +48,16 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
     codec: ThriftStructCodec[T],
     assertion: T => Unit = (t: T) => ()
   ) = {
-    val resourcesPath = Path.of("scala", "src", "test", "resources")
-    val inputBytes: Array[Byte] = Files.readAllBytes(resourcesPath.resolve(resourcePath))
-    val transport = new TMemoryBuffer(inputBytes.length)
-    transport.write(inputBytes)
-    val protocol = new TCompactProtocol(transport)
-    val struct = codec.decode(protocol)
-    val outputTransport = new TMemoryBuffer(inputBytes.length)
-    val outputProtocol = new TCompactProtocol(outputTransport)
-    struct.write(outputProtocol)
-    outputTransport.getArray() shouldEqual inputBytes
-    assertion(struct)
+    for {
+      protocol <- Seq(Compact, Binary)
+    } yield {
+      val (inputBytes, struct) = readProtocol(protocol, resourcePath, codec)
+      val outputTransport = new TMemoryBuffer(inputBytes.length)
+      val outputProtocol = protocol(outputTransport)
+      struct.write(outputProtocol)
+      outputTransport.getArray() shouldEqual inputBytes
+      assertion(struct)
+    }
   }
 
   /**
@@ -76,10 +82,56 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
     resourcePath: Path,
     value: T,
   ) = {
-    val resourcesPath = Path.of("scala", "src", "test", "resources")
+    for {
+      protocol <- Seq(Compact, Binary)
+    } yield {
+      writeProtocol(protocol, resourcePath, value)
+    }
+  }
+
+  def compactToBinary[T <: ThriftStruct](
+    resourcePath: Path,
+    codec: ThriftStructCodec[T],
+  ) = {
+    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
+    writeProtocol(Binary, resourcePath, struct)
+  }
+
+  def readProtocol[T <: ThriftStruct](
+    protocol: Protocol,
+    resourcePath: Path,
+    codec: ThriftStructCodec[T],
+  ): (Array[Byte], T) = {
+    val resourcesPath = Path.of("scala", "src", "test", "resources", protocol.name)
+    val inputBytes: Array[Byte] = Files.readAllBytes(resourcesPath.resolve(resourcePath))
+    val transport = new TMemoryBuffer(inputBytes.length)
+    transport.write(inputBytes)
+    val inputProtocol = protocol(transport)
+    return (inputBytes, codec.decode(inputProtocol))
+  }
+
+  def writeProtocol[T <: ThriftStruct](
+    protocol: Protocol,
+    resourcePath: Path,
+    value: T
+  ): Unit = {
+    val resourcesPath = Path.of("scala", "src", "test", "resources", protocol.name)
     val outputStream = Files.newOutputStream(resourcesPath.resolve(resourcePath))
     val transport = new TIOStreamTransport(outputStream)
-    val protocol = new TCompactProtocol(transport)
-    value.write(protocol)
+    val outputProtocol = protocol(transport)
+    value.write(outputProtocol)
+  }
+
+  sealed trait Protocol {
+    val name: String
+    def apply(transport: TTransport): TProtocol
+  }
+  case object Compact extends Protocol {
+    val name = "TCompactProtocol"
+    def apply(transport: TTransport) = new TCompactProtocol(transport)
+  }
+  case object Binary extends Protocol {
+    val name = "TBinaryProtocol"
+    def apply(transport: TTransport) = new TBinaryProtocol(transport)
   }
 }
