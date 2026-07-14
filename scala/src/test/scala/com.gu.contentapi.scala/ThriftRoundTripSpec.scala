@@ -18,10 +18,6 @@ import com.gu.contentapi.client.model.v1.TagType
 
 class ThriftRoundTripSpec extends FlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
-    compactToBinary(
-      Path.of("hot-divorcee-summer.binary.thrift"),
-      ItemResponse,
-    )
     checkRoundTrip(
       Path.of("hot-divorcee-summer.binary.thrift"),
       ItemResponse,
@@ -32,10 +28,6 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
   }
 
   it should "round-trip a SearchResponse" in {
-    compactToBinary(
-      Path.of("search-ballincollig.binary.thrift"),
-      SearchResponse,
-    )
     checkRoundTrip(
       Path.of("search-ballincollig.binary.thrift"),
       SearchResponse,
@@ -62,7 +54,6 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
         "some-campaign-tag.binary.thrift" -> TagType.Campaign,
       )
     } yield {
-      compactToBinary(Path.of(rawPath), Tag)
       checkRoundTrip(Path.of(rawPath), Tag, (tag: Tag) => tag.`type` shouldBe tagType)
     }
   }
@@ -111,14 +102,6 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
     } yield {
       writeProtocol(protocol, resourcePath, value)
     }
-  }
-
-  def compactToBinary[T <: ThriftStruct](
-    resourcePath: Path,
-    codec: ThriftStructCodec[T],
-  ) = {
-    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
-    writeProtocol(Binary, resourcePath, struct)
   }
 
   def readProtocol[T <: ThriftStruct](
