@@ -152,7 +152,7 @@ object CirceEncoders {
   implicit val audioAtomEncoder: Encoder[audio.AudioAtom] = deriveEncoder
   implicit val offPlatformEncoder: Encoder[audio.OffPlatform] = deriveEncoder
   implicit val emailSignUpAtomEncoder: Encoder[emailsignup.EmailSignUpAtom] = deriveEncoder
-  implicit val footballCompetitionAtomEncoder: Encoder[footballcompetition.FootballCompetitionAtom] = deriveEncoder
+  implicit val tempFootballCompetitionAtomEncoder: Encoder[tempfootballcompetition.TempFootballCompetitionAtom] = deriveEncoder
   implicit val atomEncoder: Encoder[contentatom.Atom] = deriveEncoder
   implicit val contentChangeDetailsEncoder: Encoder[contentatom.ContentChangeDetails] = deriveEncoder
   implicit val changeRecordEncoder: Encoder[contentatom.ChangeRecord] = deriveEncoder

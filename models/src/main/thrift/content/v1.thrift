@@ -1831,7 +1831,7 @@ struct Atoms {
 
     17: optional list<contentatom.Atom> emailsignups
 
-    18: optional list<contentatom.Atom> footballcompetitions
+    18: optional list<contentatom.Atom> tempfootballcompetitions
 }
 
 struct ContentStats {
@@ -2279,7 +2279,7 @@ struct ItemResponse {
 
     38: optional list<Content> deeplyRead
 
-    39: optional contentatom.Atom footballcompetition
+    39: optional contentatom.Atom tempfootballcompetition
 }
 
 struct TagsResponse {
