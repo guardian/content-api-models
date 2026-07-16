@@ -39,7 +39,7 @@ sbt +publishLocal
 
 ## Tests
 
-There are two sets of tests in this repository: tests in [CirceRoundTripSpec.scala](./json/src/test/scala/com/gu/contentapi/json/CirceRoundTripSpec.scala) which test the JSON encoders and decoders, and tests in [ThriftRoundTripSpec.scala](scala/src/test/scala/com.gu.contentapi.scala/ThriftRoundTripSpec.scala) which test the thrift serialisation and deserialisation.
+There are two sets of tests in this repository: tests in [CirceRoundTripSpec.scala](./json/src/test/scala/com/gu/contentapi/json/CirceRoundTripSpec.scala) which test the JSON encoders and decoders, and tests in [ThriftRoundTripSpec.scala](scala/src/test/scala/com.gu.contentapi.scala/ThriftRoundTripSpec.scala) which test the thrift serialisation and deserialisation (across the binary and compact protocols).
 
 These tests verify that output from old versions of this library can still be decoded by the current version, and that the resulting output from the current version is the same. If these tests pass on a PR, you can be reasonably confident that the changes in the PR won’t break consumers of `content-api-models-scala` or `content-api-models-json`. (One limitation of these tests is that they don’t cover the entirety of the model. For example, if a PR changes a field from optional to required in a struct which is not covered by the tests, the tests will still pass.)
 
