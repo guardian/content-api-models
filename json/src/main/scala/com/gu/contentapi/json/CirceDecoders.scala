@@ -244,6 +244,8 @@ object CirceDecoders {
   implicit val productCTADecoder: Decoder[ProductCTA] = deriveDecoder
   implicit val productImageDecoder: Decoder[ProductImage] = deriveDecoder
   implicit val productElementFieldsDecoder: Decoder[ProductElementFields] = deriveDecoder
+  implicit val summaryProductRefDecoder: Decoder[SummaryProductRef] = deriveDecoder
+  implicit val productSummaryElementFieldsDecoder: Decoder[ProductSummaryElementFields] = deriveDecoder
   implicit val colorSchemeDecoder: Decoder[ColorScheme] = deriveDecoder
   implicit val responsiveImageVariantDecoder: Decoder[ResponsiveImageVariant] = deriveDecoder
   implicit val responsiveImageVariantImageDecoder: Decoder[ResponsiveImageVariantImage] = deriveDecoder

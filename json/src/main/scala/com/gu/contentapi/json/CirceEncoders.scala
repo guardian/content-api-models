@@ -193,6 +193,8 @@ object CirceEncoders {
   implicit val productCTAEncoder: Encoder[ProductCTA] = deriveEncoder
   implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
   implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
+  implicit val summaryProductRefEncoder: Encoder[SummaryProductRef] = deriveEncoder
+  implicit val productSummaryElementFieldsEncoder: Encoder[ProductSummaryElementFields] = deriveEncoder
   implicit val colorSchemeEncoder: Encoder[ColorScheme] = deriveEncoder
   implicit val responsiveImageVariantEncoder: Encoder[ResponsiveImageVariant] = deriveEncoder
   implicit val responsiveImageVariantImageEncoder: Encoder[ResponsiveImageVariantImage] = deriveEncoder

@@ -156,6 +156,8 @@ enum ElementType {
     PRODUCT = 26
 
     RESPONSIVE_IMAGE = 27
+    
+    PRODUCT_SUMMARY = 28
 }
 
 enum TagType {
@@ -962,6 +964,13 @@ enum ProductDisplayType {
     PRODUCT_CARD_ONLY = 2,
 }
 
+enum ProductSummaryDisplayType {
+    CTA_LIST = 0,
+    CAROUSEL = 1,
+    STACKED_CARD = 2
+    STACKED_CARD_EXPANDED = 3
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
@@ -1092,6 +1101,22 @@ struct ProductElementFields {
   11: optional string id;
 }
 
+struct SummaryProductRef {
+    1: optional string productId;
+
+    2: optional i32 ctaIndex;
+}
+
+struct ProductSummaryElementFields {
+    1: optional string title;
+
+    2: required ProductSummaryDisplayType displayType;
+
+    3: optional list<SummaryProductRef> products;
+
+    4: optional string id;
+}
+
 enum ColorScheme {
     LIGHT = 0,
     DARK = 1
@@ -1212,6 +1237,8 @@ struct BlockElement {
     29: optional ProductElementFields productTypeData
 
     30: optional ResponsiveImageElementFields responsiveImageTypeData
+    
+    31: optional ProductSummaryElementFields productSummaryTypeData
 }
 
 struct MembershipPlaceholder {

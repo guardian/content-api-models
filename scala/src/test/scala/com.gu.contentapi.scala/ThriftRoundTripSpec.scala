@@ -9,12 +9,13 @@ import com.gu.contentapi.client.model.v1.ContentType
 import com.gu.contentapi.client.model.v1.CapiDateTime
 import java.nio.file.Files
 import java.nio.file.Path
-import com.gu.contentapi.client.model.v1.ItemResponse
 import com.twitter.scrooge.ThriftStructCodec
 import org.scalatest.Assertion
 import com.twitter.scrooge.ThriftStruct
 import com.gu.contentapi.client.model.v1.Tag
 import com.gu.contentapi.client.model.v1.TagType
+
+import com.gu.contentapi.client.model.v1.{ItemResponse, ProductSummaryElementFields, SearchResponse, SummaryProductRef, ProductSummaryDisplayType}
 
 class ThriftRoundTripSpec extends FlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
@@ -37,6 +38,10 @@ class ThriftRoundTripSpec extends FlatSpec with Matchers {
     )
   }
 
+  it should "round-trip a ProductSummaryElementFields" in {
+    checkRoundTrip(Path.of("product-summary-element-fields.binary.thrift"), ProductSummaryElementFields)
+  }
+  
   it should "round-trip TagType enum values" in {
     for {
       (rawPath, tagType) <- Seq(
