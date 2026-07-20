@@ -6,7 +6,6 @@ import io.circe._
 import io.circe.syntax._
 import io.circe.parser._
 import io.circe.optics.JsonPath._
-import org.scalatest.{FlatSpec, Matchers}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum}
 import com.gu.fezziwig.CirceScroogeWhiteboxMacros.{thriftStructLabelledGeneric, thriftUnionLabelledGeneric}
 import com.gu.contentapi.json.CirceEncoders._
@@ -17,8 +16,10 @@ import diffson.lcs._
 import diffson.circe._
 import diffson.jsonpatch._
 import diffson.jsonpatch.simplediff._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class CirceRoundTripSpec extends FlatSpec with Matchers {
+class CirceRoundTripSpec extends AnyFlatSpec with Matchers {
 
   it should "round-trip a TagsResponse including a sponsored tag" in {
     /*
