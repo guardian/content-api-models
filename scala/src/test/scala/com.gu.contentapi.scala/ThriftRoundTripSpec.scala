@@ -1,6 +1,5 @@
 package com.gu.contentapi.scala
 
-import org.scalatest.{FlatSpec, Matchers}
 import com.gu.contentapi.client.model.v1.SearchResponse
 import org.apache.thrift.transport._
 import org.apache.thrift.protocol.{TProtocol, TBinaryProtocol, TCompactProtocol}
@@ -16,8 +15,10 @@ import com.gu.contentapi.client.model.v1.Tag
 import com.gu.contentapi.client.model.v1.TagType
 
 import com.gu.contentapi.client.model.v1.{ItemResponse, ProductSummaryElementFields, SearchResponse, SummaryProductRef, ProductSummaryDisplayType}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
-class ThriftRoundTripSpec extends FlatSpec with Matchers {
+class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
     checkRoundTrip(
       Path.of("hot-divorcee-summer.binary.thrift"),
