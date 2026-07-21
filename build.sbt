@@ -132,7 +132,7 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
-    libraryDependencies += "com.google.guava" % "guava" % "33.6.0-jre",
+    libraryDependencies += "com.google.guava" % "guava" % guavaVersion,
     Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
