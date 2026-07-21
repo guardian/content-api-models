@@ -1,7 +1,6 @@
 package com.gu.contentapi.json.utils
 
-import java.nio.charset.StandardCharsets
-import com.google.common.io.Resources
+import java.nio.file.{Files, Path}
 import io.circe.{Decoder, Json}
 import io.circe.parser._
 import cats.syntax.either._
@@ -9,7 +8,7 @@ import cats.syntax.either._
 
 object JsonHelpers {
   def loadJson(filename: String): String = {
-    Resources.toString(Resources.getResource(s"templates/$filename"), StandardCharsets.UTF_8)
+    Files.readString(Path.of(s"json/src/test/resources/templates/$filename"))
   }
 
   def parseJson[T : Decoder](rawJson: String): T = {

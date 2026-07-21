@@ -3,9 +3,7 @@ package benchmark
 import org.openjdk.jmh.annotations._
 import org.openjdk.jmh.infra.Blackhole
 import java.util.concurrent.TimeUnit
-
-import java.nio.charset.StandardCharsets
-import com.google.common.io.Resources
+import java.nio.file.{Files, Path}
 
 import com.gu.contentapi.client.model.v1._
 import com.gu.contentapi.json.CirceDecoders._
@@ -31,7 +29,7 @@ case class WrappedLegacyResponse(response: SearchResp)
 class JsonDecodeBenchmark {
 
   def loadJson(filename: String): Json = {
-    val rawJson = Resources.toString(Resources.getResource(filename), StandardCharsets.UTF_8)
+    val rawJson = Files.readString(Path.of(s"benchmarks/src/main/resources/$filename"))
     val circeJson = {
       import io.circe.jawn._
       parse(rawJson).fold(_ => Json.Null, identity)
