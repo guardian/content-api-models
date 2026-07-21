@@ -14,7 +14,6 @@ val fezziwigVersion = "2.0.1"
 
 // dependency versions (for tests only)
 val scalaTestVersion = "3.2.20"
-val guavaVersion = "33.6.0-jre"
 val diffsonVersion = "4.7.0"
 
 // support non-production release types
@@ -121,7 +120,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
-      "com.google.guava" % "guava" % guavaVersion % Test,
       "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
     ),
     Compile / packageDoc / mappings := Nil
@@ -132,7 +130,6 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
-    libraryDependencies += "com.google.guava" % "guava" % guavaVersion,
     Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
