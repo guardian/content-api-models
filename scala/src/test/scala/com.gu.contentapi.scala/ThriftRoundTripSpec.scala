@@ -21,6 +21,7 @@ import java.nio.file.{Files, Path}
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import com.gu.contentatom.thrift.AtomData
 
 class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
@@ -60,6 +61,13 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
       Path.of("atom-guide-9c862998-6f26-42f1-9243-fcc5766486cf.binary.thrift"),
       ItemResponse,
       (item: ItemResponse) => item.guide.map(_.atomType) shouldBe Some(AtomType.Guide)
+    )
+    checkRoundTrip(
+      Path.of("atom-explainer-4d42b98e-1b9d-4f95-b256-e12acfd39f21.binary.thrift"),
+      ItemResponse,
+      (item: ItemResponse) => item.explainer.map(_.data).collect{
+        case AtomData.Explainer(explainer) => explainer.title
+      } shouldBe Some("What is fracking? ")
     )
   }
 
