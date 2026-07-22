@@ -44,6 +44,10 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
   }
 
   it should "round-trip an atom" in {
+    compactToBinary(
+      Path.of("atom-cta-2bcdfd12-5e96-493c-8b18-a8d4c53df938.binary.thrift"),
+      ItemResponse
+    )
     checkRoundTrip(
       Path.of("atom-cta-2bcdfd12-5e96-493c-8b18-a8d4c53df938.binary.thrift"),
       ItemResponse,
@@ -56,7 +60,7 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
   it should "round-trip a ProductSummaryElementFields" in {
     checkRoundTrip(Path.of("product-summary-element-fields.binary.thrift"), ProductSummaryElementFields)
   }
-  
+
   it should "round-trip TagType enum values" in {
     for {
       (rawPath, tagType) <- Seq(
@@ -122,6 +126,14 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     } yield {
       writeProtocol(protocol, resourcePath, value)
     }
+  }
+
+  def compactToBinary[T <: ThriftStruct](
+    resourcePath: Path,
+    codec: ThriftStructCodec[T],
+  ) = {
+    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
+    writeProtocol(Binary, resourcePath, struct)
   }
 
   def readProtocol[T <: ThriftStruct](
