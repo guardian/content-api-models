@@ -51,6 +51,10 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
         item.cta.map(_.atomType) shouldBe Some(AtomType.Cta)
       }
     )
+    compactToBinary(
+      Path.of("atom-quiz-ed563bff-19cf-49f6-a5c3-a458559f432d.binary.thrift"),
+      ItemResponse
+    )
     checkRoundTrip(
       Path.of("atom-quiz-ed563bff-19cf-49f6-a5c3-a458559f432d.binary.thrift"),
       ItemResponse,
@@ -127,6 +131,14 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     } yield {
       writeProtocol(protocol, resourcePath, value)
     }
+  }
+
+  def compactToBinary[T <: ThriftStruct](
+    resourcePath: Path,
+    codec: ThriftStructCodec[T],
+  ) = {
+    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
+    writeProtocol(Binary, resourcePath, struct)
   }
 
   def readProtocol[T <: ThriftStruct](
