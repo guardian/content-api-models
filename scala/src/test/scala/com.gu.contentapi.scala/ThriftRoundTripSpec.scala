@@ -69,10 +69,6 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
         case AtomData.Explainer(explainer) => explainer.title
       } shouldBe Some("What is fracking? ")
     )
-    compactToBinary(
-      Path.of("atom-timeline-32b0d5c4-61cc-4306-847e-7f3b33f31e77.binary.thrift"),
-      ItemResponse,
-    )
     checkRoundTrip(
       Path.of("atom-timeline-32b0d5c4-61cc-4306-847e-7f3b33f31e77.binary.thrift"),
       ItemResponse,
