@@ -49,18 +49,24 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
       Path.of("atom-cta-2bcdfd12-5e96-493c-8b18-a8d4c53df938.binary.thrift"),
       ItemResponse,
       (item: ItemResponse) => {
-        item.cta.map(_.atomType) shouldBe Some(AtomType.Cta)
+        item.cta.map(_.data).collect {
+          case AtomData.Cta(cta) => cta
+        }.flatMap(_.label) shouldBe Some("Explore Amazon Freight for your shipments")
       }
     )
     checkRoundTrip(
       Path.of("atom-quiz-ed563bff-19cf-49f6-a5c3-a458559f432d.binary.thrift"),
       ItemResponse,
-      (item: ItemResponse) => item.quiz.map(_.atomType) shouldBe Some(AtomType.Quiz)
+      (item: ItemResponse) => item.quiz.map(_.data).collect {
+        case AtomData.Quiz(quiz) => quiz.content.questions(0).questionText
+      } shouldBe Some("Paul, 7, asks: who invented the game ‘rock, paper, scissors’?\n")
     )
     checkRoundTrip(
       Path.of("atom-guide-9c862998-6f26-42f1-9243-fcc5766486cf.binary.thrift"),
       ItemResponse,
-      (item: ItemResponse) => item.guide.map(_.atomType) shouldBe Some(AtomType.Guide)
+      (item: ItemResponse) => item.guide.map(_.data).collect {
+        case AtomData.Guide(guide) => guide.items(0).body
+      } shouldBe Some("<p><b>Sandown </b>1.55 Arry Up 2.25 Jinman 2.55 Aperoll 3.30 Kamaway 4.07 Probation 4.42 Albertini Star 5.17 Sail On Sailor</p><p><b>Doncaster </b>2.10 Night Star 2.40 Round The Table 3.10 Ten Clarets 3.45 Sargent Dennis (nap) 4.15 Jenni 4.48 Palmarian 5.23 Brighlee</p><p><b>Southwell </b>4.53 Finn Ironside 5.28 Hulk Power 6.01 Dovecote 6.36 Beresford Gap 7.11 Little Mester 7.46 Koko Blue 8.21 Hansteen 8.56 My Mate Mackley</p><p><b>Yarmouth </b>5.04 Anchiano 5.39 Panelli 6.14 Hardy’s Hero 6.49 Campani 7.24 Maith Mar Or 7.59 Due Date 8.34 Roi De Coeur</p><p><b>Newbury </b>5.55 Duke Of Burgundy 6.30 Art Of Life 7.05 Always Perfect 7.40 The Craftymaster (nb) 8.15 Dancing Tiger 8.48 Port Louis</p>")
     )
     checkRoundTrip(
       Path.of("atom-explainer-4d42b98e-1b9d-4f95-b256-e12acfd39f21.binary.thrift"),
