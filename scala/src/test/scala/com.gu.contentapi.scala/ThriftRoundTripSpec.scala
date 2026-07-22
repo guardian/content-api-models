@@ -1,20 +1,24 @@
 package com.gu.contentapi.scala
 
-import com.gu.contentapi.client.model.v1.SearchResponse
 import org.apache.thrift.transport._
 import org.apache.thrift.protocol.{TProtocol, TBinaryProtocol, TCompactProtocol}
-import com.gu.contentapi.client.model.v1.Content
-import com.gu.contentapi.client.model.v1.ContentType
-import com.gu.contentapi.client.model.v1.CapiDateTime
-import java.nio.file.Files
-import java.nio.file.Path
-import com.twitter.scrooge.ThriftStructCodec
-import org.scalatest.Assertion
-import com.twitter.scrooge.ThriftStruct
-import com.gu.contentapi.client.model.v1.Tag
-import com.gu.contentapi.client.model.v1.TagType
+import com.gu.contentapi.client.model.v1.{
+  Content,
+  ContentType,
+  CapiDateTime,
+  ItemResponse,
+  ProductSummaryElementFields,
+  SearchResponse,
+  SummaryProductRef,
+  ProductSummaryDisplayType,
+  Tag,
+  TagType,
+}
+import com.gu.contentatom.thrift.AtomType
+import com.twitter.scrooge.{ThriftStruct, ThriftStructCodec}
+import java.nio.file.{Files, Path}
 
-import com.gu.contentapi.client.model.v1.{ItemResponse, ProductSummaryElementFields, SearchResponse, SummaryProductRef, ProductSummaryDisplayType}
+import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -35,6 +39,16 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
       SearchResponse,
       (response: SearchResponse) => {
         response.results(0).fields.get.headline shouldBe Some("Christy review – outstanding actors and Cork landmarks shine in a moving and funny Irish drama")
+      }
+    )
+  }
+
+  it should "round-trip an atom" in {
+    checkRoundTrip(
+      Path.of("atom-cta-2bcdfd12-5e96-493c-8b18-a8d4c53df938.binary.thrift"),
+      ItemResponse,
+      (item: ItemResponse) => {
+        item.cta.map(_.atomType) shouldBe Some(AtomType.Cta)
       }
     )
   }
