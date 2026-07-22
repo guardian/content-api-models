@@ -69,6 +69,13 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
         case AtomData.Explainer(explainer) => explainer.title
       } shouldBe Some("What is fracking? ")
     )
+    checkRoundTrip(
+      Path.of("atom-timeline-32b0d5c4-61cc-4306-847e-7f3b33f31e77.binary.thrift"),
+      ItemResponse,
+      (item: ItemResponse) => item.timeline.map(_.data).collect {
+        case AtomData.Timeline(timeline) => timeline.events(0)
+      }.flatMap(_.body) shouldBe Some("<p>Gina Rinehart and Pauline Hanson are seen dining together in Thailand, alongside the former Liberal vice-president Teena McQueen</p>")
+    )
   }
 
   it should "round-trip a ProductSummaryElementFields" in {
