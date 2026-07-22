@@ -43,13 +43,18 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     )
   }
 
-  it should "round-trip an atom" in {
+  it should "round-trip atoms" in {
     checkRoundTrip(
       Path.of("atom-cta-2bcdfd12-5e96-493c-8b18-a8d4c53df938.binary.thrift"),
       ItemResponse,
       (item: ItemResponse) => {
         item.cta.map(_.atomType) shouldBe Some(AtomType.Cta)
       }
+    )
+    checkRoundTrip(
+      Path.of("atom-quiz-ed563bff-19cf-49f6-a5c3-a458559f432d.binary.thrift"),
+      ItemResponse,
+      (item: ItemResponse) => item.quiz.map(_.atomType) shouldBe Some(AtomType.Quiz)
     )
   }
 
