@@ -14,14 +14,13 @@ import com.gu.contentapi.client.model.v1.{
   Tag,
   TagType,
 }
-import com.gu.contentatom.thrift.AtomType
+import com.gu.contentatom.thrift.{AtomData, AtomType}
 import com.twitter.scrooge.{ThriftStruct, ThriftStructCodec}
 import java.nio.file.{Files, Path}
 
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import com.gu.contentatom.thrift.AtomData
 
 class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
   it should "round-trip an ItemResponse" in {
