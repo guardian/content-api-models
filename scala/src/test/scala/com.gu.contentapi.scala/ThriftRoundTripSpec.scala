@@ -155,14 +155,6 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     }
   }
 
-  def compactToBinary[T <: ThriftStruct](
-    resourcePath: Path,
-    codec: ThriftStructCodec[T],
-  ) = {
-    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
-    writeProtocol(Binary, resourcePath, struct)
-  }
-
   def readProtocol[T <: ThriftStruct](
     protocol: Protocol,
     resourcePath: Path,
