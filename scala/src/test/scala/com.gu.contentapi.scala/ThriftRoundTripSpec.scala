@@ -62,6 +62,10 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
       ItemResponse,
       (item: ItemResponse) => item.guide.map(_.atomType) shouldBe Some(AtomType.Guide)
     )
+    compactToBinary(
+      Path.of("atom-explainer-4d42b98e-1b9d-4f95-b256-e12acfd39f21.binary.thrift"),
+      ItemResponse,
+    )
     checkRoundTrip(
       Path.of("atom-explainer-4d42b98e-1b9d-4f95-b256-e12acfd39f21.binary.thrift"),
       ItemResponse,
