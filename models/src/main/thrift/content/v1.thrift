@@ -1859,6 +1859,8 @@ struct Atoms {
     16: optional list<contentatom.Atom> audios
 
     17: optional list<contentatom.Atom> emailsignups
+
+    18: optional list<contentatom.Atom> multimediaslideshows
 }
 
 struct ContentStats {
