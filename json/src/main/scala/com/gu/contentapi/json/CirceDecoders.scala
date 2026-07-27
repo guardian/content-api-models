@@ -203,6 +203,7 @@ object CirceDecoders {
   implicit val audioAtomDecoder: Decoder[audio.AudioAtom] = deriveDecoder
   implicit val offPlatformDecoder: Decoder[audio.OffPlatform] = deriveDecoder
   implicit val emailSignUpAtomDecoder: Decoder[emailsignup.EmailSignUpAtom] = deriveDecoder
+  implicit val tempFootballCompetitionAtomDecoder: Decoder[tempfootballcompetition.TempFootballCompetitionAtom] = deriveDecoder
   implicit val atomDecoder: Decoder[contentatom.Atom] = deriveDecoder
   implicit val contentChangeDetailsDecoder: Decoder[contentatom.ContentChangeDetails] = deriveDecoder
   implicit val changeRecordDecoder: Decoder[contentatom.ChangeRecord] = deriveDecoder

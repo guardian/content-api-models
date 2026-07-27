@@ -5,7 +5,7 @@ import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
 val contentEntityVersion = "4.0.0"
-val contentAtomVersion = "12.0.1"
+val contentAtomVersion = "12.1.0-PREVIEW.add-new-atom-for-match-day.2026-07-15T1141.302c1611"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.24.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
