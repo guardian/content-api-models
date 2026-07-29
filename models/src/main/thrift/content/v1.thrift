@@ -150,6 +150,14 @@ enum ElementType {
     LIST = 23
 
     TIMELINE = 24
+
+    LINK = 25
+
+    PRODUCT = 26
+
+    RESPONSIVE_IMAGE = 27
+    
+    PRODUCT_SUMMARY = 28
 }
 
 enum TagType {
@@ -180,6 +188,15 @@ enum TagType {
 
 }
 
+enum KeywordType {
+    PERSON = 0,
+    ORGANISATION = 1,
+    EVENT = 2,
+    WORK_OF_ART_OR_PRODUCT = 3,
+    PLACE = 4,
+    OTHER = 5
+}
+
 enum CrosswordType {
 
     QUICK = 0,
@@ -200,7 +217,11 @@ enum CrosswordType {
 
     QUICK_CRYPTIC = 8,
 
-    SPECIAL = 9
+    SPECIAL = 9,
+
+    SUNDAY_QUICK = 10,
+    
+    MINI = 11
 }
 
 enum Office {
@@ -282,7 +303,7 @@ struct AssetFields {
 
   12: optional string name
 
-  13: optional string secureFile
+  13: optional string secureFile // see also 71: secureFileWithAds
 
   14: optional bool isMaster
 
@@ -398,6 +419,10 @@ struct AssetFields {
   69: optional bool isMandatory
 
   70: optional list<CartoonVariant> cartoonVariants
+
+  71: optional string secureFileWithAds
+
+  72: optional list<ResponsiveImageVariant> responsiveImageVariants
 }
 
 struct Asset {
@@ -436,6 +461,27 @@ struct PullquoteElementFields {
     7: optional string sourceDomain
 }
 
+enum LinkType {
+    PRODUCT_BUTTON = 0,
+    STANDARD_BUTTON = 1
+}
+
+enum Priority {
+    PRIMARY = 1
+    TERTIARY = 3
+}
+
+struct LinkElementFields {
+
+    1: optional string label;
+
+    2: optional string url;
+
+    3: optional LinkType linkType;
+
+    4: optional Priority priority;
+}
+
 struct TweetElementFields {
 
     1: optional string source
@@ -457,6 +503,12 @@ struct TweetElementFields {
     9: optional string sourceDomain
 
     10: optional bool isMandatory
+}
+
+enum PodcastEpisodeType {
+    FULL = 0,
+    TRAILER = 1,
+    BONUS = 2
 }
 
 struct AudioElementFields {
@@ -490,6 +542,12 @@ struct AudioElementFields {
     14: optional string sourceDomain
 
     15: optional bool isMandatory
+
+    16: optional i32 podcastEpisodeNumber
+
+    17: optional i32 podcastSeasonNumber
+
+    18: optional PodcastEpisodeType podcastEpisodeType
 }
 
 struct VideoElementFields {
@@ -584,6 +642,12 @@ struct InteractiveElementFields {
 //    12: optional i32 height
 //    13: optional i32 width
     14: optional string sourceDomain
+    /**
+     * Fallback content to display if the platform is not able to render the
+     * content at `url`, for example because the platform does not support
+     * rendering HTML natively.
+     */
+    15: optional list<BlockElement> fallbackContent
 }
 
 struct StandardElementFields {
@@ -815,7 +879,9 @@ struct ContentAtomElementFields {
 
   4: optional bool isMandatory
 
-  5: optional string jsonData
+  5: optional string caption
+
+  6: optional string jsonData
 
 }
 
@@ -894,13 +960,27 @@ enum ListType {
     MULTI_BYLINE = 4,
 }
 
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+    PRODUCT_CARD_ONLY = 2,
+}
+
+enum ProductSummaryDisplayType {
+    CTA_LIST = 0,
+    CAROUSEL = 1,
+    STACKED_CARD = 2
+    STACKED_CARD_EXPANDED = 3
+}
+
 struct ListItem {
 
     1: required list<BlockElement> elements = [];
 
     2: optional string title;
 
-    3: optional list<Tag> contributors;
+    // NOT USED. contributors has been superceded by contributorIds
+    // 3: optional list<Tag> contributors;
 
     4: optional string bio;
 
@@ -911,6 +991,8 @@ struct ListItem {
     7: optional string byline;
 
     8: optional string bylineHtml;
+
+    9: optional list<string> contributorIds;
 
 }
 
@@ -941,6 +1023,154 @@ struct TimelineSection {
 
 struct TimelineElementFields {
     1: required list<TimelineSection> sections;
+}
+
+struct ProductCTA {
+    1: optional string url;
+
+    2: optional string text;
+
+    3: optional string retailer;
+
+    4: optional string price;
+}
+
+struct ProductCustomAttribute {
+    1: optional string name,
+
+    2: optional string value,
+}
+
+struct ProductImage {
+    /** Caption of the image */
+    1: optional string caption;
+
+    /** Display credit for the image */
+    2: optional bool displayCredit;
+
+    /** Source of the image */
+    3: optional string source;
+
+    /** Caption of the image */
+    4: optional string photographer;
+
+    /** Alt text of the image */
+    5: optional string alt;
+
+    /** The id of the image in the media api */
+    6: optional string mediaId;
+
+    /** The url of the image file */
+    7: optional string file;
+
+    /** Suppliers reference of the image */
+    8: optional string suppliersReference;
+
+    /** Type of the image */
+    9: optional string imageType;
+
+    /** height for the image */
+    10: optional i32 height;
+
+    /** width for the image */
+    11: optional i32 width;
+
+    /** Credit for the image */
+    12: optional string credit;
+}
+
+struct ProductElementFields {
+  1: optional string productName;
+
+  2: optional string brandName;
+
+  3: optional string primaryHeading;
+
+  4: optional string secondaryHeading;
+
+  5: required ProductDisplayType displayType;
+
+  6: optional string starRating;
+
+  7: optional list<ProductCTA> productCtas;
+
+  8: optional list<ProductCustomAttribute> customAttributes;
+
+  9: optional ProductImage image;
+
+  10: optional list<BlockElement> content;
+
+  11: optional string id;
+}
+
+struct SummaryProductRef {
+    1: optional string productId;
+
+    2: optional i32 ctaIndex;
+}
+
+struct ProductSummaryElementFields {
+    1: optional string title;
+
+    2: required ProductSummaryDisplayType displayType;
+
+    3: optional list<SummaryProductRef> products;
+
+    4: optional string id;
+}
+
+enum ColorScheme {
+    LIGHT = 0,
+    DARK = 1
+}
+
+struct ResponsiveImageVariant {
+    1: required string viewportSize;
+    2: required list<ResponsiveImageVariantImage> images;
+    3: optional ColorScheme colorScheme;
+}
+
+struct ResponsiveImageVariantImage {
+    /** The mime type of the image */
+    1: required string mimeType;
+
+    /** the url of the image file */
+    2: required string file;
+
+    /** The width of the image */
+    3: optional i32 width;
+
+    /** The height of the image */
+    4: optional i32 height;
+
+    /** The id of the image in the media api */
+    5: optional string mediaId;
+}
+
+/** Responsive image element */
+struct ResponsiveImageElementFields {
+    /**
+     * Lists of images to display for each responsive variant.
+     */
+    1: optional list<ResponsiveImageVariant> responsiveImageVariants;
+
+    /** The role of the element (i.e. a hint about how it should be displayed) e.g. showcase, thumbnail, immersive */
+    2: optional string role;
+
+    3: optional string photographer;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    /** The source of the image(s) */
+    6: optional string source;
+
+    /** If the credit should be displayed */
+    7: optional bool displayCredit;
+
+    /** Type of the image, usually one of Illustration, Photograph or Composite */
+    8: optional string imageType;
 }
 
 struct BlockElement {
@@ -1003,6 +1233,14 @@ struct BlockElement {
     26: optional ListElementFields listTypeData
 
     27: optional TimelineElementFields timelineTypeData
+
+    28: optional LinkElementFields linkTypeData
+
+    29: optional ProductElementFields productTypeData
+
+    30: optional ResponsiveImageElementFields responsiveImageTypeData
+    
+    31: optional ProductSummaryElementFields productSummaryTypeData
 }
 
 struct MembershipPlaceholder {
@@ -1372,6 +1610,10 @@ struct Podcast {
     11: optional string acastId
 
     12: optional string pocketCastsUrl
+
+    13: optional bool episodicArtworkEnabled
+
+    14: optional CapiDateTime episodicArtworkEnabledFrom
 }
 
 struct Tag {
@@ -1507,6 +1749,11 @@ struct Tag {
     * The internal name of the tag
     */
     26: optional string internalName
+
+    /**
+    * The keyword type
+    */
+    27: optional KeywordType keywordType
 }
 
 struct Edition {
@@ -2015,6 +2262,8 @@ struct ItemResponse {
 
     18: optional list<Content> mostViewed
 
+    // deeplyRead is #38
+
     19: optional list<Content> leadContent
 
     /* New story packages */
@@ -2054,6 +2303,8 @@ struct ItemResponse {
     36: optional contentatom.Atom audio
 
     37: optional contentatom.Atom emailsignup
+
+    38: optional list<Content> deeplyRead
 }
 
 struct TagsResponse {

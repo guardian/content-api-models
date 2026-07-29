@@ -166,6 +166,8 @@ object CirceDecoders {
   implicit val imageAssetDimensionsDecoder: Decoder[contentatom.ImageAssetDimensions] = deriveDecoder
   implicit val mediaAssetDecoder: Decoder[media.Asset] = deriveDecoder
   implicit val mediaMetadataDecoder: Decoder[media.Metadata] = deriveDecoder
+  implicit val mediaSelfHostDataDecoder: Decoder[media.SelfHostData] = deriveDecoder
+  implicit val mediaIconikDataEncoder: Decoder[media.IconikData] = deriveDecoder
   implicit val mediaPlutoDataDecoder: Decoder[media.PlutoData] = deriveDecoder
   implicit val mediaYoutubeDataDecoder: Decoder[media.YoutubeData] = deriveDecoder
   implicit val explainerAtomDecoder: Decoder[explainer.ExplainerAtom] = deriveDecoder
@@ -237,4 +239,15 @@ object CirceDecoders {
   implicit val entitiesResponseDecoder: Decoder[EntitiesResponse] = deriveDecoder
   implicit val pillarsResponseDecoder: Decoder[PillarsResponse] = deriveDecoder
   implicit val embedReachDecoder: Decoder[EmbedReach] = deriveDecoder
+  implicit val linkElementFieldsDecoder: Decoder[LinkElementFields] = deriveDecoder
+  implicit val productCustomAttributeDecoder: Decoder[ProductCustomAttribute] = deriveDecoder
+  implicit val productCTADecoder: Decoder[ProductCTA] = deriveDecoder
+  implicit val productImageDecoder: Decoder[ProductImage] = deriveDecoder
+  implicit val productElementFieldsDecoder: Decoder[ProductElementFields] = deriveDecoder
+  implicit val summaryProductRefDecoder: Decoder[SummaryProductRef] = deriveDecoder
+  implicit val productSummaryElementFieldsDecoder: Decoder[ProductSummaryElementFields] = deriveDecoder
+  implicit val colorSchemeDecoder: Decoder[ColorScheme] = deriveDecoder
+  implicit val responsiveImageVariantDecoder: Decoder[ResponsiveImageVariant] = deriveDecoder
+  implicit val responsiveImageVariantImageDecoder: Decoder[ResponsiveImageVariantImage] = deriveDecoder
+  implicit val responsiveImageElementFieldsDecoder: Decoder[ResponsiveImageElementFields] = deriveDecoder
 }

@@ -115,6 +115,8 @@ object CirceEncoders {
   implicit val imageAssetDimensionsEncoder: Encoder[contentatom.ImageAssetDimensions] = deriveEncoder
   implicit val mediaAssetEncoder: Encoder[media.Asset] = deriveEncoder
   implicit val mediaMetadataEncoder: Encoder[media.Metadata] = deriveEncoder
+  implicit val mediaSelfHostDataEncoder: Encoder[media.SelfHostData] = deriveEncoder
+  implicit val mediaIconikDataEncoder: Encoder[media.IconikData] = deriveEncoder
   implicit val mediaPlutoDataEncoder: Encoder[media.PlutoData] = deriveEncoder
   implicit val mediaYoutubeDataEncoder: Encoder[media.YoutubeData] = deriveEncoder
   implicit val explainerAtomEncoder: Encoder[explainer.ExplainerAtom] = deriveEncoder
@@ -186,6 +188,17 @@ object CirceEncoders {
   implicit val entitiesResponseEncoder: Encoder[EntitiesResponse] = deriveEncoder
   implicit val pillarsResponseEncoder: Encoder[PillarsResponse] = deriveEncoder
   implicit val embedReachEncoder: Encoder[EmbedReach] = deriveEncoder
+  implicit val linkElementFieldsEncoder: Encoder[LinkElementFields] = deriveEncoder
+  implicit val productCustomAttributeEncoder: Encoder[ProductCustomAttribute] = deriveEncoder
+  implicit val productCTAEncoder: Encoder[ProductCTA] = deriveEncoder
+  implicit val productImageEncoder: Encoder[ProductImage] = deriveEncoder
+  implicit val productElementFieldsEncoder: Encoder[ProductElementFields] = deriveEncoder
+  implicit val summaryProductRefEncoder: Encoder[SummaryProductRef] = deriveEncoder
+  implicit val productSummaryElementFieldsEncoder: Encoder[ProductSummaryElementFields] = deriveEncoder
+  implicit val colorSchemeEncoder: Encoder[ColorScheme] = deriveEncoder
+  implicit val responsiveImageVariantEncoder: Encoder[ResponsiveImageVariant] = deriveEncoder
+  implicit val responsiveImageVariantImageEncoder: Encoder[ResponsiveImageVariantImage] = deriveEncoder
+  implicit val responsiveImageElementFieldsEncoder: Encoder[ResponsiveImageElementFields] = deriveEncoder
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)

@@ -2,3 +2,5 @@ target/
 /project/project/
 .idea/
 .bsp/
+**/.DS_Store
+.metals

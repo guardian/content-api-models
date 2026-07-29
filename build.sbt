@@ -4,18 +4,17 @@ import sbtrelease.ReleaseStateTransformations.*
 import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
-val contentEntityVersion = "3.0.3"
-val contentAtomVersion = "4.0.4"
+val contentEntityVersion = "4.0.0"
+val contentAtomVersion = "12.0.1"
 val storyPackageVersion = "2.2.0"
-val thriftVersion = "0.15.0"
+val thriftVersion = "0.24.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
 val circeVersion = "0.14.1"
-val fezziwigVersion = "2.0.0"
+val fezziwigVersion = "2.0.1"
 
 // dependency versions (for tests only)
-val scalaTestVersion = "3.0.8"
-val guavaVersion = "19.0"
-val diffsonVersion = "4.1.1"
+val scalaTestVersion = "3.2.20"
+val diffsonVersion = "4.7.0"
 
 // support non-production release types
 val betaReleaseType = "beta"
@@ -25,14 +24,15 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.12",
+  scalaVersion := "2.13.14",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
   // https://twitter.github.io/scrooge/changelog.html#id11
-  crossScalaVersions := Seq("2.12.18", scalaVersion.value),
+  crossScalaVersions := Seq("2.12.21", scalaVersion.value),
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
+  scmInfo := Some(ScmInfo(url("https://github.com/guardian/content-api-models"), "scm:git@github.com:guardian/content-api-models.git")),
   resolvers ++= Resolver.sonatypeOssRepos("public"),
   Test / testOptions +=
     Tests.Argument(TestFrameworks.ScalaTest, "-u", s"test-results/scala-${scalaVersion.value}", "-o")
@@ -100,7 +100,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
-      "com.gu" % "content-entity-thrift" % contentEntityVersion
+      "com.gu" % "content-entity-thrift" % contentEntityVersion,
+      "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
     )
   )
 
@@ -119,7 +120,6 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-parser" % circeVersion,
       "io.circe" %% "circe-optics" % circeVersion,
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
-      "com.google.guava" % "guava" % guavaVersion % Test,
       "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
     ),
     Compile / packageDoc / mappings := Nil
@@ -130,7 +130,6 @@ lazy val benchmarks = Project(id = "benchmarks", base = file("benchmarks"))
   .settings(artifactProductionSettings)
   .enablePlugins(JmhPlugin)
   .settings(
-    libraryDependencies += "com.google.guava" % "guava" % "19.0",
     Jmh / javaOptions ++= Seq("-server", "-Xms4G", "-Xmx4G", "-XX:+UseG1GC", "-XX:-UseBiasedLocking"),
     publishArtifact := false
   )
