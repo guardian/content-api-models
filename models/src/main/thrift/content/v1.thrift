@@ -2307,6 +2307,8 @@ struct ItemResponse {
     37: optional contentatom.Atom emailsignup
 
     38: optional list<Content> deeplyRead
+
+    39: optional contentatom.Atom multimediaslideshow
 }
 
 struct TagsResponse {
