@@ -24,7 +24,12 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.18",
+  scalaVersion := "2.13.14",
+  // A newer scala-library (2.13.18) is pulled in transitively via content-atom, but the 2.13.18
+  // compiler crashes on the fezziwig/circe macro-generated trees (scala.MatchError in RefChecks'
+  // isSimpleCaseApply). We stay on the 2.13.14 compiler, which compiles cleanly, and demote the
+  // SIP-51 check since all 2.13.x are binary compatible.
+  allowUnsafeScalaLibUpgrade := true,
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
