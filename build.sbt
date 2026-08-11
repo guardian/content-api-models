@@ -16,6 +16,7 @@ val fezziwigVersion = "2.0.1"
 val scalaTestVersion = "3.2.20"
 val diffsonVersion = "4.7.0"
 
+
 // support non-production release types
 val betaReleaseType = "beta"
 val betaReleaseSuffix = "-beta.0"
