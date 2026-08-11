@@ -33,7 +33,6 @@ lazy val artifactProductionSettings = Seq(
   organization := "com.gu",
   licenses := Seq("Apache v2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
   scmInfo := Some(ScmInfo(url("https://github.com/guardian/content-api-models"), "scm:git@github.com:guardian/content-api-models.git")),
-  resolvers ++= Resolver.sonatypeOssRepos("public"),
   Test / testOptions +=
     Tests.Argument(TestFrameworks.ScalaTest, "-u", s"test-results/scala-${scalaVersion.value}", "-o")
 )
