@@ -881,6 +881,8 @@ struct ContentAtomElementFields {
 
   5: optional string caption
 
+  6: optional string customData
+
 }
 
 struct CodeElementFields {
