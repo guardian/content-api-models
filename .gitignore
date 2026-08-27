@@ -4,4 +4,3 @@ target/
 .bsp/
 **/.DS_Store
 .metals
-.carabiner/
