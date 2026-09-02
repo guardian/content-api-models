@@ -5,7 +5,7 @@ import sbtversionpolicy.withsbtrelease.ReleaseVersion
 
 // dependency versions
 val contentEntityVersion = "5.0.0"
-val contentAtomVersion = "13.0.0"
+val contentAtomVersion = "15.1.0-PREVIEW.glspike-multimedia-atom.2026-09-01T2238.c8b18f89"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.24.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
