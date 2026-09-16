@@ -1980,7 +1980,17 @@ struct ContentChannel {
 struct Content {
 
     /*
-     * The id of this item of content: this should always be the path to the item on www.theguardian.com
+     * The CAPI id of this item of content: once the content is launched, this value will not change, so for
+     * all content in our Live CAPI system, this value is immutable.
+     *
+     * Although it's probably best to think of the CAPI id as an opaque value (we shouldn't derive any meaning from it,
+     * let alone rely on it being a 'path' value), it _does_ take the value of the *initial* path of the URL of the
+     * item when published to www.theguardian.com. It's worth noting that with the introduction of 'Evolving URLs'
+     * functionality to the Guardian CMS in 2020, the URL path of a live published piece of Guardian content *can* be
+     * changed by Editorial Staff. In this case, in the Content API, the content's webUrl will change, but the CAPI id
+     * will *not*.
+     *
+     * Note that in our internal Preview CAPI service, the CAPI id is *not* fixed until the content is launched.
      */
     1: required string id
 
