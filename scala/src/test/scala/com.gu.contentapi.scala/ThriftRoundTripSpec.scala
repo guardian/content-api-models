@@ -2,18 +2,7 @@ package com.gu.contentapi.scala
 
 import org.apache.thrift.transport._
 import org.apache.thrift.protocol.{TProtocol, TBinaryProtocol, TCompactProtocol}
-import com.gu.contentapi.client.model.v1.{
-  Content,
-  ContentType,
-  CapiDateTime,
-  ItemResponse,
-  ProductSummaryElementFields,
-  SearchResponse,
-  SummaryProductRef,
-  ProductSummaryDisplayType,
-  Tag,
-  TagType,
-}
+import com.gu.contentapi.client.model.v1._
 import com.gu.contentatom.thrift.{AtomData, AtomType}
 import com.twitter.scrooge.{ThriftStruct, ThriftStructCodec}
 import java.nio.file.{Files, Path}
@@ -106,6 +95,38 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     } yield {
       checkRoundTrip(Path.of(rawPath), Tag, (tag: Tag) => tag.`type` shouldBe tagType)
     }
+  }
+
+  it should "round-trip ABTests" in {
+    checkRoundTrip(
+      Path.of("ab-test-finished.binary.thrift"),
+      ABTest,
+      (test: ABTest) => {
+        test.testUuid shouldBe "8be4df61-93ca-11d2-aa0d-00e098032b8c"
+        test.variantLinks shouldBe Seq(
+          VariantLink("p/4t1kp", VariantId.B)
+        )
+        test.started shouldBe Some(
+          CapiDateTime(1789037400000L, "2026-09-10T10:50:00Z"),
+        )
+        test.ended shouldBe Some(
+          CapiDateTime(1789555350000L, "2026-09-16T10:42:30Z"),
+        )
+      }
+    )
+    checkRoundTrip(
+      Path.of("ab-test-not-started.binary.thrift"),
+      ABTest,
+      (test: ABTest) => {
+        test.testUuid shouldBe "00000000-0000-0000-0000-000000000000"
+        test.variantLinks shouldBe Seq(
+          VariantLink("p/4t5kp", VariantId.B)
+        )
+        test.started shouldBe None
+        test.ended shouldBe None
+      }
+    )
+
   }
 
   def checkRoundTrip[T <: ThriftStruct](
