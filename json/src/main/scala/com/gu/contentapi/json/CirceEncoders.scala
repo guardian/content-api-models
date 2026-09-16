@@ -199,6 +199,8 @@ object CirceEncoders {
   implicit val responsiveImageVariantEncoder: Encoder[ResponsiveImageVariant] = deriveEncoder
   implicit val responsiveImageVariantImageEncoder: Encoder[ResponsiveImageVariantImage] = deriveEncoder
   implicit val responsiveImageElementFieldsEncoder: Encoder[ResponsiveImageElementFields] = deriveEncoder
+  implicit val abTestEncoder: Encoder[ABTest] = deriveEncoder
+  implicit val variantLinkEncoder: Encoder[VariantLink] = deriveEncoder
 
   def genDateTimeEncoder(truncate: Boolean = true): Encoder[CapiDateTime] = Encoder.instance[CapiDateTime] { capiDateTime =>
     val dateTime: OffsetDateTime = OffsetDateTime.parse(capiDateTime.iso8601)
