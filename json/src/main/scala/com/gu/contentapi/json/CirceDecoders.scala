@@ -254,4 +254,6 @@ object CirceDecoders {
   implicit val responsiveImageVariantDecoder: Decoder[ResponsiveImageVariant] = deriveDecoder
   implicit val responsiveImageVariantImageDecoder: Decoder[ResponsiveImageVariantImage] = deriveDecoder
   implicit val responsiveImageElementFieldsDecoder: Decoder[ResponsiveImageElementFields] = deriveDecoder
+  implicit val abTestDecoder: Decoder[ABTest] = deriveDecoder
+  implicit val variantLinkDecoder: Decoder[VariantLink] = deriveDecoder
 }
