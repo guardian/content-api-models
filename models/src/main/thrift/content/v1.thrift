@@ -2138,7 +2138,46 @@ struct Content {
     * Schema.org compatible data
      */
     29: optional schema_org.SchemaOrg schemaOrg
+
+    /**
+     * abTests and isVariantOf are used for AB testing.
+     *
+     * abTests should be set on the A variant content, and isVariantOf should be
+     * set on each each linked variant content, pointing back to the A variant.
+     *
+     * abTests should contain the tests in time order, with the oldest at the
+     * start. All tests except the newest test should be finished, while the
+     * newest can be in progress or not yet started.
+     */
+    30: optional list<ABTest> abTests;
+    31: optional ShortPath isVariantOf;
 }
+
+struct ABTest {
+    1: required string testUuid;
+    // links to variants of this content: this content should not appear in the list
+    2: required list<VariantLink> variantLinks;
+    // once started is set the test is considered in progress
+    3: optional CapiDateTime started;
+    // once ended is set the test is no longer considered in progress
+    4: optional CapiDateTime ended;
+}
+
+struct VariantLink {
+    1: required ShortPath linkedShortPath;
+    2: required VariantId variantId;
+}
+
+enum VariantId {
+    // Variant A isn’t included here for now, as it’s not strictly necessary.
+    // Variant A will be identified by having the `abTests` field set, so a
+    // variant ID won’t be present in the model for it.
+    // However, we are reserving space for A=0 if we change our minds.
+    B = 1
+}
+
+typedef string ShortPath
+
 
 struct NetworkFront {
 
