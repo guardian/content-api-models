@@ -184,7 +184,9 @@ enum TagType {
 
     PAID_CONTENT = 10,
 
-    CAMPAIGN = 11
+    CAMPAIGN = 11,
+
+    COMMERCIAL = 12
 
 }
 
@@ -1616,6 +1618,25 @@ struct Podcast {
     14: optional CapiDateTime episodicArtworkEnabledFrom
 }
 
+struct IABTaxonomyInformation {
+    /** The tag ID within the given IAB taxonomy */
+    1: required string tagId;
+
+    /** The ID of the IAB taxonomy */
+    2: required string taxonomyCode;
+
+    /** The ID of the data science model used to assign the tag */
+    3: optional string modelId;
+}
+
+struct CommercialInformation {
+    /** The type of commercial tag that this is, e.g. iab-taxonomy */
+    1: required string commercialType;
+
+    /** IAB taxonomy data */
+    2: optional IABTaxonomyInformation iabTaxonomyInformation;
+}
+
 struct Tag {
 
     /*
@@ -1754,6 +1775,11 @@ struct Tag {
     * The keyword type
     */
     27: optional KeywordType keywordType
+
+    /** 
+    * Any commercial information associated with this tag 
+    */
+    28: optional CommercialInformation commercialInformation;
 }
 
 struct Edition {

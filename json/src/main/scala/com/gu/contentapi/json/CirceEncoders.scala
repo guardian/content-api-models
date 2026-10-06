@@ -50,6 +50,8 @@ object CirceEncoders {
   implicit val sponsorshipEncoder: Encoder[Sponsorship] = deriveEncoder
   implicit val sponsorshipTargetingEncoder: Encoder[SponsorshipTargeting] = deriveEncoder
   implicit val sponsorshipLogoDimensionsEncoder: Encoder[SponsorshipLogoDimensions] = deriveEncoder
+  implicit val commercialInformationEncoder: Encoder[CommercialInformation] = deriveEncoder
+  implicit val iabTaxonomyInformationEncoder: Encoder[IABTaxonomyInformation] = deriveEncoder
   implicit val tagEncoder: Encoder[Tag] = deriveEncoder
   implicit val podcastEncoder: Encoder[Podcast] = deriveEncoder
   implicit val podcastCategoryEncoder: Encoder[PodcastCategory] = deriveEncoder
