@@ -1569,6 +1569,8 @@ struct ContentFields {
     51: optional string bylineHtml
 
     52: optional bool showTableOfContents
+
+    53: optional bool livePricingEnabled;
 }
 
 struct Reference {
