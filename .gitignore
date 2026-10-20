@@ -4,3 +4,6 @@ target/
 .bsp/
 **/.DS_Store
 .metals
+.vscode
+.bloop
+metals.sbt
