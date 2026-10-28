@@ -1570,7 +1570,7 @@ struct ContentFields {
 
     52: optional bool showTableOfContents
 
-    53: optional bool livePricingEnabled;
+    53: optional bool livePricingEnabled
 }
 
 struct Reference {
