@@ -100,6 +100,8 @@ object CirceDecoders {
   implicit val sponsorshipDecoder: Decoder[Sponsorship] = deriveDecoder
   implicit val sponsorshipTargetingDecoder: Decoder[SponsorshipTargeting] = deriveDecoder
   implicit val sponsorshipLogoDimensionsDecoder: Decoder[SponsorshipLogoDimensions] = deriveDecoder
+  implicit val commercialInformationDecoder: Decoder[CommercialInformation] = deriveDecoder
+  implicit val iabTaxonomyInformationDecoder: Decoder[IABTaxonomyInformation] = deriveDecoder
   implicit val tagDecoder: Decoder[Tag] = deriveDecoder
   implicit val podcastDecoder: Decoder[Podcast] = deriveDecoder
   implicit val podcastCategoryDecoder: Decoder[PodcastCategory] = deriveDecoder
