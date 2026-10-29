@@ -1,0 +1,53 @@
+{
+  "response": {
+    "status": "ok",
+    "userTier": "internal",
+    "total": 4,
+    "startIndex": 1,
+    "pageSize": 10,
+    "currentPage": 1,
+    "pages": 1,
+    "results": [{
+      "id": "world/paraguay",
+      "sectionId": "world",
+      "webTitle": "Paraguay",
+      "type": "keyword",
+      "webUrl": "http://www.theguardian.com/world/paraguay",
+      "apiUrl": "http://content.guardianapis.com/world/paraguay",
+      "sectionName": "World news"
+    }, {
+      "id": "football/paraguay",
+      "sectionId": "football",
+      "webTitle": "Paraguay",
+      "type": "keyword",
+      "webUrl": "http://www.theguardian.com/football/paraguay",
+      "apiUrl": "http://content.guardianapis.com/football/paraguay",
+      "sectionName": "Football"
+    }, {
+      "id": "weather/paraguay",
+      "sectionId": "weather",
+      "webTitle": "Paraguay",
+      "type": "keyword",
+      "activeSponsorships": [{
+        "sponsorshipType": "sponsored",
+        "sponsorName": "demo ",
+        "sponsorLogo": "https://static.theguardian.com/commercial/sponsor/19/Apr/2016/sponsorLogo.jpeg",
+        "sponsorLink": "demo ",
+        "targeting": {
+          "validEditions": ["UK"]
+        }
+      }],
+      "webUrl": "http://www.theguardian.com/weather/paraguay",
+      "apiUrl": "http://content.guardianapis.com/weather/paraguay",
+      "sectionName": "Weather"
+    }, {
+      "id": "travel/paraguay",
+      "sectionId": "travel",
+      "webTitle": "Paraguay holidays",
+      "type": "keyword",
+      "webUrl": "http://www.theguardian.com/travel/paraguay",
+      "apiUrl": "http://content.guardianapis.com/travel/paraguay",
+      "sectionName": "Travel"
+    }]
+  }
+}

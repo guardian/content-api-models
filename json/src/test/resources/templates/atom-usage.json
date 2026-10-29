@@ -1,0 +1,12 @@
+{
+  "response": {
+    "status": "ok",
+    "userTier": "internal",
+    "total": 1,
+    "startIndex": 1,
+    "pageSize": 10,
+    "currentPage": 1,
+    "pages": 1,
+    "results": ["film/2016/mar/29/i-dont-suppose-they-have-fax-machines-on-elephants-match-the-bad-line-to-the-superhero-movie-quiz"]
+  }
+}
