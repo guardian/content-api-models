@@ -96,6 +96,8 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
     Compile / scroogePublishThrift := false,
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
+      // Preserve Thrift HTTP transport; this client selects patched core5/core5-h2 5.4.3.
+      "org.apache.httpcomponents.client5" % "httpclient5" % "5.6.3",
       "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
@@ -162,6 +164,7 @@ lazy val typescript = (project in file("ts"))
     ),
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
+      "org.apache.httpcomponents.client5" % "httpclient5" % "5.6.3",
       "com.twitter" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
