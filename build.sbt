@@ -11,7 +11,7 @@ val thriftVersion = "0.24.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
 val circeVersion = "0.14.17"
 val circeOpticsVersion = "0.14.1" // newer releases are not published for Scala 2.12
-val fezziwigVersion = "2.0.1"
+val fezziwigVersion = "2.0.2"
 
 // dependency versions (for tests only)
 val scalaTestVersion = "3.2.20"
@@ -25,9 +25,7 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 
 lazy val artifactProductionSettings = Seq(
-  scalaVersion := "2.13.14",
-  // circe 0.14.17 needs the 2.13.18 standard library, but the 2.13.18 compiler crashes on the fezziwig macros in the json project.
-  allowUnsafeScalaLibUpgrade := true,
+  scalaVersion := "2.13.18",
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
