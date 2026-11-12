@@ -6,3 +6,6 @@ addSbtPlugin("com.twitter" % "scrooge-sbt-plugin" % "22.1.0")
 addSbtPlugin("com.gu" % "sbt-scrooge-typescript" % "4.0.2")
 
 addDependencyTreePlugin
+
+// Patch the build tool graph without changing published library dependencies.
+dependencyOverrides += "org.codehaus.plexus" % "plexus-utils" % "3.6.1"
