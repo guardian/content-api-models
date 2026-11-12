@@ -9,7 +9,8 @@ val contentAtomVersion = "15.1.0"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.24.0"
 val scroogeVersion = "22.1.0" // update plugins too if this version changes
-val circeVersion = "0.14.1"
+val circeVersion = "0.14.17"
+val circeOpticsVersion = "0.14.1" // newer releases are not published for Scala 2.12
 val fezziwigVersion = "2.0.1"
 
 // dependency versions (for tests only)
@@ -25,6 +26,8 @@ val snapshotReleaseSuffix = "-SNAPSHOT"
 
 lazy val artifactProductionSettings = Seq(
   scalaVersion := "2.13.14",
+  // circe 0.14.17 needs the 2.13.18 standard library, but the 2.13.18 compiler crashes on the fezziwig macros in the json project.
+  allowUnsafeScalaLibUpgrade := true,
   // This old attempt to downgrade scrooge reserved word clashes is now insufficient... https://github.com/twitter/scrooge/issues/259#issuecomment-1900743695
   Compile / scroogeDisableStrict := true,
   // scrooge 21.3.0: Builds are now only supported for Scala 2.12+
@@ -117,7 +120,7 @@ lazy val json = Project(id = "content-api-models-json", base = file("json"))
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
-      "io.circe" %% "circe-optics" % circeVersion,
+      "io.circe" %% "circe-optics" % circeOpticsVersion,
       "org.scalatest" %% "scalatest" % scalaTestVersion % Test,
       "org.gnieh" %% "diffson-circe" % diffsonVersion % Test
     ),
