@@ -1,0 +1,31 @@
+{
+    "id": "world/france",
+    "webTitle": "France",
+    "type": "keyword",
+    "sectionId": "world",
+    "sectionName": "World news",
+    "podcast": {
+        "linkUrl": "http://www.theguardian.com/",
+        "author": "theguardian.com",
+        "copyright": "theguardian.com © 2014",
+        "explicit": true,
+        "image": "http://www.theguardian.com/images/lol.jpg",
+        "subscriptionUrl": "http://phobos.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=188674007"
+    },
+    "activeSponsorships": [
+        {
+            "sponsorName": "spons test",
+            "sponsorLink": "spons test",
+            "sponsorshipType": "foundation",
+            "sponsorLogo": "https://static.theguardian.com/sponsTest.png",
+            "targeting": {
+                "validEditions": [
+                    "UK"
+                ]
+            }
+        }
+    ],
+    "webUrl": "http://www.theguardian.com/world/france",
+    "apiUrl": "http://content.guardianapis.com/world/france",
+    "references" : [ ]
+}

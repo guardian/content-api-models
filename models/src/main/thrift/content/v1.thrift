@@ -1,0 +1,2509 @@
+include "story_package_article.thrift"
+include "contentatom.thrift"
+include "entity.thrift"
+include "schema_org.thrift"
+
+namespace scala com.gu.contentapi.client.model.v1
+#@namespace typescript _at_guardian.content_api_models.v1
+
+//include "atoms/quiz.thrift"
+
+struct CapiDateTime {
+
+    /*
+     * Date times are represented as i64 - epoch millis
+     */
+    1: required i64 dateTime
+
+    /*
+     * Also represent as a string (yyyy-MM-dd`T`HH:mm:ss.SSSZZ) in order to preserve timezone info.
+     *
+     * Note: this field makes the i64 representation redundant.
+     */
+    2: required string iso8601
+
+}
+
+enum ContentType {
+    ARTICLE = 0,
+    LIVEBLOG = 1,
+    GALLERY = 2,
+    INTERACTIVE = 3,
+    PICTURE = 4,
+    VIDEO = 5,
+    CROSSWORD = 6,
+    AUDIO = 7
+}
+
+/*
+ * The supported Element types, the types inform what fields to expect and how the Element renders as HTML
+ */
+enum ElementType {
+
+    /*
+     * A bog standard text element
+     */
+    TEXT = 0,
+
+    /*
+     * An element with an image, will have Assets
+     */
+    IMAGE = 1,
+
+    /*
+     * Generic embed Element
+     */
+    EMBED = 2,
+
+    /*
+     * an element containing a formstack form
+     */
+    FORM = 3,
+
+    /*
+     * An element containing a text to be treated a pull quote
+     */
+    PULLQUOTE = 4,
+
+    /*
+     * An element containing a javascript interactive (although actual interactivity varies)
+     */
+    INTERACTIVE = 5,
+
+    /*
+     * An embeded comment from discussion
+     */
+    COMMENT = 6,
+
+    /*
+     * A rich link to guardian content - presents a nice trail outside of the content body
+     */
+    RICH_LINK = 7,
+
+    /*
+     * A table
+     */
+    TABLE = 8,
+
+    /*
+     * A video element, will contain Assets
+     */
+    VIDEO = 9,
+
+    /*
+     * A tweet element
+     */
+    TWEET = 10,
+
+    /*
+     * An embedded piece of witness UGC
+     */
+    WITNESS = 11,
+
+    /*
+     * An element containing computer codez, this is syntax highlighted.
+     * This is used almost exclusively for the developer blog and dogfooding composer.
+     */
+    CODE = 12,
+
+    /*
+     * An audio embed, typically via embedly
+     */
+    AUDIO = 13,
+
+    /*
+     * A map element, embedded via embedly
+     */
+    MAP = 14,
+
+    /*
+     * A document element, ebedded via embedly
+     */
+    DOCUMENT = 15,
+
+    /*
+     * A Guardian Membership event
+     */
+    MEMBERSHIP = 16
+
+    /*
+     * An instagram element, will contain assets
+     */
+    INSTAGRAM = 17
+
+    /*
+     * A content atom
+     */
+    CONTENTATOM = 18
+
+    /*
+     * A vine element, will contain assets
+     */
+    VINE = 19
+
+    CALLOUT = 20
+
+    CARTOON = 21
+
+    RECIPE = 22
+
+    LIST = 23
+
+    TIMELINE = 24
+
+    LINK = 25
+
+    PRODUCT = 26
+
+    RESPONSIVE_IMAGE = 27
+    
+    PRODUCT_SUMMARY = 28
+}
+
+enum TagType {
+
+    CONTRIBUTOR = 0,
+
+    KEYWORD = 1,
+
+    SERIES = 2,
+
+    NEWSPAPER_BOOK_SECTION = 3,
+
+    NEWSPAPER_BOOK = 4,
+
+    BLOG = 5,
+
+    TONE = 6,
+
+    TYPE = 7,
+
+    PUBLICATION = 8,
+
+    TRACKING = 9,
+
+    PAID_CONTENT = 10,
+
+    CAMPAIGN = 11
+
+}
+
+enum KeywordType {
+    PERSON = 0,
+    ORGANISATION = 1,
+    EVENT = 2,
+    WORK_OF_ART_OR_PRODUCT = 3,
+    PLACE = 4,
+    OTHER = 5
+}
+
+enum CrosswordType {
+
+    QUICK = 0,
+
+    CRYPTIC = 1,
+
+    QUIPTIC = 2,
+
+    SPEEDY = 3,
+
+    PRIZE = 4,
+
+    EVERYMAN = 5,
+
+    DIAN_QUIPTIC_CROSSWORD = 6,
+
+    WEEKEND = 7,
+
+    QUICK_CRYPTIC = 8,
+
+    SPECIAL = 9,
+
+    SUNDAY_QUICK = 10,
+    
+    MINI = 11
+}
+
+enum Office {
+    UK = 0,
+    US = 1,
+    AUS = 2
+}
+
+enum AssetType {
+    IMAGE = 0,
+    VIDEO = 1,
+    AUDIO = 2,
+    EMBED = 3,
+    TWEET = 4,
+    CARTOON = 5
+}
+
+enum MembershipTier {
+    MEMBERS_ONLY = 0,
+    PAID_MEMBERS_ONLY = 1
+}
+
+enum SponsorshipType {
+    SPONSORED = 0,
+    FOUNDATION = 1,
+    PAID_CONTENT = 2
+}
+
+enum SponsorshipPackage {
+    DEFAULT = 0,
+    US = 1,
+    US_EXCLUSIVE = 2
+}
+
+enum EmbedTracksType {
+    UNKNOWN = 0,
+    TRACKS = 1,
+    DOES_NOT_TRACK = 2
+}
+
+enum PlatformType {
+    WEB = 0,
+    AMP = 1,
+    APPS = 2
+}
+
+struct Rights {
+
+    1: optional bool syndicatable = false
+
+    2: optional bool subscriptionDatabases = false
+
+    3: optional bool developerCommunity = false
+}
+
+struct AssetFields {
+
+  1: optional string aspectRatio
+
+  2: optional string altText
+
+  3: optional bool isInappropriateForAdverts
+
+  4: optional string caption
+
+  5: optional string credit
+
+  6: optional bool embeddable
+
+  7: optional string photographer
+
+  8: optional string source
+
+  9: optional string stillImageUrl
+
+  10: optional i32 width
+
+  11: optional i32 height
+
+  12: optional string name
+
+  13: optional string secureFile // see also 71: secureFileWithAds
+
+  14: optional bool isMaster
+
+  15: optional i64 sizeInBytes
+
+  16: optional i32 durationMinutes
+
+  17: optional i32 durationSeconds
+
+  18: optional bool displayCredit
+
+  19: optional string thumbnailUrl
+
+  20: optional string role
+
+  21: optional string mediaId
+
+  22: optional string iframeUrl
+
+  23: optional string scriptName
+
+  24: optional string scriptUrl
+
+  25: optional bool blockAds
+
+  26: optional string html
+
+  27: optional string embedType
+
+  28: optional bool explicit
+
+  29: optional bool clean
+
+  30: optional string thumbnailImageUrl
+
+  31: optional string linkText
+
+  32: optional string linkPrefix
+
+  33: optional string shortUrl
+
+  34: optional string imageType
+
+  35: optional string suppliersReference
+
+  36: optional string mediaApiUri
+
+  37: optional string copyright
+
+  38: optional string mimeType
+
+  39: optional string url
+
+  40: optional string originalUrl
+
+  41: optional string id
+
+  42: optional string attribution
+
+  43: optional string description
+
+  44: optional string title
+
+  45: optional string contentAuthSystem
+
+  46: optional string alt
+
+  47: optional string picdarUrn
+
+  48: optional string comment
+
+  49: optional string witnessEmbedType
+
+  50: optional string authorName
+
+  51: optional string authorUsername
+
+  52: optional string authorWitnessProfileUrl
+
+  53: optional string authorGuardianProfileUrl
+
+  54: optional string apiUrl
+
+  55: optional CapiDateTime dateCreated
+
+  56: optional string youtubeUrl
+
+  57: optional string youtubeSource
+
+  58: optional string youtubeTitle
+
+  59: optional string youtubeDescription
+
+  60: optional string youtubeAuthorName
+
+  61: optional string youtubeHtml
+
+  62: optional string venue
+
+  63: optional string location
+
+  64: optional string identifier
+
+  65: optional string price
+
+  66: optional CapiDateTime start
+
+  /* `end` is a reserved word in scrooge, so use Compile / scroogeDisableStrict := true in build.sbt */
+  67: optional CapiDateTime end
+
+  68: optional bool safeEmbedCode
+
+  69: optional bool isMandatory
+
+  70: optional list<CartoonVariant> cartoonVariants
+
+  71: optional string secureFileWithAds
+
+  72: optional list<ResponsiveImageVariant> responsiveImageVariants
+}
+
+struct Asset {
+
+    1: required AssetType type
+
+    2: optional string mimeType
+
+    3: optional string file
+
+    4: optional AssetFields typeData
+}
+
+struct TextElementFields {
+
+    1: optional string html
+
+    2: optional string role
+
+}
+
+struct PullquoteElementFields {
+
+    1: optional string html
+
+    2: optional string attribution
+
+    3: optional string role
+
+    4: optional string source
+
+//    5: optional i32 height
+
+//    6: optional i32 width
+
+    7: optional string sourceDomain
+}
+
+enum LinkType {
+    PRODUCT_BUTTON = 0,
+    STANDARD_BUTTON = 1
+}
+
+enum Priority {
+    PRIMARY = 1
+    TERTIARY = 3
+}
+
+struct LinkElementFields {
+
+    1: optional string label;
+
+    2: optional string url;
+
+    3: optional LinkType linkType;
+
+    4: optional Priority priority;
+}
+
+struct TweetElementFields {
+
+    1: optional string source
+
+    2: optional string url
+
+    3: optional string id
+
+    4: optional string html
+
+    5: optional string originalUrl
+
+    6: optional string role
+
+//    7: optional i32 height
+
+//    8: optional i32 width
+
+    9: optional string sourceDomain
+
+    10: optional bool isMandatory
+}
+
+enum PodcastEpisodeType {
+    FULL = 0,
+    TRAILER = 1,
+    BONUS = 2
+}
+
+struct AudioElementFields {
+
+    1: optional string html
+
+    2: optional string source
+
+    3: optional string description
+
+    4: optional string title
+
+    5: optional string credit
+
+    6: optional string caption
+
+    7: optional i32 durationMinutes
+
+    8: optional i32 durationSeconds
+
+    9: optional bool clean
+
+    10: optional bool explicit
+
+    11: optional string role
+
+//    12: optional i32 height
+
+//    13: optional i32 width
+
+    14: optional string sourceDomain
+
+    15: optional bool isMandatory
+
+    16: optional i32 podcastEpisodeNumber
+
+    17: optional i32 podcastSeasonNumber
+
+    18: optional PodcastEpisodeType podcastEpisodeType
+}
+
+struct VideoElementFields {
+
+    1: optional string url
+
+    2: optional string description
+
+    3: optional string title
+
+    4: optional string html
+
+    5: optional string source
+
+    6: optional string credit
+
+    7: optional string caption
+
+    8: optional i32 height
+
+    9: optional i32 width
+
+    10: optional i32 duration
+
+    11: optional string contentAuthSystem
+
+    12: optional string embeddable
+
+    13: optional bool isInappropriateForAdverts
+
+    14: optional string mediaId
+
+    15: optional string stillImageUrl
+
+    16: optional string thumbnailUrl
+
+    17: optional string shortUrl
+
+    18: optional string role
+
+    19: optional string originalUrl
+
+    20: optional string sourceDomain
+
+    21: optional bool isMandatory
+}
+
+struct ImageElementFields {
+
+    1: optional string caption
+
+    2: optional string copyright
+
+    3: optional bool displayCredit
+
+    4: optional string credit
+
+    5: optional string source
+
+    6: optional string photographer
+
+    7: optional string alt
+
+    8: optional string mediaId
+
+    9: optional string mediaApiUri
+
+    10: optional string picdarUrn
+
+    11: optional string suppliersReference
+
+    12: optional string imageType
+
+    13: optional string comment
+
+    14: optional string role
+
+}
+
+struct InteractiveElementFields {
+    1: optional string url
+    2: optional string originalUrl
+    3: optional string source
+    4: optional string caption
+    5: optional string alt
+    6: optional string scriptUrl
+    7: optional string html
+    8: optional string scriptName
+    9: optional string iframeUrl
+    10: optional string role
+    11: optional bool isMandatory
+//    12: optional i32 height
+//    13: optional i32 width
+    14: optional string sourceDomain
+    /**
+     * Fallback content to display if the platform is not able to render the
+     * content at `url`, for example because the platform does not support
+     * rendering HTML natively.
+     */
+    15: optional list<BlockElement> fallbackContent
+}
+
+struct StandardElementFields {
+    1: optional string url
+    2: optional string originalUrl
+    3: optional string source
+    4: optional string title
+    5: optional string description
+    6: optional string credit
+    7: optional string caption
+    8: optional i32 width
+    9: optional i32 height
+    10: optional string html
+    11: optional string role
+    12: optional bool isMandatory
+    13: optional string sourceDomain
+}
+
+struct WitnessElementFields {
+    1: optional string url
+    2: optional string originalUrl
+    3: optional string witnessEmbedType
+    4: optional string mediaId
+    5: optional string source
+    6: optional string title
+    7: optional string description
+    8: optional string authorName
+    9: optional string authorUsername
+    10: optional string authorWitnessProfileUrl
+    11: optional string authorGuardianProfileUrl
+    12: optional string caption
+    13: optional string alt
+    14: optional i32 width
+    15: optional i32 height
+    16: optional string html
+    17: optional string apiUrl
+    18: optional string photographer
+    19: optional CapiDateTime dateCreated
+    20: optional string youtubeUrl
+    21: optional string youtubeSource
+    22: optional string youtubeTitle
+    23: optional string youtubeDescription
+    24: optional string youtubeAuthorName
+    25: optional string youtubeHtml
+    26: optional string role
+    27: optional string sourceDomain
+}
+
+
+struct SponsorshipTargeting {
+    1: optional CapiDateTime publishedSince
+
+    2: optional list<string> validEditions
+}
+
+struct SponsorshipLogoDimensions {
+
+    1: required i32 width
+
+    2: required i32 height
+
+}
+
+struct Sponsorship {
+
+    1: required SponsorshipType sponsorshipType
+
+    2: required string sponsorName
+
+    3: required string sponsorLogo
+
+    4: required string sponsorLink
+
+    5: optional SponsorshipTargeting targeting
+
+    6: optional string aboutLink
+
+    7: optional SponsorshipLogoDimensions sponsorLogoDimensions
+
+    8: optional string highContrastSponsorLogo
+
+    9: optional SponsorshipLogoDimensions highContrastSponsorLogoDimensions
+
+    10: optional CapiDateTime validFrom
+
+    11: optional CapiDateTime validTo
+
+    12: optional SponsorshipPackage sponsorshipPackage
+}
+
+struct RichLinkElementFields {
+    1: optional string url
+    2: optional string originalUrl
+    3: optional string linkText
+    4: optional string linkPrefix
+    5: optional string role
+    6: optional Sponsorship sponsorship
+}
+
+struct MembershipElementFields {
+    1: optional string originalUrl
+    2: optional string linkText
+    3: optional string linkPrefix
+    4: optional string title
+    5: optional string venue
+    6: optional string location
+    7: optional string identifier
+    8: optional string image
+    9: optional string price
+    10: optional CapiDateTime start
+    /* `end` is a reserved word in scrooge, so use Compile / scroogeDisableStrict := true in build.sbt */
+    11: optional CapiDateTime end
+    12: optional string role
+}
+
+struct EmbedElementFields {
+
+    1: optional string html
+
+    2: optional bool safeEmbedCode
+
+    3: optional string alt
+
+    4: optional bool isMandatory
+
+    5: optional string role
+
+    6: optional string source
+
+//    7: optional i32 height
+
+//    8: optional i32 width
+
+    9: optional string sourceDomain
+
+    10: optional string caption
+}
+
+struct InstagramElementFields {
+
+    1: required string originalUrl
+
+    2: required string title
+
+    3: required string source
+
+    4: required string authorUrl
+
+    5: required string authorUsername
+
+    6: optional string html
+
+    7: optional i32 width
+
+    8: optional string alt
+
+    9: optional string caption
+
+    10: optional string role
+
+//    11: optional i32 height
+
+    12: optional string sourceDomain
+}
+
+struct CommentElementFields {
+
+    1: optional string source
+
+    2: optional string discussionKey
+
+    3: optional string commentUrl
+
+    4: optional string originalUrl
+
+    5: optional string sourceUrl
+
+    6: optional string discussionUrl
+
+    7: optional string authorUrl
+
+    8: optional string html
+
+    9: optional string authorName
+
+    10: optional i32 commentId
+
+    11: optional string role
+
+    12: optional bool isMandatory
+
+}
+
+struct VineElementFields {
+
+    1: required string originalUrl
+
+    2: required string title
+
+    3: required string source
+
+    4: required string authorUrl
+
+    5: required string authorUsername
+
+    6: optional string html
+
+    7: optional i32 width
+
+    8: optional i32 height
+
+    9: optional string alt
+
+    10: optional string caption
+
+    11: optional string role
+
+    12: optional string sourceDomain
+
+}
+
+struct ContentAtomElementFields {
+
+  1: required string atomId
+
+  2: required string atomType
+
+  3: optional string role
+
+  4: optional bool isMandatory
+
+  5: optional string caption
+
+  6: optional string customData
+
+}
+
+struct CodeElementFields {
+
+  1: required string html
+
+  2: required string language
+
+}
+
+struct CalloutElementFields {
+
+  1: optional string campaignId
+
+  2: optional bool isNonCollapsible
+
+  3: optional string overridePrompt
+
+  4: optional string overrideTitle
+
+  5: optional string overrideDescription
+
+}
+
+struct CartoonElementFields {
+
+    1: optional list<CartoonVariant> variants;
+
+    2: optional string role;
+
+    3: optional string credit;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    6: optional string source;
+
+    7: optional bool displayCredit;
+
+    8: optional string photographer;
+
+    9: optional string imageType;
+}
+
+struct CartoonVariant {
+
+    1: required string viewportSize;
+
+    2: required list<CartoonImage> images;
+
+}
+
+struct CartoonImage {
+
+    1: required string mimeType;
+
+    2: required string file;
+
+    3: optional i32 width;
+
+    4: optional i32 height;
+
+    5: optional string mediaId;
+}
+
+struct RecipeElementFields {
+    1: optional string recipeJson;
+}
+
+enum ListType {
+    KEY_TAKEAWAYS = 1,
+    Q_AND_A_EXPLAINER = 2,
+    MINI_PROFILES = 3,
+    MULTI_BYLINE = 4,
+}
+
+enum ProductDisplayType {
+    INLINE_WITH_PRODUCT_CARD = 0,
+    INLINE_ONLY = 1,
+    PRODUCT_CARD_ONLY = 2,
+}
+
+enum ProductSummaryDisplayType {
+    CTA_LIST = 0,
+    CAROUSEL = 1,
+    STACKED_CARD = 2
+    STACKED_CARD_EXPANDED = 3
+}
+
+struct ListItem {
+
+    1: required list<BlockElement> elements = [];
+
+    2: optional string title;
+
+    // NOT USED. contributors has been superceded by contributorIds
+    // 3: optional list<Tag> contributors;
+
+    4: optional string bio;
+
+    5: optional string contributorImageOverrideUrl;
+
+    6: optional string endNote;
+
+    7: optional string byline;
+
+    8: optional string bylineHtml;
+
+    9: optional list<string> contributorIds;
+
+}
+
+struct ListElementFields {
+
+    1: required list<ListItem> items;
+    
+    2: optional ListType type;
+}
+
+struct TimelineEvent {
+    1: required list<BlockElement> body = []; /* The content associated with the event */
+
+    2: optional BlockElement main; /* The primary media (probably image or video) associated with the event */
+
+    3: optional string title;
+
+    4: optional string date; /* String representation chosen because this may be used to represent a fuzzy date */
+
+    5: optional string label;
+}
+
+struct TimelineSection {
+    1: required list<TimelineEvent> events;
+
+    2: optional string title;
+}
+
+struct TimelineElementFields {
+    1: required list<TimelineSection> sections;
+}
+
+struct ProductCTA {
+    1: optional string url;
+
+    2: optional string text;
+
+    3: optional string retailer;
+
+    4: optional string price;
+}
+
+struct ProductCustomAttribute {
+    1: optional string name,
+
+    2: optional string value,
+}
+
+struct ProductImage {
+    /** Caption of the image */
+    1: optional string caption;
+
+    /** Display credit for the image */
+    2: optional bool displayCredit;
+
+    /** Source of the image */
+    3: optional string source;
+
+    /** Caption of the image */
+    4: optional string photographer;
+
+    /** Alt text of the image */
+    5: optional string alt;
+
+    /** The id of the image in the media api */
+    6: optional string mediaId;
+
+    /** The url of the image file */
+    7: optional string file;
+
+    /** Suppliers reference of the image */
+    8: optional string suppliersReference;
+
+    /** Type of the image */
+    9: optional string imageType;
+
+    /** height for the image */
+    10: optional i32 height;
+
+    /** width for the image */
+    11: optional i32 width;
+
+    /** Credit for the image */
+    12: optional string credit;
+}
+
+struct ProductElementFields {
+  1: optional string productName;
+
+  2: optional string brandName;
+
+  3: optional string primaryHeading;
+
+  4: optional string secondaryHeading;
+
+  5: required ProductDisplayType displayType;
+
+  6: optional string starRating;
+
+  7: optional list<ProductCTA> productCtas;
+
+  8: optional list<ProductCustomAttribute> customAttributes;
+
+  9: optional ProductImage image;
+
+  10: optional list<BlockElement> content;
+
+  11: optional string id;
+}
+
+struct SummaryProductRef {
+    1: optional string productId;
+
+    2: optional i32 ctaIndex;
+}
+
+struct ProductSummaryElementFields {
+    1: optional string title;
+
+    2: required ProductSummaryDisplayType displayType;
+
+    3: optional list<SummaryProductRef> products;
+
+    4: optional string id;
+}
+
+enum ColorScheme {
+    LIGHT = 0,
+    DARK = 1
+}
+
+struct ResponsiveImageVariant {
+    1: required string viewportSize;
+    2: required list<ResponsiveImageVariantImage> images;
+    3: optional ColorScheme colorScheme;
+}
+
+struct ResponsiveImageVariantImage {
+    /** The mime type of the image */
+    1: required string mimeType;
+
+    /** the url of the image file */
+    2: required string file;
+
+    /** The width of the image */
+    3: optional i32 width;
+
+    /** The height of the image */
+    4: optional i32 height;
+
+    /** The id of the image in the media api */
+    5: optional string mediaId;
+}
+
+/** Responsive image element */
+struct ResponsiveImageElementFields {
+    /**
+     * Lists of images to display for each responsive variant.
+     */
+    1: optional list<ResponsiveImageVariant> responsiveImageVariants;
+
+    /** The role of the element (i.e. a hint about how it should be displayed) e.g. showcase, thumbnail, immersive */
+    2: optional string role;
+
+    3: optional string photographer;
+
+    4: optional string caption;
+
+    5: optional string alt;
+
+    /** The source of the image(s) */
+    6: optional string source;
+
+    /** If the credit should be displayed */
+    7: optional bool displayCredit;
+
+    /** Type of the image, usually one of Illustration, Photograph or Composite */
+    8: optional string imageType;
+}
+
+struct BlockElement {
+
+    1: required ElementType type
+
+    2: required list<Asset> assets
+
+    3: optional TextElementFields textTypeData
+
+    4: optional VideoElementFields videoTypeData
+
+    5: optional TweetElementFields tweetTypeData
+
+    6: optional ImageElementFields imageTypeData
+
+    7: optional AudioElementFields audioTypeData
+
+    8: optional PullquoteElementFields pullquoteTypeData
+
+    9: optional InteractiveElementFields interactiveTypeData
+
+    10: optional StandardElementFields mapTypeData
+
+    11: optional StandardElementFields documentTypeData
+
+    12: optional StandardElementFields tableTypeData
+
+    13: optional WitnessElementFields witnessTypeData
+
+    14: optional RichLinkElementFields richLinkTypeData
+
+    15: optional MembershipElementFields membershipTypeData
+
+    16: optional EmbedElementFields embedTypeData
+
+    17: optional InstagramElementFields instagramTypeData
+
+    18: optional CommentElementFields commentTypeData
+
+    19: optional VineElementFields vineTypeData
+
+    20: optional ContentAtomElementFields contentAtomTypeData
+
+    /*
+     * Optional field which may appear on a block element with a html field containing third party embed code.
+     * Likely to appear on embed and other rich media type elements.
+     * Does not appear on text block elements as the html field of a text element does not contain embed code.
+     */
+    21: optional EmbedTracking tracking
+
+    22: optional CodeElementFields codeTypeData
+
+    23: optional CalloutElementFields calloutTypeData
+
+    24: optional CartoonElementFields cartoonTypeData
+
+    25: optional RecipeElementFields recipeTypeData
+
+    26: optional ListElementFields listTypeData
+
+    27: optional TimelineElementFields timelineTypeData
+
+    28: optional LinkElementFields linkTypeData
+
+    29: optional ProductElementFields productTypeData
+
+    30: optional ResponsiveImageElementFields responsiveImageTypeData
+    
+    31: optional ProductSummaryElementFields productSummaryTypeData
+}
+
+struct MembershipPlaceholder {
+
+    1: optional string campaignCode
+}
+
+struct BlockAttributes {
+
+    1: optional bool keyEvent
+
+    2: optional bool summary
+
+    3: optional string title
+
+    4: optional bool pinned
+
+    5: optional MembershipPlaceholder membershipPlaceholder
+}
+
+struct User {
+
+    1: required string email
+
+    2: optional string firstName
+
+    3: optional string lastName
+}
+
+struct Block {
+
+    /*
+     * The unique ID of the block.
+     */
+    1: required string id
+
+    /*
+     * The HTML body of the block.
+     */
+    2: required string bodyHtml
+
+    /*
+     * The textual content of the block, with HTML tags stripped.
+     * This will not include any non-textual content such as pullquotes, tweet embeds, etc.
+     */
+    3: required string bodyTextSummary
+
+    /*
+     * The block's title, if it has one.
+     */
+    4: optional string title
+
+    /*
+     * Metadata about the block.
+     */
+    5: required BlockAttributes attributes
+
+    /*
+     * Whether this block is currently live.
+     */
+    6: required bool published
+
+    /*
+     * The first time this block was created.
+     */
+    7: optional CapiDateTime createdDate
+
+    /*
+     * The first time this block was published.
+     */
+    8: optional CapiDateTime firstPublishedDate
+
+    /*
+     * The last time this block was published.
+     */
+    9: optional CapiDateTime publishedDate
+
+    /*
+     * The last time this block was modified.
+     */
+    10: optional CapiDateTime lastModifiedDate
+
+    /*
+     * People who contributed to this block.
+     */
+    11: required list<string> contributors
+
+    /*
+     * Person who created this block.
+     */
+    12: optional User createdBy
+
+    /*
+     * Person who last modified this block.
+     */
+    13: optional User lastModifiedBy
+
+    /*
+     * The elements associated with this block.
+     */
+    14: required list<BlockElement> elements = []
+}
+
+struct Blocks {
+
+    /*
+     * The main block, which will include the main image and other furniture
+     */
+    1: optional Block main
+
+    /*
+     * The block(s) that make up the body of the content. For a liveblog there may be multiple blocks.
+     * Any other content will have only one block.
+     */
+    2: optional list<Block> body
+
+    /*
+     * The total number of body blocks in the content.
+     * This field will only be present if you request some or all of the body blocks.
+     */
+    3: optional i32 totalBodyBlocks
+
+    /*
+     * Any requested subsets of body blocks.
+     * This field will only be present if you requested one or more body block subsets.
+     */
+    4: optional map<string, list<Block>> requestedBodyBlocks
+}
+
+struct CrosswordDimensions {
+
+    1: required i32 cols
+
+    2: required i32 rows
+}
+
+struct CrosswordPosition {
+
+    1: required i32 x
+
+    2: required i32 y
+}
+
+struct CrosswordCreator {
+
+    1: required string name
+
+    2: required string webUrl
+}
+
+struct CrosswordEntry {
+
+    1: required string id
+
+    2: optional i32 number
+
+    3: optional string humanNumber
+
+    4: optional string direction
+
+    5: optional CrosswordPosition position
+
+    6: optional map<string, list<i32>> separatorLocations
+
+    7: optional i32 length
+
+    8: optional string clue
+
+    9: optional list<string> group
+
+    10: optional string solution
+
+    11: optional string format
+}
+
+struct Crossword {
+
+    1: required string name
+
+    2: required CrosswordType type
+
+    3: required i32 number
+
+    4: required CapiDateTime date
+
+    5: required CrosswordDimensions dimensions
+
+    6: required list<CrosswordEntry> entries
+
+    7: required bool solutionAvailable
+
+    8: required bool hasNumbers
+
+    9: required bool randomCluesOrdering
+
+    10: optional string instructions
+
+    11: optional CrosswordCreator creator
+
+    12: optional string pdf
+
+    13: optional string annotatedSolution
+
+    14: optional CapiDateTime dateSolutionAvailable
+
+}
+
+struct Element {
+
+    1: required string id
+
+    2: required string relation
+
+    3: required ElementType type
+
+    4: optional i32 galleryIndex
+
+    5: required list<Asset> assets
+}
+
+struct ContentFields {
+
+    1: optional string headline
+
+    2: optional string standfirst
+
+    3: optional string trailText
+
+    4: optional string byline
+
+    5: optional string main
+
+    6: optional string body
+
+    7: optional i32 newspaperPageNumber
+
+    8: optional i32 starRating
+
+    9: optional string contributorBio
+
+    10: optional MembershipTier membershipAccess
+
+    11: optional i32 wordcount
+
+    12: optional CapiDateTime commentCloseDate
+
+    13: optional bool commentable
+
+    14: optional CapiDateTime creationDate
+
+    15: optional string displayHint
+
+    16: optional CapiDateTime firstPublicationDate
+
+    17: optional bool hasStoryPackage
+
+    18: optional string internalComposerCode
+
+    19: optional string internalOctopusCode
+
+    20: optional i32 internalPageCode
+
+    21: optional i32 internalStoryPackageCode
+
+    22: optional bool isInappropriateForSponsorship
+
+    23: optional bool isPremoderated
+
+    24: optional CapiDateTime lastModified
+
+    25: optional bool liveBloggingNow
+
+    26: optional CapiDateTime newspaperEditionDate
+
+    27: optional Office productionOffice
+
+    28: optional string publication
+
+    29: optional CapiDateTime scheduledPublicationDate
+
+    30: optional string secureThumbnail
+
+    31: optional string shortUrl
+
+    32: optional bool shouldHideAdverts
+
+    33: optional bool showInRelatedContent
+
+    34: optional string thumbnail
+
+    35: optional bool legallySensitive
+
+    36: optional bool allowUgc
+
+    37: optional bool sensitive
+
+    38: optional string lang
+
+    39: optional i32 internalRevision
+
+    40: optional i32 internalContentCode
+
+    41: optional bool isLive
+
+    /*
+     * A short id used as a key for discussion and save for later feature
+     */
+    42: optional string internalShortId
+
+    43: optional string shortSocialShareText
+
+    44: optional string socialShareText
+
+    45: optional string bodyText
+
+    46: optional i32 charCount
+
+    47: optional string internalVideoCode
+
+    48: optional bool shouldHideReaderRevenue
+
+    49: optional i32 internalCommissionedWordcount
+
+    50: optional bool showAffiliateLinks
+
+    51: optional string bylineHtml
+
+    52: optional bool showTableOfContents
+
+    53: optional bool livePricingEnabled
+}
+
+struct Reference {
+
+    1: required string id
+
+    2: required string type
+}
+
+struct PodcastCategory {
+
+    1: required string main
+
+    2: optional string sub
+}
+
+struct Podcast {
+
+    1: required string linkUrl
+
+    2: required string copyright
+
+    3: required string author
+
+    4: optional string subscriptionUrl
+
+    5: required bool explicit
+
+    6: optional string image
+
+    7: optional list<PodcastCategory> categories
+
+    8: optional string podcastType
+
+    9: optional string googlePodcastsUrl
+
+    10: optional string spotifyUrl
+
+    11: optional string acastId
+
+    12: optional string pocketCastsUrl
+
+    13: optional bool episodicArtworkEnabled
+
+    14: optional CapiDateTime episodicArtworkEnabledFrom
+}
+
+struct Tag {
+
+    /*
+     * The id of this tag: this should always be the path
+     * to the tag page on www.theguardian.com
+     */
+    1: required string id
+
+    /*
+     * The type of this tag
+     */
+    2: required TagType type
+
+    /*
+     * Section is usually provided: some tags (notably contributor tags)
+     * does not belong to any section so this will be None
+     */
+    3: optional string sectionId
+
+    /*
+     * The display name of the section.  Will be None if sectionId is None.
+     */
+    4: optional string sectionName
+
+    /*
+     * Short description of this tag.
+     */
+    5: required string webTitle
+
+    /*
+     * Full url on which tag page can be found on www.theguardian.com
+     */
+    6: required string webUrl
+
+    /*
+     * Full url on which full information about this tag can be found on
+     * the content api.
+     *
+     * For tags, this allows access to the editorsPicks for the tag,
+     * and automatically shows the most recent content for the tag.
+     */
+    7: required string apiUrl
+
+    /*
+     * List of references associated with the tag. References are
+     * strings that identify things beyond the content api. A good example
+     * is an isbn number, which associates the tag with a book.
+     *
+     * Use showReferences passing in the the type of reference you want to
+     * see or 'all' to see all references.
+     */
+    8: required list<Reference> references
+
+    /**
+     * A tag *may* have a description field.
+     *
+     * Contributor tags never have a description field. They may
+     * instead have a 'bio' field.
+     */
+    9: optional string description
+
+    /**
+     * If this tag is a contributor then we *may* have a small bio
+     * for the contributor.
+     *
+     * This field is optional in all cases, even contributors are not
+     * guaranteed to have one.
+     */
+    10: optional string bio
+
+    /*
+     * If this tag is a contributor then we *may* have a small byline
+     * picturefor the contributor.
+     *
+     * This field is optional in all cases, even contributors are not
+     * guaranteed to have one.
+     */
+    11: optional string bylineImageUrl
+
+    /**
+     * If this tag is a contributor then we *may* have a large byline
+     * picture for the contributor.
+     */
+    12: optional string bylineLargeImageUrl
+
+    /*
+     * If this tag is a series it could be a podcast.
+     */
+    13: optional Podcast podcast
+
+    /*
+     * If the tag is a contributor it may have a first name, a last name, email address and a twitter handle.
+     */
+    14: optional string firstName
+
+    15: optional string lastName
+
+    16: optional string emailAddress
+
+    17: optional string twitterHandle
+
+    /**
+    * A list of all the active sponsorships running against this tag
+    */
+    18: optional list<Sponsorship> activeSponsorships
+
+    19: optional string paidContentType
+
+    20: optional string paidContentCampaignColour
+
+    21: optional string rcsId
+
+    22: optional string r2ContributorId
+
+    /*
+     * A set of schema.org types, e.g. "Person", "Place"
+     */
+    23: optional set<string> tagCategories
+
+    /*
+     * A set of Guardian Entity IDs associated with this Tag
+     */
+    24: optional set<string> entityIds
+
+    /**
+    * If the tag is a campaign, it should have a subtype eg callout
+    */
+    25: optional string campaignInformationType
+
+    /**
+    * The internal name of the tag
+    */
+    26: optional string internalName
+
+    /**
+    * The keyword type
+    */
+    27: optional KeywordType keywordType
+}
+
+struct Edition {
+
+    /*
+     * he path of the edition, e.g. 'au/business'
+     */
+    1: required string id
+
+    /*
+     * Short description of the edition
+     */
+    2: required string webTitle
+
+    /*
+     * Edition URL for the main Guardian website
+     */
+    3: required string webUrl
+
+    /*
+     * Path from which the edition is available in the Content API
+     */
+    4: required string apiUrl
+
+    /*
+     * The edition code, e.g. 'uk' or 'default'.
+     */
+    5: required string code
+}
+
+struct Section {
+
+    /*
+     * The id of this section: this should always be the path to the section front on www.theguardian.com
+     */
+    1: required string id
+
+    /*
+     * Short description of this section.
+     */
+    2: required string webTitle
+
+    /*
+     * Full url on which section front can be found on www.theguardian.com
+     */
+    3: required string webUrl
+
+    /*
+     * Full url on which full information about this section can be found on
+     * the content api.
+     *
+     * For sections, this allows access to the editorsPicks for the section,
+     * mostRead content in the section,
+     * and automatically shows the most recent content for the section.
+     */
+    4: required string apiUrl
+
+    /*
+     * List of available editions for this section
+     */
+    5: required list<Edition> editions
+
+    /**
+    * A list of all the active sponsorships running against this section
+    */
+    6: optional list<Sponsorship> activeSponsorships
+}
+
+struct Atoms {
+    1: optional list<contentatom.Atom> quizzes
+
+    /**
+    * Viewpoints are deprecated
+    */
+    2: optional list<contentatom.Atom> viewpoints
+
+    3: optional list<contentatom.Atom> media
+
+    4: optional list<contentatom.Atom> explainers
+
+    5: optional list<contentatom.Atom> cta
+
+    6: optional list<contentatom.Atom> interactives
+
+    7: optional list<contentatom.Atom> reviews
+
+    8: optional list<contentatom.Atom> recipes
+
+    //9: optional list<contentatom.Atom> storyquestions DEPRECATED
+
+    10: optional list<contentatom.Atom> qandas
+
+    11: optional list<contentatom.Atom> guides
+
+    12: optional list<contentatom.Atom> profiles
+
+    13: optional list<contentatom.Atom> timelines
+
+    14: optional list<contentatom.Atom> commonsdivisions
+
+    15: optional list<contentatom.Atom> charts
+
+    16: optional list<contentatom.Atom> audios
+
+    17: optional list<contentatom.Atom> emailsignups
+
+    18: optional list<contentatom.Atom> multimediaslideshows
+}
+
+struct ContentStats {
+
+   /*
+    * The number of videos that exist in a piece of content.
+    */
+    1: required i32 videos
+
+   /*
+    * The number of images that exist in a piece of content.
+    */
+    2: required i32 images
+
+   /*
+    * The number of text elements that exist in a piece of content.
+    */
+    3: required i32 text
+
+   /*
+    * The number of tweets that exist in a piece of content.
+    */
+    4: required i32 tweets
+
+   /*
+    * The number of pullquotes that exist in a piece of content.
+    */
+    5: required i32 pullquotes
+
+   /*
+    * The number of audio elements that exist in a piece of content.
+    */
+    6: required i32 audio
+
+   /*
+    * The number of interactives that exist in a piece of content.
+    */
+    7: required i32 interactives
+
+   /*
+    * The number of witness elements that exist in a piece of content.
+    */
+    8: required i32 witness
+
+    /*
+    * The number of richlinks that exist in a piece of content.
+    */
+    9: required i32 richlinks
+
+   /*
+    * The number of membership elements that exist in a piece of content.
+    */
+    10: required i32 membership
+
+   /*
+    * The number of embeds that exist in a piece of content.
+    */
+    11: required i32 embeds
+
+   /*
+    * The number of comments that exist in a piece of content.
+    */
+    12: required i32 comments
+
+   /*
+    * The number of instragam elements that exist in a piece of content.
+    */
+    13: required i32 instagram
+
+   /*
+    * The number of vines that exist in a piece of content.
+    */
+    14: required i32 vines
+
+    15: required i32 callouts
+
+    /*
+    * TODO: add cartoons stat when ready for final release
+    * 16: required i32 cartoons
+    */
+}
+
+struct Debug {
+
+    1: optional CapiDateTime lastSeenByPorterAt
+
+    2: optional i64 revisionSeenByPorter
+
+    3: optional string contentSource
+
+    4: optional string originatingSystem
+}
+
+struct AliasPath {
+
+    1: required string path
+
+    2: required CapiDateTime ceasedToBeCanonicalAt
+}
+
+struct ChannelFields {
+
+    1: required bool isAvailable
+
+    2: optional CapiDateTime publicationDate
+
+}
+
+struct ContentChannel {
+
+    1: required string channelId
+
+    2: required ChannelFields fields
+
+}
+
+struct Content {
+
+    /*
+     * The CAPI id of this item of content: once the content is launched, this value will not change, so for
+     * all content in our Live CAPI system, this value is immutable while the content is live.
+     *
+     * Although it's probably best to think of the CAPI id as an opaque value (we shouldn't derive any meaning from it,
+     * let alone rely on it being a 'path' value), it _does_ take the value of the *initial* path of the URL of the
+     * item when published to www.theguardian.com. It's worth noting that with the introduction of 'Evolving URLs'
+     * functionality to the Guardian CMS in 2020, the URL path of a live published piece of Guardian content *can* be
+     * changed by Editorial Staff. In this case, in the Content API, the content's webUrl will change, but the CAPI id
+     * will *not*.
+     *
+     * Additional points:
+     *
+     *  - In our internal Preview CAPI service, the CAPI id is *not* fixed until the content is launched.
+     *  - The CAPI id for a live piece of content _can_ change in the rare case that it is taken-down after
+     *    launch, has its path altered (perhaps for legal reasons) and is then republished. Note that this maintains
+     *    the rule that the CAPI id is immutable while content is live, the content has to undergo two state
+     *    transitions (live to draft, to live again) in order for the CAPI id to change.
+     */
+    1: required string id
+
+    /*
+     * The content type of the content. Defaults to article if none is specified.
+     */
+    2: required ContentType type = ContentType.ARTICLE
+
+    /*
+     * Section is usually provided: some content (such as user help information)
+     * does not belong to any section so this will be None
+     */
+    3: optional string sectionId
+
+    /*
+     * The display name of the section. Will be None if sectionId is None.
+     */
+    4: optional string sectionName
+
+    /*
+     * The date and time when this content was published to the web. Note that
+     * editors can set this field manually so does not necessarily exactly match
+     * when it actually appeared on the web. Current convention is that when
+     * "significant updates" are made to a story the web publication date is
+     * updated.
+     */
+    5: optional CapiDateTime webPublicationDate
+
+    /*
+     * Short description of this item of content.
+     */
+    6: required string webTitle
+
+    /*
+     * Full url on which the content can be found on www.theguardian.com
+     */
+    7: required string webUrl
+
+    /*
+     * Full url on which full information about this content can be found on
+     * the content api. You need to access this to find, e.g. related content
+     * for the item.
+     */
+    8: required string apiUrl
+
+    /*
+     * Optional field list containing other variable information about this
+     * content. Fields are only returned if you specify showFields("xxx") on the request
+     * with either a comma separated list of fields or "all".
+     *
+     * Note that the set of fields returned vary per item of content, and may
+     * vary over time as the api evolves (although we will make every effort
+     * to maintain compatibility, we do not promise it).
+     */
+    9: optional ContentFields fields
+
+    /*
+     * List of tags associated with this content.
+     *
+     * Only returned if you specify showTags("xxx") on the request
+     * with either a comma separated list of tag types or "all".
+     *
+     * The order of tags is significant; tags towards the top of the list
+     * are considered editorially more important than those towards the end.
+     */
+    10: required list<Tag> tags = []
+
+    /*
+     * New representation to elements (assets lists) only returns if show-elements("all")
+     * or show-elements("image") is specified
+     */
+    11: optional list<Element> elements
+
+    /*
+     * List of references associated with the content. References are
+     * strings that identify things beyond the content api. A good example
+     * is an isbn number, which associates a piece of content with a book.
+     *
+     * Use showReferences passing in the the type of reference you want to
+     * see or 'all' to see all references.
+     */
+    12: required list<Reference> references = []
+
+    /*
+     * Set to true if the rights to this content have expired. Expired
+     * content is only available to internal users.
+     */
+    13: optional bool isExpired
+
+    /*
+     * The blocks that make up a piece of content.
+     */
+    14: optional Blocks blocks
+
+    15: optional Rights rights
+
+    16: optional Crossword crossword
+
+    17: optional Atoms atoms
+
+    18: optional ContentStats stats
+
+    /*
+     * The section associated with this content.
+     * Only returned if you specify showSection(true) on the request
+     */
+    19: optional Section section
+
+    20: optional Debug debug
+
+    21: optional bool isGone
+
+    // NOT USED. This field was added in the wrong place.
+    //22: optional bool isLive
+
+    /*
+     * Indicates whether the content is hosted content i.e content we have been paid to put on the Guardian.
+     */
+    23: required bool isHosted = false
+
+    24: optional string pillarId
+
+    25: optional string pillarName
+
+    /* NOT USED
+     * aliasPaths as an optional list of string has been superceded
+     * by aliasPaths as an optional list of type AliasPath
+     */
+    //26: optional list<string> aliasPaths
+
+    27: optional list<AliasPath> aliasPaths
+
+    /*
+    * Identifies which channel(s) this content is available in
+    */
+    28: optional list<ContentChannel> channels
+
+    /*
+    * Schema.org compatible data
+     */
+    29: optional schema_org.SchemaOrg schemaOrg
+
+    /**
+     * abTests and isVariantOf are used for AB testing.
+     *
+     * abTests should be set on the A variant content, and isVariantOf should be
+     * set on each each linked variant content, pointing back to the A variant.
+     *
+     * abTests should contain the tests in time order, with the oldest at the
+     * start. All tests except the newest test should be finished, while the
+     * newest can be in progress or not yet started.
+     */
+    30: optional list<ABTest> abTests;
+    31: optional ShortPath isVariantOf;
+}
+
+struct ABTest {
+    1: required string testUuid;
+    // links to variants of this content: this content should not appear in the list
+    2: required list<VariantLink> variantLinks;
+    // once started is set the test is considered in progress
+    3: optional CapiDateTime started;
+    // once ended is set the test is no longer considered in progress
+    4: optional CapiDateTime ended;
+}
+
+struct VariantLink {
+    1: required ShortPath linkedShortPath;
+    2: required VariantId variantId;
+}
+
+enum VariantId {
+    // Variant A isn’t included here for now, as it’s not strictly necessary.
+    // Variant A will be identified by having the `abTests` field set, so a
+    // variant ID won’t be present in the model for it.
+    // However, we are reserving space for A=0 if we change our minds.
+    B = 1
+}
+
+typedef string ShortPath
+
+
+struct NetworkFront {
+
+    /*
+     * The id of the network front, e.g. 'au'
+     */
+    1: required string id
+
+    /*
+     * The path of the network front, e.g. 'au'
+     */
+    2: required string path
+
+    /*
+     * The edition code of the network front, e.g. 'AU'
+     */
+    3: required string edition
+
+    /*
+     * Short description of the edition
+     */
+    4: required string webTitle
+
+    /*
+     * Edition URL for the main Guardian website
+     */
+    5: required string webUrl
+
+    /*
+     * Path from which the edition is available in the Content API
+     */
+    6: required string apiUrl
+}
+
+struct PackageArticle {
+
+    /*
+     * The story package metadata about the article. Includes custom kicker, etc.
+     */
+    1: required story_package_article.Article metadata
+
+    /*
+     * The content of the article.
+     */
+    2: required Content content
+
+}
+
+struct Package {
+
+    /* The package ID */
+    1: required string packageId
+
+    /* The articles in the package */
+    2: required list<PackageArticle> articles
+
+    /* The package name */
+    3: required string packageName
+
+    4: required CapiDateTime lastModified
+}
+
+struct MostViewedVideo {
+
+    /* The video ID */
+    1: required string id
+
+    /* The view count */
+    2: required i32 count
+}
+
+struct Pillar {
+    1: required string id
+
+    2: required string name
+
+    3: required list<string> sectionIds
+}
+
+/* These are Responses structures shared with the Content API */
+
+struct SearchResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required string orderBy
+
+    9: required list<Content> results
+}
+
+struct ItemResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: optional i32 total
+
+    4: optional i32 startIndex
+
+    5: optional i32 pageSize
+
+    6: optional i32 currentPage
+
+    7: optional i32 pages
+
+    8: optional string orderBy
+
+    9: optional Content content
+
+    10: optional Tag tag
+
+    11: optional Edition edition
+
+    12: optional Section section
+
+    13: optional list<Content> results
+
+    14: optional contentatom.Atom quiz
+
+    15: optional list<Content> relatedContent
+
+    /* Old story packages */
+    16: optional list<Content> storyPackage
+
+    17: optional list<Content> editorsPicks
+
+    18: optional list<Content> mostViewed
+
+    // deeplyRead is #38
+
+    19: optional list<Content> leadContent
+
+    /* New story packages */
+    20: optional list<Package> packages
+
+    /**
+    * Viewpoints are deprecated
+    */
+    21: optional list<contentatom.Atom> viewpoints
+
+    22: optional contentatom.Atom media
+
+    23: optional contentatom.Atom explainer
+
+    24: optional contentatom.Atom cta
+
+    25: optional contentatom.Atom interactive
+
+    26: optional contentatom.Atom review
+
+    27: optional contentatom.Atom recipe
+
+    // 28: optional contentatom.Atom storyquestions DEPRECATED
+
+    30: optional contentatom.Atom qanda
+
+    31: optional contentatom.Atom guide
+
+    32: optional contentatom.Atom profile
+
+    33: optional contentatom.Atom timeline
+
+    34: optional contentatom.Atom commonsdivision
+
+    35: optional contentatom.Atom chart
+
+    36: optional contentatom.Atom audio
+
+    37: optional contentatom.Atom emailsignup
+
+    38: optional list<Content> deeplyRead
+
+    39: optional contentatom.Atom multimediaslideshow
+}
+
+struct TagsResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required list<Tag> results
+}
+
+struct SectionsResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required list<Section> results
+}
+
+struct EditionsResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required list<NetworkFront> results
+}
+
+struct AtomsResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required list<contentatom.Atom> results
+}
+
+struct PackagesResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required string orderBy
+
+    9: required list<Package> results
+}
+
+struct ErrorResponse {
+
+    1: required string status
+
+    2: required string message
+}
+
+struct VideoStatsResponse {
+
+    1: required string status
+
+    2: required list<MostViewedVideo> mostViewedVideos
+}
+
+struct AtomUsageResponse {
+
+    1: required string status
+
+    2: required string userTier
+
+    3: required i32 total
+
+    4: required i32 startIndex
+
+    5: required i32 pageSize
+
+    6: required i32 currentPage
+
+    7: required i32 pages
+
+    8: required list<string> results
+
+}
+
+struct EntitiesResponse {
+
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<entity.Entity> results
+}
+
+struct PillarsResponse {
+    1: required string status
+
+    2: required i32 total
+
+    3: required list<Pillar> results
+}
+
+struct EmbedTracking {
+    1: required EmbedTracksType tracks = EmbedTracksType.UNKNOWN
+}
+
+struct EmbedReach {
+    1: list<PlatformType> unsupportedPlatforms
+}
