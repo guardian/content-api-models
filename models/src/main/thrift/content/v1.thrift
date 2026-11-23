@@ -221,7 +221,9 @@ enum CrosswordType {
 
     SUNDAY_QUICK = 10,
     
-    MINI = 11
+    MINI = 11,
+
+    MAXI = 12
 }
 
 enum Office {
