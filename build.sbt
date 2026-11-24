@@ -8,7 +8,7 @@ val contentEntityVersion = "5.0.0"
 val contentAtomVersion = "15.1.0"
 val storyPackageVersion = "2.2.0"
 val thriftVersion = "0.24.0"
-val scroogeVersion = "22.1.0" // update plugins too if this version changes
+val scroogeVersion = "1.0.0-PREVIEW.get-release-workflow-working.2026-11-24T1045.c6dd9a1f" // update plugins too if this version changes
 val circeVersion = "0.14.1"
 val fezziwigVersion = "2.0.1"
 
@@ -98,7 +98,7 @@ lazy val scala = Project(id = "content-api-models-scala", base = file("scala"))
       "org.apache.thrift" % "libthrift" % thriftVersion,
       // Preserve Thrift HTTP transport; this client selects patched core5/core5-h2 5.4.3.
       "org.apache.httpcomponents.client5" % "httpclient5" % "5.6.3",
-      "com.twitter" %% "scrooge-core" % scroogeVersion,
+      "com.gu" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion,
@@ -165,7 +165,7 @@ lazy val typescript = (project in file("ts"))
     libraryDependencies ++= Seq(
       "org.apache.thrift" % "libthrift" % thriftVersion,
       "org.apache.httpcomponents.client5" % "httpclient5" % "5.6.3",
-      "com.twitter" %% "scrooge-core" % scroogeVersion,
+      "com.gu" %% "scrooge-core" % scroogeVersion,
       "com.gu" % "story-packages-model-thrift" % storyPackageVersion,
       "com.gu" % "content-atom-model-thrift" % contentAtomVersion,
       "com.gu" % "content-entity-thrift" % contentEntityVersion
