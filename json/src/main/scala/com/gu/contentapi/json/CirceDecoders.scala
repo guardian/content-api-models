@@ -172,6 +172,9 @@ object CirceDecoders {
   implicit val mediaYoutubeDataDecoder: Decoder[media.YoutubeData] = deriveDecoder
   implicit val explainerAtomDecoder: Decoder[explainer.ExplainerAtom] = deriveDecoder
   implicit val ctaAtomDecoder: Decoder[cta.CTAAtom] = deriveDecoder
+  implicit val interactiveTextDataTypeDecoder: Decoder[interactive.TextDataType] = deriveDecoder
+  implicit val interactiveDataTypeDecoder: Decoder[interactive.DataType] = deriveDecoder
+  implicit val interactiveCustomDataDefinitionDecoder: Decoder[interactive.CustomDataDefinition] = deriveDecoder
   implicit val interactiveAtomDecoder: Decoder[interactive.InteractiveAtom] = deriveDecoder
   implicit val reviewAtomDecoder: Decoder[review.ReviewAtom] = deriveDecoder
   implicit val ratingDecoder: Decoder[review.Rating] = deriveDecoder
