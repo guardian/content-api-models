@@ -1344,6 +1344,8 @@ struct Block {
      * The elements associated with this block.
      */
     14: required list<BlockElement> elements = []
+
+    15: optional Byline byline;
 }
 
 struct Blocks {
@@ -2508,4 +2510,28 @@ struct EmbedTracking {
 
 struct EmbedReach {
     1: list<PlatformType> unsupportedPlatforms
+}
+
+struct Byline {
+  // When rendering, fragments should be concatenated without anything in between
+  1: required list<BylineFragment> fragments;
+  2: optional string context;
+}
+
+union BylineFragment {
+  1: TaggedContributor taggedContributor;
+  2: UntaggedContributor untaggedContributor;
+  3: FreeText freeText;
+}
+
+struct TaggedContributor {
+  1: required string contributorId;
+}
+
+struct UntaggedContributor {
+  1: required string name;
+}
+
+struct FreeText {
+  1: required string text;
 }

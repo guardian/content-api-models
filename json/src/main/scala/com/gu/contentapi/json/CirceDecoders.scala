@@ -259,4 +259,9 @@ object CirceDecoders {
   implicit val responsiveImageElementFieldsDecoder: Decoder[ResponsiveImageElementFields] = deriveDecoder
   implicit val abTestDecoder: Decoder[ABTest] = deriveDecoder
   implicit val variantLinkDecoder: Decoder[VariantLink] = deriveDecoder
+  implicit val bylineDecoder: Decoder[Byline] = deriveDecoder
+  implicit val bylineFragmentDecoder: Decoder[BylineFragment] = deriveDecoder
+  implicit val taggedContributorDecoder: Decoder[TaggedContributor] = deriveDecoder
+  implicit val untaggedContributorDecoder: Decoder[UntaggedContributor] = deriveDecoder
+  implicit val freeTextDecoder: Decoder[FreeText] = deriveDecoder
 }
