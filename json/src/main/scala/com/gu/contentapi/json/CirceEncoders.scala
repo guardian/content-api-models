@@ -121,6 +121,9 @@ object CirceEncoders {
   implicit val mediaYoutubeDataEncoder: Encoder[media.YoutubeData] = deriveEncoder
   implicit val explainerAtomEncoder: Encoder[explainer.ExplainerAtom] = deriveEncoder
   implicit val ctaAtomEncoder: Encoder[cta.CTAAtom] = deriveEncoder
+  implicit val interactiveTextDataTypeEncoder: Encoder[interactive.TextDataType] = deriveEncoder
+  implicit val interactiveDataTypeEncoder: Encoder[interactive.DataType] = deriveEncoder
+  implicit val interactiveCustomDataDefinitionEncoder: Encoder[interactive.CustomDataDefinition] = deriveEncoder
   implicit val interactiveAtomEncoder: Encoder[interactive.InteractiveAtom] = deriveEncoder
   implicit val reviewAtomEncoder: Encoder[review.ReviewAtom] = deriveEncoder
   implicit val ratingEncoder: Encoder[review.Rating] = deriveEncoder
