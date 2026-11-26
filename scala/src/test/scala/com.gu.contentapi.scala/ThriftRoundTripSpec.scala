@@ -10,8 +10,9 @@ import java.nio.file.{Files, Path}
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.OptionValues
 
-class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
+class ThriftRoundTripSpec extends AnyFlatSpec with Matchers with OptionValues {
   it should "round-trip an ItemResponse" in {
     checkRoundTrip(
       Path.of("hot-divorcee-summer.binary.thrift"),
@@ -129,6 +130,20 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
 
   }
 
+  it should "round-trip story packages" in {
+    checkRoundTrip(
+      Path.of("article-with-story-packages.binary.thrift"),
+      ItemResponse,
+      (item: ItemResponse) => {
+        val p = item.packages.value.head
+
+        p.packageName shouldBe "james bond"
+        p.packageId shouldBe "2e19319c-f4d7-434d-827f-dd6a866efd56"
+        p.articles.length shouldBe 11
+      }
+    )
+  }
+
   def checkRoundTrip[T <: ThriftStruct](
     resourcePath: Path,
     codec: ThriftStructCodec[T],
@@ -173,6 +188,14 @@ class ThriftRoundTripSpec extends AnyFlatSpec with Matchers {
     } yield {
       writeProtocol(protocol, resourcePath, value)
     }
+  }
+
+  def compactToBinary[T <: ThriftStruct](
+    resourcePath: Path,
+    codec: ThriftStructCodec[T],
+  ) = {
+    val (inputBytes, struct) = readProtocol(Compact, resourcePath, codec)
+    writeProtocol(Binary, resourcePath, struct)
   }
 
   def readProtocol[T <: ThriftStruct](
